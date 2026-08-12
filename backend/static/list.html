@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Neural Networks - Activities · ISTA 457</title>
+<style>
+:root {
+  --bg:#faf8f5; --surface:#ffffff; --surf2:#f5f0e8; --border:#e2d9cc;
+  --text:#1a1210; --muted:#5c4a3a; --blue:#1d4ed8; --green:#15803d;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,sans-serif;font-size:15px;line-height:1.6}
+.app-header{background:linear-gradient(135deg,#ede9e0,#f5f0e8);border-bottom:2px solid var(--border);padding:24px 32px}
+.app-header h1{font-size:24px;font-weight:800;letter-spacing:-.5px;color:var(--text)}
+.header-sub{color:var(--muted);font-size:13px;font-weight:500;margin-top:4px}
+.app-main{max-width:1100px;margin:0 auto;padding:28px 24px 60px}
+.chapter-label{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);opacity:.75;margin:26px 0 10px}
+.chapter-label:first-child{margin-top:0}
+.card-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px}
+.act-card{position:relative;display:block;text-decoration:none;background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:16px 18px;transition:box-shadow .15s,border-color .15s}
+.act-card:hover{border-color:var(--blue);box-shadow:0 2px 10px rgba(0,0,0,.06)}
+.act-title{font-weight:700;font-size:14px;color:var(--text);line-height:1.35;padding-right:20px}
+.act-sub{font-size:12px;color:var(--muted);font-weight:400;margin-top:4px;line-height:1.35}
+.act-dot{position:absolute;top:16px;right:16px;width:10px;height:10px;border-radius:50%;background:var(--green);display:none}
+.act-card.done .act-dot{display:block}
+.act-card.done{border-color:var(--green);background:#f7fdf9}
+</style>
+</head>
+<body>
+<header class="app-header">
+  <h1>Neural Networks — Activities</h1>
+  <p class="header-sub">ISTA 457 / INFO 557 · click an activity to open it</p>
+</header>
+<main class="app-main" id="main"></main>
+
+<script>
+const ACTIVITIES = [
+  {chapter:'Prerequisite', items:[
+    {id:'0.0', prefix:'n', title:'0.0 · Neuron Explorer', sub:'Weighted sum + ReLU'},
+  ]},
+  {chapter:'Chapter 6', items:[
+    {id:'6.1', prefix:'ba', title:'6.1 · Bias Absorption', sub:'Merge W and c'},
+    {id:'6.2.1', prefix:'ce', title:'6.2.1 · Cross-Entropy', sub:'J(W) matrix view'},
+    {id:'6.2.2', prefix:'a422', title:'6.2.2 · Sigmoid CE Cost', sub:'Cost curve explorer'},
+    {id:'6.2.3', prefix:'a423', title:'6.2.3 · Sigmoid vs Softmax', sub:'Independent vs competing'},
+    {id:'6.3', prefix:'mx', title:'6.3 · Maxout Units', sub:'Simulate ReLU & |x|'},
+    {id:'6.4', prefix:'lr', title:'6.4 · Linear Regions', sub:'Deep ReLU region count'},
+    {id:'6.5.1', prefix:'cg', title:'6.5.1 · Comp. Graph', sub:'Build a GRU-like DAG'},
+    {id:'6.5.2', prefix:'bp', title:'6.5.2 · Backprop Table', sub:'build_grad step-by-step'},
+  ]},
+  {chapter:'Chapter 7', items:[
+    {id:'7.1', prefix:'rr', title:'7.1 · Reg. Race', sub:'L1 vs L2 regularization'},
+    {id:'7.8', prefix:'es', title:'7.8 · Early Stopping', sub:'When to stop training'},
+    {id:'7.12', prefix:'dp', title:'7.12 · Input Dropout', sub:'Beyond hidden layers'},
+    {id:'7.KD', prefix:'kd', title:'7.KD · KD Regularizer', sub:'Taxonomy-aware reg.'},
+  ]},
+  {chapter:'Chapter 8', items:[
+    {id:'8.1', prefix:'sl', title:'8.1 · Surrogate Loss', sub:"When loss isn't trainable"},
+    {id:'8.2', prefix:'gn', title:'8.2 · Grad Norm', sub:'Read the landscape'},
+    {id:'8.3', prefix:'mm', title:'8.3 · Momentum SGD', sub:'Velocity accumulation'},
+    {id:'8.4', prefix:'tl', title:'8.4 · Transfer Learn', sub:'Reuse pre-trained features'},
+    {id:'8.5', prefix:'or', title:'8.5 · Optimizer Race', sub:'SGD vs AdaGrad vs Adam'},
+    {id:'8.7.1', prefix:'bn', title:'8.7.1 · Batch Norm', sub:'Control column means'},
+  ]},
+  {chapter:'Chapter 9', items:[
+    {id:'9.1', prefix:'cv', title:'9.1 · Cross-Correlation', sub:'Slide kernel, fill output'},
+    {id:'9.3', prefix:'pl', title:'9.3 · Adaptive Pooling', sub:'Fix output size for any input'},
+    {id:'9.GC.1', prefix:'gm', title:'9.GC.1 · GCN Mechanics', sub:'Graph, A*, message passing'},
+    {id:'9.GC.2', prefix:'ge', title:'9.GC.2 · Conv vs GCN', sub:'Can graph conv replace CNN?'},
+  ]},
+  {chapter:'Chapter 10', items:[
+    {id:'10.1.1', prefix:'tcnn', title:'10.1.1 · Conv Sentiment', sub:'Window size & negation'},
+    {id:'10.1.2', prefix:'rfwd', title:'10.1.2 · RNN Forward', sub:'Step-by-step h(t) trace'},
+    {id:'10.2.1', prefix:'rdes', title:'10.2.1 · RNN Designer', sub:'Word → sequence'},
+    {id:'10.2.2', prefix:'rtnh', title:'10.2.2 · Tanh Saturation', sub:'Vanishing gradient in BPTT'},
+    {id:'10.3', prefix:'birnn', title:'10.3 · Bi-RNN Equations', sub:'Forward, backward & output'},
+    {id:'10.4', prefix:'nerseq', title:'10.4 · NER as Seq2Seq', sub:'Token class vs. generation'},
+    {id:'10.6', prefix:'recnets', title:'10.6 · Recursive NNs', sub:'Beyond language trees'},
+    {id:'10.7', prefix:'linrnn', title:'10.7 · Linear RNN Stability', sub:'Unroll & w vs u'},
+    {id:'10.10', prefix:'grucomp', title:'10.10 · GRU vs LSTM', sub:'Architecture search space'},
+    {id:'10.TF', prefix:'trfpos', title:'10.TF · Transformer PE', sub:'Beyond sinusoids'},
+  ]},
+  {chapter:'Chapter 11', items:[
+    {id:'11.1', prefix:'cancernlp', title:'11.1 · Cancer NLP', sub:'Metrics for high-stakes tasks'},
+    {id:'11.3', prefix:'learncurve', title:'11.3 · Learning Curves', sub:'Bias vs. variance diagnosis'},
+    {id:'11.4', prefix:'hypband', title:'11.4 · Hyperband', sub:'Bracket search budget'},
+    {id:'11.LS', prefix:'limeeeg', title:'11.LS · LIME for EEG', sub:'Neighborhood in time-series'},
+    {id:'11.GA', prefix:'gradattr', title:'11.GA · Gradient Attribution', sub:'Saliency vs LIME vs SHAP'},
+  ]},
+]
+
+function isDone(prefix) {
+  try { return sessionStorage.getItem('done_' + prefix + '-completed') === '1' } catch(e) { return false }
+}
+
+const main = document.getElementById('main')
+for (const group of ACTIVITIES) {
+  const label = document.createElement('div')
+  label.className = 'chapter-label'
+  label.textContent = group.chapter
+  main.appendChild(label)
+
+  const grid = document.createElement('div')
+  grid.className = 'card-grid'
+  for (const act of group.items) {
+    const a = document.createElement('a')
+    a.className = 'act-card' + (isDone(act.prefix) ? ' done' : '')
+    a.href = '/app#' + act.id
+    a.innerHTML = `<span class="act-dot"></span><div class="act-title">${act.title}</div><div class="act-sub">${act.sub}</div>`
+    grid.appendChild(a)
+  }
+  main.appendChild(grid)
+}
+</script>
+</body>
+</html>

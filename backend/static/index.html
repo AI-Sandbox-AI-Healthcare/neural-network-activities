@@ -11,11 +11,11 @@
   --orange:#c2610c; --red:#b91c1c; --purple:#6d28d9; --teal:#0f766e;
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-body{background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,sans-serif;font-size:15px;line-height:1.6;display:flex;flex-direction:column;height:100vh;overflow:hidden}
+body{background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,sans-serif;font-size:15px;line-height:1.6}
 .app-header{background:linear-gradient(135deg,#ede9e0,#f5f0e8);border-bottom:2px solid var(--border);padding:16px 32px;display:flex;justify-content:space-between;align-items:center;gap:20px}
 .app-header h1{font-size:22px;font-weight:800;letter-spacing:-.5px;color:var(--text)}
 .header-sub{color:var(--muted);font-size:13px;font-weight:500;margin-top:3px}
-.app-body{display:flex;flex:1;min-height:0;overflow:hidden}
+.app-body{display:flex}
 .sidebar{width:196px;flex-shrink:0;background:var(--surface);border-right:2px solid var(--border);overflow-y:auto;padding:10px 0 24px}
 .sidebar-group{margin-bottom:2px}
 .sidebar-group-label{font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);padding:14px 14px 5px;opacity:.65;display:block}
@@ -25,7 +25,7 @@ body{background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,
 .tab-label{display:block;font-weight:600;font-size:13px;line-height:1.3}
 .tab-sub{display:block;font-size:11px;color:var(--muted);font-weight:400;line-height:1.3;margin-top:1px}
 .tab-btn.active .tab-sub{color:var(--blue);opacity:.75}
-.app-main{flex:1;overflow-y:auto;padding:24px 28px;min-height:0}
+.app-main{flex:1;padding:24px 28px}
 .tab-panel{display:none}.tab-panel.active{display:block}
 .two-col{display:grid;grid-template-columns:1fr 1fr;gap:24px}
 .card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:22px}
@@ -190,189 +190,18 @@ tr.hi{background:#dbeafe}tr.good{background:#dcfce7}tr.bad{background:#fee2e2}
     <h1>List of Activities</h1>
     <p class="header-sub">ISTA 457 / INFO 557 · Neural Networks</p>
   </div>
+  <a href="/" class="btn btn-g" style="text-decoration:none">&larr; All Activities</a>
 </header>
 <div class="app-body">
-<nav class="sidebar">
-  <div class="sidebar-group">
-    <span class="sidebar-group-label">Chapter 6</span>
-    <button class="tab-btn active" data-tab="neuron" onclick="showTab('neuron')">
-      <span class="tab-label">6.1 · Neuron Explorer</span>
-      <span class="tab-sub">Weighted sum + ReLU</span>
-    </button>
-    <button class="tab-btn" data-tab="bias" onclick="showTab('bias')">
-      <span class="tab-label">6.2.1 · Bias Absorption</span>
-      <span class="tab-sub">Merge W and c</span>
-    </button>
-    <button class="tab-btn" data-tab="ce" onclick="showTab('ce')">
-      <span class="tab-label">6.2.2 · Cross-Entropy</span>
-      <span class="tab-sub">J(W) matrix view</span>
-    </button>
-    <button class="tab-btn" data-tab="a422" onclick="showTab('a422')">
-      <span class="tab-label">6.2.3 · Sigmoid CE Cost</span>
-      <span class="tab-sub">Cost curve explorer</span>
-    </button>
-    <button class="tab-btn" data-tab="maxout" onclick="showTab('maxout')">
-      <span class="tab-label">6.3 · Maxout Units</span>
-      <span class="tab-sub">Simulate ReLU &amp; |x|</span>
-    </button>
-    <button class="tab-btn" data-tab="a423" onclick="showTab('a423')">
-      <span class="tab-label">6.4 · Sigmoid vs Softmax</span>
-      <span class="tab-sub">Independent vs competing</span>
-    </button>
-    <button class="tab-btn" data-tab="regions" onclick="showTab('regions')">
-      <span class="tab-label">6.4 · Linear Regions</span>
-      <span class="tab-sub">Deep ReLU region count</span>
-    </button>
-    <button class="tab-btn" data-tab="compgraph" onclick="showTab('compgraph')">
-      <span class="tab-label">6.5.1 · Comp. Graph</span>
-      <span class="tab-sub">Build a GRU-like DAG</span>
-    </button>
-    <button class="tab-btn" data-tab="backprop" onclick="showTab('backprop')">
-      <span class="tab-label">6.5.2 · Backprop Table</span>
-      <span class="tab-sub">build_grad step-by-step</span>
-    </button>
-  </div>
-  <div class="sidebar-group">
-    <span class="sidebar-group-label">Chapter 7</span>
-    <button class="tab-btn" data-tab="regrace" onclick="showTab('regrace')">
-      <span class="tab-label">7.1 · Reg. Race</span>
-      <span class="tab-sub">L1 vs L2 regularization</span>
-    </button>
-    <button class="tab-btn" data-tab="earlystop" onclick="showTab('earlystop')">
-      <span class="tab-label">7.8 · Early Stopping</span>
-      <span class="tab-sub">When to stop training</span>
-    </button>
-    <button class="tab-btn" data-tab="dropout" onclick="showTab('dropout')">
-      <span class="tab-label">7.12 · Input Dropout</span>
-      <span class="tab-sub">Beyond hidden layers</span>
-    </button>
-    <button class="tab-btn" data-tab="taxonomy" onclick="showTab('taxonomy')">
-      <span class="tab-label">7.KD · KD Regularizer</span>
-      <span class="tab-sub">Taxonomy-aware reg.</span>
-    </button>
-  </div>
-  <div class="sidebar-group">
-    <span class="sidebar-group-label">Chapter 8</span>
-    <button class="tab-btn" data-tab="surrogate" onclick="showTab('surrogate')">
-      <span class="tab-label">8.1 · Surrogate Loss</span>
-      <span class="tab-sub">When loss isn't trainable</span>
-    </button>
-    <button class="tab-btn" data-tab="gradnorm" onclick="showTab('gradnorm')">
-      <span class="tab-label">8.2 · Grad Norm</span>
-      <span class="tab-sub">Read the landscape</span>
-    </button>
-    <button class="tab-btn" data-tab="momentum" onclick="showTab('momentum')">
-      <span class="tab-label">8.3 · Momentum SGD</span>
-      <span class="tab-sub">Velocity accumulation</span>
-    </button>
-    <button class="tab-btn" data-tab="transferlearn" onclick="showTab('transferlearn')">
-      <span class="tab-label">8.4 · Transfer Learn</span>
-      <span class="tab-sub">Reuse pre-trained features</span>
-    </button>
-    <button class="tab-btn" data-tab="optrace" onclick="showTab('optrace')">
-      <span class="tab-label">8.5 · Optimizer Race</span>
-      <span class="tab-sub">SGD vs AdaGrad vs Adam</span>
-    </button>
-    <button class="tab-btn" data-tab="batchnorm" onclick="showTab('batchnorm')">
-      <span class="tab-label">8.7.1 · Batch Norm</span>
-      <span class="tab-sub">Control column means</span>
-    </button>
-  </div>
-  <div class="sidebar-group">
-    <span class="sidebar-group-label">Chapter 9</span>
-    <button class="tab-btn" data-tab="conv91" onclick="showTab('conv91')">
-      <span class="tab-label">9.1 · Cross-Correlation</span>
-      <span class="tab-sub">Slide kernel, fill output</span>
-    </button>
-    <button class="tab-btn" data-tab="pool93" onclick="showTab('pool93')">
-      <span class="tab-label">9.3 · Adaptive Pooling</span>
-      <span class="tab-sub">Fix output size for any input</span>
-    </button>
-    <button class="tab-btn" data-tab="gcmech" onclick="showTab('gcmech')">
-      <span class="tab-label">9.GC.1 · GCN Mechanics</span>
-      <span class="tab-sub">Graph, A*, message passing</span>
-    </button>
-    <button class="tab-btn" data-tab="gceq" onclick="showTab('gceq')">
-      <span class="tab-label">9.GC.2 · Conv vs GCN</span>
-      <span class="tab-sub">Can graph conv replace CNN?</span>
-    </button>
-  </div>
-  <div class="sidebar-group">
-    <span class="sidebar-group-label">Chapter 10</span>
-    <button class="tab-btn" data-tab="textcnn" onclick="showTab('textcnn')">
-      <span class="tab-label">10.1.1 · Conv Sentiment</span>
-      <span class="tab-sub">Window size &amp; negation</span>
-    </button>
-    <button class="tab-btn" data-tab="rnnfwd" onclick="showTab('rnnfwd')">
-      <span class="tab-label">10.1.2 · RNN Forward</span>
-      <span class="tab-sub">Step-by-step h⁽ᵗ⁾ trace</span>
-    </button>
-    <button class="tab-btn" data-tab="rnndesign" onclick="showTab('rnndesign')">
-      <span class="tab-label">10.2.1 · RNN Designer</span>
-      <span class="tab-sub">Word → sequence</span>
-    </button>
-    <button class="tab-btn" data-tab="rnntanh" onclick="showTab('rnntanh')">
-      <span class="tab-label">10.2.2 · Tanh Saturation</span>
-      <span class="tab-sub">Vanishing gradient in BPTT</span>
-    </button>
-    <button class="tab-btn" data-tab="birnn" onclick="showTab('birnn')">
-      <span class="tab-label">10.3 · Bi-RNN Equations</span>
-      <span class="tab-sub">Forward, backward &amp; output</span>
-    </button>
-    <button class="tab-btn" data-tab="nerseq" onclick="showTab('nerseq')">
-      <span class="tab-label">10.4 · NER as Seq2Seq</span>
-      <span class="tab-sub">Token class vs. generation</span>
-    </button>
-    <button class="tab-btn" data-tab="recnets" onclick="showTab('recnets')">
-      <span class="tab-label">10.6 · Recursive NNs</span>
-      <span class="tab-sub">Beyond language trees</span>
-    </button>
-    <button class="tab-btn" data-tab="linrnn" onclick="showTab('linrnn')">
-      <span class="tab-label">10.7 · Linear RNN Stability</span>
-      <span class="tab-sub">Unroll &amp; w vs u</span>
-    </button>
-    <button class="tab-btn" data-tab="grucomp" onclick="showTab('grucomp')">
-      <span class="tab-label">10.10 · GRU vs LSTM</span>
-      <span class="tab-sub">Architecture search space</span>
-    </button>
-    <button class="tab-btn" data-tab="trfpos" onclick="showTab('trfpos')">
-      <span class="tab-label">10.TF · Transformer PE</span>
-      <span class="tab-sub">Beyond sinusoids</span>
-    </button>
-  </div>
-  <div class="sidebar-group">
-    <span class="sidebar-group-label">Chapter 11</span>
-    <button class="tab-btn" data-tab="cancernlp" onclick="showTab('cancernlp')">
-      <span class="tab-label">11.1 · Cancer NLP</span>
-      <span class="tab-sub">Metrics for high-stakes tasks</span>
-    </button>
-    <button class="tab-btn" data-tab="learncurve" onclick="showTab('learncurve')">
-      <span class="tab-label">11.3 · Learning Curves</span>
-      <span class="tab-sub">Bias vs. variance diagnosis</span>
-    </button>
-    <button class="tab-btn" data-tab="hypband" onclick="showTab('hypband')">
-      <span class="tab-label">11.4 · Hyperband</span>
-      <span class="tab-sub">Bracket search budget</span>
-    </button>
-    <button class="tab-btn" data-tab="limeeeg" onclick="showTab('limeeeg')">
-      <span class="tab-label">11.LS · LIME for EEG</span>
-      <span class="tab-sub">Neighborhood in time-series</span>
-    </button>
-    <button class="tab-btn" data-tab="gradattr" onclick="showTab('gradattr')">
-      <span class="tab-label">11.GA · Gradient Attribution</span>
-      <span class="tab-sub">Saliency vs LIME vs SHAP</span>
-    </button>
-  </div>
-</nav>
 <main class="app-main">
 
 <!-- ═══════════ NEURON EXPLORER ═══════════ -->
-<div id="tab-neuron" class="tab-panel active">
+<div id="tab-0.0" class="tab-panel active">
   <div class="prob-card">
     <div style="margin-bottom:10px">
-      <span class="prob-badge">Activity 6.1</span>
+      <span class="prob-badge">Activity 0.0</span>
       <span class="prob-title">Single Neuron — Weighted Sum + ReLU</span>
-      <span id="n-completed" class="completed-badge">✓ Completed</span>
+      <span id="n-completed" class="completed-badge">✓ 0.0 Completed</span>
     </div>
     <p class="prob-desc">The inputs are <strong style="color:#1d4ed8">locked</strong>. Adjust the weight sliders to find a set of weights that produces the desired output.</p>
     <div id="n-prob-eq" style="margin-bottom:12px"></div>
@@ -428,18 +257,21 @@ tr.hi{background:#dbeafe}tr.good{background:#dcfce7}tr.bad{background:#fee2e2}
 </div>
 
 <!-- ═══════════ BIAS ABSORPTION ═══════════ -->
-<div id="tab-bias" class="tab-panel">
+<div id="tab-6.1" class="tab-panel">
 
   <!-- Stage 0: Problem Card (always visible) -->
   <div class="prob-card">
     <div style="margin-bottom:10px">
-      <span class="prob-badge">Activity 6.2.1</span>
+      <span class="prob-badge">Activity 6.1</span>
       <span class="prob-title">Bias Absorption — Single Matrix Multiply</span>
-      <span id="ba-completed" class="completed-badge">✓ Completed</span>
+      <span id="ba-completed" class="completed-badge">✓ 6.1 Completed</span>
     </div>
     <p class="prob-desc">
-      Given <strong style="color:#1d4ed8">X</strong>, <strong style="color:#d97706">W</strong>, <strong style="color:#0d9488">c</strong>
-      and prediction <code style="color:#b45309">y = max(0, XW + c)</code>, find
+      <strong style="color:#1d4ed8">X</strong> = input &nbsp;·&nbsp;
+      <strong style="color:#d97706">W</strong> = weights &nbsp;·&nbsp;
+      <strong style="color:#0d9488">c</strong> = bias &nbsp;·&nbsp;
+      <code style="color:#b45309">y = max(0, XW + c)</code> = prediction
+      <br><strong>Problem:</strong> find
       <strong>X_new</strong> and <strong>W_new</strong> so a single multiply gives the same result:
       <code style="color:#15803d">max(0, XW + c) = max(0, X_new W_new)</code>
     </p>
@@ -726,19 +558,19 @@ tr.hi{background:#dbeafe}tr.good{background:#dcfce7}tr.bad{background:#fee2e2}
 </div>
 
 <!-- ═══════════ CROSS-ENTROPY COST (Activity 6.2.2) ═══════════ -->
-<div id="tab-ce" class="tab-panel">
+<div id="tab-6.2.1" class="tab-panel">
 
   <!-- Problem Card -->
   <div class="prob-card">
     <div style="margin-bottom:10px">
-      <span class="prob-badge">Activity 6.2.2</span>
+      <span class="prob-badge">Activity 6.2.1</span>
       <span class="prob-title">Cross-Entropy Cost — J(W)</span>
-      <span id="ce-completed" class="completed-badge">✓ Completed</span>
+      <span id="ce-completed" class="completed-badge">✓ 6.2.1 Completed</span>
     </div>
     <p class="prob-desc">
       Given labels <strong style="color:#1d4ed8">Y</strong> and predicted probabilities <strong style="color:#d97706">P</strong>,
       compute the per-class cross-entropy cost vector
-      <code style="color:#b45309">J(W) = −(1/3) Σₙ y⁽ⁿ⁾ ⊙ log₂ p⁽ⁿ⁾</code>.
+      <code style="color:#b45309">J(W) = −(1/|D|) Σₙ y⁽ⁿ⁾ ⊙ log₂ p⁽ⁿ⁾</code>.
       Work through the matrix steps — each cell tells the model how wrong it was.
     </p>
     <div class="eq-block">
@@ -796,24 +628,25 @@ tr.hi{background:#dbeafe}tr.good{background:#dcfce7}tr.bad{background:#fee2e2}
     </div>
     <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:16px">
       <div style="background:var(--surf2);border:1px solid var(--border);border-radius:8px;padding:14px">
-        <div style="font-size:12px;font-weight:800;color:#c2610c;margin-bottom:8px">📐 Measures Confidence</div>
+        <div style="font-size:12px;font-weight:800;color:#c2610c;margin-bottom:8px">📐 Punishes Confident Mistakes</div>
         <div style="font-size:13px;color:var(--muted);line-height:1.8">
-          MSE penalizes distance; cross-entropy penalizes <em>wrong confidence</em>.
-          Predicting 99% for the wrong class is catastrophically expensive — as it should be.
+          If the model is 99% sure of the <em>wrong</em> answer, cross-entropy makes that mistake cost a lot.
+          Being confidently wrong is punished much more than being only a little off.
         </div>
       </div>
       <div style="background:var(--surf2);border:1px solid var(--border);border-radius:8px;padding:14px">
-        <div style="font-size:12px;font-weight:800;color:#6d28d9;margin-bottom:8px">∂ Clean Gradients</div>
+        <div style="font-size:12px;font-weight:800;color:#6d28d9;margin-bottom:8px">∂ Easy to Learn From</div>
         <div style="font-size:13px;color:var(--muted);line-height:1.8">
-          Paired with softmax, the gradient simplifies to <code style="color:#6d28d9">p − y</code> —
-          prediction minus truth. No chain-rule explosion.
+          Paired with softmax, the update rule is simple: <code style="color:#6d28d9">prediction − truth</code>.
+          The model just compares its guess to the right answer and nudges itself in that direction.
         </div>
       </div>
       <div style="background:var(--surf2);border:1px solid var(--border);border-radius:8px;padding:14px">
-        <div style="font-size:12px;font-weight:800;color:#0f766e;margin-bottom:8px">📊 Information Theory</div>
+        <div style="font-size:12px;font-weight:800;color:#0f766e;margin-bottom:8px">📊 Measures "Surprise"</div>
         <div style="font-size:13px;color:var(--muted);line-height:1.8">
-          log₂ measures <em>bits</em> of surprise. A perfect prediction (p = 1 where y = 1) adds
-          <strong style="color:var(--text)">0 bits</strong> of surprise. Wrong predictions add many bits.
+          Think of it as a surprise score. A confident, correct guess isn't surprising at all
+          (<strong style="color:var(--text)">low cost</strong>). A confident, wrong guess is very surprising
+          (<strong style="color:var(--text)">high cost</strong>).
         </div>
       </div>
     </div>
@@ -942,14 +775,14 @@ tr.hi{background:#dbeafe}tr.good{background:#dcfce7}tr.bad{background:#fee2e2}
 </div>
 
 <!-- ═══════════ ACTIVITY 6.2.3: SIGMOID CE + SOFTMAX ═══════════ -->
-<div id="tab-a422" class="tab-panel">
+<div id="tab-6.2.2" class="tab-panel">
 
   <!-- Problem card -->
   <div class="prob-card">
     <div style="margin-bottom:12px">
-      <span class="prob-badge">Activity 6.2.3</span>
+      <span class="prob-badge">Activity 6.2.2</span>
       <span class="prob-title">Sigmoid Cross-Entropy Cost</span>
-      <span id="a422-completed" class="completed-badge">✓ Completed</span>
+      <span id="a422-completed" class="completed-badge">✓ 6.2.2 Completed</span>
     </div>
     <p class="prob-desc">The sigmoid cross-entropy cost unifies both y=0 and y=1 into a single formula using a sign flip (1−2y). The softplus function ζ(z) = −log σ(−z) describes how cost grows — near zero when the model is correct, large when it is confidently wrong. Explore the curve below by adjusting the raw score z and the true label y.</p>
     <div class="eq-block">
@@ -964,85 +797,81 @@ tr.hi{background:#dbeafe}tr.good{background:#dcfce7}tr.bad{background:#fee2e2}
     </div>
   </div>
 
-  <!-- Interactive explorer -->
-  <div class="two-col" style="margin-bottom:20px">
+  <!-- Interactive explorer: 2x2 grid so row 1 (Explore/Formula) and row 2 (4 Cases/Cost Curve) each match height -->
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px">
 
-    <!-- LEFT: controls + formula -->
-    <div style="display:flex;flex-direction:column;gap:18px">
+    <!-- Row 1, col 1 -->
+    <div class="card" style="padding:14px">
+      <div class="card-title" style="margin-bottom:8px">Explore — Adjust z and Toggle y</div>
 
-      <div class="card">
-        <div class="card-title">Explore — Adjust z and Toggle y</div>
-
-        <!-- y toggle -->
-        <div style="margin-bottom:18px">
-          <div class="section-label">True label y</div>
-          <div style="display:flex;gap:8px">
-            <button id="a4-y0-btn" class="btn btn-p" onclick="a4SetY(0)" style="min-width:90px;font-size:14px">y = 0</button>
-            <button id="a4-y1-btn" class="btn btn-g" onclick="a4SetY(1)" style="min-width:90px;font-size:14px">y = 1</button>
-          </div>
-        </div>
-
-        <!-- z slider -->
-        <div style="margin-bottom:18px">
-          <div class="section-label">Raw score &nbsp;<span style="color:var(--blue);font-family:'Courier New',monospace">z = w<sup>T</sup>h + b</span></div>
-          <div style="display:flex;align-items:center;gap:10px">
-            <span style="font-family:'Courier New',monospace;font-size:12px;color:var(--muted)">−10</span>
-            <input type="range" id="a4-z-slider" min="-10" max="10" step="0.1" value="0" style="flex:1" oninput="a4UpdateZ(this.value)">
-            <span style="font-family:'Courier New',monospace;font-size:12px;color:var(--muted)">+10</span>
-          </div>
-          <div style="text-align:center;font-family:'Courier New',monospace;font-size:18px;font-weight:800;color:var(--blue);margin-top:8px">z = <span id="a4-z-val">0.0</span></div>
-        </div>
-
-        <!-- Live formula expansion -->
-        <div class="section-label">Formula expansion — step by step</div>
-        <div class="algebra">
-          <div class="alg-step">y &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;= <span id="a4-exp-y" style="color:var(--text);font-weight:700">0</span></div>
-          <div class="alg-step">(1 − 2y) &nbsp;&nbsp;= <span id="a4-exp-flip" style="color:var(--purple);font-weight:700">+1</span></div>
-          <div class="alg-step">−(1−2y)·z = <span id="a4-exp-neg" style="color:var(--muted)">0.000</span></div>
-          <div class="alg-step">σ(−(1−2y)·z) = <span id="a4-exp-sig" style="color:var(--muted)">0.5000</span></div>
-          <div class="alg-step">−log( <span id="a4-exp-sig2" style="color:var(--muted)">0.5000</span> )</div>
-          <div class="alg-res">J(w) = <span id="a4-cost-big">0.6931</span></div>
+      <!-- y toggle -->
+      <div style="margin-bottom:10px">
+        <div class="section-label" style="margin-bottom:4px">True label y</div>
+        <div style="display:flex;gap:8px">
+          <button id="a4-y0-btn" class="btn btn-p" onclick="a4SetY(0)" style="min-width:90px;font-size:14px">y = 0</button>
+          <button id="a4-y1-btn" class="btn btn-g" onclick="a4SetY(1)" style="min-width:90px;font-size:14px">y = 1</button>
         </div>
       </div>
 
-      <!-- Scenario checklist -->
-      <div class="card">
-        <div class="card-title">4 Cases to Explore</div>
-        <p style="font-size:13px;color:var(--muted);font-weight:500;margin-bottom:12px">Move the z slider into each region, or click to snap there. Each case reveals a key insight.</p>
-        <div style="display:flex;flex-direction:column;gap:8px">
-          <div id="a4-sc0" class="a4-scenario" onclick="a4SnapScenario(0,-3)">
-            <span class="a4-sc-icon">○</span>
-            <div><strong>y = 0,&nbsp; z &lt; 0</strong> <span class="a4-sc-hint">— model leans toward "class 0"</span></div>
-          </div>
-          <div id="a4-sc1" class="a4-scenario" onclick="a4SnapScenario(0,3)">
-            <span class="a4-sc-icon">○</span>
-            <div><strong>y = 0,&nbsp; z &gt; 0</strong> <span class="a4-sc-hint">— model leans toward "class 1"</span></div>
-          </div>
-          <div id="a4-sc2" class="a4-scenario" onclick="a4SnapScenario(1,-3)">
-            <span class="a4-sc-icon">○</span>
-            <div><strong>y = 1,&nbsp; z &lt; 0</strong> <span class="a4-sc-hint">— model leans toward "class 0"</span></div>
-          </div>
-          <div id="a4-sc3" class="a4-scenario" onclick="a4SnapScenario(1,3)">
-            <span class="a4-sc-icon">○</span>
-            <div><strong>y = 1,&nbsp; z &gt; 0</strong> <span class="a4-sc-hint">— model leans toward "class 1"</span></div>
-          </div>
+      <!-- z slider -->
+      <div>
+        <div class="section-label" style="margin-bottom:4px">Raw score &nbsp;<span style="color:var(--blue);font-family:'Courier New',monospace">z = w<sup>T</sup>h + b</span></div>
+        <div style="display:flex;align-items:center;gap:10px">
+          <span style="font-family:'Courier New',monospace;font-size:12px;color:var(--muted)">−10</span>
+          <input type="range" id="a4-z-slider" min="-10" max="10" step="0.1" value="0" style="flex:1" oninput="a4UpdateZ(this.value)">
+          <span style="font-family:'Courier New',monospace;font-size:12px;color:var(--muted)">+10</span>
         </div>
-        <div id="a4-sc-guidance" class="guidance-box cold" style="margin-top:12px;font-size:13px">Explore all four cases to unlock the quiz below.</div>
+        <div style="text-align:center;font-family:'Courier New',monospace;font-size:18px;font-weight:800;color:var(--blue);margin-top:6px">z = <span id="a4-z-val">0.0</span></div>
       </div>
-
     </div>
 
-    <!-- RIGHT: SVG plot -->
-    <div>
-      <div class="card" style="height:100%;display:flex;flex-direction:column">
-        <div class="card-title2">Cost Curve &nbsp; ζ(z) = −log σ(−z)</div>
-        <svg id="a4-plot" viewBox="0 0 420 280" style="width:100%;flex:1;min-height:240px"></svg>
-        <div style="display:flex;gap:18px;margin-top:8px;font-size:13px;flex-wrap:wrap;font-weight:500">
-          <div style="display:flex;align-items:center;gap:7px"><span style="width:28px;height:3px;background:#1d4ed8;display:inline-block;border-radius:2px"></span>ζ(z) &nbsp;— cost when <strong>y = 0</strong></div>
-          <div style="display:flex;align-items:center;gap:7px"><span style="width:28px;height:3px;background:#15803d;display:inline-block;border-radius:2px"></span>ζ(−z) — cost when <strong>y = 1</strong></div>
-        </div>
-        <div id="a4-plot-label" style="margin-top:10px;background:var(--surf2);border:1px solid var(--border);border-radius:7px;padding:10px 14px;font-family:'Courier New',monospace;font-size:13px;font-weight:700;text-align:center"></div>
+    <!-- Row 1, col 2: live formula expansion -->
+    <div class="card" style="padding:14px">
+      <div class="card-title" style="margin-bottom:8px">Formula expansion — step by step</div>
+      <div class="algebra" style="padding:10px;line-height:1.7">
+        <div class="alg-step">y &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;= <span id="a4-exp-y" style="color:var(--text);font-weight:700">0</span></div>
+        <div class="alg-step">(1 − 2y) &nbsp;&nbsp;= <span id="a4-exp-flip" style="color:var(--purple);font-weight:700">+1</span></div>
+        <div class="alg-step">−(1−2y)·z = <span id="a4-exp-neg" style="color:var(--muted)">0.000</span></div>
+        <div class="alg-step">σ(−(1−2y)·z) = <span id="a4-exp-sig" style="color:var(--muted)">0.5000</span></div>
+        <div class="alg-step">−log( <span id="a4-exp-sig2" style="color:var(--muted)">0.5000</span> )</div>
+        <div class="alg-res" style="margin-top:8px;padding-top:8px">J(w) = <span id="a4-cost-big">0.6931</span></div>
       </div>
+    </div>
+
+    <!-- Row 2, col 1: scenario checklist -->
+    <div class="card" style="padding:14px">
+      <div class="card-title" style="margin-bottom:8px">4 Cases to Explore</div>
+      <p style="font-size:13px;color:var(--muted);font-weight:500;margin-bottom:8px">Move the z slider into each region, or click to snap there. Each case reveals a key insight.</p>
+      <div style="display:flex;flex-direction:column;gap:6px">
+        <div id="a4-sc0" class="a4-scenario" onclick="a4SnapScenario(0,-3)">
+          <span class="a4-sc-icon">○</span>
+          <div><strong>y = 0,&nbsp; z &lt; 0</strong> <span class="a4-sc-hint">— model leans toward "class 0"</span></div>
+        </div>
+        <div id="a4-sc1" class="a4-scenario" onclick="a4SnapScenario(0,3)">
+          <span class="a4-sc-icon">○</span>
+          <div><strong>y = 0,&nbsp; z &gt; 0</strong> <span class="a4-sc-hint">— model leans toward "class 1"</span></div>
+        </div>
+        <div id="a4-sc2" class="a4-scenario" onclick="a4SnapScenario(1,-3)">
+          <span class="a4-sc-icon">○</span>
+          <div><strong>y = 1,&nbsp; z &lt; 0</strong> <span class="a4-sc-hint">— model leans toward "class 0"</span></div>
+        </div>
+        <div id="a4-sc3" class="a4-scenario" onclick="a4SnapScenario(1,3)">
+          <span class="a4-sc-icon">○</span>
+          <div><strong>y = 1,&nbsp; z &gt; 0</strong> <span class="a4-sc-hint">— model leans toward "class 1"</span></div>
+        </div>
+      </div>
+      <div id="a4-sc-guidance" class="guidance-box cold" style="margin-top:8px;font-size:13px">Explore all four cases to unlock the quiz below.</div>
+    </div>
+
+    <!-- Row 2, col 2: cost curve -->
+    <div class="card" style="padding:14px;display:flex;flex-direction:column">
+      <div class="card-title2" style="margin-bottom:6px">Cost Curve &nbsp; ζ(z) = −log σ(−z)</div>
+      <svg id="a4-plot" viewBox="0 0 420 280" style="width:100%;flex:1;min-height:200px"></svg>
+      <div style="display:flex;gap:18px;margin-top:6px;font-size:13px;flex-wrap:wrap;font-weight:500">
+        <div style="display:flex;align-items:center;gap:7px"><span style="width:28px;height:3px;background:#1d4ed8;display:inline-block;border-radius:2px"></span>ζ(z) &nbsp;— cost when <strong>y = 0</strong></div>
+        <div style="display:flex;align-items:center;gap:7px"><span style="width:28px;height:3px;background:#15803d;display:inline-block;border-radius:2px"></span>ζ(−z) — cost when <strong>y = 1</strong></div>
+      </div>
+      <div id="a4-plot-label" style="margin-top:8px;background:var(--surf2);border:1px solid var(--border);border-radius:7px;padding:8px 14px;font-family:'Courier New',monospace;font-size:13px;font-weight:700;text-align:center"></div>
     </div>
   </div>
 
@@ -1050,28 +879,28 @@ tr.hi{background:#dbeafe}tr.good{background:#dcfce7}tr.bad{background:#fee2e2}
 </div>
 
 <!-- ═══════════ ACTIVITY 6.4: n SIGMOID vs SOFTMAX ═══════════ -->
-<div id="tab-a423" class="tab-panel">
+<div id="tab-6.2.3" class="tab-panel">
 
   <!-- Problem card -->
   <div class="prob-card" style="background:linear-gradient(135deg,#f0fdf4,#dcfce7);border-color:#86efac">
     <div style="margin-bottom:12px">
-      <span class="prob-badge" style="background:#15803d">Activity 6.4</span>
+      <span class="prob-badge" style="background:#15803d">Activity 6.2.3</span>
       <span class="prob-title">n Sigmoid Units vs Softmax(n)</span>
-      <span id="a423-completed" class="completed-badge">✓ Completed</span>
+      <span id="a423-completed" class="completed-badge">✓ 6.2.3 Completed</span>
     </div>
     <p class="prob-desc">Both produce n outputs in (0, 1) — but they behave fundamentally differently. Sigmoid units are <strong>independent</strong>: each output has its own gate, and changing one leaves the others unchanged. Softmax outputs <strong>compete</strong>: boosting one always suppresses the rest, because all outputs are forced to sum to exactly 1.</p>
     <div class="eq-block" style="display:grid;grid-template-columns:1fr 1fr;gap:24px">
       <div>
         <div style="font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.07em;color:#1d4ed8;margin-bottom:8px">n Sigmoid Units</div>
-        <div class="eq-line">pₖ = σ(aₖ) = 1 / (1 + e⁻ᵃᵏ)</div>
+        <div class="eq-line" style="font-size:16px">p<sub>k</sub> = σ(a<sub>k</sub>) = 1 / (1 + e<sup>−a<sub>k</sub></sup>)</div>
         <div style="font-size:13px;color:var(--muted);margin-top:6px;font-weight:500">each output independent ∈ (0, 1)</div>
-        <div style="font-size:13px;color:#c2610c;margin-top:3px;font-weight:600">Σ pₖ can be anything in (0, n)</div>
+        <div style="font-size:13px;color:#c2610c;margin-top:3px;font-weight:600">Σ p<sub>k</sub> can be anything in (0, n)</div>
       </div>
       <div>
         <div style="font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.07em;color:#15803d;margin-bottom:8px">Softmax(n)</div>
-        <div class="eq-line">pₖ = eᵃᵏ / Σⱼ eᵃʲ &nbsp;&nbsp; (Z = Σⱼ eᵃʲ)</div>
+        <div class="eq-line" style="font-size:16px">p<sub>k</sub> = e<sup>a<sub>k</sub></sup> / Σ<sub>j</sub> e<sup>a<sub>j</sub></sup> &nbsp;&nbsp; (Z = Σ<sub>j</sub> e<sup>a<sub>j</sub></sup>)</div>
         <div style="font-size:13px;color:var(--muted);margin-top:6px;font-weight:500">globally normalized — competitive</div>
-        <div style="font-size:13px;color:#15803d;margin-top:3px;font-weight:600">Σ pₖ = 1.000 always ✓</div>
+        <div style="font-size:13px;color:#15803d;margin-top:3px;font-weight:600">Σ p<sub>k</sub> = 1.000 always ✓</div>
       </div>
     </div>
   </div>
@@ -1079,12 +908,12 @@ tr.hi{background:#dbeafe}tr.good{background:#dcfce7}tr.bad{background:#fee2e2}
   <!-- Shared sliders -->
   <div class="card" style="margin-bottom:20px">
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;flex-wrap:wrap;gap:10px">
-      <div class="card-title" style="margin-bottom:0">Raw Scores a₁, a₂, a₃ — shared by both panels</div>
+      <div class="card-title" style="margin-bottom:0;font-size:13px;text-transform:none;letter-spacing:normal;font-weight:600">Raw scores a<sub>1</sub>, a<sub>2</sub>, a<sub>3</sub> — shared by both panels</div>
       <div style="display:flex;gap:8px;flex-wrap:wrap">
         <button class="btn btn-g" onclick="a4Preset([2,-1,0.5])">Default</button>
-        <button class="btn btn-g" onclick="a4Preset([5,-1,0.5])">Boost a₁ →5</button>
-        <button class="btn btn-g" onclick="a4Preset([0,0,0])">Equal (0,0,0)</button>
-        <button class="btn btn-g" onclick="a4Preset([5,5,-5])">Tie a₁=a₂</button>
+        <button class="btn btn-g" onclick="a4Preset([5,-1,0.5])"><span>Boost a<sub>1</sub> → 5</span></button>
+        <button class="btn btn-g" onclick="a4Preset([0,0,0])">Equal (0, 0, 0)</button>
+        <button class="btn btn-g" onclick="a4Preset([5,5,-5])"><span>Tie a<sub>1</sub> = a<sub>2</sub></span></button>
       </div>
     </div>
     <div id="a4-score-sliders"></div>
@@ -1095,10 +924,10 @@ tr.hi{background:#dbeafe}tr.good{background:#dcfce7}tr.bad{background:#fee2e2}
 
     <!-- Sigmoid -->
     <div class="card">
-      <div class="card-title" style="color:#1d4ed8;font-size:13px">n = 3 Sigmoid Units &nbsp;·&nbsp; pₖ = σ(aₖ)</div>
+      <div class="card-title" style="color:#1d4ed8;font-size:13px">n = 3 Sigmoid Units &nbsp;·&nbsp; <span style="text-transform:none;letter-spacing:normal;font-size:15px">p<sub>k</sub> = σ(a<sub>k</sub>)</span></div>
       <div id="a4-sig-bars" style="display:flex;flex-direction:column;gap:14px;margin-bottom:16px"></div>
       <div style="border-top:2px solid var(--border);padding-top:12px;display:flex;justify-content:space-between;align-items:center">
-        <span style="font-size:14px;font-weight:700;color:var(--text)">Σ pₖ =</span>
+        <span style="font-size:14px;font-weight:700;color:var(--text)">Σ p<sub>k</sub> =</span>
         <span id="a4-sig-sum" style="font-family:'Courier New',monospace;font-size:17px;font-weight:800"></span>
       </div>
       <div id="a4-sig-note" style="margin-top:10px;font-size:13px;font-weight:500"></div>
@@ -1106,10 +935,10 @@ tr.hi{background:#dbeafe}tr.good{background:#dcfce7}tr.bad{background:#fee2e2}
 
     <!-- Softmax -->
     <div class="card">
-      <div class="card-title" style="color:#15803d;font-size:13px">Softmax(3) &nbsp;·&nbsp; pₖ = eᵃᵏ / Z</div>
+      <div class="card-title" style="color:#15803d;font-size:13px">Softmax(3) &nbsp;·&nbsp; <span style="text-transform:none;letter-spacing:normal;font-size:15px">p<sub>k</sub> = e<sup>a<sub>k</sub></sup> / Z</span></div>
       <div id="a4-smx-bars" style="display:flex;flex-direction:column;gap:14px;margin-bottom:16px"></div>
       <div style="border-top:2px solid var(--border);padding-top:12px;display:flex;justify-content:space-between;align-items:center">
-        <span style="font-size:14px;font-weight:700;color:var(--text)">Σ pₖ =</span>
+        <span style="font-size:14px;font-weight:700;color:var(--text)">Σ p<sub>k</sub> =</span>
         <span style="font-family:'Courier New',monospace;font-size:17px;font-weight:800;color:#15803d">1.000 ✓</span>
       </div>
       <div style="margin-top:10px;font-size:13px;font-weight:600;color:#15803d">Always a valid probability distribution.</div>
@@ -1137,20 +966,20 @@ tr.hi{background:#dbeafe}tr.good{background:#dcfce7}tr.bad{background:#fee2e2}
 </div>
 
 <!-- ═══════════ ACTIVITY 6.3: MAXOUT UNITS ═══════════ -->
-<div id="tab-maxout" class="tab-panel">
+<div id="tab-6.3" class="tab-panel">
 
   <!-- Problem card -->
   <div class="prob-card">
     <div style="margin-bottom:10px">
       <span class="prob-badge">Activity 6.3</span>
       <span class="prob-title">Maxout Units — Simulating ReLU and |x|</span>
-      <span id="mx-completed" class="completed-badge">✓ Completed</span>
+      <span id="mx-completed" class="completed-badge">✓ 6.3 Completed</span>
     </div>
     <p class="prob-desc">A maxout unit outputs the <strong>max</strong> of several linear pieces:
-      <code style="color:#b45309">h = max(w₁x+b₁, w₂x+b₂, …, wₖx+bₖ)</code>.
+      <code style="color:#b45309">h = max(w<sub>1</sub>x+b<sub>1</sub>, w<sub>2</sub>x+b<sub>2</sub>, …, w<sub>k</sub>x+b<sub>k</sub>)</code>.
       Pick weights and biases for each piece so the maxout output matches the target function for every x.</p>
     <div class="eq-block">
-      <div class="eq-line">h(x) = max(w₁x+b₁, w₂x+b₂, …, wₖx+bₖ)</div>
+      <div class="eq-line" style="font-family:Georgia,'Times New Roman',serif;font-style:italic;font-size:19px;letter-spacing:0.2px">h(x) = <span style="font-style:normal">max</span>(w<sub>1</sub>x + b<sub>1</sub>, w<sub>2</sub>x + b<sub>2</sub>, …, w<sub>k</sub>x + b<sub>k</sub>)</div>
     </div>
     <div style="display:flex;gap:10px;margin-bottom:14px">
       <button id="mx-mode-relu" class="btn btn-p" onclick="mxSetMode('relu')">Simulate ReLU</button>
@@ -1214,21 +1043,35 @@ tr.hi{background:#dbeafe}tr.good{background:#dcfce7}tr.bad{background:#fee2e2}
 </div>
 
 <!-- ═══════════ ACTIVITY 6.4: LINEAR REGIONS ═══════════ -->
-<div id="tab-regions" class="tab-panel">
+<div id="tab-6.4" class="tab-panel">
 
   <!-- Problem card -->
   <div class="prob-card">
     <div style="margin-bottom:10px">
       <span class="prob-badge">Activity 6.4</span>
       <span class="prob-title">Counting Linear Regions of a Deep ReLU Network</span>
-      <span id="lr-completed" class="completed-badge">✓ Completed</span>
+      <span id="lr-completed" class="completed-badge">✓ 6.4 Completed</span>
     </div>
     <p class="prob-desc">A deep rectifier network with <code style="color:#b45309">d</code> inputs, depth
       <code style="color:#b45309">l</code>, and <code style="color:#b45309">n</code> units per layer carves the input
-      space into <code style="color:#b45309">O((n choose d)^(d(l−1)) · n^d)</code> linear regions. Explore how depth
-      and width drive this bound, and compare it to the regions an actual random network produces.</p>
+      space into at most the number of linear regions shown below, where <strong>C(n,d)</strong> — the
+      <strong>Combination</strong> "n choose d" — counts the ways to choose d of n units. Explore how depth and
+      width drive this bound, and compare it to the regions an actual random network produces.</p>
     <div class="eq-block">
-      <div class="eq-line">O( C(n,d)^(d(l−1)) · n^d ) &nbsp;&nbsp; (C(n,d) = "n choose d")</div>
+      <div class="eq-line" style="font-family:Georgia,'Times New Roman',serif;font-style:italic;font-size:19px;display:flex;align-items:center;gap:1px">
+        <span style="font-style:normal">O</span><span style="font-style:normal;font-size:26px;font-weight:300">(</span>
+        <span style="display:inline-flex;align-items:center">
+          <span style="font-style:normal;font-size:22px;font-weight:300">(</span>
+          <span style="display:inline-flex;flex-direction:column;align-items:center;line-height:1.05;font-size:14px;margin:0 2px"><span>n</span><span>d</span></span>
+          <span style="font-style:normal;font-size:22px;font-weight:300">)</span>
+        </span><sup style="font-size:12px;position:relative;top:-8px">d(l−1)</sup>
+        <span style="font-style:normal">&nbsp;·&nbsp;</span>n<sup style="font-size:12px">d</sup>
+        <span style="font-style:normal;font-size:26px;font-weight:300">)</span>
+      </div>
+      <div style="font-family:system-ui,-apple-system,sans-serif;font-style:normal;font-size:12px;color:var(--muted);font-weight:500;margin-top:6px">
+        <span style="display:inline-flex;flex-direction:column;align-items:center;line-height:1;font-size:11px;vertical-align:middle;margin:0 1px"><span>n</span><span>d</span></span>
+        &nbsp;= C(n,d) = <strong>Combination</strong> — the number of ways to choose d units out of n, order doesn't matter
+      </div>
     </div>
     <div class="given-row">
       <div class="given-box"><div class="given-lbl">d (locked)</div><div class="given-val">d = 1 🔒</div></div>
@@ -1242,9 +1085,8 @@ tr.hi{background:#dbeafe}tr.good{background:#dcfce7}tr.bad{background:#fee2e2}
     <!-- LEFT: network + region plot -->
     <div>
       <div class="card">
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+        <div style="margin-bottom:12px">
           <div class="card-title" style="margin-bottom:0">Network — d=1 input · l layers × n ReLU units · 1 output</div>
-          <button class="btn btn-g" onclick="lrRandomize()">Randomize Weights</button>
         </div>
         <div class="section-label">Depth l</div>
         <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px">
@@ -1260,11 +1102,6 @@ tr.hi{background:#dbeafe}tr.good{background:#dcfce7}tr.bad{background:#fee2e2}
         </div>
         <svg id="lr-net" viewBox="0 0 580 220" style="width:100%;min-height:180px"></svg>
       </div>
-      <div class="card">
-        <div class="card-title">Region Plot — f(x) over x ∈ [−3, 3]</div>
-        <svg id="lr-plot" viewBox="0 0 420 280" style="width:100%;min-height:240px"></svg>
-        <div id="lr-region-readout" style="margin-top:10px;background:var(--surf2);border:1px solid var(--border);border-radius:7px;padding:10px 14px;font-size:13px;font-weight:600"></div>
-      </div>
     </div>
 
     <!-- RIGHT: guided computation + history + reflection + log -->
@@ -1279,19 +1116,8 @@ tr.hi{background:#dbeafe}tr.good{background:#dcfce7}tr.bad{background:#fee2e2}
       </div>
       <div class="card">
         <div class="card-title">Depth-Doubling Comparison</div>
-        <p style="font-size:13px;color:var(--muted);margin-bottom:10px">Completed runs (l, n → O) appear here as you finish the guided computation above.</p>
+        <p style="font-size:13px;color:var(--muted);margin-bottom:10px">Completed runs (l, n → O) appear here as you finish the guided computation above. To see the comparison, complete the computation for <strong>l = 3</strong>, then set <strong>l = 6</strong> (or use the <strong>Action → Double Depth</strong> button at the top) and complete it again.</p>
         <div id="lr-history"></div>
-      </div>
-      <div class="card">
-        <div class="card-title">Reflection</div>
-        <p style="font-size:13px;font-weight:600;margin-bottom:6px">Describe a classification problem in ℝ¹ with that many regions.</p>
-        <textarea id="lr-reflect-1" oninput="lrReflectInput(1,this.value)" placeholder="Type your answer…" style="width:100%;min-height:70px;font-family:inherit;font-size:13px;padding:10px;border:1px solid var(--border);border-radius:7px;background:var(--surface);color:var(--text);resize:vertical"></textarea>
-        <p style="font-size:13px;font-weight:600;margin:14px 0 6px">Why did doubling the depth more than double the region count?</p>
-        <textarea id="lr-reflect-2" oninput="lrReflectInput(2,this.value)" placeholder="Type your answer…" style="width:100%;min-height:70px;font-family:inherit;font-size:13px;padding:10px;border:1px solid var(--border);border-radius:7px;background:var(--surface);color:var(--text);resize:vertical"></textarea>
-      </div>
-      <div class="card">
-        <div class="card-title">Guidance</div>
-        <div id="lr-guidance"></div>
       </div>
     </div>
   </div>
@@ -1300,13 +1126,13 @@ tr.hi{background:#dbeafe}tr.good{background:#dcfce7}tr.bad{background:#fee2e2}
 </div>
 
 <!-- ═══════════ ACTIVITY 6.5.1: COMPUTATIONAL GRAPH ═══════════ -->
-<div id="tab-compgraph" class="tab-panel">
+<div id="tab-6.5.1" class="tab-panel">
 
   <div class="prob-card">
     <div style="margin-bottom:10px">
       <span class="prob-badge">Activity 6.5.1</span>
       <span class="prob-title">Computational Graph — GRU-like Network</span>
-      <span id="cg-completed" class="completed-badge">✓ Completed</span>
+      <span id="cg-completed" class="completed-badge">✓ 6.5.1 Completed</span>
     </div>
     <p class="prob-desc">Draw a computational graph for the network below. Variables that appear in multiple equations should appear <strong>only once</strong> in the graph.</p>
     <div class="eq-block">
@@ -1335,11 +1161,11 @@ tr.hi{background:#dbeafe}tr.good{background:#dcfce7}tr.bad{background:#fee2e2}
       </div>
       <div style="background:var(--surf2);border:1px solid var(--border);border-radius:8px;padding:14px">
         <div style="font-size:12px;font-weight:800;color:#6d28d9;margin-bottom:8px">∂ Automatic Differentiation</div>
-        <div style="font-size:13px;color:var(--muted);line-height:1.8">Each edge carries a gradient. <code>build_grad</code> traverses the graph backward — one gradient per node, accumulated from all its consumers.</div>
+        <div style="font-size:13px;color:var(--muted);line-height:1.8">A gradient shows how much the output changes when an input changes. Walk backward from the output, edge by edge, adding gradients wherever a node like p feeds multiple paths.</div>
       </div>
       <div style="background:var(--surf2);border:1px solid var(--border);border-radius:8px;padding:14px">
         <div style="font-size:12px;font-weight:800;color:#0f766e;margin-bottom:8px">🗺 Execution Blueprint</div>
-        <div style="font-size:13px;color:var(--muted);line-height:1.8">Frameworks like PyTorch trace this graph at runtime. The topological sort of nodes is the forward-pass execution order.</div>
+        <div style="font-size:13px;color:var(--muted);line-height:1.8">A node can't run until its inputs are ready, so the graph order matters: compute inputs first, then work forward node by node — exactly what PyTorch does at runtime.</div>
       </div>
     </div>
     <div style="text-align:right"><button class="btn btn-p" onclick="cgUnlock(2)">Understood — classify nodes →</button></div>
@@ -1358,7 +1184,7 @@ tr.hi{background:#dbeafe}tr.good{background:#dcfce7}tr.bad{background:#fee2e2}
 
   <!-- Stage 3: Wire the graph (MCQ) -->
   <div id="cg-stage3" class="ba-locked-section" style="margin-bottom:16px">
-    <div class="two-col">
+    <div class="two-col" style="grid-template-columns:35% 65%">
       <!-- LEFT: MCQ questions -->
       <div>
         <div class="card">
@@ -1410,30 +1236,25 @@ tr.hi{background:#dbeafe}tr.good{background:#dcfce7}tr.bad{background:#fee2e2}
         <li>This is why PyTorch's autograd can accumulate <code>∂L/∂p</code> from all 4 paths in one backward pass.</li>
       </ul>
     </div>
-    <div class="card" style="margin-bottom:16px">
-      <div class="card-title">Reflection</div>
-      <p style="font-size:13px;font-weight:600;margin-bottom:6px">How many times does <code>p</code> appear in the equations? How many times in the graph? Why does this matter for efficiency?</p>
-      <textarea id="cg-reflect" oninput="cgReflectInput(this.value)" placeholder="Type your answer…" style="width:100%;min-height:70px;font-family:inherit;font-size:13px;padding:10px;border:1px solid var(--border);border-radius:7px;background:var(--surface);color:var(--text);resize:vertical"></textarea>
-    </div>
   </div>
 
 </div>
 
 <!-- ═══════════ ACTIVITY 6.5.2: BACKPROP TABLE ═══════════ -->
-<div id="tab-backprop" class="tab-panel">
+<div id="tab-6.5.2" class="tab-panel">
 
   <div class="prob-card">
     <div style="margin-bottom:10px">
       <span class="prob-badge">Activity 6.5.2</span>
       <span class="prob-title">Backpropagation via <code>build_grad</code></span>
-      <span id="bp-completed" class="completed-badge">✓ Completed</span>
+      <span id="bp-completed" class="completed-badge">✓ 6.5.2 Completed</span>
     </div>
     <p class="prob-desc">Given the <code>build_grad</code> algorithm and the computational graph below, complete the gradient table for <code>build_grad(u<sup>(1)</sup>, G, G′, {u<sup>(6)</sup>=1})</code>.</p>
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px">
       <!-- Algorithm -->
       <div>
         <div style="font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin-bottom:8px">Algorithm</div>
-        <div style="background:var(--surf2);border:1px solid var(--border);border-radius:8px;padding:14px 16px;font-family:'Courier New',monospace;font-size:12px;line-height:2;color:var(--text)">
+        <div style="background:var(--surf2);border:1px solid var(--border);border-radius:8px;padding:14px 16px;font-family:'Courier New',monospace;font-size:13.5px;line-height:2;color:var(--text)">
           <span style="color:#1d4ed8;font-weight:700">build_grad</span>(V, G, G′, grad_table):<br>
           &nbsp;&nbsp;<span style="color:#8a7a6e">if</span> V ∈ grad_table: <span style="color:#8a7a6e">return</span> grad_table[V]<br>
           &nbsp;&nbsp;<span style="color:#8a7a6e">for</span> i, C ∈ enumerate(get_consumers(V, G′)):<br>
@@ -1446,13 +1267,43 @@ tr.hi{background:#dbeafe}tr.good{background:#dcfce7}tr.bad{background:#fee2e2}
       <!-- Graph values -->
       <div>
         <div style="font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin-bottom:8px">Graph node values</div>
-        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px">
-          <div class="given-box"><div class="given-lbl">u<sup>(1)</sup></div><div class="given-val">−1</div></div>
-          <div class="given-box"><div class="given-lbl">u<sup>(2)</sup></div><div class="given-val">5</div></div>
-          <div class="given-box"><div class="given-lbl">u<sup>(3)</sup></div><div class="given-val">3</div></div>
-          <div class="given-box"><div class="given-lbl">u<sup>(4)</sup> = u<sup>(1)</sup>×u<sup>(2)</sup></div><div class="given-val">−5</div></div>
-          <div class="given-box"><div class="given-lbl">u<sup>(5)</sup> = u<sup>(4)</sup>+u<sup>(3)</sup></div><div class="given-val">−2</div></div>
-          <div class="given-box"><div class="given-lbl">u<sup>(6)</sup> = |u<sup>(5)</sup>|</div><div class="given-val">2</div></div>
+        <div style="background:var(--surf2);border:1px solid var(--border);border-radius:8px;padding:8px">
+          <svg viewBox="0 0 320 210" style="width:100%;min-height:170px">
+            <!-- edges -->
+            <defs>
+              <marker id="bpv-arrow" markerWidth="6" markerHeight="6" refX="4.5" refY="3" orient="auto"><path d="M0,0 L0,6 L6,3 z" fill="#8a7a6e"/></marker>
+            </defs>
+            <line x1="52.5" y1="161.9" x2="82.5" y2="118.1" stroke="#8a7a6e" stroke-width="1.4" marker-end="url(#bpv-arrow)"/>
+            <line x1="137.5" y1="161.9" x2="107.5" y2="118.1" stroke="#8a7a6e" stroke-width="1.4" marker-end="url(#bpv-arrow)"/>
+            <line x1="276.8" y1="162.4" x2="243.2" y2="117.6" stroke="#8a7a6e" stroke-width="1.4" marker-end="url(#bpv-arrow)"/>
+            <line x1="117" y1="100" x2="208" y2="100" stroke="#8a7a6e" stroke-width="1.4" marker-end="url(#bpv-arrow)"/>
+            <line x1="230" y1="78" x2="230" y2="48" stroke="#8a7a6e" stroke-width="1.4" marker-end="url(#bpv-arrow)"/>
+            <!-- op labels -->
+            <text x="95" y="140" text-anchor="middle" font-size="11" font-weight="700" fill="#c2610c" font-family="'Courier New',monospace">×</text>
+            <text x="163" y="122" text-anchor="middle" font-size="11" font-weight="700" fill="#c2610c" font-family="'Courier New',monospace">+</text>
+            <text x="199" y="68" text-anchor="end" font-size="10" font-weight="700" fill="#c2610c" font-family="'Courier New',monospace">abs</text>
+            <!-- leaf nodes: u1, u2, u3 -->
+            <circle cx="40" cy="180" r="22" fill="#dbeafe" stroke="#1d4ed8" stroke-width="2"/>
+            <text x="40" y="176" text-anchor="middle" font-size="10" font-weight="700" fill="#1e3a8a" font-family="'Courier New',monospace">u⁽¹⁾</text>
+            <text x="40" y="189" text-anchor="middle" font-size="10" font-weight="700" fill="#1e3a8a" font-family="'Courier New',monospace">=−1</text>
+            <circle cx="150" cy="180" r="22" fill="#dbeafe" stroke="#1d4ed8" stroke-width="2"/>
+            <text x="150" y="176" text-anchor="middle" font-size="10" font-weight="700" fill="#1e3a8a" font-family="'Courier New',monospace">u⁽²⁾</text>
+            <text x="150" y="189" text-anchor="middle" font-size="10" font-weight="700" fill="#1e3a8a" font-family="'Courier New',monospace">=5</text>
+            <circle cx="290" cy="180" r="22" fill="#dbeafe" stroke="#1d4ed8" stroke-width="2"/>
+            <text x="290" y="176" text-anchor="middle" font-size="10" font-weight="700" fill="#1e3a8a" font-family="'Courier New',monospace">u⁽³⁾</text>
+            <text x="290" y="189" text-anchor="middle" font-size="10" font-weight="700" fill="#1e3a8a" font-family="'Courier New',monospace">=3</text>
+            <!-- computed nodes: u4, u5 -->
+            <circle cx="95" cy="100" r="22" fill="#ede9e0" stroke="#8a7a6e" stroke-width="2"/>
+            <text x="95" y="96" text-anchor="middle" font-size="10" font-weight="700" fill="#1a1210" font-family="'Courier New',monospace">u⁽⁴⁾</text>
+            <text x="95" y="109" text-anchor="middle" font-size="10" font-weight="700" fill="#1a1210" font-family="'Courier New',monospace">=−5</text>
+            <circle cx="230" cy="100" r="22" fill="#ede9e0" stroke="#8a7a6e" stroke-width="2"/>
+            <text x="230" y="96" text-anchor="middle" font-size="10" font-weight="700" fill="#1a1210" font-family="'Courier New',monospace">u⁽⁵⁾</text>
+            <text x="230" y="109" text-anchor="middle" font-size="10" font-weight="700" fill="#1a1210" font-family="'Courier New',monospace">=−2</text>
+            <!-- output node: u6 -->
+            <circle cx="230" cy="26" r="22" fill="#dcfce7" stroke="#15803d" stroke-width="2"/>
+            <text x="230" y="22" text-anchor="middle" font-size="10" font-weight="700" fill="#14532d" font-family="'Courier New',monospace">u⁽⁶⁾</text>
+            <text x="230" y="35" text-anchor="middle" font-size="10" font-weight="700" fill="#14532d" font-family="'Courier New',monospace">=2</text>
+          </svg>
         </div>
         <div style="margin-top:10px;background:#fff7ed;border:1px solid #c2610c;border-radius:7px;padding:10px 14px;font-size:13px;font-weight:600;color:#7c2d12">
           Seed: grad_table[u<sup>(6)</sup>] = 1 &nbsp;·&nbsp; Goal: find G for u<sup>(1)</sup>
@@ -1502,13 +1353,13 @@ tr.hi{background:#dbeafe}tr.good{background:#dcfce7}tr.bad{background:#fee2e2}
             <table class="bp-table">
               <thead>
                 <tr>
-                  <th>V</th><th>C</th><th>op at C</th><th>dC/dV</th><th>dC/dV × D</th><th>G(V)</th>
+                  <th>V</th><th>C</th><th>op at C</th><th>dC/dV</th><th>D</th><th>dC/dV × D</th><th>G(V)</th>
                 </tr>
               </thead>
               <tbody id="bp-table-body"></tbody>
             </table>
           </div>
-          <div id="bp-table-hint" class="guidance-box cold" style="margin-top:12px;font-size:13px">Fill dC/dV for row 3 first. For a sum u⁴+u³, what is d(u⁴+u³)/du⁴?</div>
+          <div id="bp-table-hint" class="guidance-box warm" style="margin-top:12px;font-size:13px"><strong>Hints:</strong> For addition (u⁴+u³), dC/dV = 1. For multiplication (u¹×u²), d/du¹ = u² = 5. Multiply local derivative × D (the upstream G).</div>
         </div>
       </div>
       <!-- RIGHT: graph trace + step-by-step -->
@@ -1557,9 +1408,9 @@ tr.hi{background:#dbeafe}tr.good{background:#dcfce7}tr.bad{background:#fee2e2}
 </div>
 
 <!-- ═══════════ 7.1 REGULARIZATION RACE ═══════════ -->
-<div id="tab-regrace" class="tab-panel">
+<div id="tab-7.1" class="tab-panel">
   <div class="prob-card">
-    <div style="margin-bottom:10px"><span class="prob-badge">Activity 7.1</span><span class="prob-title">Regularization Race</span><span id="rr-completed" class="completed-badge">✓ Completed</span></div>
+    <div style="margin-bottom:10px"><span class="prob-badge">Activity 7.1</span><span class="prob-title">Regularization Race</span><span id="rr-completed" class="completed-badge">✓ 7.1 Completed</span></div>
 
     <div id="rr-prob-eq" style="margin-bottom:14px"></div>
 
@@ -1587,7 +1438,7 @@ tr.hi{background:#dbeafe}tr.good{background:#dcfce7}tr.bad{background:#fee2e2}
         <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:10px">
           <div class="given-box"><div class="given-lbl">Model A</div><div class="given-val" style="font-size:12px">w_a = [−2, 3, 1]</div></div>
           <div class="given-box"><div class="given-lbl">Model B</div><div class="given-val" style="font-size:12px">w_b = [0, 3, 0]</div></div>
-          <div class="given-box"><div class="given-lbl">α</div><div class="given-val" style="font-size:12px">1/3 ≈ 0.333</div></div>
+          <div class="given-box"><div class="given-lbls">α</div><div class="given-val" style="font-size:12px">1/3 ≈ 0.333</div></div>
         </div>
       </div>
     </div>
@@ -1608,9 +1459,28 @@ tr.hi{background:#dbeafe}tr.good{background:#dcfce7}tr.bad{background:#fee2e2}
   </div>
 
   <div id="rr-s2" class="ba-locked-section" style="margin-top:18px">
+    <div class="card" style="margin-bottom:18px">
+      <div class="card-title">Step 1 — Compute ŷ for Each Model</div>
+      <p style="font-size:13px;color:var(--muted);margin-bottom:12px">ŷ = x·wᵀ = x₀w₀ + x₁w₁ + x₂w₂. Walk through the dot product for both models on every row before computing MSE in Step 2.</p>
+      <div style="overflow-x:auto">
+      <table style="width:100%;border-collapse:collapse;font-family:'Courier New',monospace;font-size:12px">
+        <thead><tr style="background:var(--surf2)">
+          <th style="padding:6px;border-bottom:2px solid var(--border);color:var(--muted);font-size:10px;text-align:center">Row</th>
+          <th style="padding:6px;border-bottom:2px solid var(--border);color:var(--muted);font-size:10px;text-align:center">x</th>
+          <th style="padding:6px;border-bottom:2px solid var(--border);color:#1d4ed8;font-size:10px;text-align:left">ŷ_a = x·w_aᵀ &nbsp;(w_a=[−2,3,1])</th>
+          <th style="padding:6px;border-bottom:2px solid var(--border);color:var(--orange);font-size:10px;text-align:left">ŷ_b = x·w_bᵀ &nbsp;(w_b=[0,3,0])</th>
+        </tr></thead>
+        <tbody>
+          <tr><td style="padding:6px;text-align:center;border-bottom:1px solid var(--border)">1</td><td style="padding:6px;text-align:center;border-bottom:1px solid var(--border)">[1,2,1]</td><td style="padding:6px;border-bottom:1px solid var(--border)">(1)(−2)+(2)(3)+(1)(1) = −2+6+1 = <strong style="color:#1d4ed8">5</strong></td><td style="padding:6px;border-bottom:1px solid var(--border)">(1)(0)+(2)(3)+(1)(0) = 0+6+0 = <strong style="color:var(--orange)">6</strong></td></tr>
+          <tr><td style="padding:6px;text-align:center;border-bottom:1px solid var(--border)">2</td><td style="padding:6px;text-align:center;border-bottom:1px solid var(--border)">[1,3,2]</td><td style="padding:6px;border-bottom:1px solid var(--border)">(1)(−2)+(3)(3)+(2)(1) = −2+9+2 = <strong style="color:#1d4ed8">9</strong></td><td style="padding:6px;border-bottom:1px solid var(--border)">(1)(0)+(3)(3)+(2)(0) = 0+9+0 = <strong style="color:var(--orange)">9</strong></td></tr>
+          <tr><td style="padding:6px;text-align:center">3</td><td style="padding:6px;text-align:center">[1,4,3]</td><td style="padding:6px">(1)(−2)+(4)(3)+(3)(1) = −2+12+3 = <strong style="color:#1d4ed8">13</strong></td><td style="padding:6px">(1)(0)+(4)(3)+(3)(0) = 0+12+0 = <strong style="color:var(--orange)">12</strong></td></tr>
+        </tbody>
+      </table>
+      </div>
+    </div>
     <div class="two-col">
-      <div><div class="card"><div class="card-title">Step 1 — Compute MSE for Each Model</div>
-        <p style="font-size:13px;color:var(--muted);margin-bottom:12px">ŷ = x·wᵀ is pre-computed. Fill in (y−ŷ)² for each sample, then MSE = sum ÷ 3.</p>
+      <div><div class="card"><div class="card-title">Step 2 — Compute MSE for Each Model</div>
+        <p style="font-size:13px;color:var(--muted);margin-bottom:12px">Using ŷ from Step 1, fill in (y−ŷ)² for each sample, then MSE = sum ÷ 3.</p>
         <table style="width:100%;border-collapse:collapse;font-family:'Courier New',monospace;font-size:12px">
           <thead><tr style="background:var(--surf2)">
             <th style="padding:6px;border-bottom:2px solid var(--border);color:var(--muted);font-size:10px;text-align:center">Row</th>
@@ -1702,17 +1572,13 @@ tr.hi{background:#dbeafe}tr.good{background:#dcfce7}tr.bad{background:#fee2e2}
         <li>L2 regularization (α=1/3) → <strong>Model B wins!</strong> The −2 weight costs 4/3 ≈ 1.33 in L2 alone. Squaring amplifies large weights disproportionately.</li>
       </ul>
     </div>
-    <div class="card"><div class="card-title">Reflection</div>
-      <p style="font-size:13px;color:var(--muted);margin-bottom:8px">When would you prefer L2 regularization over L1, and vice versa?</p>
-      <textarea id="rr-reflection" rows="3" style="width:100%;background:var(--surf2);border:1px solid var(--border);border-radius:7px;padding:10px 14px;font-size:13px;color:var(--text);resize:vertical;outline:none;font-family:inherit" placeholder="L1 is better when... L2 is better when..." oninput="rrReflection=this.value"></textarea>
-    </div>
   </div>
 </div>
 
 <!-- ═══════════ 7.8 EARLY STOPPING ═══════════ -->
-<div id="tab-earlystop" class="tab-panel">
+<div id="tab-7.8" class="tab-panel">
   <div class="prob-card">
-    <div style="margin-bottom:10px"><span class="prob-badge">Activity 7.8</span><span class="prob-title">Early Stopping Planner</span><span id="es-completed" class="completed-badge">✓ Completed</span></div>
+    <div style="margin-bottom:10px"><span class="prob-badge">Activity 7.8</span><span class="prob-title">Early Stopping Planner</span><span id="es-completed" class="completed-badge">✓ 7.8 Completed</span></div>
     <p class="prob-desc">Someone has given you 1000 instances to construct a model. You want to use early stopping as your regularization strategy. How will you use the data? When will you stop training? How much data can you train on?</p>
   </div>
 
@@ -1734,8 +1600,8 @@ tr.hi{background:#dbeafe}tr.good{background:#dcfce7}tr.bad{background:#fee2e2}
     <div class="two-col">
       <div><div class="card"><div class="card-title">Step 1 — Design Your Data Split</div>
         <p style="font-size:13px;color:var(--muted);margin-bottom:14px">Split your 1000 instances across Train / Validation / Test. Remember: you need validation data to know when to stop.</p>
-        <div class="slider-row"><span class="slider-label"><span class="name">Train %</span><span class="val" id="es-train-v">70</span></span><input type="range" id="es-train-slider" min="30" max="90" step="5" value="70" oninput="esUpdateSplit()"></div>
-        <div class="slider-row"><span class="slider-label"><span class="name">Val %</span><span class="val" id="es-val-v">20</span></span><input type="range" id="es-val-slider" min="5" max="40" step="5" value="20" oninput="esUpdateSplit()"></div>
+        <div class="slider-row"><span class="slider-label"><span class="name">Train %</span><span class="val" id="es-train-v">70</span></span><input type="range" id="es-train-slider" min="30" max="90" step="5" value="70" oninput="esUpdateSplit('train')"></div>
+        <div class="slider-row"><span class="slider-label"><span class="name">Val %</span><span class="val" id="es-val-v">20</span></span><input type="range" id="es-val-slider" min="5" max="40" step="5" value="20" oninput="esUpdateSplit('val')"></div>
         <div id="es-val-warn" style="display:none;font-size:13px;color:var(--red);margin-top:8px;font-weight:600"></div>
         <div id="es-split-bar" style="display:flex;border-radius:6px;overflow:hidden;margin-top:10px;margin-bottom:10px">
           <div style="flex:70;background:#60a5fa;height:32px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:#fff">70%</div>
@@ -1779,6 +1645,14 @@ tr.hi{background:#dbeafe}tr.good{background:#dcfce7}tr.bad{background:#fee2e2}
           <div id="es-stop-hint" class="guidance-box cold" style="margin-top:10px;font-size:13px">Select the correct stopping criterion.</div>
         </div>
         <div id="es-s4" class="ba-locked-section" style="margin-top:18px">
+          <div class="card">
+            <div class="card-title">Find the Optimal Stopping Epoch</div>
+            <p style="font-size:13px;color:var(--muted);margin-bottom:10px">Drag the slider above until the label reads <strong>Optimal Zone!</strong>, then enter that epoch number.</p>
+            <div style="display:flex;align-items:center;gap:10px">
+              <input type="number" id="es-epoch-answer" class="ba-cell-input" style="width:90px" placeholder="epoch #" oninput="esCheckEpochAnswer()">
+            </div>
+            <div id="es-epoch-hint" class="guidance-box cold" style="margin-top:10px;font-size:13px">Enter the epoch number where the validation loss curve is in the Optimal Zone.</div>
+          </div>
         </div>
       </div>
     </div>
@@ -1786,9 +1660,9 @@ tr.hi{background:#dbeafe}tr.good{background:#dcfce7}tr.bad{background:#fee2e2}
 </div>
 
 <!-- ═══════════ 7.12 INPUT DROPOUT ═══════════ -->
-<div id="tab-dropout" class="tab-panel">
+<div id="tab-7.12" class="tab-panel">
   <div class="prob-card">
-    <div style="margin-bottom:10px"><span class="prob-badge">Activity 7.12</span><span class="prob-title">Input Dropout Explorer</span><span id="dp-completed" class="completed-badge">✓ Completed</span></div>
+    <div style="margin-bottom:10px"><span class="prob-badge">Activity 7.12</span><span class="prob-title">Input Dropout Explorer</span><span id="dp-completed" class="completed-badge">✓ 7.12 Completed</span></div>
     <p class="prob-desc">Dropout is normally applied to hidden layers, but it may be applied to any units. What would it mean to apply dropout to the input units? Explore image classification, word-based text, and character-level text.</p>
   </div>
 
@@ -1859,17 +1733,13 @@ tr.hi{background:#dbeafe}tr.good{background:#dcfce7}tr.bad{background:#fee2e2}
       <div id="dp-best-opts" style="display:flex;flex-direction:column;gap:8px;max-width:560px"></div>
       <div id="dp-best-hint" class="guidance-box cold" style="margin-top:10px;font-size:13px">Think about which domain most naturally encounters "missing input" in the real world.</div>
     </div>
-    <div class="card" style="margin-top:18px"><div class="card-title">Reflection</div>
-      <p style="font-size:13px;color:var(--muted);margin-bottom:8px">Pick one domain. Describe what "zeroing an input unit" physically means and whether you think this makes a useful regularizer for that domain.</p>
-      <textarea id="dp-reflection" rows="3" style="width:100%;background:var(--surf2);border:1px solid var(--border);border-radius:7px;padding:10px 14px;font-size:13px;color:var(--text);resize:vertical;outline:none;font-family:inherit" placeholder="For [image/word/character] classification, zeroing an input unit means..." oninput="dpReflection=this.value"></textarea>
-    </div>
   </div>
 </div>
 
 <!-- ═══════════ 7.KD TAXONOMY REGULARIZER ═══════════ -->
-<div id="tab-taxonomy" class="tab-panel">
+<div id="tab-7.KD" class="tab-panel">
   <div class="prob-card">
-    <div style="margin-bottom:10px"><span class="prob-badge">Activity 7.KD</span><span class="prob-title">Taxonomy-Aware Regularizer</span><span id="kd-completed" class="completed-badge">✓ Completed</span></div>
+    <div style="margin-bottom:10px"><span class="prob-badge">Activity 7.KD</span><span class="prob-title">Taxonomy-Aware Regularizer</span><span id="kd-completed" class="completed-badge">✓ 7.KD Completed</span></div>
     <p class="prob-desc">You are training an image classifier for categories: chair, tree, leopard, cheetah, etc. You also have a taxonomy: <em>leopard</em> is a <em>large cat</em>, a <em>large cat</em> is a <em>mammal</em>, etc. How could you design a regularizer that takes advantage of this hierarchy?</p>
   </div>
 
@@ -1960,17 +1830,13 @@ tr.hi{background:#dbeafe}tr.good{background:#dcfce7}tr.bad{background:#fee2e2}
       <div id="kd-effect-opts" style="display:flex;flex-direction:column;gap:8px;max-width:560px"></div>
       <div id="kd-effect-hint" class="guidance-box cold" style="margin-top:10px;font-size:13px">Think about what adding a penalty term to the loss does — it encourages, not forces, behavior.</div>
     </div>
-    <div class="card" style="margin-top:18px"><div class="card-title">Reflection</div>
-      <p style="font-size:13px;color:var(--muted);margin-bottom:8px">How would you set the weights w_ij using the taxonomy? What happens when α (the regularization strength) is very large vs. very small?</p>
-      <textarea id="kd-reflection" rows="3" style="width:100%;background:var(--surf2);border:1px solid var(--border);border-radius:7px;padding:10px 14px;font-size:13px;color:var(--text);resize:vertical;outline:none;font-family:inherit" placeholder="I would set w_ij = 1/distance because... When α is large..." oninput="kdReflection=this.value"></textarea>
-    </div>
   </div>
 </div>
 
 <!-- ═══════════ 8.1 SURROGATE LOSS ═══════════ -->
-<div id="tab-surrogate" class="tab-panel">
+<div id="tab-8.1" class="tab-panel">
   <div class="prob-card">
-    <div style="margin-bottom:10px"><span class="prob-badge">Activity 8.1</span><span class="prob-title">Surrogate Loss Detective</span><span id="sl-completed" class="completed-badge">✓ Completed</span></div>
+    <div style="margin-bottom:10px"><span class="prob-badge">Activity 8.1</span><span class="prob-title">Surrogate Loss Detective</span><span id="sl-completed" class="completed-badge">✓ 8.1 Completed</span></div>
     <p class="prob-desc">You're building an object detector to locate all cats in an image. Three questions: (1) What loss do you <em>actually</em> care about? (2) Can/should you optimize it directly? (3) What surrogate loss should you use instead?</p>
     <div class="eq-block">
       <span class="eq-line">True goal:</span> detect all cats — IoU(A,B) = |A∩B| / |A∪B| ∈ [0,1]<br>
@@ -2064,9 +1930,9 @@ tr.hi{background:#dbeafe}tr.good{background:#dcfce7}tr.bad{background:#fee2e2}
 </div>
 
 <!-- ═══════════ 8.2 GRADIENT NORM ═══════════ -->
-<div id="tab-gradnorm" class="tab-panel">
+<div id="tab-8.2" class="tab-panel">
   <div class="prob-card">
-    <div style="margin-bottom:10px"><span class="prob-badge">Activity 8.2</span><span class="prob-title">Gradient Norm Stories</span><span id="gn-completed" class="completed-badge">✓ Completed</span></div>
+    <div style="margin-bottom:10px"><span class="prob-badge">Activity 8.2</span><span class="prob-title">Gradient Norm Stories</span><span id="gn-completed" class="completed-badge">✓ 8.2 Completed</span></div>
     <p class="prob-desc">What would the plot of gradient norm ‖∇J‖ vs. training steps look like for each scenario: (1) ill-conditioned Hessian, (2) local minimum, (3) saddle point, (4) cliff?</p>
     <div class="eq-block">
       <span class="eq-line">Gradient norm:</span> ‖∇J‖ = √(Σ (∂J/∂w<sub>i</sub>)²) — your "speedometer" in loss space<br>
@@ -2142,9 +2008,9 @@ tr.hi{background:#dbeafe}tr.good{background:#dcfce7}tr.bad{background:#fee2e2}
 </div>
 
 <!-- ═══════════ 8.3 MOMENTUM SGD ═══════════ -->
-<div id="tab-momentum" class="tab-panel">
+<div id="tab-8.3" class="tab-panel">
   <div class="prob-card">
-    <div style="margin-bottom:10px"><span class="prob-badge">Activity 8.3</span><span class="prob-title">Momentum Stepper</span><span id="mm-completed" class="completed-badge">✓ Completed</span></div>
+    <div style="margin-bottom:10px"><span class="prob-badge">Activity 8.3</span><span class="prob-title">Momentum Stepper</span><span id="mm-completed" class="completed-badge">✓ 8.3 Completed</span></div>
     <p class="prob-desc">SGD with momentum: <strong>v ← αv − ε∇W</strong> then <strong>W ← W + v</strong>. Given α = ε = 0.5, W = v = [0,0], gradients g₁=[0,1], g₂=[1,0], g₃=[0,1] — where do you end up <em>with</em> and <em>without</em> momentum?</p>
     <div class="eq-block">
       <span class="eq-line">With momentum:</span> v ← 0.5·v − 0.5·g &nbsp;then&nbsp; W ← W + v<br>
@@ -2280,9 +2146,9 @@ tr.hi{background:#dbeafe}tr.good{background:#dcfce7}tr.bad{background:#fee2e2}
 </div>
 
 <!-- ═══════════ TRANSFER LEARNING ═══════════ -->
-<div id="tab-transferlearn" class="tab-panel">
+<div id="tab-8.4" class="tab-panel">
   <div class="prob-card">
-    <div style="margin-bottom:10px"><span class="prob-badge">Activity 8.4</span><span id="tl-completed" class="completed-badge">✓ Completed</span></div>
+    <div style="margin-bottom:10px"><span class="prob-badge">Activity 8.4</span><span id="tl-completed" class="completed-badge">✓ 8.4 Completed</span></div>
     <h2 style="margin:0 0 8px;font-size:1.3em">Transfer Learning</h2>
     <p style="color:var(--muted);margin:0">
       You plan to train a neural network to segment images into regions corresponding to sky, trees, vehicles, etc. However, you have only a few thousand images manually annotated for such segments.
@@ -2331,9 +2197,9 @@ tr.hi{background:#dbeafe}tr.good{background:#dcfce7}tr.bad{background:#fee2e2}
 </div>
 
 <!-- ═══════════ OPTIMIZER RACE ═══════════ -->
-<div id="tab-optrace" class="tab-panel">
+<div id="tab-8.5" class="tab-panel">
   <div class="prob-card">
-    <div style="margin-bottom:10px"><span class="prob-badge">Activity 8.5</span><span id="or-completed" class="completed-badge">✓ Completed</span></div>
+    <div style="margin-bottom:10px"><span class="prob-badge">Activity 8.5</span><span id="or-completed" class="completed-badge">✓ 8.5 Completed</span></div>
     <h2 style="margin:0 0 8px;font-size:1.3em">Optimizer Race</h2>
     <p style="color:var(--muted);margin:0">Surface: f(x,y) = (x−3)² + 8(y−2)². Start: (1, 3). Minimum: (3, 2). This ill-conditioned bowl is 8× steeper in y than x — a natural stress-test for optimizers.</p>
   </div>
@@ -2392,9 +2258,9 @@ tr.hi{background:#dbeafe}tr.good{background:#dcfce7}tr.bad{background:#fee2e2}
 </div>
 
 <!-- ═══════════ BATCH NORM ═══════════ -->
-<div id="tab-batchnorm" class="tab-panel">
+<div id="tab-8.7.1" class="tab-panel">
   <div class="prob-card">
-    <div style="margin-bottom:10px"><span class="prob-badge">Activity 8.7.1</span><span id="bn-completed" class="completed-badge">✓ Completed</span></div>
+    <div style="margin-bottom:10px"><span class="prob-badge">Activity 8.7.1</span><span id="bn-completed" class="completed-badge">✓ 8.7.1 Completed</span></div>
     <h2 style="margin:0 0 8px;font-size:1.3em">Batch Normalization</h2>
     <p style="color:var(--muted);margin:0">X = [[1,0],[3,1],[2,1]], W = [[1,1],[0,3]], H = XW = [[1,1],[3,6],[2,5]]. Task 1: find W′ so μ(H′) = [3,5]. Task 2: use BN's β to hit the same target — easier?</p>
   </div>
@@ -2472,9 +2338,9 @@ tr.hi{background:#dbeafe}tr.good{background:#dcfce7}tr.bad{background:#fee2e2}
 
 
 <!-- ═══════════ 9.1 CROSS-CORRELATION ═══════════ -->
-<div id="tab-conv91" class="tab-panel">
+<div id="tab-9.1" class="tab-panel">
   <div class="prob-card">
-    <div style="margin-bottom:10px"><span class="prob-badge">Activity 9.1</span><span class="prob-title">Convolution Step-by-Step</span><span id="cv-completed" class="completed-badge">✓ Completed</span></div>
+    <div style="margin-bottom:10px"><span class="prob-badge">Activity 9.1</span><span class="prob-title">Convolution Step-by-Step</span><span id="cv-completed" class="completed-badge">✓ 9.1 Completed</span></div>
     <div id="cv-prob-eq" style="margin-bottom:16px"></div>
     <div style="display:flex;gap:28px;flex-wrap:wrap;align-items:flex-start">
       <div><div class="section-label">Input I (3×3)</div><table id="cv-I-tbl" style="border-collapse:separate;border-spacing:3px;font-family:monospace;font-size:15px"></table></div>
@@ -2550,9 +2416,9 @@ tr.hi{background:#dbeafe}tr.good{background:#dcfce7}tr.bad{background:#fee2e2}
 </div>
 
 <!-- ═══════════ 9.3 ADAPTIVE POOLING ═══════════ -->
-<div id="tab-pool93" class="tab-panel">
+<div id="tab-9.3" class="tab-panel">
   <div class="prob-card">
-    <div style="margin-bottom:10px"><span class="prob-badge">Activity 9.3</span><span class="prob-title">Pooling Size Adapter</span><span id="pl-completed" class="completed-badge">✓ Completed</span></div>
+    <div style="margin-bottom:10px"><span class="prob-badge">Activity 9.3</span><span class="prob-title">Pooling Size Adapter</span><span id="pl-completed" class="completed-badge">✓ 9.3 Completed</span></div>
     <div id="pl-prob-eq" style="margin-bottom:16px"></div>
     <p class="prob-desc"><strong>Problem:</strong> You are training a classifier on images that range from 32×32 to 7680×4320. The layers <em>after</em> pooling must have a fixed spatial size so that the same weight matrix works for every image. How do you set up pooling to achieve this?</p>
   </div>
@@ -2633,9 +2499,9 @@ tr.hi{background:#dbeafe}tr.good{background:#dcfce7}tr.bad{background:#fee2e2}
 </div>
 
 <!-- ═══════════ 9.GC.1 GCN MECHANICS ═══════════ -->
-<div id="tab-gcmech" class="tab-panel">
+<div id="tab-9.GC.1" class="tab-panel">
   <div class="prob-card">
-    <div style="margin-bottom:10px"><span class="prob-badge">Activity 9.GC.1</span><span class="prob-title">Graph Convolution Mechanics</span><span id="gm-completed" class="completed-badge">✓ Completed</span></div>
+    <div style="margin-bottom:10px"><span class="prob-badge">Activity 9.GC.1</span><span class="prob-title">Graph Convolution Mechanics</span><span id="gm-completed" class="completed-badge">✓ 9.GC.1 Completed</span></div>
     <div id="gm-prob-eq" style="margin-bottom:16px"></div>
     <p class="prob-desc">In a Graph Convolutional Network each node aggregates features from its neighbours and transforms them with a shared weight matrix W. Understanding A, h, and one message-passing step is the foundation for 9.GC.2.</p>
     <div style="text-align:right;margin-top:12px"><button class="btn btn-p" onclick="gmUnlock(1)">I understand the setup →</button></div>
@@ -2712,9 +2578,9 @@ tr.hi{background:#dbeafe}tr.good{background:#dcfce7}tr.bad{background:#fee2e2}
 </div>
 
 <!-- ═══════════ 9.GC.2 CONV vs GCN EQUIVALENCE ═══════════ -->
-<div id="tab-gceq" class="tab-panel">
+<div id="tab-9.GC.2" class="tab-panel">
   <div class="prob-card">
-    <div style="margin-bottom:10px"><span class="prob-badge">Activity 9.GC.2</span><span class="prob-title">Can Graph Conv Replace Image Conv?</span><span id="ge-completed" class="completed-badge">✓ Completed</span></div>
+    <div style="margin-bottom:10px"><span class="prob-badge">Activity 9.GC.2</span><span class="prob-title">Can Graph Conv Replace Image Conv?</span><span id="ge-completed" class="completed-badge">✓ 9.GC.2 Completed</span></div>
     <div id="ge-prob-eq" style="margin-bottom:16px"></div>
     <p class="prob-desc">You are processing images with a regular 3×3 convolution using kernel K shown below. Can you treat each pixel as a graph node and use <strong>h_i = f(W·h·A* + b)</strong> with some A and W to achieve the <em>same</em> result? If so, define them. If not, explain why not.</p>
     <div style="display:flex;gap:32px;flex-wrap:wrap;align-items:flex-start;margin-top:14px">
@@ -2808,9 +2674,9 @@ tr.hi{background:#dbeafe}tr.good{background:#dcfce7}tr.bad{background:#fee2e2}
 </div>
 
 <!-- ═══════════ 10.1.1 TEXT CNN SENTIMENT ═══════════ -->
-<div id="tab-textcnn" class="tab-panel">
+<div id="tab-10.1.1" class="tab-panel">
   <div class="prob-card">
-    <div style="margin-bottom:10px"><span class="prob-badge">Activity 10.1.1</span><span class="prob-title">Conv Window for Sentiment</span><span id="tcnn-completed" class="completed-badge">✓ Completed</span></div>
+    <div style="margin-bottom:10px"><span class="prob-badge">Activity 10.1.1</span><span class="prob-title">Conv Window for Sentiment</span><span id="tcnn-completed" class="completed-badge">✓ 10.1.1 Completed</span></div>
     <div id="tc-eq" style="margin-bottom:16px"></div>
     <p class="prob-desc">A 1-D text CNN slides a window of <strong>k</strong> consecutive words over a sentence, extracts every n-gram, scores each with a learned filter, then max-pools. Explore what k is needed to capture short-range context — and what breaks for long-range negation.</p>
     <div style="text-align:right;margin-top:12px"><button class="btn btn-p" onclick="tcUnlock(1)">Explore the window →</button></div>
@@ -2881,9 +2747,9 @@ tr.hi{background:#dbeafe}tr.good{background:#dcfce7}tr.bad{background:#fee2e2}
 </div>
 
 <!-- ═══════════ 10.1.2 RNN FORWARD PASS ═══════════ -->
-<div id="tab-rnnfwd" class="tab-panel">
+<div id="tab-10.1.2" class="tab-panel">
   <div class="prob-card">
-    <div style="margin-bottom:10px"><span class="prob-badge">Activity 10.1.2</span><span class="prob-title">RNN Forward Pass — Step by Step</span><span id="rfwd-completed" class="completed-badge">✓ Completed</span></div>
+    <div style="margin-bottom:10px"><span class="prob-badge">Activity 10.1.2</span><span class="prob-title">RNN Forward Pass — Step by Step</span><span id="rfwd-completed" class="completed-badge">✓ 10.1.2 Completed</span></div>
     <div id="rf-eq" style="margin-bottom:16px"></div>
     <p class="prob-desc">Trace two timesteps of <strong>h⁽ᵗ⁾ = ReLU(W₁h⁽ᵗ⁻¹⁾ + W₂x⁽ᵗ⁾)</strong> with given matrices. Fill in each intermediate value — earlier results unlock later boxes.</p>
     <div style="text-align:right;margin-top:12px"><button class="btn btn-p" onclick="rfUnlock(1)">Start computing →</button></div>
@@ -2977,9 +2843,9 @@ tr.hi{background:#dbeafe}tr.good{background:#dcfce7}tr.bad{background:#fee2e2}
 </div>
 
 <!-- ═══════════ 10.2.1 RNN DESIGNER ═══════════ -->
-<div id="tab-rnndesign" class="tab-panel">
+<div id="tab-10.2.1" class="tab-panel">
   <div class="prob-card">
-    <div style="margin-bottom:10px"><span class="prob-badge">Activity 10.2.1</span><span class="prob-title">Word-to-Sequence RNN — Design It</span><span id="rdes-completed" class="completed-badge">✓ Completed</span></div>
+    <div style="margin-bottom:10px"><span class="prob-badge">Activity 10.2.1</span><span class="prob-title">Word-to-Sequence RNN — Design It</span><span id="rdes-completed" class="completed-badge">✓ 10.2.1 Completed</span></div>
     <div id="rd-eq" style="margin-bottom:16px"></div>
     <p class="prob-desc">Build an RNN that takes a <strong>single word</strong> as input and outputs a <strong>variable-length word sequence</strong>. Work through five design choices — encoding, initialisation, recurrence, output, and stopping — to assemble the complete architecture.</p>
     <div style="text-align:right;margin-top:12px"><button class="btn btn-p" onclick="rdUnlock(1)">Begin designing →</button></div>
@@ -3047,9 +2913,9 @@ tr.hi{background:#dbeafe}tr.good{background:#dcfce7}tr.bad{background:#fee2e2}
 </div>
 
 <!-- ═══════════ 10.2.2 RNN TANH SATURATION ═══════════ -->
-<div id="tab-rnntanh" class="tab-panel">
+<div id="tab-10.2.2" class="tab-panel">
   <div class="prob-card">
-    <div style="margin-bottom:10px"><span class="prob-badge">Activity 10.2.2</span><span class="prob-title">Tanh Saturation &amp; Vanishing Gradients</span><span id="rtnh-completed" class="completed-badge">✓ Completed</span></div>
+    <div style="margin-bottom:10px"><span class="prob-badge">Activity 10.2.2</span><span class="prob-title">Tanh Saturation &amp; Vanishing Gradients</span><span id="rtnh-completed" class="completed-badge">✓ 10.2.2 Completed</span></div>
     <div id="rn-eq" style="margin-bottom:16px"></div>
     <p class="prob-desc">Explore how tanh saturation causes gradients to vanish when back-propagated through time (BPTT), identify where the risk is greatest, and evaluate proposed fixes.</p>
     <div style="text-align:right;margin-top:12px"><button class="btn btn-p" onclick="rnUnlock(1)">Explore tanh →</button></div>
@@ -3144,9 +3010,9 @@ tr.hi{background:#dbeafe}tr.good{background:#dcfce7}tr.bad{background:#fee2e2}
 </div>
 
 <!-- ═══════════ 10.3 BI-DIRECTIONAL RNN ═══════════ -->
-<div id="tab-birnn" class="tab-panel">
+<div id="tab-10.3" class="tab-panel">
   <div class="prob-card">
-    <div style="margin-bottom:10px"><span class="prob-badge">Activity 10.3</span><span class="prob-title">Bi-Directional RNN — Deriving the Equations</span><span id="birnn-completed" class="completed-badge">✓ Completed</span></div>
+    <div style="margin-bottom:10px"><span class="prob-badge">Activity 10.3</span><span class="prob-title">Bi-Directional RNN — Deriving the Equations</span><span id="birnn-completed" class="completed-badge">✓ 10.3 Completed</span></div>
     <div id="br-eq" style="margin-bottom:16px"></div>
     <p class="prob-desc">A BiRNN runs two independent RNNs over the same sequence: one left→right (forward, subscript <em>f</em>) and one right→left (backward, subscript <em>b</em>). Both hidden states are combined to produce each output. Work through the diagram to derive every equation.</p>
     <div style="text-align:right;margin-top:12px"><button class="btn btn-p" onclick="brUnlock(1)">Explore the diagram →</button></div>
@@ -3258,9 +3124,9 @@ tr.hi{background:#dbeafe}tr.good{background:#dcfce7}tr.bad{background:#fee2e2}
 </div>
 
 <!-- ═══════════ 10.4 NER AS SEQ2SEQ ═══════════ -->
-<div id="tab-nerseq" class="tab-panel">
+<div id="tab-10.4" class="tab-panel">
   <div class="prob-card">
-    <div style="margin-bottom:10px"><span class="prob-badge">Activity 10.4</span><span class="prob-title">Named Entity Recognition — Token Class vs. Seq2Seq</span><span id="nerseq-completed" class="completed-badge">✓ Completed</span></div>
+    <div style="margin-bottom:10px"><span class="prob-badge">Activity 10.4</span><span class="prob-title">Named Entity Recognition — Token Class vs. Seq2Seq</span><span id="nerseq-completed" class="completed-badge">✓ 10.4 Completed</span></div>
     <div id="ns-eq" style="margin-bottom:16px"></div>
     <p class="prob-desc">NER is traditionally a <em>token classification</em> task: each input token gets one label. Explore how the same problem can be re-framed as a <em>sequence-to-sequence</em> task — and what that framing gains.</p>
     <div style="text-align:right;margin-top:12px"><button class="btn btn-p" onclick="nsUnlock(1)">Explore token classification →</button></div>
@@ -3331,9 +3197,9 @@ tr.hi{background:#dbeafe}tr.good{background:#dcfce7}tr.bad{background:#fee2e2}
 </div>
 
 <!-- ═══════════ 10.6 RECURSIVE NNs ═══════════ -->
-<div id="tab-recnets" class="tab-panel">
+<div id="tab-10.6" class="tab-panel">
   <div class="prob-card">
-    <div style="margin-bottom:10px"><span class="prob-badge">Activity 10.6</span><span class="prob-title">Recursive Neural Networks — Beyond Language</span><span id="recnets-completed" class="completed-badge">✓ Completed</span></div>
+    <div style="margin-bottom:10px"><span class="prob-badge">Activity 10.6</span><span class="prob-title">Recursive Neural Networks — Beyond Language</span><span id="recnets-completed" class="completed-badge">✓ 10.6 Completed</span></div>
     <div id="rc-eq" style="margin-bottom:16px"></div>
     <p class="prob-desc">Recursive NNs process <strong>tree-structured</strong> inputs by composing representations bottom-up. They are common in NLP (parse trees), but the structure requirement is the key: any domain with natural hierarchies could in principle use them.</p>
     <div style="text-align:right;margin-top:12px"><button class="btn btn-p" onclick="rcUnlock(1)">See the structure →</button></div>
@@ -3400,9 +3266,9 @@ tr.hi{background:#dbeafe}tr.good{background:#dcfce7}tr.bad{background:#fee2e2}
 </div>
 
 <!-- ═══════════ 10.7 LINEAR RNN STABILITY ═══════════ -->
-<div id="tab-linrnn" class="tab-panel">
+<div id="tab-10.7" class="tab-panel">
   <div class="prob-card">
-    <div style="margin-bottom:10px"><span class="prob-badge">Activity 10.7</span><span class="prob-title">Linear RNN Stability — Unrolling &amp; Memory Decay</span><span id="linrnn-completed" class="completed-badge">✓ Completed</span></div>
+    <div style="margin-bottom:10px"><span class="prob-badge">Activity 10.7</span><span class="prob-title">Linear RNN Stability — Unrolling &amp; Memory Decay</span><span id="linrnn-completed" class="completed-badge">✓ 10.7 Completed</span></div>
     <div id="lr7-eq" style="margin-bottom:16px"></div>
     <p class="prob-desc">Consider a 1-unit linear RNN: <strong>h⁽ᵗ⁾ = wh⁽ᵗ⁻¹⁾ + ux⁽ᵗ⁾</strong> with h⁽⁰⁾ = 0. Unroll the recurrence into closed form, then explore how the weight <em>w</em> (not <em>u</em>) determines whether past inputs are remembered or forgotten.</p>
     <div style="text-align:right;margin-top:12px"><button class="btn btn-p" onclick="lrUnlock(1)">Start unrolling →</button></div>
@@ -3499,9 +3365,9 @@ tr.hi{background:#dbeafe}tr.good{background:#dcfce7}tr.bad{background:#fee2e2}
 
 
 <!-- ═══════════ 10.10 GRU vs LSTM ═══════════ -->
-<div id="tab-grucomp" class="tab-panel">
+<div id="tab-10.10" class="tab-panel">
   <div class="prob-card">
-    <div style="margin-bottom:10px"><span class="prob-badge">Activity 10.10</span><span class="prob-title">GRU vs LSTM — Architecture Search Space</span><span id="grucomp-completed" class="completed-badge">✓ Completed</span></div>
+    <div style="margin-bottom:10px"><span class="prob-badge">Activity 10.10</span><span class="prob-title">GRU vs LSTM — Architecture Search Space</span><span id="grucomp-completed" class="completed-badge">✓ 10.10 Completed</span></div>
     <p class="prob-desc">Both GRU and LSTM gate memory — but through different equations. Identify each architectural "dimension" separating them, then explore the 2⁴ variant space.</p>
   </div>
   <div id="gg-s1" class="card" style="margin-top:12px">
@@ -3592,9 +3458,9 @@ tr.hi{background:#dbeafe}tr.good{background:#dcfce7}tr.bad{background:#fee2e2}
 </div>
 
 <!-- ═══════════ 10.TF TRANSFORMER PE ═══════════ -->
-<div id="tab-trfpos" class="tab-panel">
+<div id="tab-10.TF" class="tab-panel">
   <div class="prob-card">
-    <div style="margin-bottom:10px"><span class="prob-badge">Activity 10.TF</span><span class="prob-title">Transformer Positional Encoding — Beyond Sinusoids</span><span id="trfpos-completed" class="completed-badge">✓ Completed</span></div>
+    <div style="margin-bottom:10px"><span class="prob-badge">Activity 10.TF</span><span class="prob-title">Transformer Positional Encoding — Beyond Sinusoids</span><span id="trfpos-completed" class="completed-badge">✓ 10.TF Completed</span></div>
     <p class="prob-desc">The transformer computes attention with no sense of order. Explore why sinusoidal PE works, then evaluate four alternative strategies for making transformers position-aware.</p>
   </div>
   <div id="tp-s1" class="card" style="margin-top:12px">
@@ -3668,9 +3534,9 @@ tr.hi{background:#dbeafe}tr.good{background:#dcfce7}tr.bad{background:#fee2e2}
 </div>
 
 <!-- ═══════════ 11.1 CANCER NLP ═══════════ -->
-<div id="tab-cancernlp" class="tab-panel">
+<div id="tab-11.1" class="tab-panel">
   <div class="prob-card">
-    <div style="margin-bottom:10px"><span class="prob-badge">Activity 11.1</span><span class="prob-title">Cancer Registrar NLP — Metrics for High-Stakes Classification</span><span id="cancernlp-completed" class="completed-badge">✓ Completed</span></div>
+    <div style="margin-bottom:10px"><span class="prob-badge">Activity 11.1</span><span class="prob-title">Cancer Registrar NLP — Metrics for High-Stakes Classification</span><span id="cancernlp-completed" class="completed-badge">✓ 11.1 Completed</span></div>
     <p class="prob-desc">You are designing an NLP model to flag hospital notes for cancer registrars. The goal is to speed up their work — not replace them. Choose the right task framing, metric, and performance target.</p>
   </div>
   <div id="cn-s1" class="card" style="margin-top:12px">
@@ -3741,9 +3607,9 @@ tr.hi{background:#dbeafe}tr.good{background:#dcfce7}tr.bad{background:#fee2e2}
 </div>
 
 <!-- ═══════════ 11.3 LEARNING CURVES ═══════════ -->
-<div id="tab-learncurve" class="tab-panel">
+<div id="tab-11.3" class="tab-panel">
   <div class="prob-card">
-    <div style="margin-bottom:10px"><span class="prob-badge">Activity 11.3</span><span class="prob-title">Learning Curve Diagnosis — High Bias vs. High Variance</span><span id="learncurve-completed" class="completed-badge">✓ Completed</span></div>
+    <div style="margin-bottom:10px"><span class="prob-badge">Activity 11.3</span><span class="prob-title">Learning Curve Diagnosis — High Bias vs. High Variance</span><span id="learncurve-completed" class="completed-badge">✓ 11.3 Completed</span></div>
     <p class="prob-desc">Learning curves reveal whether a model is underfitting, overfitting, or needs more data. Diagnose two tasks and prescribe the correct fix for each.</p>
   </div>
   <div id="lc-s1" class="card" style="margin-top:12px">
@@ -3814,12 +3680,12 @@ tr.hi{background:#dbeafe}tr.good{background:#dcfce7}tr.bad{background:#fee2e2}
 
 
 <!-- ═══════════ 11.4 HYPERBAND ═══════════ -->
-<div id="tab-hypband" class="tab-panel">
+<div id="tab-11.4" class="tab-panel">
   <div class="prob-card">
     <div style="margin-bottom:10px">
       <span class="prob-badge">Activity 11.4</span>
       <span class="prob-title">Hyperband — How Many Configs?</span>
-      <span id="hypband-completed" class="completed-badge">✓ Completed</span>
+      <span id="hypband-completed" class="completed-badge">✓ 11.4 Completed</span>
     </div>
     <p class="prob-desc">Hyperband adapts successive halving into multiple <em>brackets</em>, each with a different explore/exploit tradeoff. When <code>max_iter=1000</code> and <code>eta=10</code>, trace through the code to count exactly how many times <code>random_hyperparameters()</code> is called.</p>
   </div>
@@ -3884,12 +3750,12 @@ tr.hi{background:#dbeafe}tr.good{background:#dcfce7}tr.bad{background:#fee2e2}
 </div>
 
 <!-- ═══════════ 11.LS LIME FOR EEG ═══════════ -->
-<div id="tab-limeeeg" class="tab-panel">
+<div id="tab-11.LS" class="tab-panel">
   <div class="prob-card">
     <div style="margin-bottom:10px">
       <span class="prob-badge">Activity 11.LS</span>
       <span class="prob-title">LIME for EEG Seizure Detection</span>
-      <span id="limeeeg-completed" class="completed-badge">✓ Completed</span>
+      <span id="limeeeg-completed" class="completed-badge">✓ 11.LS Completed</span>
     </div>
     <p class="prob-desc">LIME explains any black-box model by fitting a local linear approximation around an instance. You are applying LIME to a neural network that classifies EEG recordings as seizure or non-seizure. What is an <em>instance</em>, and how do you define its <em>neighborhood</em>?</p>
   </div>
@@ -3949,12 +3815,12 @@ tr.hi{background:#dbeafe}tr.good{background:#dcfce7}tr.bad{background:#fee2e2}
 </div>
 
 <!-- ═══════════ 11.GA GRADIENT ATTRIBUTION ═══════════ -->
-<div id="tab-gradattr" class="tab-panel">
+<div id="tab-11.GA" class="tab-panel">
   <div class="prob-card">
     <div style="margin-bottom:10px">
       <span class="prob-badge">Activity 11.GA</span>
       <span class="prob-title">Gradient Attribution vs. LIME vs. SHAP</span>
-      <span id="gradattr-completed" class="completed-badge">✓ Completed</span>
+      <span id="gradattr-completed" class="completed-badge">✓ 11.GA Completed</span>
     </div>
     <p class="prob-desc">Three interpretability methods — saliency (gradient attribution), LIME, and SHAP — can give different explanations for the same prediction. Explore when and why they disagree, find "right prediction for wrong reason" cases, and decide when to trust an explanation.</p>
   </div>
@@ -4026,11 +3892,14 @@ const log2    = x => Math.log(Math.max(1e-10, x)) / Math.LN2
 const fmt     = (v, d=2) => (v >= 0 ? '+' : '') + v.toFixed(d)
 
 function showTab(id) {
+  const panel = $('tab-' + id)
+  if (!panel) return
   document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'))
   document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'))
-  $('tab-' + id).classList.add('active')
+  panel.classList.add('active')
   const btn = document.querySelector(`.tab-btn[data-tab="${id}"]`)
   if (btn) btn.classList.add('active')
+  if (window.location.hash.slice(1) !== id) window.location.hash = id
 }
 
 function makeSlider(container, id, label, value, min, max, step, onchange, extraClass='') {
@@ -4139,8 +4008,8 @@ function initNeuron() {
       <div style="padding:16px 20px;text-align:center">
         <div style="color:#16a34a">$$o_j = \\text{ReLU}(a_j) = \\max(0,\\; a_j)$$</div>
         <div style="font-size:13px;color:var(--muted);margin-top:6px;line-height:1.8;font-weight:500">
-          If aⱼ is <strong style="color:var(--text)">negative → oⱼ = 0</strong> (neuron is silent).
-          If aⱼ is <strong style="color:var(--text)">zero or positive → oⱼ = aⱼ</strong> (neuron fires).
+          If aⱼ is <strong style="color:var(--text)">zero or negative → oⱼ = 0</strong> (neuron is silent).
+          If aⱼ is <strong style="color:var(--text)">positive → oⱼ = aⱼ</strong> (neuron fires).
         </div>
       </div>
 
@@ -4285,7 +4154,7 @@ function renderNeuronGuidance(a_j, o_j) {
   if (absDiff < 0.001) {
     cls = 'done'
     msg = `<strong>🎯 Correct!</strong> aⱼ = ${a_j.toFixed(4)} and oⱼ = ${o_j.toFixed(4)}.<br>
-      The neuron is active and your weights match the Activity 1 target.`
+      The neuron is active and your weights match the Activity target.`
   } else if (absDiff < 0.1) {
     const hint = diff > 0
       ? 'Try nudging w₁, w₂, or w₅ up slightly (their inputs are +1).'
@@ -4661,13 +4530,13 @@ function baElapsed() {
 }
 
 function baUpdateSubmitSummary() {
-  const el=$('ba-submit-summary'); if(!el) return
+  const el=$('ba-submit-summary')
   const xOk=baXcol.every(v=>v===1)
   const wOk=baWrow[0]===BA_C[0]&&baWrow[1]===BA_C[1]
   const XnWn=baXnewWnew(), Y=baY()
   const Yn=XnWn?XnWn.map(r=>r.map(v=>Math.max(0,v))):null
   const allMatch=Yn?Y.every((row,ri)=>row.every((v,ci)=>Math.abs(v-Yn[ri][ci])<1e-9)):false
-  el.innerHTML=`
+  if(el) el.innerHTML=`
     <p><strong>X_new extra column:</strong> [${baXcol.map(v=>v!==null?v:'?').join(', ')}] ${xOk?'<span style="color:var(--green)">✓</span>':''}</p>
     <p><strong>W_new bias row:</strong> [${baWrow.map(v=>v!==null?v:'?').join(', ')}] ${wOk?'<span style="color:var(--green)">✓</span>':''}</p>
     <p style="margin-top:4px">Stage reached: <strong>${baStage}/6</strong> &nbsp;·&nbsp; Time: <strong>${baElapsed()}</strong></p>
@@ -4813,8 +4682,8 @@ function ceUpdateSteps(){
 }
 
 function ceUpdateSubmitSummary(){
-  const el=$('ce-submit-summary');if(!el)return
-  el.innerHTML=`
+  const el=$('ce-submit-summary')
+  if(el) el.innerHTML=`
     <p><strong>log₂(P):</strong> ${ceLogPOk?'<span style="color:#16a34a">✓ correct</span>':'<span style="color:#5c4a3a;font-weight:600">not yet</span>'}</p>
     <p><strong>Y⊙log₂(P):</strong> ${ceYlogPOk?'<span style="color:#16a34a">✓ correct</span>':'<span style="color:#5c4a3a;font-weight:600">not yet</span>'}</p>
     <p><strong>J(W):</strong> ${ceJWOk?`<span style="color:#16a34a">✓ (${ceJW[0].toFixed(2)}, ${ceJW[1].toFixed(2)})</span>`:'<span style="color:#5c4a3a;font-weight:600">not yet</span>'}</p>
@@ -4831,6 +4700,15 @@ function updateBadge(id, done) {
   if (el) el.style.display = done ? 'inline-block' : 'none'
   const banner = $(id.replace('-completed', '-done'))
   if (banner) banner.style.display = done ? 'block' : 'none'
+  if (done) { try { sessionStorage.setItem('done_' + id, '1') } catch(e) {} }
+}
+
+function restoreBadges() {
+  try {
+    document.querySelectorAll('.completed-badge').forEach(el => {
+      if (sessionStorage.getItem('done_' + el.id) === '1') updateBadge(el.id, true)
+    })
+  } catch(e) {}
 }
 
 function isComplete(module) {
@@ -4838,14 +4716,14 @@ function isComplete(module) {
     if (module === 'neuron') { const a = nX.reduce((s,x,i)=>s+x*nW[i],0); return Math.abs(a - TARGET_A) < 0.001 }
     if (module === 'bias') { const XnWn=baXnewWnew(),Y=baY(); const Yn=XnWn?XnWn.map(r=>r.map(v=>Math.max(0,v))):null; return Yn?Y.every((row,ri)=>row.every((v,ci)=>Math.abs(v-Yn[ri][ci])<1e-9)):false }
     if (module === 'ce') return ceJWOk
-    if (module === 'a422') return a4Explored && a4QuizDone
+    if (module === 'a422') return a4ScDone.every(Boolean)
     if (module === 'a423') return a4QuizDone
     if (module === 'maxout') return mxVerifyCount() === MX_TEST_X.length
     if (module === 'regions') return lrCountCorrectSteps() === 5
     if (module === 'compgraph') return cgCountClassifyCorrect() === 8 && Object.values(cgWired).filter(Boolean).length === 4
     if (module === 'backprop') return bpCountCorrect() === 6 && !!bpMcqCorrect
     if (module === 'regrace') return rrCountOk() === 16 && rrNoreg === true && rrL1mcq === true && rrL2mcq === true
-    if (module === 'earlystop') return esStopMcq === true
+    if (module === 'earlystop') return esStopMcq === true && esEpochOk === true
     if (module === 'dropout') return Object.values(dpMcq).filter(v=>v===true).length === 3 && dpBestMcq === true
     if (module === 'taxonomy') return kdAllDistsOk() && Object.values(kdMcq).filter(v=>v===true).length === 4
     if (module === 'surrogate') return slFillsOk && Object.values(slMcq).filter(v=>v===true).length === 4
@@ -5070,18 +4948,18 @@ async function submitWork(module) {
 // ══════════════════════════════════════════════════
 function initDoneBanners() {
   const pairs = [
-    ['tab-neuron','n'],['tab-bias','ba'],['tab-ce','ce'],
-    ['tab-a422','a422'],['tab-a423','a423'],['tab-maxout','mx'],
-    ['tab-regions','lr'],['tab-compgraph','cg'],['tab-backprop','bp'],
-    ['tab-regrace','rr'],['tab-earlystop','es'],['tab-dropout','dp'],
-    ['tab-taxonomy','kd'],['tab-surrogate','sl'],['tab-gradnorm','gn'],
-    ['tab-momentum','mm'],['tab-transferlearn','tl'],['tab-optrace','or'],
-    ['tab-batchnorm','bn'],['tab-conv91','cv'],['tab-pool93','pl'],
-    ['tab-gcmech','gm'],['tab-gceq','ge'],
-    ['tab-textcnn','tcnn'],['tab-rnnfwd','rfwd'],['tab-rnndesign','rdes'],['tab-rnntanh','rtnh'],
-    ['tab-birnn','birnn'],['tab-nerseq','nerseq'],['tab-recnets','recnets'],['tab-linrnn','linrnn'],
-    ['tab-grucomp','grucomp'],['tab-trfpos','trfpos'],['tab-cancernlp','cancernlp'],['tab-learncurve','learncurve'],
-    ['tab-hypband','hypband'],['tab-limeeeg','limeeeg'],['tab-gradattr','gradattr']
+    ['tab-0.0','n'],['tab-6.1','ba'],['tab-6.2.1','ce'],
+    ['tab-6.2.2','a422'],['tab-6.2.3','a423'],['tab-6.3','mx'],
+    ['tab-6.4','lr'],['tab-6.5.1','cg'],['tab-6.5.2','bp'],
+    ['tab-7.1','rr'],['tab-7.8','es'],['tab-7.12','dp'],
+    ['tab-7.KD','kd'],['tab-8.1','sl'],['tab-8.2','gn'],
+    ['tab-8.3','mm'],['tab-8.4','tl'],['tab-8.5','or'],
+    ['tab-8.7.1','bn'],['tab-9.1','cv'],['tab-9.3','pl'],
+    ['tab-9.GC.1','gm'],['tab-9.GC.2','ge'],
+    ['tab-10.1.1','tcnn'],['tab-10.1.2','rfwd'],['tab-10.2.1','rdes'],['tab-10.2.2','rtnh'],
+    ['tab-10.3','birnn'],['tab-10.4','nerseq'],['tab-10.6','recnets'],['tab-10.7','linrnn'],
+    ['tab-10.10','grucomp'],['tab-10.TF','trfpos'],['tab-11.1','cancernlp'],['tab-11.3','learncurve'],
+    ['tab-11.4','hypband'],['tab-11.LS','limeeeg'],['tab-11.GA','gradattr']
   ]
   for (const [tabId, prefix] of pairs) {
     const tab = $(tabId)
@@ -5133,6 +5011,15 @@ document.addEventListener('DOMContentLoaded', () => {
   initHyperband()
   initLIMEEEG()
   initGradAttr()
+
+  restoreBadges()
+  const startTab = window.location.hash.slice(1)
+  if (startTab && $('tab-' + startTab)) showTab(startTab)
+})
+
+window.addEventListener('hashchange', () => {
+  const id = window.location.hash.slice(1)
+  if (id && $('tab-' + id)) showTab(id)
 })
 
 // ══════════════════════════════════════════════════
@@ -5164,6 +5051,13 @@ function a4SnapScenario(y, z) {
   $('a4-y0-btn').className = y===0 ? 'btn btn-p' : 'btn btn-g'
   $('a4-y1-btn').className = y===1 ? 'btn btn-s' : 'btn btn-g'
   a4Z=z; $('a4-z-slider').value=z; $('a4-z-val').textContent=z.toFixed(1)
+
+  // Mark scenarios — only ever triggered by an explicit click on a case card, never by the z slider
+  if(y===0&&z<-0.5&&!a4ScDone[0]){a4ScDone[0]=true;a4MarkScenario(0)}
+  if(y===0&&z>0.5 &&!a4ScDone[1]){a4ScDone[1]=true;a4MarkScenario(1)}
+  if(y===1&&z<-0.5&&!a4ScDone[2]){a4ScDone[2]=true;a4MarkScenario(2)}
+  if(y===1&&z>0.5 &&!a4ScDone[3]){a4ScDone[3]=true;a4MarkScenario(3)}
+
   a4Refresh()
 }
 
@@ -5182,12 +5076,6 @@ function a4Refresh() {
   $('a4-exp-sig2').textContent=sig.toFixed(5)
   const costEl=$('a4-cost-big'), col=cost<0.5?'#15803d':cost<2?'#c2610c':'#b91c1c'
   costEl.textContent=cost.toFixed(5); costEl.style.color=col
-
-  // Mark scenarios
-  if(y===0&&z<-0.5&&!a4ScDone[0]){a4ScDone[0]=true;a4MarkScenario(0)}
-  if(y===0&&z>0.5 &&!a4ScDone[1]){a4ScDone[1]=true;a4MarkScenario(1)}
-  if(y===1&&z<-0.5&&!a4ScDone[2]){a4ScDone[2]=true;a4MarkScenario(2)}
-  if(y===1&&z>0.5 &&!a4ScDone[3]){a4ScDone[3]=true;a4MarkScenario(3)}
 
   a4DrawPlot(y,z,cost)
   a4UpdatePlotLabel(y,z,cost)
@@ -5220,7 +5108,7 @@ function a4CheckScenariosAll() {
     guide.innerHTML='<strong>✓ All four cases explored!</strong> The (1−2y) term flips the sign so the same formula correctly penalises errors for both y=0 and y=1.'
   } else {
     guide.className='guidance-box cold'
-    guide.innerHTML=`${done}/4 cases explored. Click a scenario or drag the z slider to explore.`
+    guide.innerHTML=`${done}/4 cases explored. Click each scenario below to mark it explored.`
   }
 }
 
@@ -5284,7 +5172,7 @@ function a4DrawPlot(activeY, z, cost) {
 //  ACTIVITY 4 — PART 2: n Sigmoid vs Softmax
 // ══════════════════════════════════════════════════
 let a4Scores=[2,-1,0.5]
-const a4Labels=['a₁','a₂','a₃']
+const a4Labels=['a<sub>1</sub>','a<sub>2</sub>','a<sub>3</sub>']
 const a4Colors=['#1d4ed8','#c2610c','#6d28d9']
 
 function a4Preset(vals) {
@@ -5332,13 +5220,13 @@ function a4BarHTML(label,val,color,formula) {
   const pct=(val*100).toFixed(1)
   return `<div>
     <div class="a4-bar-row">
-      <div class="a4-bar-label" style="color:${color}">${label}</div>
+      <div class="a4-bar-label" style="color:${color};font-size:17px;width:38px">${label}</div>
       <div class="a4-bar-track">
         <div class="a4-bar-fill" style="width:${pct}%;background:${color}25;border-right:3px solid ${color}"></div>
       </div>
       <span class="a4-bar-val" style="color:${color}">${val.toFixed(4)}</span>
     </div>
-    <div style="font-family:'Courier New',monospace;font-size:12px;color:var(--muted);padding-left:40px;margin-top:2px">${formula}</div>
+    <div style="font-family:'Courier New',monospace;font-size:13px;color:var(--muted);padding-left:40px;margin-top:2px">${formula}</div>
   </div>`
 }
 
@@ -5370,7 +5258,7 @@ function a4UpdateComparison() {
   const smxC=$('a4-smx-bars')
   const Z=a4Scores.map(a=>Math.exp(Math.min(a,50))).reduce((s,e)=>s+e,0)
   if(smxC) smxC.innerHTML=smxs.map((v,i)=>a4BarHTML(
-    a4Labels[i], v, a4Colors[i], `= e^${a4Scores[i].toFixed(2)} / ${Z.toFixed(2)}`
+    a4Labels[i], v, a4Colors[i], `= e<sup>${a4Scores[i].toFixed(2)}</sup> / ${Z.toFixed(2)}`
   )).join('')
 
   // Key difference panel
@@ -5378,20 +5266,20 @@ function a4UpdateComparison() {
   if(dp) dp.innerHTML=`
     <div>
       <div style="font-size:12px;font-weight:800;color:#1d4ed8;text-transform:uppercase;letter-spacing:.07em;margin-bottom:10px">Sigmoid — Independent</div>
-      <div style="font-size:13px;color:var(--muted);font-weight:500;line-height:2">
-        Changing <strong style="color:${a4Colors[0]}">a₁</strong> only changes <strong style="color:${a4Colors[0]}">p₁</strong>.<br>
-        p₂ = σ(a₂) = <strong style="color:${a4Colors[1]}">${sigs[1].toFixed(4)}</strong> — unaffected by a₁.<br>
-        p₃ = σ(a₃) = <strong style="color:${a4Colors[2]}">${sigs[2].toFixed(4)}</strong> — unaffected by a₁.<br>
-        <span style="color:#c2610c;font-weight:600">Σ pₖ = ${sigSum.toFixed(4)} — no constraint on sum.</span>
+      <div style="font-size:14px;color:var(--muted);font-weight:500;line-height:2">
+        Changing <strong style="color:${a4Colors[0]}">a<sub>1</sub></strong> only changes <strong style="color:${a4Colors[0]}">p<sub>1</sub></strong>.<br>
+        p<sub>2</sub> = σ(a<sub>2</sub>) = <strong style="color:${a4Colors[1]}">${sigs[1].toFixed(4)}</strong> — unaffected by a<sub>1</sub>.<br>
+        p<sub>3</sub> = σ(a<sub>3</sub>) = <strong style="color:${a4Colors[2]}">${sigs[2].toFixed(4)}</strong> — unaffected by a<sub>1</sub>.<br>
+        <span style="color:#c2610c;font-weight:600">Σ p<sub>k</sub> = ${sigSum.toFixed(4)} — no constraint on sum.</span>
       </div>
     </div>
     <div>
       <div style="font-size:12px;font-weight:800;color:#15803d;text-transform:uppercase;letter-spacing:.07em;margin-bottom:10px">Softmax — Competitive</div>
-      <div style="font-size:13px;color:var(--muted);font-weight:500;line-height:2">
-        Boosting <strong style="color:${a4Colors[0]}">a₁</strong> forces p₂ and p₃ to shrink.<br>
+      <div style="font-size:14px;color:var(--muted);font-weight:500;line-height:2">
+        Boosting <strong style="color:${a4Colors[0]}">a<sub>1</sub></strong> forces p<sub>2</sub> and p<sub>3</sub> to shrink.<br>
         All three share a common normaliser Z = ${Z.toFixed(3)}.<br>
-        p₁ = ${smxs[0].toFixed(4)}, p₂ = ${smxs[1].toFixed(4)}, p₃ = ${smxs[2].toFixed(4)}.<br>
-        <span style="color:#15803d;font-weight:600">Σ pₖ = 1.000 — always. ✓</span>
+        p<sub>1</sub> = ${smxs[0].toFixed(4)}, p<sub>2</sub> = ${smxs[1].toFixed(4)}, p<sub>3</sub> = ${smxs[2].toFixed(4)}.<br>
+        <span style="color:#15803d;font-weight:600">Σ p<sub>k</sub> = 1.000 — always. ✓</span>
       </div>
     </div>`
 
@@ -5909,12 +5797,9 @@ function lrUpdateStepsBadge(){
     g.className='guidance-box done'
     g.innerHTML=`<strong>✓ O(${lrN}, ${lrL}) = ${lrTargetE()}.</strong> Notice Step A and Step D both equal n — that's because with d=1, C(n,1)=n and n¹=n are the same number. The whole formula collapses to <strong>O = n^l</strong> whenever d=1.`
     lrRecordHistory()
-  } else if(n>0){
+  } else {
     g.className='guidance-box warm'
     g.innerHTML=`<strong>Hint:</strong> with d=1 locked, C(n,d)=C(${lrN},1)=${lrN} and n^d=${lrN}^1=${lrN} — both just equal n. Work through each step in order.`
-  } else {
-    g.className='guidance-box cold'
-    g.innerHTML='Fill in Step A to begin.'
   }
   lrUpdateOverallGuidance()
   lrRenderSubmitSummary()
@@ -6101,7 +5986,7 @@ const CG_POS = {
   z:   {x:270, y:55},
   r:   {x:270, y:255},
   n:   {x:410, y:155},
-  y:   {x:520, y:155}
+  y:   {x:520, y:105}
 }
 
 const CG_NODE_WHICH = {
@@ -6264,9 +6149,9 @@ function cgReflectInput(val){
 }
 
 function cgUpdateSubmitSummary(){
-  const el=$('cg-submit-summary'); if(!el) return
+  const el=$('cg-submit-summary')
   const c=cgCountClassifyCorrect(), w=Object.values(cgWired).filter(Boolean).length
-  el.innerHTML=`
+  if(el) el.innerHTML=`
     <p><strong>Node classification:</strong> ${c}/8 correct ${c===8?'<span style="color:var(--green)">✓</span>':''}</p>
     <p><strong>Connections wired:</strong> ${w}/4 ${w===4?'<span style="color:var(--green)">✓</span>':''}</p>
     <p><strong>Reflection:</strong> ${cgReflect.trim().length>0?'<span style="color:var(--green)">✓ answered</span>':'<span style="color:var(--muted)">not yet</span>'}</p>
@@ -6342,7 +6227,7 @@ function cgDrawGraph(){
     <text x="80" y="338" text-anchor="middle" font-size="11" fill="var(--muted)">inputs (leaves)</text>
     <text x="270" y="290" text-anchor="middle" font-size="11" fill="var(--muted)">z, r</text>
     <text x="410" y="195" text-anchor="middle" font-size="11" fill="var(--muted)">n</text>
-    <text x="520" y="195" text-anchor="middle" font-size="11" fill="var(--muted)">output</text>
+    <text x="520" y="145" text-anchor="middle" font-size="11" fill="var(--muted)">output</text>
   `
 
   svg.innerHTML=`<rect width="${W}" height="${H}" fill="var(--surface)"/>${edgeSvg}${nodeSvg}${labels}`
@@ -6374,7 +6259,7 @@ let bpMcqCorrect = false
 
 const BP_ROWS = [
   {V:'u⁽⁶⁾', C:'—',   op:'—',               dcdv:'—',    dcdvD:'—',  G:'1',   given:true,  note:'seed: grad_table[u⁽⁶⁾]=1'},
-  {V:'u⁽⁵⁾', C:'u⁽⁶⁾',op:'|u⁽⁵⁾|',          dcdv:'−1',   dcdvD:'−1', G:'−1',  given:true,  note:'u⁽⁵⁾=−2<0 → sign=−1; D=1'},
+  {V:'u⁽⁵⁾', C:'u⁽⁶⁾',op:'|u⁽⁵⁾|',          dcdv:'−1',   dcdvD:'−1', G:'−1',  given:true,  note:'u⁽⁵⁾=−2<0 → sign=−1'},
   {V:'u⁽⁴⁾', C:'u⁽⁵⁾',op:'u⁽⁴⁾+u⁽³⁾',       dcdv:null,   dcdvD:null, G:null,  given:false, ans:{dcdv:1, dcdvD:-1, G:-1}},
   {V:'u⁽¹⁾', C:'u⁽⁴⁾',op:'u⁽¹⁾×u⁽²⁾',       dcdv:null,   dcdvD:null, G:null,  given:false, ans:{dcdv:5, dcdvD:-5, G:-5}}
 ]
@@ -6396,7 +6281,11 @@ function bpUnlock(stage){
 function bpRenderStages(){
   $('bp-stage2') && $('bp-stage2').classList[bpStage>=2?'add':'remove']('unlocked')
   $('bp-stage3') && $('bp-stage3').classList[bpStage>=3?'add':'remove']('unlocked')
-  if(bpStage>=2){ bpRenderTable(); bpDrawGraph() }
+  if(bpStage>=2){
+    const tbody=$('bp-table-body')
+    if(tbody && !tbody.children.length) bpRenderTable()
+    bpDrawGraph()
+  }
   if(bpStage>=3){ bpRenderMCQ() }
 }
 
@@ -6422,11 +6311,17 @@ function bpRenderTable(){
 
     if(row.given){
       tr.appendChild(td(row.dcdv))
+      const dTd=document.createElement('td')
+      dTd.innerHTML=`<span class="bp-cell given" id="bp-d-${ri}">${bpDCellText(ri)}</span>`
+      tr.appendChild(dTd)
       tr.appendChild(td(row.dcdvD))
       tr.appendChild(td(row.G))
     } else {
       const fieldBase=`bp-r${ri}`
       tr.appendChild(td('', true, `${fieldBase}-dcdv`))
+      const dTd=document.createElement('td')
+      dTd.innerHTML=`<span class="bp-cell" id="bp-d-${ri}">${bpDCellText(ri)}</span>`
+      tr.appendChild(dTd)
       tr.appendChild(td('', true, `${fieldBase}-dcdvD`))
       tr.appendChild(td('', true, `${fieldBase}-G`))
     }
@@ -6450,6 +6345,7 @@ function bpRenderTable(){
         const v=parseFloat(inp.value)
         bpAnswers[`${fieldBase}-${field}`]=isNaN(v)?null:v
         bpCheckCell(ri, field, inp, row.ans[field])
+        bpUpdateDColumn()
         bpUpdateChainSteps()
         bpDrawGraph()
         bpUpdateSubmitSummary()
@@ -6480,14 +6376,42 @@ function bpCountCorrect(){
   return n
 }
 
+const bpFmtNum = v => v<0 ? ('−'+Math.abs(v)) : String(v)
+
+// D for a row = G(C) — the gradient already found for its consumer, one row up.
+function bpGetRowG(V){
+  const idx=BP_ROWS.findIndex(r=>r.V===V)
+  if(idx<0) return null
+  const row=BP_ROWS[idx]
+  if(row.given){
+    const n=parseFloat(String(row.G).replace(/−/g,'-'))
+    return isNaN(n)?null:n
+  }
+  const v=bpAnswers[`bp-r${idx}-G`]
+  return (v!==undefined && v===row.ans.G) ? v : null
+}
+
+function bpDCellText(ri){
+  const row=BP_ROWS[ri]
+  if(row.C==='—') return '—'
+  const g=bpGetRowG(row.C)
+  return g===null ? '?' : bpFmtNum(g)
+}
+
+function bpUpdateDColumn(){
+  BP_ROWS.forEach((row,ri)=>{
+    const el=$(`bp-d-${ri}`)
+    if(el) el.textContent=bpDCellText(ri)
+  })
+}
+
 function bpUpdateHint(){
   const badge=$('bp-table-badge'), hint=$('bp-table-hint')
   const n=bpCountCorrect()
   if(badge){ badge.textContent=`${n}/6 correct`; badge.className=`badge ${n===6?'gg':n>0?'og':'rg'}` }
   if(hint){
     if(n===6){ hint.className='guidance-box done'; hint.innerHTML='<strong>✓ All 6 cells correct!</strong> G(u⁽¹⁾) = −5. Now interpret what this means.' }
-    else if(n>0){ hint.className='guidance-box warm'; hint.innerHTML='<strong>Hints:</strong> For addition (u⁴+u³), dC/dV = 1. For multiplication (u¹×u²), d/du¹ = u² = 5. Multiply local derivative × D (the upstream G).' }
-    else{ hint.className='guidance-box cold'; hint.innerHTML='Fill dC/dV for row 3 first. For a sum u⁽⁴⁾+u⁽³⁾, what is d(u⁽⁴⁾+u⁽³⁾)/du⁽⁴⁾?' }
+    else{ hint.className='guidance-box warm'; hint.innerHTML='<strong>Hints:</strong> For addition (u⁴+u³), dC/dV = 1. For multiplication (u¹×u²), d/du¹ = u² = 5. Multiply local derivative × D (the upstream G).' }
   }
 }
 
@@ -6600,9 +6524,9 @@ function bpAnswer(i){
 }
 
 function bpUpdateSubmitSummary(){
-  const el=$('bp-submit-summary'); if(!el) return
+  const el=$('bp-submit-summary')
   const n=bpCountCorrect()
-  el.innerHTML=`
+  if(el) el.innerHTML=`
     <p><strong>Table cells correct:</strong> ${n}/6 ${n===6?'<span style="color:var(--green)">✓</span>':''}</p>
     <p><strong>Interpretation MCQ:</strong> ${bpMcqCorrect?'<span style="color:var(--green)">✓ correct</span>':'not yet answered'}</p>
     <p><strong>Stage reached:</strong> ${bpStage}/3</p>
@@ -6738,8 +6662,8 @@ function rrCountOk(){
           'rr-o1a','rr-o1b','rr-jl1a','rr-jl1b','rr-o2a','rr-o2b','rr-jl2a','rr-jl2b'].filter(id=>$(id)&&$(id).classList.contains('ok')).length
 }
 function rrUpdateSubmitSummary(){
-  const el=$('rr-submit-summary'); if(!el) return
-  el.innerHTML=`<p><strong>Cells correct:</strong> ${rrCountOk()}/16</p>
+  const el=$('rr-submit-summary')
+  if(el) el.innerHTML=`<p><strong>Cells correct:</strong> ${rrCountOk()}/16</p>
     <p><strong>No-reg MCQ:</strong> ${rrNoreg===true?'<span style="color:var(--green)">✓</span>':'not yet'}</p>
     <p><strong>L1 MCQ:</strong> ${rrL1mcq===true?'<span style="color:var(--green)">✓</span>':'not yet'}</p>
     <p><strong>L2 MCQ:</strong> ${rrL2mcq===true?'<span style="color:var(--green)">✓</span>':'not yet'}</p>`
@@ -6772,7 +6696,7 @@ function initRegRace(){
 //  ACTIVITY 7.8 — EARLY STOPPING
 // ══════════════════════════════════════════════════
 let esStage=0, esTrain=70, esVal=20, esEpoch=50
-let esStopMcq=null, esWhyMcq=null
+let esStopMcq=null, esWhyMcq=null, esEpochOk=false
 
 const ES_STOP=[
   {t:'When training loss stops decreasing',c:false},
@@ -6792,9 +6716,13 @@ function esUnlock(){
   $('es-s2').classList.add('unlocked')
   esUpdateSplit()
 }
-function esUpdateSplit(){
-  const t=parseInt($('es-train-slider').value)||70
-  const v=parseInt($('es-val-slider').value)||20
+function esUpdateSplit(source){
+  let t=parseInt($('es-train-slider').value)||70
+  let v=parseInt($('es-val-slider').value)||20
+  if(t+v>100){
+    if(source==='val'){ v=100-t; $('es-val-slider').value=v }
+    else { t=100-v; $('es-train-slider').value=t }
+  }
   const te=Math.max(0,100-t-v)
   esTrain=t; esVal=v
   $('es-train-v').textContent=t
@@ -6826,6 +6754,28 @@ function esToStage3(){
 }
 function esFTrain(t){return 0.1+2.1*Math.exp(-0.1*t)}
 function esFVal(t){return 0.38+Math.pow(t-40,2)*0.00115+0.38*Math.exp(-0.1*t)}
+function esComputeMinT(){
+  let minV=Infinity,minT=0
+  for(let t=0;t<=100;t++){const v=esFVal(t);if(v<minV){minV=v;minT=t}}
+  return minT
+}
+function esCheckEpochAnswer(){
+  const inp=$('es-epoch-answer'); if(!inp) return
+  const v=parseInt(inp.value)
+  const minT=esComputeMinT()
+  const hint=$('es-epoch-hint')
+  if(isNaN(v)){
+    inp.className='ba-cell-input'; esEpochOk=false
+    if(hint){hint.className='guidance-box cold';hint.innerHTML='Enter the epoch number where the validation loss curve is in the Optimal Zone.'}
+  } else if(Math.abs(v-minT)<=8){
+    inp.className='ba-cell-input ok'; esEpochOk=true
+    if(hint){hint.className='guidance-box done';hint.innerHTML=`<strong>✓ Correct!</strong> Around epoch ${minT}, validation loss is at its minimum — that's the Optimal Zone.`}
+  } else {
+    inp.className='ba-cell-input bad'; esEpochOk=false
+    if(hint){hint.className='guidance-box warm';hint.innerHTML='Not quite — drag the slider above until its label reads "Optimal Zone!", then enter that epoch number.'}
+  }
+  esUpdateSubmitSummary()
+}
 function esDrawCurves(){
   const svg=$('es-curve-svg'); if(!svg) return
   const W=460,H=200,pL=44,pR=12,pT=14,pB=32
@@ -6837,8 +6787,7 @@ function esDrawCurves(){
     pathT+=(t===0?'M':'L')+xs(t).toFixed(1)+','+ys(esFTrain(t)).toFixed(1)+' '
     pathV+=(t===0?'M':'L')+xs(t).toFixed(1)+','+ys(esFVal(t)).toFixed(1)+' '
   }
-  let minV=Infinity,minT=0
-  for(let t=0;t<=E;t++){const v=esFVal(t);if(v<minV){minV=v;minT=t}}
+  const minT=esComputeMinT()
   const sx=xs(esEpoch)
   const zone=esEpoch<minT-8?'Too Early':esEpoch>minT+8?'Overfitting!':'Optimal Zone!'
   const zc=esEpoch<minT-8?'#fef08a':esEpoch>minT+8?'#fca5a5':'#86efac'
@@ -6860,7 +6809,7 @@ function esDrawCurves(){
     <line x1="${W-60}" y1="16" x2="${W-45}" y2="16" stroke="#c2610c" stroke-width="2"/>
     <text x="${W-40}" y="20" font-size="11" font-family="system-ui" fill="var(--text)">Val</text>`
   const info=$('es-stop-info')
-  if(info) info.innerHTML=`Epoch ${esEpoch}: Train=${esFTrain(esEpoch).toFixed(3)} &nbsp;·&nbsp; Val=${esFVal(esEpoch).toFixed(3)} &nbsp;·&nbsp; <strong style="color:${esEpoch>=minT-8&&esEpoch<=minT+8?'var(--green)':'var(--orange)'}">${zone}</strong>`
+  if(info) info.innerHTML=`Epoch ${esEpoch}: Train loss=${esFTrain(esEpoch).toFixed(3)} &nbsp;·&nbsp; Val loss=${esFVal(esEpoch).toFixed(3)} &nbsp;·&nbsp; <strong style="color:${esEpoch>=minT-8&&esEpoch<=minT+8?'var(--green)':'var(--orange)'}">${zone}</strong>`
 }
 function esRenderStopMCQ(){
   const c=$('es-stop-opts'); if(!c) return
@@ -6890,9 +6839,10 @@ function esAnswer(sec,i){
   esUpdateSubmitSummary()
 }
 function esUpdateSubmitSummary(){
-  const el=$('es-submit-summary'); if(!el) return
-  el.innerHTML=`<p><strong>Validation split:</strong> ${esVal>=5?'<span style="color:var(--green)">✓ '+esVal+'%</span>':'⚠ needs validation'}</p>
+  const el=$('es-submit-summary')
+  if(el) el.innerHTML=`<p><strong>Validation split:</strong> ${esVal>=5?'<span style="color:var(--green)">✓ '+esVal+'%</span>':'⚠ needs validation'}</p>
     <p><strong>Stop criterion MCQ:</strong> ${esStopMcq===true?'<span style="color:var(--green)">✓</span>':'not yet'}</p>
+    <p><strong>Optimal epoch found:</strong> ${esEpochOk===true?'<span style="color:var(--green)">✓</span>':'not yet'}</p>
     <p><strong>Regularization MCQ:</strong> ${esWhyMcq===true?'<span style="color:var(--green)">✓</span>':'not yet'}</p>
     <p><strong>Stage reached:</strong> ${esStage}/2</p>`
   updateBadge('es-completed', isComplete('earlystop'))
@@ -7031,9 +6981,9 @@ function dpBestAnswer(i){
   dpUpdateSubmitSummary()
 }
 function dpUpdateSubmitSummary(){
-  const el=$('dp-submit-summary'); if(!el) return
+  const el=$('dp-submit-summary')
   const n=Object.values(dpMcq).filter(v=>v===true).length
-  el.innerHTML=`<p><strong>Domain MCQs:</strong> ${n}/3 ${n===3?'<span style="color:var(--green)">✓</span>':''}</p>
+  if(el) el.innerHTML=`<p><strong>Domain MCQs:</strong> ${n}/3 ${n===3?'<span style="color:var(--green)">✓</span>':''}</p>
     <p><strong>Best domain MCQ:</strong> ${dpBestMcq===true?'<span style="color:var(--green)">✓</span>':'not yet'}</p>
     <p><strong>Stage reached:</strong> ${dpStage}/2</p>`
   updateBadge('dp-completed', isComplete('dropout'))
@@ -7143,9 +7093,9 @@ function kdAnswer(q,i){
   kdUpdateSubmitSummary()
 }
 function kdUpdateSubmitSummary(){
-  const el=$('kd-submit-summary'); if(!el) return
+  const el=$('kd-submit-summary')
   const n=Object.values(kdMcq).filter(v=>v===true).length
-  el.innerHTML=`<p><strong>Distances correct:</strong> ${kdAllDistsOk()?'3/3 <span style="color:var(--green)">✓</span>':'not yet'}</p>
+  if(el) el.innerHTML=`<p><strong>Distances correct:</strong> ${kdAllDistsOk()?'3/3 <span style="color:var(--green)">✓</span>':'not yet'}</p>
     <p><strong>MCQs correct:</strong> ${n}/4 ${n===4?'<span style="color:var(--green)">✓</span>':''}</p>
     <p><strong>Stage reached:</strong> ${kdStage}/2</p>`
   updateBadge('kd-completed', isComplete('taxonomy'))
@@ -7307,8 +7257,8 @@ function slDrawLossCurves(){
 }
 function slUpdateSubmitSummary(){
   slReflection=($('sl-reflection')||{value:''}).value
-  const el=$('sl-submit-summary'); if(!el) return
-  el.innerHTML=`<p><strong>Fill-ins:</strong> ${slFillsOk?'<span style="color:var(--green)">✓</span>':'not yet'}</p>
+  const el=$('sl-submit-summary')
+  if(el) el.innerHTML=`<p><strong>Fill-ins:</strong> ${slFillsOk?'<span style="color:var(--green)">✓</span>':'not yet'}</p>
     <p><strong>IoU non-differentiable MCQ:</strong> ${slMcq.iou===true?'<span style="color:var(--green)">✓</span>':'not yet'}</p>
     <p><strong>Cls surrogate MCQ:</strong> ${slMcq.cls===true?'<span style="color:var(--green)">✓ cross-entropy</span>':'not yet'}</p>
     <p><strong>Loc surrogate MCQ:</strong> ${slMcq.loc===true?'<span style="color:var(--green)">✓ smooth L1</span>':'not yet'}</p>
@@ -7454,9 +7404,9 @@ function gnClipAnswer(i){
 }
 function gnUpdateSubmitSummary(){
   gnReflection=($('gn-reflection')||{value:''}).value
-  const el=$('gn-submit-summary'); if(!el) return
+  const el=$('gn-submit-summary')
   const n=Object.values(gnMcq).filter(v=>v===true).length
-  el.innerHTML=`<p><strong>Scenario MCQs:</strong> ${n}/4 ${n===4?'<span style="color:var(--green)">✓</span>':''}</p>
+  if(el) el.innerHTML=`<p><strong>Scenario MCQs:</strong> ${n}/4 ${n===4?'<span style="color:var(--green)">✓</span>':''}</p>
     <p><strong>Gradient clipping MCQ:</strong> ${gnMcqClip===true?'<span style="color:var(--green)">✓</span>':'not yet'}</p>
     <p><strong>Stage reached:</strong> ${gnStage}/2</p>
     <p><strong>Reflection:</strong> ${gnReflection.length>10?'<span style="color:var(--green)">✓</span>':'not yet'}</p>`
@@ -7644,8 +7594,8 @@ function mmAnswer(q,i){
 }
 function mmUpdateSubmitSummary(){
   mmReflection=($('mm-reflection')||{value:''}).value
-  const el=$('mm-submit-summary'); if(!el) return
-  el.innerHTML=`<p><strong>No-momentum table:</strong> ${mmCountNoMomOk()}/3 steps correct</p>
+  const el=$('mm-submit-summary')
+  if(el) el.innerHTML=`<p><strong>No-momentum table:</strong> ${mmCountNoMomOk()}/3 steps correct</p>
     <p><strong>Momentum table:</strong> ${mmCountMomOk()}/3 steps correct</p>
     <p><strong>Accumulation MCQ:</strong> ${mmMcq.accum===true?'<span style="color:var(--green)">✓</span>':'not yet'}</p>
     <p><strong>Step-size MCQ:</strong> ${mmMcq.carry===true?'<span style="color:var(--green)">✓</span>':'not yet'}</p>

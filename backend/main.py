@@ -18,6 +18,10 @@ SUBMISSIONS_DIR.mkdir(exist_ok=True)
 app.mount("/static", StaticFiles(directory=STATIC_DIR), name="static")
 
 @app.get("/")
+def activity_list():
+    return FileResponse(os.path.join(STATIC_DIR, "list.html"))
+
+@app.get("/app")
 def frontend():
     return FileResponse(os.path.join(STATIC_DIR, "index.html"))
 
