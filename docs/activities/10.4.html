@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>NER as Seq2Seq · Neural Networks Activities</title>
+<link rel="stylesheet" href="../assets/app.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+</head>
+<body>
+<header class="app-header">
+  <div>
+    <h1>NER as Seq2Seq</h1>
+    <p class="header-sub">ISTA 457 / INFO 557 · Token class vs. generation</p>
+  </div>
+  <a href="../index.html" class="btn btn-g" style="text-decoration:none">&larr; All Activities</a>
+</header>
+<div class="app-body">
+<main class="app-main">
+
+<div id="tab-10.4" class="tab-panel">
+  <div class="prob-card">
+    <div style="margin-bottom:10px"><span class="prob-badge">Activity 10.4</span><span class="prob-title">Named Entity Recognition — Token Class vs. Seq2Seq</span><span id="nerseq-completed" class="completed-badge">✓ 10.4 Completed</span></div>
+    <div id="ns-eq" style="margin-bottom:16px"></div>
+    <p class="prob-desc">NER is traditionally a <em>token classification</em> task: each input token gets one label. Explore how the same problem can be re-framed as a <em>sequence-to-sequence</em> task — and what that framing gains.</p>
+    <div style="text-align:right;margin-top:12px"><button class="btn btn-p" onclick="nsUnlock(1)">Explore token classification →</button></div>
+  </div>
+
+  <div id="ns-s1" class="ba-locked-section" style="margin-top:16px">
+    <div class="card">
+      <div class="card-title">Stage 1 — Token Classification (the classic approach)</div>
+      <p style="font-size:13px;color:var(--muted);margin-bottom:12px">Click any word to see its BIO label. <strong>B</strong> = beginning of entity, <strong>I</strong> = inside entity, <strong>O</strong> = outside. Every input token produces exactly one output label.</p>
+      <div id="ns-tokens" style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px"></div>
+      <div id="ns-label-msg" style="background:var(--surf2);border-radius:7px;padding:10px 14px;font-size:13px;min-height:36px;color:var(--muted)">Click a word above to see its label.</div>
+      <div style="margin-top:12px;font-size:13px;color:var(--muted)">Output length: <strong id="ns-len">7</strong> labels — always equal to input length.</div>
+      <div style="margin-top:12px;text-align:right"><button class="btn btn-p" onclick="nsUnlock(2)">I see the pattern →</button></div>
+    </div>
+  </div>
+
+  <div id="ns-s2" class="ba-locked-section" style="margin-top:16px">
+    <div class="card">
+      <div class="card-title">Stage 2 — What Does Each Token Produce?</div>
+      <div style="font-weight:600;font-size:13px;margin-bottom:8px">In token classification NER, what is the output for each input token?</div>
+      <div id="ns-q1-opts" style="display:flex;flex-direction:column;gap:5px;max-width:420px"></div>
+      <div id="ns-q1-hint" class="guidance-box cold" style="margin-top:8px;max-width:420px"></div>
+    </div>
+  </div>
+
+  <div id="ns-s3" class="ba-locked-section" style="margin-top:16px">
+    <div class="card">
+      <div class="card-title">Stage 3 — A Seq2Seq Reformulation</div>
+      <p style="font-size:13px;color:var(--muted);margin-bottom:12px">In seq2seq NER the model generates a <em>structured markup</em> sequence. The output is typically shorter than the input — only entities are emitted, with type tags.</p>
+      <div style="background:var(--surf2);border-radius:8px;padding:12px 16px;font-family:'Courier New',monospace;font-size:13px;line-height:2.2;margin-bottom:12px">
+        <div style="color:var(--muted);font-size:11px;margin-bottom:4px">Input:</div>
+        <div>Óscar &nbsp; Romero &nbsp; was &nbsp; born &nbsp; in &nbsp; El &nbsp; Salvador</div>
+        <div style="color:var(--muted);font-size:11px;margin:8px 0 4px">Seq2Seq output:</div>
+        <div><span style="color:#b45309">&lt;PER&gt;</span> Óscar Romero <span style="color:#b45309">&lt;/PER&gt;</span> was born in <span style="color:#1d4ed8">&lt;LOC&gt;</span> El Salvador <span style="color:#1d4ed8">&lt;/LOC&gt;</span></div>
+      </div>
+      <div style="font-weight:600;font-size:13px;margin-bottom:8px">What is the key structural difference between this output and the BIO output?</div>
+      <div id="ns-q2-opts" style="display:flex;flex-direction:column;gap:5px;max-width:460px"></div>
+      <div id="ns-q2-hint" class="guidance-box cold" style="margin-top:8px;max-width:460px"></div>
+    </div>
+  </div>
+
+  <div id="ns-s4" class="ba-locked-section" style="margin-top:16px">
+    <div class="card">
+      <div class="card-title">Stage 4 — Advantages of Seq2Seq</div>
+      <div style="font-weight:600;font-size:13px;margin-bottom:8px">What concrete advantage does the seq2seq framing offer over per-token classification?</div>
+      <div id="ns-q3-opts" style="display:flex;flex-direction:column;gap:5px;max-width:460px"></div>
+      <div id="ns-q3-hint" class="guidance-box cold" style="margin-top:8px;max-width:460px"></div>
+    </div>
+  </div>
+
+  <div id="ns-s5" class="ba-locked-section" style="margin-top:16px">
+    <div class="two-col">
+      <div class="card">
+        <div class="card-title">Stage 5 — Design a Format</div>
+        <p style="font-size:13px;color:var(--muted);margin-bottom:10px">Consider: <em>"Google was founded by Larry Page in California."</em></p>
+        <div style="font-weight:600;font-size:13px;margin-bottom:8px">Which output format is a valid seq2seq NER output for this sentence?</div>
+        <div id="ns-q4-opts" style="display:flex;flex-direction:column;gap:5px;max-width:360px"></div>
+        <div id="ns-q4-hint" class="guidance-box cold" style="margin-top:8px;max-width:360px"></div>
+      </div>
+      <div class="card">
+        <div class="card-title">Reflect</div>
+        <p style="font-size:13px;color:var(--muted);margin-bottom:8px">Write the exact input sequence and output sequence you would feed to a seq2seq NER model for: <em>"Óscar Romero was born in El Salvador."</em></p>
+        <textarea id="ns-ref" rows="4" style="width:100%;box-sizing:border-box;background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:8px;color:var(--text);font-family:inherit;resize:vertical;margin-bottom:8px" placeholder="Input: [Óscar, Romero, was, born, in, El, Salvador]&#10;Output: &lt;PER&gt; Óscar Romero &lt;/PER&gt; was born in &lt;LOC&gt; El Salvador &lt;/LOC&gt;" oninput="nsUpdateSummary()"></textarea>
+        <div id="ns-summary" style="font-size:.88em;color:var(--muted)"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</main>
+</div>
+<script src="../assets/app.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  initDoneBanners()
+  initNERSeq()
+  showTab('10.4')
+})
+</script>
+</body>
+</html>

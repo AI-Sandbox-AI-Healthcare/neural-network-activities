@@ -1,0 +1,201 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Reg. Race · Neural Networks Activities</title>
+<link rel="stylesheet" href="../assets/app.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+</head>
+<body>
+<header class="app-header">
+  <div>
+    <h1>Reg. Race</h1>
+    <p class="header-sub">ISTA 457 / INFO 557 · L1 vs L2 regularization</p>
+  </div>
+  <a href="../index.html" class="btn btn-g" style="text-decoration:none">&larr; All Activities</a>
+</header>
+<div class="app-body">
+<main class="app-main">
+
+<div id="tab-7.1" class="tab-panel">
+  <div class="prob-card">
+    <div style="margin-bottom:10px"><span class="prob-badge">Activity 7.1</span><span class="prob-title">Regularization Race</span><span id="rr-completed" class="completed-badge">✓ 7.1 Completed</span></div>
+
+    <div id="rr-prob-eq" style="margin-bottom:14px"></div>
+
+    <!-- Problem statement -->
+    <p class="prob-desc" style="margin-bottom:6px">
+      Two models predict the same targets. <strong>Model A</strong> uses the weight vector w = [−2, 3, 1]. <strong>Model B</strong> uses w = [0, 3, 0].
+      <br>
+      <strong>Question:</strong> Which model wins under no regularization, L1, and L2? And for which weight does the choice of regularizer matter most?
+      <br>
+      <span style="color:var(--blue);font-weight:600">Hint:</span> the weight −2 costs 2 under L1 but 4 under L2. The two zero weights in B cost nothing under either.
+      <br>
+      <strong>Training Data:</strong>
+    </p>
+
+    <div style="display:flex;gap:22px;flex-wrap:wrap;align-items:flex-start">
+      <table style="font-size:13px;font-family:'Courier New',monospace;border-collapse:collapse;flex-shrink:0">
+        <thead><tr><th style="padding:5px 10px;border-bottom:2px solid var(--border);color:var(--muted);font-size:11px;text-align:center">x₀</th><th style="padding:5px 10px;border-bottom:2px solid var(--border);color:var(--muted);font-size:11px;text-align:center">x₁</th><th style="padding:5px 10px;border-bottom:2px solid var(--border);color:var(--muted);font-size:11px;text-align:center">x₂</th><th style="padding:5px 10px;border-bottom:2px solid var(--border);color:var(--orange);font-size:11px;text-align:center">y</th></tr></thead>
+        <tbody>
+          <tr><td style="padding:5px 10px;text-align:center;border-bottom:1px solid var(--border)">1</td><td style="padding:5px 10px;text-align:center;border-bottom:1px solid var(--border)">2</td><td style="padding:5px 10px;text-align:center;border-bottom:1px solid var(--border)">1</td><td style="padding:5px 10px;text-align:center;border-bottom:1px solid var(--border);font-weight:700;color:var(--orange)">4</td></tr>
+          <tr><td style="padding:5px 10px;text-align:center;border-bottom:1px solid var(--border)">1</td><td style="padding:5px 10px;text-align:center;border-bottom:1px solid var(--border)">3</td><td style="padding:5px 10px;text-align:center;border-bottom:1px solid var(--border)">2</td><td style="padding:5px 10px;text-align:center;border-bottom:1px solid var(--border);font-weight:700;color:var(--orange)">9</td></tr>
+          <tr><td style="padding:5px 10px;text-align:center">1</td><td style="padding:5px 10px;text-align:center">4</td><td style="padding:5px 10px;text-align:center">3</td><td style="padding:5px 10px;text-align:center;font-weight:700;color:var(--orange)">13</td></tr>
+        </tbody>
+      </table>
+      <div style="flex:1;min-width:240px">
+        <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:10px">
+          <div class="given-box"><div class="given-lbl">Model A</div><div class="given-val" style="font-size:12px">w_a = [−2, 3, 1]</div></div>
+          <div class="given-box"><div class="given-lbl">Model B</div><div class="given-val" style="font-size:12px">w_b = [0, 3, 0]</div></div>
+          <div class="given-box"><div class="given-lbls">α</div><div class="given-val" style="font-size:12px">1/3 ≈ 0.333</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="rr-s1" class="two-col">
+    <div><div class="card"><div class="card-title">Why Regularization?</div>
+      <div style="display:flex;flex-direction:column;gap:10px">
+        <div style="background:#eff6ff;border:1px solid #bfdbfe;border-radius:8px;padding:13px"><div style="font-weight:700;color:var(--blue);margin-bottom:3px;font-size:13px">Simpler = Safer</div><div style="font-size:13px">Models that memorize training noise fail on new data. Regularization adds a cost for complexity.</div></div>
+        <div style="background:#fff7ed;border:1px solid #fed7aa;border-radius:8px;padding:13px"><div style="font-weight:700;color:var(--orange);margin-bottom:3px;font-size:13px">L1 vs L2</div><div style="font-size:13px">L1 uses absolute values — drives small weights to exactly 0 (sparsity). L2 uses squared values — shrinks all weights proportionally.</div></div>
+        <div style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:8px;padding:13px"><div style="font-weight:700;color:var(--green);margin-bottom:3px;font-size:13px">The Trade-off</div><div style="font-size:13px">J̃ = J + α·Ω. A high penalty can flip the winner — a model with smaller weights may win despite worse data fit.</div></div>
+      </div>
+    </div></div>
+    <div><div class="card"><div class="card-title">Hint Before You Start</div>
+      <div class="guidance-box cold">Notice that <strong>w_b = [0, 3, 0]</strong> has two zero weights — it only uses feature x₁. Under heavy regularization, this sparsity is rewarded.<br><br>Meanwhile, <strong>w_a = [−2, 3, 1]</strong> uses all three features. The weight 3 will be especially costly under L2 (it contributes (3)² = 9).</div>
+      <div style="text-align:center;margin-top:16px"><button class="btn btn-p" onclick="rrUnlock()">I understand the trade-off →</button></div>
+    </div></div>
+  </div>
+
+  <div id="rr-s2" class="ba-locked-section" style="margin-top:18px">
+    <div class="card" style="margin-bottom:18px">
+      <div class="card-title">Step 1 — Compute ŷ for Each Model</div>
+      <p style="font-size:13px;color:var(--muted);margin-bottom:12px">ŷ = x·wᵀ = x₀w₀ + x₁w₁ + x₂w₂. Walk through the dot product for both models on every row before computing MSE in Step 2.</p>
+      <div style="overflow-x:auto">
+      <table style="width:100%;border-collapse:collapse;font-family:'Courier New',monospace;font-size:12px">
+        <thead><tr style="background:var(--surf2)">
+          <th style="padding:6px;border-bottom:2px solid var(--border);color:var(--muted);font-size:10px;text-align:center">Row</th>
+          <th style="padding:6px;border-bottom:2px solid var(--border);color:var(--muted);font-size:10px;text-align:center">x</th>
+          <th style="padding:6px;border-bottom:2px solid var(--border);color:#1d4ed8;font-size:10px;text-align:left">ŷ_a = x·w_aᵀ &nbsp;(w_a=[−2,3,1])</th>
+          <th style="padding:6px;border-bottom:2px solid var(--border);color:var(--orange);font-size:10px;text-align:left">ŷ_b = x·w_bᵀ &nbsp;(w_b=[0,3,0])</th>
+        </tr></thead>
+        <tbody>
+          <tr><td style="padding:6px;text-align:center;border-bottom:1px solid var(--border)">1</td><td style="padding:6px;text-align:center;border-bottom:1px solid var(--border)">[1,2,1]</td><td style="padding:6px;border-bottom:1px solid var(--border)">(1)(−2)+(2)(3)+(1)(1) = −2+6+1 = <strong style="color:#1d4ed8">5</strong></td><td style="padding:6px;border-bottom:1px solid var(--border)">(1)(0)+(2)(3)+(1)(0) = 0+6+0 = <strong style="color:var(--orange)">6</strong></td></tr>
+          <tr><td style="padding:6px;text-align:center;border-bottom:1px solid var(--border)">2</td><td style="padding:6px;text-align:center;border-bottom:1px solid var(--border)">[1,3,2]</td><td style="padding:6px;border-bottom:1px solid var(--border)">(1)(−2)+(3)(3)+(2)(1) = −2+9+2 = <strong style="color:#1d4ed8">9</strong></td><td style="padding:6px;border-bottom:1px solid var(--border)">(1)(0)+(3)(3)+(2)(0) = 0+9+0 = <strong style="color:var(--orange)">9</strong></td></tr>
+          <tr><td style="padding:6px;text-align:center">3</td><td style="padding:6px;text-align:center">[1,4,3]</td><td style="padding:6px">(1)(−2)+(4)(3)+(3)(1) = −2+12+3 = <strong style="color:#1d4ed8">13</strong></td><td style="padding:6px">(1)(0)+(4)(3)+(3)(0) = 0+12+0 = <strong style="color:var(--orange)">12</strong></td></tr>
+        </tbody>
+      </table>
+      </div>
+    </div>
+    <div class="two-col">
+      <div><div class="card"><div class="card-title">Step 2 — Compute MSE for Each Model</div>
+        <p style="font-size:13px;color:var(--muted);margin-bottom:12px">Using ŷ from Step 1, fill in (y−ŷ)² for each sample, then MSE = sum ÷ 3.</p>
+        <table style="width:100%;border-collapse:collapse;font-family:'Courier New',monospace;font-size:12px">
+          <thead><tr style="background:var(--surf2)">
+            <th style="padding:6px;border-bottom:2px solid var(--border);color:var(--muted);font-size:10px;text-align:center">Row</th>
+            <th style="padding:6px;border-bottom:2px solid var(--border);color:var(--muted);font-size:10px;text-align:center">y</th>
+            <th style="padding:6px;border-bottom:2px solid var(--border);color:#1d4ed8;font-size:10px;text-align:center">ŷ_a</th>
+            <th style="padding:6px;border-bottom:2px solid var(--border);color:#1d4ed8;font-size:10px;text-align:center">(y−ŷ_a)²</th>
+            <th style="padding:6px;border-bottom:2px solid var(--border);color:var(--orange);font-size:10px;text-align:center">ŷ_b</th>
+            <th style="padding:6px;border-bottom:2px solid var(--border);color:var(--orange);font-size:10px;text-align:center">(y−ŷ_b)²</th>
+          </tr></thead>
+          <tbody>
+            <tr><td style="padding:6px;text-align:center;border-bottom:1px solid var(--border)">1</td><td style="padding:6px;text-align:center;border-bottom:1px solid var(--border)">4</td><td style="padding:6px;text-align:center;border-bottom:1px solid var(--border)"><span class="rr-given">5</span></td><td style="padding:6px;text-align:center;border-bottom:1px solid var(--border)"><input class="rr-inp" id="rr-e2a0" type="text" placeholder="?" oninput="rrCheck('rr-e2a0',1)"></td><td style="padding:6px;text-align:center;border-bottom:1px solid var(--border)"><span class="rr-given">6</span></td><td style="padding:6px;text-align:center;border-bottom:1px solid var(--border)"><input class="rr-inp" id="rr-e2b0" type="text" placeholder="?" oninput="rrCheck('rr-e2b0',4)"></td></tr>
+            <tr><td style="padding:6px;text-align:center;border-bottom:1px solid var(--border)">2</td><td style="padding:6px;text-align:center;border-bottom:1px solid var(--border)">9</td><td style="padding:6px;text-align:center;border-bottom:1px solid var(--border)"><span class="rr-given">9</span></td><td style="padding:6px;text-align:center;border-bottom:1px solid var(--border)"><input class="rr-inp" id="rr-e2a1" type="text" placeholder="?" oninput="rrCheck('rr-e2a1',0)"></td><td style="padding:6px;text-align:center;border-bottom:1px solid var(--border)"><span class="rr-given">9</span></td><td style="padding:6px;text-align:center;border-bottom:1px solid var(--border)"><input class="rr-inp" id="rr-e2b1" type="text" placeholder="?" oninput="rrCheck('rr-e2b1',0)"></td></tr>
+            <tr><td style="padding:6px;text-align:center;border-bottom:1px solid var(--border)">3</td><td style="padding:6px;text-align:center;border-bottom:1px solid var(--border)">13</td><td style="padding:6px;text-align:center;border-bottom:1px solid var(--border)"><span class="rr-given">13</span></td><td style="padding:6px;text-align:center;border-bottom:1px solid var(--border)"><input class="rr-inp" id="rr-e2a2" type="text" placeholder="?" oninput="rrCheck('rr-e2a2',0)"></td><td style="padding:6px;text-align:center;border-bottom:1px solid var(--border)"><span class="rr-given">12</span></td><td style="padding:6px;text-align:center;border-bottom:1px solid var(--border)"><input class="rr-inp" id="rr-e2b2" type="text" placeholder="?" oninput="rrCheck('rr-e2b2',1)"></td></tr>
+            <tr style="background:var(--surf2)"><td colspan="3" style="padding:7px 6px;text-align:right;font-weight:700;font-size:11px;color:var(--muted)">MSE (÷3) →</td><td style="padding:6px;text-align:center"><input class="rr-inp" id="rr-msea" type="text" placeholder="?" oninput="rrCheckD('rr-msea',0.3333)"></td><td></td><td style="padding:6px;text-align:center"><input class="rr-inp" id="rr-mseb" type="text" placeholder="?" oninput="rrCheckD('rr-mseb',1.6667)"></td></tr>
+          </tbody>
+        </table>
+        <div id="rr-mse-hint" class="guidance-box cold" style="margin-top:10px;font-size:12.5px">Fill in squared errors (y−ŷ)², then MSE = total ÷ 3. Round to 2 decimal places (e.g. 0.33 for 1/3).</div>
+      </div></div>
+      <div>
+        <div class="card"><div class="card-title">MSE Comparison</div>
+          <svg id="rr-bar-svg" viewBox="0 0 280 160" width="100%" height="160"></svg>
+        </div>
+        <div class="card" style="margin-top:18px;text-align:center">
+          <button class="btn btn-p" id="rr-to-s3-btn" onclick="rrToStage3()" disabled>Proceed to penalties →</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="rr-s3" class="ba-locked-section" style="margin-top:18px">
+    <div class="card" style="margin-bottom:14px">
+      <div class="card-title">Setting 1 — No Regularization (α = 0)</div>
+      <p style="font-size:13px;color:var(--muted);margin-bottom:12px">J̃ = J = MSE only. MSE_a = 0.333, MSE_b = 1.667. Which model wins?</p>
+      <div id="rr-noreg-opts" style="display:flex;flex-direction:column;gap:8px;max-width:420px"></div>
+      <div id="rr-noreg-hint" class="guidance-box cold" style="margin-top:10px;font-size:13px">Select the winner when no regularization is applied.</div>
+    </div>
+    <div id="rr-l1-s" class="ba-locked-section">
+      <div class="card" style="margin-bottom:14px">
+        <div class="card-title">Setting 2 — L1 Regularization (Ω₁, α = 1/3)</div>
+        <p style="font-size:13px;color:var(--muted);margin-bottom:12px">Ω₁(w) = Σ|wᵢ|. Fill in the L1 norm and J̃ for each model.</p>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:14px">
+          <div style="background:#f0f9ff;border:1px solid #bae6fd;border-radius:8px;padding:13px;font-family:'Courier New',monospace;font-size:12.5px;line-height:2.1">
+            <div style="font-weight:700;color:#1d4ed8;margin-bottom:6px">Model A — w_a=[−2,3,1]</div>
+            Ω₁(w_a) = |−2|+|3|+|1| = <input class="rr-inp" id="rr-o1a" type="text" placeholder="?" oninput="rrCheck('rr-o1a',6)"><br>
+            penalty = (1/3)×<span id="rr-o1a-v" style="color:var(--muted)">?</span> = <span id="rr-p1a" style="color:var(--muted)">?</span><br>
+            J̃_a = 0.333+<span id="rr-p1a2" style="color:var(--muted)">?</span> = <input class="rr-inp" id="rr-jl1a" type="text" placeholder="?" oninput="rrCheckD('rr-jl1a',2.3333)">
+          </div>
+          <div style="background:#fff7ed;border:1px solid #fed7aa;border-radius:8px;padding:13px;font-family:'Courier New',monospace;font-size:12.5px;line-height:2.1">
+            <div style="font-weight:700;color:var(--orange);margin-bottom:6px">Model B — w_b=[0,3,0]</div>
+            Ω₁(w_b) = |0|+|3|+|0| = <input class="rr-inp" id="rr-o1b" type="text" placeholder="?" oninput="rrCheck('rr-o1b',3)"><br>
+            penalty = (1/3)×<span id="rr-o1b-v" style="color:var(--muted)">?</span> = <span id="rr-p1b" style="color:var(--muted)">?</span><br>
+            J̃_b = 1.667+<span id="rr-p1b2" style="color:var(--muted)">?</span> = <input class="rr-inp" id="rr-jl1b" type="text" placeholder="?" oninput="rrCheckD('rr-jl1b',2.6667)">
+          </div>
+        </div>
+        <div id="rr-l1-opts" style="display:flex;flex-direction:column;gap:8px;max-width:420px"></div>
+        <div id="rr-l1-hint" class="guidance-box cold" style="margin-top:10px;font-size:13px">Fill in the Ω₁ norms first, then compute J̃ for each model, then pick the winner.</div>
+      </div>
+    </div>
+    <div id="rr-l2-s" class="ba-locked-section">
+      <div class="card" style="margin-bottom:14px">
+        <div class="card-title">Setting 3 — L2 Regularization (Ω₂, α = 1/3)</div>
+        <p style="font-size:13px;color:var(--muted);margin-bottom:12px">Ω₂(w) = Σwᵢ². Fill in L2 norm and J̃. Expect a surprise!</p>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:14px">
+          <div style="background:#f0f9ff;border:1px solid #bae6fd;border-radius:8px;padding:13px;font-family:'Courier New',monospace;font-size:12.5px;line-height:2.1">
+            <div style="font-weight:700;color:#1d4ed8;margin-bottom:6px">Model A — w_a=[−2,3,1]</div>
+            Ω₂(w_a) = (−2)²+(3)²+(1)² = <input class="rr-inp" id="rr-o2a" type="text" placeholder="?" oninput="rrCheck('rr-o2a',14)"><br>
+            penalty = (1/3)×<span id="rr-o2a-v" style="color:var(--muted)">?</span> = <span id="rr-p2a" style="color:var(--muted)">?</span><br>
+            J̃_a = 0.333+<span id="rr-p2a2" style="color:var(--muted)">?</span> = <input class="rr-inp" id="rr-jl2a" type="text" placeholder="?" oninput="rrCheckD('rr-jl2a',5.0)">
+          </div>
+          <div style="background:#fff7ed;border:1px solid #fed7aa;border-radius:8px;padding:13px;font-family:'Courier New',monospace;font-size:12.5px;line-height:2.1">
+            <div style="font-weight:700;color:var(--orange);margin-bottom:6px">Model B — w_b=[0,3,0]</div>
+            Ω₂(w_b) = (0)²+(3)²+(0)² = <input class="rr-inp" id="rr-o2b" type="text" placeholder="?" oninput="rrCheck('rr-o2b',9)"><br>
+            penalty = (1/3)×<span id="rr-o2b-v" style="color:var(--muted)">?</span> = <span id="rr-p2b" style="color:var(--muted)">?</span><br>
+            J̃_b = 1.667+<span id="rr-p2b2" style="color:var(--muted)">?</span> = <input class="rr-inp" id="rr-jl2b" type="text" placeholder="?" oninput="rrCheckD('rr-jl2b',4.6667)">
+          </div>
+        </div>
+        <div id="rr-l2-opts" style="display:flex;flex-direction:column;gap:8px;max-width:420px"></div>
+        <div id="rr-l2-hint" class="guidance-box cold" style="margin-top:10px;font-size:13px">Notice that w_a's weight −2 contributes (−2)²=4 to Ω₂ — much bigger than its L1 contribution of |−2|=2.</div>
+      </div>
+    </div>
+  </div>
+
+  <div id="rr-s4" class="ba-locked-section" style="margin-top:18px">
+    <div class="card" style="background:linear-gradient(135deg,#f0fdf4,#dcfce7);border-color:#16a34a;margin-bottom:14px">
+      <div class="card-title">Key Takeaway</div>
+      <ul style="font-size:13px;line-height:2.2;padding-left:18px">
+        <li>No regularization → <strong>Model A wins</strong> (lower MSE — fits the data better).</li>
+        <li>L1 regularization (α=1/3) → <strong>Model A still wins</strong> — its fit advantage outweighs the extra L1 cost.</li>
+        <li>L2 regularization (α=1/3) → <strong>Model B wins!</strong> The −2 weight costs 4/3 ≈ 1.33 in L2 alone. Squaring amplifies large weights disproportionately.</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+</main>
+</div>
+<script src="../assets/app.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  initDoneBanners()
+  initRegRace()
+  showTab('7.1')
+})
+</script>
+</body>
+</html>

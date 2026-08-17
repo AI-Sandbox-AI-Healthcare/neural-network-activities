@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Conv Sentiment · Neural Networks Activities</title>
+<link rel="stylesheet" href="../assets/app.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+</head>
+<body>
+<header class="app-header">
+  <div>
+    <h1>Conv Sentiment</h1>
+    <p class="header-sub">ISTA 457 / INFO 557 · Window size & negation</p>
+  </div>
+  <a href="../index.html" class="btn btn-g" style="text-decoration:none">&larr; All Activities</a>
+</header>
+<div class="app-body">
+<main class="app-main">
+
+<div id="tab-10.1.1" class="tab-panel">
+  <div class="prob-card">
+    <div style="margin-bottom:10px"><span class="prob-badge">Activity 10.1.1</span><span class="prob-title">Conv Window for Sentiment</span><span id="tcnn-completed" class="completed-badge">✓ 10.1.1 Completed</span></div>
+    <div id="tc-eq" style="margin-bottom:16px"></div>
+    <p class="prob-desc">A 1-D text CNN slides a window of <strong>k</strong> consecutive words over a sentence, extracts every n-gram, scores each with a learned filter, then max-pools. Explore what k is needed to capture short-range context — and what breaks for long-range negation.</p>
+    <div style="text-align:right;margin-top:12px"><button class="btn btn-p" onclick="tcUnlock(1)">Explore the window →</button></div>
+  </div>
+
+  <div id="tc-s1" class="ba-locked-section" style="margin-top:16px">
+    <div class="card">
+      <div class="card-title">Stage 1 — Slide the Window</div>
+      <p style="font-size:13px;color:var(--muted);margin-bottom:12px">Choose a sentence and drag k. Each blue chip is one n-gram the filter scores; max-pooling keeps the top scorer.</p>
+      <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px">
+        <button class="btn btn-g" id="tc-btn0" onclick="tcSentence(0)">A: negative</button>
+        <button class="btn btn-g" id="tc-btn1" onclick="tcSentence(1)">B: positive</button>
+        <button class="btn btn-g" id="tc-btn2" onclick="tcSentence(2)">C: positive (negation)</button>
+      </div>
+      <div class="slider-row">
+        <span class="slider-label"><span class="name">k (window)</span><span class="val" id="tc-k-val">2</span></span>
+        <input type="range" id="tc-k" min="1" max="8" value="2" oninput="tcUpdate()">
+      </div>
+      <div id="tc-words" style="display:flex;flex-wrap:wrap;gap:5px;margin:10px 0;min-height:32px"></div>
+      <div style="background:var(--surf2);border-radius:7px;padding:10px 14px;margin-bottom:12px">
+        <div class="section-label" style="margin-bottom:6px">All n-grams (k = <span id="tc-k-echo">2</span>)</div>
+        <div id="tc-ngrams" style="display:flex;flex-wrap:wrap;gap:5px;min-height:22px"></div>
+      </div>
+      <button class="btn btn-p" onclick="tcUnlock(2)">I've explored — continue →</button>
+    </div>
+  </div>
+
+  <div id="tc-s2" class="ba-locked-section" style="margin-top:16px">
+    <div class="card">
+      <div class="card-title">Stage 2 — The Bigram Insight</div>
+      <p style="font-size:13px;color:var(--muted);margin-bottom:10px">Sentence A contains "good" yet is <em>negative</em>; Sentence B contains "bad" yet is <em>positive</em>. A k=1 filter can't separate them. Both end with either "<strong>being bad</strong>" or "<strong>being good</strong>" — context is the critical bigram.</p>
+      <div style="font-weight:600;font-size:13px;margin-bottom:8px">What is the minimum k that captures "being bad" / "being good" inside one n-gram?</div>
+      <div id="tc-q1-opts" style="display:flex;flex-direction:column;gap:5px;max-width:380px"></div>
+      <div id="tc-q1-hint" class="guidance-box cold" style="margin-top:8px;max-width:380px"></div>
+    </div>
+  </div>
+
+  <div id="tc-s3" class="ba-locked-section" style="margin-top:16px">
+    <div class="card">
+      <div class="card-title">Stage 3 — The Negation Gap</div>
+      <div style="font-family:'Courier New',monospace;font-size:13px;background:var(--surf2);border-radius:7px;padding:10px 14px;margin-bottom:10px;line-height:2.4">
+        It[1] &nbsp; <strong>wasn't</strong>[2] &nbsp; the[3] &nbsp; case[4] &nbsp; that[5] &nbsp; he[6] &nbsp; was[7] &nbsp; <strong>unhappy</strong>[8]
+      </div>
+      <p style="font-size:13px;color:var(--muted);margin-bottom:10px">"wasn't" is at position 2, "unhappy" is at position 8. Both must appear inside the <em>same</em> n-gram for the filter to see their relationship.</p>
+      <div style="font-weight:600;font-size:13px;margin-bottom:8px">What is the minimum k so that both words sit inside one window?</div>
+      <div id="tc-q2-opts" style="display:flex;flex-direction:column;gap:5px;max-width:380px"></div>
+      <div id="tc-q2-hint" class="guidance-box cold" style="margin-top:8px;max-width:380px"></div>
+    </div>
+  </div>
+
+  <div id="tc-s4" class="ba-locked-section" style="margin-top:16px">
+    <div class="two-col">
+      <div class="card">
+        <div class="card-title">Stage 4 — CNN Limitation</div>
+        <p style="font-size:13px;color:var(--muted);margin-bottom:10px">A k=2 filter trained on A &amp; B learns "being bad"→negative and "being good"→positive. Applied to Sentence C, the highest-scoring bigram is "was unhappy" — strongly negative. The negation "wasn't" seven words earlier is invisible.</p>
+        <div style="font-weight:600;font-size:13px;margin-bottom:8px">What does the k=2 model incorrectly predict for Sentence C?</div>
+        <div id="tc-q3-opts" style="display:flex;flex-direction:column;gap:5px;max-width:340px"></div>
+        <div id="tc-q3-hint" class="guidance-box cold" style="margin-top:8px;max-width:340px"></div>
+      </div>
+      <div class="card">
+        <div class="card-title">Reflect</div>
+        <p style="font-size:13px;color:var(--muted);margin-bottom:8px">An RNN maintains a hidden state h⁽ᵗ⁾ updated at every word. How does this let it correctly classify Sentence C where the k=2 CNN fails?</p>
+        <textarea id="tc-ref" rows="4" style="width:100%;box-sizing:border-box;background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:8px;color:var(--text);font-family:inherit;resize:vertical;margin-bottom:8px" placeholder="When the RNN reads 'unhappy', its hidden state already encodes that 'wasn't' appeared earlier…" oninput="tcUpdateSummary()"></textarea>
+        <div id="tc-summary" style="font-size:.88em;color:var(--muted)"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</main>
+</div>
+<script src="../assets/app.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  initDoneBanners()
+  initTextCNN()
+  showTab('10.1.1')
+})
+</script>
+</body>
+</html>

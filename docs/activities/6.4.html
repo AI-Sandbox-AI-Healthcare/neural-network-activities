@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Linear Regions · Neural Networks Activities</title>
+<link rel="stylesheet" href="../assets/app.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+</head>
+<body>
+<header class="app-header">
+  <div>
+    <h1>Linear Regions</h1>
+    <p class="header-sub">ISTA 457 / INFO 557 · Deep ReLU region count</p>
+  </div>
+  <a href="../index.html" class="btn btn-g" style="text-decoration:none">&larr; All Activities</a>
+</header>
+<div class="app-body">
+<main class="app-main">
+
+<div id="tab-6.4" class="tab-panel">
+
+  <!-- Problem card -->
+  <div class="prob-card">
+    <div style="margin-bottom:10px">
+      <span class="prob-badge">Activity 6.4</span>
+      <span class="prob-title">Counting Linear Regions of a Deep ReLU Network</span>
+      <span id="lr-completed" class="completed-badge">✓ 6.4 Completed</span>
+    </div>
+    <p class="prob-desc">A deep rectifier network with <code style="color:#b45309">d</code> inputs, depth
+      <code style="color:#b45309">l</code>, and <code style="color:#b45309">n</code> units per layer carves the input
+      space into at most the number of linear regions shown below, where <strong>C(n,d)</strong> — the
+      <strong>Combination</strong> "n choose d" — counts the ways to choose d of n units. Explore how depth and
+      width drive this bound, and compare it to the regions an actual random network produces.</p>
+    <div class="eq-block">
+      <div class="eq-line" style="font-family:Georgia,'Times New Roman',serif;font-style:italic;font-size:19px;display:flex;align-items:center;gap:1px">
+        <span style="font-style:normal">O</span><span style="font-style:normal;font-size:26px;font-weight:300">(</span>
+        <span style="display:inline-flex;align-items:center">
+          <span style="font-style:normal;font-size:22px;font-weight:300">(</span>
+          <span style="display:inline-flex;flex-direction:column;align-items:center;line-height:1.05;font-size:14px;margin:0 2px"><span>n</span><span>d</span></span>
+          <span style="font-style:normal;font-size:22px;font-weight:300">)</span>
+        </span><sup style="font-size:12px;position:relative;top:-8px">d(l−1)</sup>
+        <span style="font-style:normal">&nbsp;·&nbsp;</span>n<sup style="font-size:12px">d</sup>
+        <span style="font-style:normal;font-size:26px;font-weight:300">)</span>
+      </div>
+      <div style="font-family:system-ui,-apple-system,sans-serif;font-style:normal;font-size:12px;color:var(--muted);font-weight:500;margin-top:6px">
+        <span style="display:inline-flex;flex-direction:column;align-items:center;line-height:1;font-size:11px;vertical-align:middle;margin:0 1px"><span>n</span><span>d</span></span>
+        &nbsp;= C(n,d) = <strong>Combination</strong> — the number of ways to choose d units out of n, order doesn't matter
+      </div>
+    </div>
+    <div class="given-row">
+      <div class="given-box"><div class="given-lbl">d (locked)</div><div class="given-val">d = 1 🔒</div></div>
+      <div class="given-box"><div class="given-lbl">l (depth)</div><div class="given-val" id="lr-l-label">l = 3</div></div>
+      <div class="given-box"><div class="given-lbl">n (width)</div><div class="given-val" id="lr-n-label">n = 2</div></div>
+      <div class="given-box"><div class="given-lbl">Action</div><div class="given-val"><button class="btn btn-w" style="font-size:12px;padding:6px 12px" onclick="lrDoubleDepth()">Double Depth →</button></div></div>
+    </div>
+  </div>
+
+  <div class="two-col">
+    <!-- LEFT: network + region plot -->
+    <div>
+      <div class="card">
+        <div style="margin-bottom:12px">
+          <div class="card-title" style="margin-bottom:0">Network — d=1 input · l layers × n ReLU units · 1 output</div>
+        </div>
+        <div class="section-label">Depth l</div>
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px">
+          <span style="font-family:'Courier New',monospace;font-size:12px;color:var(--muted)">1</span>
+          <input type="range" id="lr-l-slider" min="1" max="6" step="1" value="3" style="flex:1" oninput="lrSetL(this.value)">
+          <span style="font-family:'Courier New',monospace;font-size:12px;color:var(--muted)">6</span>
+        </div>
+        <div class="section-label">Width n</div>
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px">
+          <span style="font-family:'Courier New',monospace;font-size:12px;color:var(--muted)">2</span>
+          <input type="range" id="lr-n-slider" min="2" max="4" step="1" value="2" style="flex:1" oninput="lrSetN(this.value)">
+          <span style="font-family:'Courier New',monospace;font-size:12px;color:var(--muted)">4</span>
+        </div>
+        <svg id="lr-net" viewBox="0 0 580 220" style="width:100%;min-height:180px"></svg>
+      </div>
+    </div>
+
+    <!-- RIGHT: guided computation + history + reflection + log -->
+    <div>
+      <div class="card">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+          <div class="card-title" style="margin-bottom:0">Guided Computation</div>
+          <span id="lr-steps-badge" class="badge rg">0/5 correct</span>
+        </div>
+        <div id="lr-steps"></div>
+        <div id="lr-steps-guidance" class="guidance-box cold" style="margin-top:10px;font-size:13px">Fill in Step A to begin.</div>
+      </div>
+      <div class="card">
+        <div class="card-title">Depth-Doubling Comparison</div>
+        <p style="font-size:13px;color:var(--muted);margin-bottom:10px">Completed runs (l, n → O) appear here as you finish the guided computation above. To see the comparison, complete the computation for <strong>l = 3</strong>, then set <strong>l = 6</strong> (or use the <strong>Action → Double Depth</strong> button at the top) and complete it again.</p>
+        <div id="lr-history"></div>
+      </div>
+    </div>
+  </div>
+
+
+</div>
+
+</main>
+</div>
+<script src="../assets/app.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  initDoneBanners()
+  initRegions()
+  showTab('6.4')
+})
+</script>
+</body>
+</html>

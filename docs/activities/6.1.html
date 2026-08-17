@@ -1,0 +1,334 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Bias Absorption · Neural Networks Activities</title>
+<link rel="stylesheet" href="../assets/app.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+</head>
+<body>
+<header class="app-header">
+  <div>
+    <h1>Bias Absorption</h1>
+    <p class="header-sub">ISTA 457 / INFO 557 · Merge W and c</p>
+  </div>
+  <a href="../index.html" class="btn btn-g" style="text-decoration:none">&larr; All Activities</a>
+</header>
+<div class="app-body">
+<main class="app-main">
+
+<div id="tab-6.1" class="tab-panel">
+
+  <!-- Stage 0: Problem Card (always visible) -->
+  <div class="prob-card">
+    <div style="margin-bottom:10px">
+      <span class="prob-badge">Activity 6.1</span>
+      <span class="prob-title">Bias Absorption — Single Matrix Multiply</span>
+      <span id="ba-completed" class="completed-badge">✓ 6.1 Completed</span>
+    </div>
+    <p class="prob-desc">
+      <strong style="color:#1d4ed8">X</strong> = input &nbsp;·&nbsp;
+      <strong style="color:#d97706">W</strong> = weights &nbsp;·&nbsp;
+      <strong style="color:#0d9488">c</strong> = bias &nbsp;·&nbsp;
+      <code style="color:#b45309">y = max(0, XW + c)</code> = prediction
+      <br><strong>Problem:</strong> find
+      <strong>X_new</strong> and <strong>W_new</strong> so a single multiply gives the same result:
+      <code style="color:#15803d">max(0, XW + c) = max(0, X_new W_new)</code>
+    </p>
+    <div class="given-row">
+      <div class="given-box">
+        <div class="given-lbl" style="color:#1d4ed8">X (4×2) — locked</div>
+        <div class="given-val" style="padding-top:6px">
+          <div class="ba-matrix" style="color:#1d4ed8">
+            <div class="ba-matrix-bracket-l"></div>
+            <div class="ba-matrix-body">
+              <div class="ba-matrix-row"><span class="ba-matrix-cell">0</span><span class="ba-matrix-cell">0</span></div>
+              <div class="ba-matrix-row"><span class="ba-matrix-cell">0</span><span class="ba-matrix-cell">1</span></div>
+              <div class="ba-matrix-row"><span class="ba-matrix-cell">1</span><span class="ba-matrix-cell">0</span></div>
+              <div class="ba-matrix-row"><span class="ba-matrix-cell">1</span><span class="ba-matrix-cell">1</span></div>
+            </div>
+            <div class="ba-matrix-bracket-r"></div>
+          </div>
+        </div>
+      </div>
+      <div class="given-box">
+        <div class="given-lbl" style="color:#d97706">W (2×2) — locked</div>
+        <div class="given-val" style="padding-top:6px">
+          <div class="ba-matrix" style="color:#d97706">
+            <div class="ba-matrix-bracket-l"></div>
+            <div class="ba-matrix-body">
+              <div class="ba-matrix-row"><span class="ba-matrix-cell">1</span><span class="ba-matrix-cell">1</span></div>
+              <div class="ba-matrix-row"><span class="ba-matrix-cell">1</span><span class="ba-matrix-cell">1</span></div>
+            </div>
+            <div class="ba-matrix-bracket-r"></div>
+          </div>
+        </div>
+      </div>
+      <div class="given-box">
+        <div class="given-lbl" style="color:#0d9488">c (1×2) — locked</div>
+        <div class="given-val" style="padding-top:6px">
+          <div class="ba-matrix" style="color:#0d9488">
+            <div class="ba-matrix-bracket-l"></div>
+            <div class="ba-matrix-body">
+              <div class="ba-matrix-row"><span class="ba-matrix-cell">0</span><span class="ba-matrix-cell">−1</span></div>
+            </div>
+            <div class="ba-matrix-bracket-r"></div>
+          </div>
+        </div>
+      </div>
+      <div class="given-box">
+        <div class="given-lbl">Goal</div>
+        <div class="given-val" style="font-size:13px;line-height:2.1">Find X_new, W_new<br>one operation = same result</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Stage 1: Why it matters -->
+  <div id="ba-stage1" class="card" style="margin-bottom:16px">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
+      <div class="card-title" style="margin-bottom:0">Why Does This Matter?</div>
+      <span id="ba-s1-badge" class="badge bg">Step 1 of 6</span>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:16px">
+      <div style="background:var(--surf2);border:1px solid var(--border);border-radius:8px;padding:14px">
+        <div style="font-size:12px;font-weight:800;color:#c2610c;margin-bottom:8px">⚡ Speed</div>
+        <div style="font-size:13px;color:var(--muted);line-height:1.8">
+          <code style="color:#b45309">XW + c</code> = two GPU calls.<br>
+          <code style="color:#15803d">X_new W_new</code> = one.<br>
+          Across millions of samples and hundreds of layers, this compounds.
+        </div>
+      </div>
+      <div style="background:var(--surf2);border:1px solid var(--border);border-radius:8px;padding:14px">
+        <div style="font-size:12px;font-weight:800;color:#6d28d9;margin-bottom:8px">∂ Unified Gradients</div>
+        <div style="font-size:13px;color:var(--muted);line-height:1.8">
+          Backprop computes one <code style="color:#6d28d9">∂L/∂W_new</code> instead of separate
+          <code style="color:#6d28d9">∂L/∂W</code> and <code style="color:#6d28d9">∂L/∂c</code>.
+          Bias becomes just another weight row.
+        </div>
+      </div>
+      <div style="background:var(--surf2);border:1px solid var(--border);border-radius:8px;padding:14px">
+        <div style="font-size:12px;font-weight:800;color:#0f766e;margin-bottom:8px">💡 Architectural Insight</div>
+        <div style="font-size:13px;color:var(--muted);line-height:1.8">
+          Bias is not special — it is a weight connected to a constant input of <strong style="color:var(--text)">1</strong>.
+          PyTorch and most frameworks store W and b together for exactly this reason.
+        </div>
+      </div>
+    </div>
+    <div style="text-align:right">
+      <button class="btn btn-p" onclick="baUnlock(2)">I understand — let's solve it →</button>
+    </div>
+  </div>
+
+  <!-- Stage 2: How to approach -->
+  <div id="ba-stage2" class="card ba-locked-section" style="margin-bottom:16px">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
+      <div class="card-title" style="margin-bottom:0">How to Approach This</div>
+      <span id="ba-s2-badge" class="badge og">Step 2 of 6 — locked</span>
+    </div>
+    <div style="background:var(--surf2);border:1px solid var(--border);border-radius:8px;padding:16px;margin-bottom:14px">
+      <p style="font-size:13px;color:var(--text);margin-bottom:10px">Think about what <strong style="color:#0d9488">c</strong> actually does:</p>
+      <p style="font-size:13px;color:var(--muted);line-height:1.8;margin-bottom:14px">
+        <code style="color:#b45309">XW + c</code> adds the same fixed offset <code style="color:#0d9488">[0, −1]</code>
+        to <strong>every row</strong> of XW.
+      </p>
+      <div style="background:#fff;border:1px solid var(--border);border-radius:6px;padding:14px;text-align:center;margin-bottom:14px">
+        <div style="font-size:13px;color:var(--muted);margin-bottom:8px">Key question:</div>
+        <div style="font-size:15px;color:var(--text);font-family:'Courier New',monospace;letter-spacing:.05em">
+          <span style="color:#b45309">?</span>&nbsp; × &nbsp;c&nbsp; = &nbsp;c
+        </div>
+        <div style="font-size:13px;color:var(--muted);margin-top:8px">What value, times c, always returns c unchanged?</div>
+        <div style="font-size:14px;color:#15803d;font-family:'Courier New',monospace;margin-top:10px;font-weight:700">
+          Answer: 1 &nbsp;— because &nbsp; 1 × c = c &nbsp; for any c.
+        </div>
+      </div>
+      <p style="font-size:13px;color:var(--muted);line-height:1.8;margin-bottom:10px">
+        So if every sample row in X carries a <strong style="color:var(--text)">1</strong> in an extra column,
+        and W carries <strong style="color:#0d9488">c</strong> as an extra row at the bottom, the multiply absorbs the bias automatically:
+      </p>
+      <div style="background:#fff;border:1px solid var(--border);border-radius:6px;padding:16px 18px">
+        <div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap">
+          <!-- row vector X_new -->
+          <div class="ba-matrix" style="color:#1d4ed8">
+            <div class="ba-matrix-bracket-l"></div>
+            <div class="ba-matrix-body">
+              <div class="ba-matrix-row">
+                <span class="ba-matrix-cell">x₁</span>
+                <span class="ba-matrix-cell">x₂</span>
+                <span class="ba-matrix-cell" style="color:#15803d;font-weight:700">1</span>
+              </div>
+            </div>
+            <div class="ba-matrix-bracket-r"></div>
+          </div>
+          <span style="font-family:'Courier New',monospace;color:var(--muted)">×</span>
+          <!-- W_new matrix — all three rows under one bracket -->
+          <div class="ba-matrix" style="color:#d97706">
+            <div class="ba-matrix-bracket-l"></div>
+            <div class="ba-matrix-body">
+              <div class="ba-matrix-row"><span class="ba-matrix-cell">w₁₁</span><span class="ba-matrix-cell">w₁₂</span></div>
+              <div class="ba-matrix-row"><span class="ba-matrix-cell">w₂₁</span><span class="ba-matrix-cell">w₂₂</span></div>
+              <div class="ba-matrix-row" style="color:#0d9488"><span class="ba-matrix-cell">c₁</span><span class="ba-matrix-cell">c₂</span></div>
+            </div>
+            <div class="ba-matrix-bracket-r"></div>
+          </div>
+          <span style="font-family:'Courier New',monospace;color:var(--muted)">=</span>
+          <div style="font-family:'Courier New',monospace;font-size:13px">
+            <div style="color:var(--text);font-weight:700">XW + c</div>
+            <div style="color:var(--muted);font-size:12px;margin-top:4px">← same result, one multiply</div>
+          </div>
+        </div>
+        <div style="margin-top:14px;background:var(--surf2);border:1px solid var(--border);border-radius:6px;padding:10px 14px">
+          <div style="font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);font-weight:700;margin-bottom:6px">e.g. first output element for any row</div>
+          <div style="font-family:'Courier New',monospace;font-size:13px">
+            <span style="color:#1d4ed8">x₁</span><span style="color:#d97706">w₁₁</span>
+            <span style="color:var(--muted)"> + </span>
+            <span style="color:#1d4ed8">x₂</span><span style="color:#d97706">w₂₁</span>
+            <span style="color:var(--muted)"> + </span>
+            <span style="color:#15803d">1</span><span style="color:#0d9488">·c₁</span>
+            <span style="color:var(--muted)">
+          </div>
+          <div style="font-size:12px;color:var(--muted);margin-top:6px">
+            The <span style="color:#15803d">1</span> multiplies <span style="color:#0d9488">c₁</span> directly — so the bias is added without a separate operation.
+          </div>
+        </div>
+      </div>
+    </div>
+    <div style="text-align:right">
+      <button class="btn btn-p" onclick="baUnlock(3)">Got it — choose the shapes →</button>
+    </div>
+  </div>
+
+  <!-- Stage 3: Choose shapes -->
+  <div id="ba-stage3" class="card ba-locked-section" style="margin-bottom:16px">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
+      <div class="card-title" style="margin-bottom:0">Step 1 of 3 — Choose the Shapes</div>
+      <span id="ba-s3-badge" class="badge og">Step 3 of 6 — locked</span>
+    </div>
+    <p style="font-size:13px;color:var(--muted);line-height:1.8;margin-bottom:18px">
+      X is (4×2). W is (2×2). c is (1×2).<br>
+      <code style="color:#b45309">XW + c</code> produces a <strong style="color:var(--text)">(4×2)</strong> result.
+      <code style="color:#15803d">X_new W_new</code> must also output <strong style="color:var(--text)">(4×2)</strong> — shape is forced by the math.
+    </p>
+
+    <!-- X_new shape -->
+    <div style="margin-bottom:22px">
+      <p style="font-size:13px;font-weight:700;color:#1d4ed8;margin-bottom:10px">X_new must have shape:</p>
+      <div id="ba-xshape-opts" style="display:flex;gap:10px;flex-wrap:wrap">
+        <label class="ba-shape-opt" data-val="4x1"><input type="radio" name="xshape" value="4x1"> (4×1)</label>
+        <label class="ba-shape-opt" data-val="4x2"><input type="radio" name="xshape" value="4x2"> (4×2)</label>
+        <label class="ba-shape-opt" data-val="4x3"><input type="radio" name="xshape" value="4x3"> (4×3)</label>
+        <label class="ba-shape-opt" data-val="4x4"><input type="radio" name="xshape" value="4x4"> (4×4)</label>
+      </div>
+      <div id="ba-xshape-fb" class="guidance-box cold" style="margin-top:10px;display:none"></div>
+    </div>
+
+    <!-- W_new shape (locked until X shape correct) -->
+    <div id="ba-wshape-section" class="ba-locked-section" style="margin-bottom:20px">
+      <p style="font-size:13px;font-weight:700;color:#c2610c;margin-bottom:10px">W_new must have shape:</p>
+      <div id="ba-wshape-opts" style="display:flex;gap:10px;flex-wrap:wrap">
+        <label class="ba-shape-opt" data-val="2x2"><input type="radio" name="wshape" value="2x2"> (2×2)</label>
+        <label class="ba-shape-opt" data-val="2x3"><input type="radio" name="wshape" value="2x3"> (2×3)</label>
+        <label class="ba-shape-opt" data-val="3x2"><input type="radio" name="wshape" value="3x2"> (3×2)</label>
+        <label class="ba-shape-opt" data-val="3x3"><input type="radio" name="wshape" value="3x3"> (3×3)</label>
+      </div>
+      <div id="ba-wshape-fb" class="guidance-box cold" style="margin-top:10px;display:none"></div>
+    </div>
+
+    <div id="ba-shape-confirm" style="text-align:right;display:none">
+      <button class="btn btn-p" onclick="baUnlock(4)">Shapes confirmed — fill the values →</button>
+    </div>
+  </div>
+
+  <!-- Stage 4+5: Fill values (two-column) -->
+  <div id="ba-stage4" class="ba-locked-section" style="margin-bottom:16px">
+    <div class="two-col">
+
+      <!-- LEFT: build the matrices -->
+      <div>
+        <div class="card" style="margin-bottom:16px">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+            <div class="card-title" style="margin-bottom:0">Step 2 of 3 — Fill X_new (4×3)</div>
+            <span id="ba-xval-badge" class="badge rg">0/4 correct</span>
+          </div>
+          <p style="font-size:13px;color:var(--muted);margin-bottom:12px">
+            Columns 1–2 are locked (original X). Fill the
+            <strong style="color:#15803d">new column</strong> — what constant value should go here?
+          </p>
+          <div id="ba-xnew-grid" style="display:grid;grid-template-columns:auto auto auto;gap:6px;width:fit-content;margin-bottom:12px"></div>
+          <div id="ba-xval-hint" class="guidance-box cold" style="font-size:13px">Fill the new column. What value, multiplied by c, always returns c unchanged?</div>
+        </div>
+
+        <div class="card">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+            <div class="card-title" style="margin-bottom:0">Step 3 of 3 — Fill W_new (3×2)</div>
+            <span id="ba-wval-badge" class="badge rg">0/2 correct</span>
+          </div>
+          <p style="font-size:13px;color:var(--muted);margin-bottom:12px">
+            Rows 1–2 are locked (original W). Fill the
+            <strong style="color:#0d9488">bias row</strong> — where does c live in the new weight matrix?
+          </p>
+          <div id="ba-wnew-grid" style="display:grid;grid-template-columns:auto auto;gap:6px;width:fit-content;margin-bottom:12px"></div>
+          <div id="ba-wval-hint" class="guidance-box cold" style="font-size:13px">Fill the bias row with the values from c = [0, −1].</div>
+        </div>
+      </div>
+
+      <!-- RIGHT: live feedback -->
+      <div>
+        <div class="card">
+          <div class="card-title">Step-by-Step Computation</div>
+          <div id="ba-steps" style="font-size:13px"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Stage 6: Verification -->
+  <div id="ba-stage6" class="ba-locked-section" style="margin-bottom:16px">
+    <div class="card">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
+        <div class="card-title" style="margin-bottom:0">Verification — Do Both Paths Match?</div>
+        <span id="ba-verify-badge" class="badge rg">0/8 cells match</span>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px">
+        <div>
+          <p style="font-size:12px;font-weight:800;color:#1d4ed8;margin-bottom:10px;text-transform:uppercase;letter-spacing:.05em">PATH A: max(0, XW + c)</p>
+          <div id="ba-path-a" style="font-family:'Courier New',monospace;font-size:13px;line-height:2.4"></div>
+        </div>
+        <div>
+          <p style="font-size:12px;font-weight:800;color:#15803d;margin-bottom:10px;text-transform:uppercase;letter-spacing:.05em">PATH B: max(0, X_new W_new)</p>
+          <div id="ba-path-b" style="font-family:'Courier New',monospace;font-size:13px;line-height:2.4"></div>
+        </div>
+      </div>
+      <div id="ba-verify-result" style="margin-top:14px"></div>
+    </div>
+  </div>
+
+  <!-- Stage 7: Takeaway + Submit -->
+  <div id="ba-stage7" class="ba-locked-section">
+    <div class="card" style="background:linear-gradient(135deg,#f0fdf4,#dcfce7);border-color:#16a34a;margin-bottom:16px">
+      <div class="card-title">What You Just Did</div>
+      <ul style="font-size:13px;color:var(--text);font-weight:500;line-height:2.4;padding-left:18px;margin:0">
+        <li>Bias <strong style="color:#0d9488">c</strong> is just a weight connected to a constant input of <strong style="color:var(--text)">1</strong>.</li>
+        <li>Adding a column of <strong style="color:var(--text)">1s</strong> to X gives the bias a carrier that fires for every sample.</li>
+        <li>Stacking <strong style="color:#0d9488">c</strong> as a new bottom row in W folds the bias into the weight matrix.</li>
+        <li>This is called <strong style="color:#b45309">bias absorption</strong> — used internally by frameworks like PyTorch.</li>
+      </ul>
+    </div>
+  </div>
+
+</div>
+
+</main>
+</div>
+<script src="../assets/app.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  initDoneBanners()
+  initBias()
+  showTab('6.1')
+})
+</script>
+</body>
+</html>

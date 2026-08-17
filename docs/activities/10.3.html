@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Bi-RNN Equations · Neural Networks Activities</title>
+<link rel="stylesheet" href="../assets/app.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+</head>
+<body>
+<header class="app-header">
+  <div>
+    <h1>Bi-RNN Equations</h1>
+    <p class="header-sub">ISTA 457 / INFO 557 · Forward, backward & output</p>
+  </div>
+  <a href="../index.html" class="btn btn-g" style="text-decoration:none">&larr; All Activities</a>
+</header>
+<div class="app-body">
+<main class="app-main">
+
+<div id="tab-10.3" class="tab-panel">
+  <div class="prob-card">
+    <div style="margin-bottom:10px"><span class="prob-badge">Activity 10.3</span><span class="prob-title">Bi-Directional RNN — Deriving the Equations</span><span id="birnn-completed" class="completed-badge">✓ 10.3 Completed</span></div>
+    <div id="br-eq" style="margin-bottom:16px"></div>
+    <p class="prob-desc">A BiRNN runs two independent RNNs over the same sequence: one left→right (forward, subscript <em>f</em>) and one right→left (backward, subscript <em>b</em>). Both hidden states are combined to produce each output. Work through the diagram to derive every equation.</p>
+    <div style="text-align:right;margin-top:12px"><button class="btn btn-p" onclick="brUnlock(1)">Explore the diagram →</button></div>
+  </div>
+
+  <div id="br-s1" class="ba-locked-section" style="margin-top:16px">
+    <div class="card">
+      <div class="card-title">Stage 1 — Read the Diagram</div>
+      <p style="font-size:13px;color:var(--muted);margin-bottom:12px">The BiRNN is unrolled across three timesteps. Blue arrows show the forward stream; red arrows show the backward stream. Click each toggle to trace which weights connect which nodes.</p>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px">
+        <button class="btn btn-g" id="br-fwd-btn" onclick="brHighlight('fwd')">Highlight forward stream (h_f)</button>
+        <button class="btn btn-g" id="br-bwd-btn" onclick="brHighlight('bwd')">Highlight backward stream (h_b)</button>
+        <button class="btn btn-g" id="br-out-btn" onclick="brHighlight('out')">Highlight output (o)</button>
+      </div>
+      <svg id="br-svg" width="520" height="260" style="background:var(--surf2);border:1px solid var(--border);border-radius:10px;display:block;max-width:100%"></svg>
+      <div id="br-diagram-msg" style="margin-top:10px;font-size:13px;color:var(--muted);min-height:18px"></div>
+      <div style="margin-top:12px;text-align:right"><button class="btn btn-p" onclick="brUnlock(2)">I've traced both streams →</button></div>
+    </div>
+  </div>
+
+  <div id="br-s2" class="ba-locked-section" style="margin-top:16px">
+    <div class="card">
+      <div class="card-title">Stage 2 — Weight Identification</div>
+      <p style="font-size:13px;color:var(--muted);margin-bottom:10px">Before writing equations, identify which weight matrix plays each role.</p>
+      <div style="font-weight:600;font-size:13px;margin-bottom:8px">Which weight connects h_f^(t−1) to h_f^(t)?</div>
+      <div id="br-q1-opts" style="display:flex;flex-direction:column;gap:5px;max-width:420px"></div>
+      <div id="br-q1-hint" class="guidance-box cold" style="margin-top:8px;max-width:420px"></div>
+    </div>
+  </div>
+
+  <div id="br-s3" class="ba-locked-section" style="margin-top:16px">
+    <div class="card">
+      <div class="card-title">Stage 3 — The Backward Index</div>
+      <p style="font-size:13px;color:var(--muted);margin-bottom:10px">Notice that the backward hidden state connects to a <em>different</em> neighbour than the forward state does.</p>
+      <div style="font-weight:600;font-size:13px;margin-bottom:8px">Why does the backward recurrence use h_b^(t+1) rather than h_b^(t−1)?</div>
+      <div id="br-q2-opts" style="display:flex;flex-direction:column;gap:5px;max-width:420px"></div>
+      <div id="br-q2-hint" class="guidance-box cold" style="margin-top:8px;max-width:420px"></div>
+    </div>
+  </div>
+
+  <div id="br-s4" class="ba-locked-section" style="margin-top:16px">
+    <div class="card">
+      <div class="card-title">Stage 4 — Fill in the Equations</div>
+      <p style="font-size:13px;color:var(--muted);margin-bottom:12px">Select the correct weight for each slot. Each row unlocks when the previous is correct.</p>
+      <div style="display:flex;flex-direction:column;gap:16px;max-width:540px">
+        <div>
+          <div style="font-size:13px;font-weight:600;margin-bottom:6px">h_f^(t) = tanh( <span style="color:var(--blue)">A</span> · h_f^(t−1) + <span style="color:var(--blue)">B</span> · x^(t) )</div>
+          <div style="display:flex;gap:10px;flex-wrap:wrap">
+            <div>
+              <div style="font-size:11px;color:var(--muted);margin-bottom:4px">Slot A</div>
+              <div id="br-eq1a-opts" style="display:flex;flex-direction:column;gap:4px"></div>
+            </div>
+            <div>
+              <div style="font-size:11px;color:var(--muted);margin-bottom:4px">Slot B</div>
+              <div id="br-eq1b-opts" style="display:flex;flex-direction:column;gap:4px"></div>
+            </div>
+          </div>
+          <div id="br-eq1-hint" class="guidance-box cold" style="margin-top:6px"></div>
+        </div>
+        <div id="br-eq2-block" style="opacity:.35;pointer-events:none;transition:opacity .3s">
+          <div style="font-size:13px;font-weight:600;margin-bottom:6px">h_b^(t) = tanh( <span style="color:var(--red)">C</span> · h_b^(t+1) + <span style="color:var(--red)">D</span> · x^(t) )</div>
+          <div style="display:flex;gap:10px;flex-wrap:wrap">
+            <div>
+              <div style="font-size:11px;color:var(--muted);margin-bottom:4px">Slot C</div>
+              <div id="br-eq2c-opts" style="display:flex;flex-direction:column;gap:4px"></div>
+            </div>
+            <div>
+              <div style="font-size:11px;color:var(--muted);margin-bottom:4px">Slot D</div>
+              <div id="br-eq2d-opts" style="display:flex;flex-direction:column;gap:4px"></div>
+            </div>
+          </div>
+          <div id="br-eq2-hint" class="guidance-box cold" style="margin-top:6px"></div>
+        </div>
+        <div id="br-eq3-block" style="opacity:.35;pointer-events:none;transition:opacity .3s">
+          <div style="font-size:13px;font-weight:600;margin-bottom:6px">o^(t) = <span style="color:#15803d">E</span> · h_f^(t) + <span style="color:#15803d">F</span> · h_b^(t)</div>
+          <div style="display:flex;gap:10px;flex-wrap:wrap">
+            <div>
+              <div style="font-size:11px;color:var(--muted);margin-bottom:4px">Slot E</div>
+              <div id="br-eq3e-opts" style="display:flex;flex-direction:column;gap:4px"></div>
+            </div>
+            <div>
+              <div style="font-size:11px;color:var(--muted);margin-bottom:4px">Slot F</div>
+              <div id="br-eq3f-opts" style="display:flex;flex-direction:column;gap:4px"></div>
+            </div>
+          </div>
+          <div id="br-eq3-hint" class="guidance-box cold" style="margin-top:6px"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="br-s5" class="ba-locked-section" style="margin-top:16px">
+    <div class="two-col">
+      <div class="card">
+        <div class="card-title">Stage 5 — When Does Context Matter?</div>
+        <p style="font-size:13px;color:var(--muted);margin-bottom:10px">At timestep t, h_f^(t) encodes everything <em>before</em> t; h_b^(t) encodes everything <em>after</em> t. Their combination gives full bidirectional context.</p>
+        <div style="font-weight:600;font-size:13px;margin-bottom:8px">For which task does seeing future tokens matter most?</div>
+        <div id="br-q3-opts" style="display:flex;flex-direction:column;gap:5px;max-width:340px"></div>
+        <div id="br-q3-hint" class="guidance-box cold" style="margin-top:8px;max-width:340px"></div>
+      </div>
+      <div class="card">
+        <div class="card-title">Reflect</div>
+        <p style="font-size:13px;color:var(--muted);margin-bottom:8px">A standard unidirectional RNN can be used for text generation (predicting the next word). Could you use a BiRNN for text generation? Why or why not?</p>
+        <textarea id="br-ref" rows="4" style="width:100%;box-sizing:border-box;background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:8px;color:var(--text);font-family:inherit;resize:vertical;margin-bottom:8px" placeholder="A BiRNN requires the full sequence to be available — it can't generate token-by-token because h_b depends on future tokens…" oninput="brUpdateSummary()"></textarea>
+        <div id="br-summary" style="font-size:.88em;color:var(--muted)"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</main>
+</div>
+<script src="../assets/app.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  initDoneBanners()
+  initBiRNN()
+  showTab('10.3')
+})
+</script>
+</body>
+</html>

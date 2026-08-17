@@ -1,0 +1,223 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Sigmoid vs Softmax · Neural Networks Activities</title>
+<link rel="stylesheet" href="../assets/app.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+</head>
+<body>
+<header class="app-header">
+  <div>
+    <h1>Sigmoid vs Softmax</h1>
+    <p class="header-sub">ISTA 457 / INFO 557 · Independent vs competing</p>
+  </div>
+  <a href="../index.html" class="btn btn-g" style="text-decoration:none">&larr; All Activities</a>
+</header>
+<div class="app-body">
+<main class="app-main">
+
+<div id="tab-6.2.2" class="tab-panel">
+
+  <!-- Problem card -->
+  <div class="prob-card">
+    <div style="margin-bottom:12px">
+      <span class="prob-badge">Activity 6.2.2</span>
+      <span class="prob-title">Sigmoid Cross-Entropy Cost</span>
+      <span id="a422-completed" class="completed-badge">✓ 6.2.2 Completed</span>
+    </div>
+    <p class="prob-desc">The sigmoid cross-entropy cost unifies both y=0 and y=1 into a single formula using a sign flip (1−2y). The softplus function ζ(z) = −log σ(−z) describes how cost grows — near zero when the model is correct, large when it is confidently wrong. Explore the curve below by adjusting the raw score z and the true label y.</p>
+    <div class="eq-block">
+      <div class="eq-line">J(w) = −log σ(−(1−2y)(w<sup>T</sup>h + b))</div>
+      <div style="margin-top:8px;color:var(--muted);font-weight:500">softplus: &nbsp;<span style="color:var(--orange);font-weight:700">ζ(z) = −log σ(−z) = log(1 + eᶻ)</span></div>
+    </div>
+    <div class="given-row">
+      <div class="given-box"><div class="given-lbl">z = w<sup>T</sup>h + b</div><div class="given-val">raw score (scalar)</div></div>
+      <div class="given-box"><div class="given-lbl2">y ∈ {0, 1}</div><div class="given-val">true binary label</div></div>
+      <div class="given-box"><div class="given-lbl2">(1−2y)</div><div class="given-val">+1 if y=0, −1 if y=1</div></div>
+      <div class="given-box"><div class="given-lbl2">ζ(z)</div><div class="given-val">≈ 0 when z≪0, ≈ z when z≫0</div></div>
+    </div>
+  </div>
+
+  <!-- Interactive explorer: 2x2 grid so row 1 (Explore/Formula) and row 2 (4 Cases/Cost Curve) each match height -->
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px">
+
+    <!-- Row 1, col 1 -->
+    <div class="card" style="padding:14px">
+      <div class="card-title" style="margin-bottom:8px">Explore — Adjust z and Toggle y</div>
+
+      <!-- y toggle -->
+      <div style="margin-bottom:10px">
+        <div class="section-label" style="margin-bottom:4px">True label y</div>
+        <div style="display:flex;gap:8px">
+          <button id="a4-y0-btn" class="btn btn-p" onclick="a4SetY(0)" style="min-width:90px;font-size:14px">y = 0</button>
+          <button id="a4-y1-btn" class="btn btn-g" onclick="a4SetY(1)" style="min-width:90px;font-size:14px">y = 1</button>
+        </div>
+      </div>
+
+      <!-- z slider -->
+      <div>
+        <div class="section-label" style="margin-bottom:4px">Raw score &nbsp;<span style="color:var(--blue);font-family:'Courier New',monospace">z = w<sup>T</sup>h + b</span></div>
+        <div style="display:flex;align-items:center;gap:10px">
+          <span style="font-family:'Courier New',monospace;font-size:12px;color:var(--muted)">−10</span>
+          <input type="range" id="a4-z-slider" min="-10" max="10" step="0.1" value="0" style="flex:1" oninput="a4UpdateZ(this.value)">
+          <span style="font-family:'Courier New',monospace;font-size:12px;color:var(--muted)">+10</span>
+        </div>
+        <div style="text-align:center;font-family:'Courier New',monospace;font-size:18px;font-weight:800;color:var(--blue);margin-top:6px">z = <span id="a4-z-val">0.0</span></div>
+      </div>
+    </div>
+
+    <!-- Row 1, col 2: live formula expansion -->
+    <div class="card" style="padding:14px">
+      <div class="card-title" style="margin-bottom:8px">Formula expansion — step by step</div>
+      <div class="algebra" style="padding:10px;line-height:1.7">
+        <div class="alg-step">y &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;= <span id="a4-exp-y" style="color:var(--text);font-weight:700">0</span></div>
+        <div class="alg-step">(1 − 2y) &nbsp;&nbsp;= <span id="a4-exp-flip" style="color:var(--purple);font-weight:700">+1</span></div>
+        <div class="alg-step">−(1−2y)·z = <span id="a4-exp-neg" style="color:var(--muted)">0.000</span></div>
+        <div class="alg-step">σ(−(1−2y)·z) = <span id="a4-exp-sig" style="color:var(--muted)">0.5000</span></div>
+        <div class="alg-step">−log( <span id="a4-exp-sig2" style="color:var(--muted)">0.5000</span> )</div>
+        <div class="alg-res" style="margin-top:8px;padding-top:8px">J(w) = <span id="a4-cost-big">0.6931</span></div>
+      </div>
+    </div>
+
+    <!-- Row 2, col 1: scenario checklist -->
+    <div class="card" style="padding:14px">
+      <div class="card-title" style="margin-bottom:8px">4 Cases to Explore</div>
+      <p style="font-size:13px;color:var(--muted);font-weight:500;margin-bottom:8px">Move the z slider into each region, or click to snap there. Each case reveals a key insight.</p>
+      <div style="display:flex;flex-direction:column;gap:6px">
+        <div id="a4-sc0" class="a4-scenario" onclick="a4SnapScenario(0,-3)">
+          <span class="a4-sc-icon">○</span>
+          <div><strong>y = 0,&nbsp; z &lt; 0</strong> <span class="a4-sc-hint">— model leans toward "class 0"</span></div>
+        </div>
+        <div id="a4-sc1" class="a4-scenario" onclick="a4SnapScenario(0,3)">
+          <span class="a4-sc-icon">○</span>
+          <div><strong>y = 0,&nbsp; z &gt; 0</strong> <span class="a4-sc-hint">— model leans toward "class 1"</span></div>
+        </div>
+        <div id="a4-sc2" class="a4-scenario" onclick="a4SnapScenario(1,-3)">
+          <span class="a4-sc-icon">○</span>
+          <div><strong>y = 1,&nbsp; z &lt; 0</strong> <span class="a4-sc-hint">— model leans toward "class 0"</span></div>
+        </div>
+        <div id="a4-sc3" class="a4-scenario" onclick="a4SnapScenario(1,3)">
+          <span class="a4-sc-icon">○</span>
+          <div><strong>y = 1,&nbsp; z &gt; 0</strong> <span class="a4-sc-hint">— model leans toward "class 1"</span></div>
+        </div>
+      </div>
+      <div id="a4-sc-guidance" class="guidance-box cold" style="margin-top:8px;font-size:13px">Explore all four cases to unlock the quiz below.</div>
+    </div>
+
+    <!-- Row 2, col 2: cost curve -->
+    <div class="card" style="padding:14px;display:flex;flex-direction:column">
+      <div class="card-title2" style="margin-bottom:6px">Cost Curve &nbsp; ζ(z) = −log σ(−z)</div>
+      <svg id="a4-plot" viewBox="0 0 420 280" style="width:100%;flex:1;min-height:200px"></svg>
+      <div style="display:flex;gap:18px;margin-top:6px;font-size:13px;flex-wrap:wrap;font-weight:500">
+        <div style="display:flex;align-items:center;gap:7px"><span style="width:28px;height:3px;background:#1d4ed8;display:inline-block;border-radius:2px"></span>ζ(z) &nbsp;— cost when <strong>y = 0</strong></div>
+        <div style="display:flex;align-items:center;gap:7px"><span style="width:28px;height:3px;background:#15803d;display:inline-block;border-radius:2px"></span>ζ(−z) — cost when <strong>y = 1</strong></div>
+      </div>
+      <div id="a4-plot-label" style="margin-top:8px;background:var(--surf2);border:1px solid var(--border);border-radius:7px;padding:8px 14px;font-family:'Courier New',monospace;font-size:13px;font-weight:700;text-align:center"></div>
+    </div>
+  </div>
+
+
+</div>
+
+<div id="tab-6.2.3" class="tab-panel">
+
+  <!-- Problem card -->
+  <div class="prob-card" style="background:linear-gradient(135deg,#f0fdf4,#dcfce7);border-color:#86efac">
+    <div style="margin-bottom:12px">
+      <span class="prob-badge" style="background:#15803d">Activity 6.2.3</span>
+      <span class="prob-title">n Sigmoid Units vs Softmax(n)</span>
+      <span id="a423-completed" class="completed-badge">✓ 6.2.3 Completed</span>
+    </div>
+    <p class="prob-desc">Both produce n outputs in (0, 1) — but they behave fundamentally differently. Sigmoid units are <strong>independent</strong>: each output has its own gate, and changing one leaves the others unchanged. Softmax outputs <strong>compete</strong>: boosting one always suppresses the rest, because all outputs are forced to sum to exactly 1.</p>
+    <div class="eq-block" style="display:grid;grid-template-columns:1fr 1fr;gap:24px">
+      <div>
+        <div style="font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.07em;color:#1d4ed8;margin-bottom:8px">n Sigmoid Units</div>
+        <div class="eq-line" style="font-size:16px">p<sub>k</sub> = σ(a<sub>k</sub>) = 1 / (1 + e<sup>−a<sub>k</sub></sup>)</div>
+        <div style="font-size:13px;color:var(--muted);margin-top:6px;font-weight:500">each output independent ∈ (0, 1)</div>
+        <div style="font-size:13px;color:#c2610c;margin-top:3px;font-weight:600">Σ p<sub>k</sub> can be anything in (0, n)</div>
+      </div>
+      <div>
+        <div style="font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.07em;color:#15803d;margin-bottom:8px">Softmax(n)</div>
+        <div class="eq-line" style="font-size:16px">p<sub>k</sub> = e<sup>a<sub>k</sub></sup> / Σ<sub>j</sub> e<sup>a<sub>j</sub></sup> &nbsp;&nbsp; (Z = Σ<sub>j</sub> e<sup>a<sub>j</sub></sup>)</div>
+        <div style="font-size:13px;color:var(--muted);margin-top:6px;font-weight:500">globally normalized — competitive</div>
+        <div style="font-size:13px;color:#15803d;margin-top:3px;font-weight:600">Σ p<sub>k</sub> = 1.000 always ✓</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Shared sliders -->
+  <div class="card" style="margin-bottom:20px">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;flex-wrap:wrap;gap:10px">
+      <div class="card-title" style="margin-bottom:0;font-size:13px;text-transform:none;letter-spacing:normal;font-weight:600">Raw scores a<sub>1</sub>, a<sub>2</sub>, a<sub>3</sub> — shared by both panels</div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap">
+        <button class="btn btn-g" onclick="a4Preset([2,-1,0.5])">Default</button>
+        <button class="btn btn-g" onclick="a4Preset([5,-1,0.5])"><span>Boost a<sub>1</sub> → 5</span></button>
+        <button class="btn btn-g" onclick="a4Preset([0,0,0])">Equal (0, 0, 0)</button>
+        <button class="btn btn-g" onclick="a4Preset([5,5,-5])"><span>Tie a<sub>1</sub> = a<sub>2</sub></span></button>
+      </div>
+    </div>
+    <div id="a4-score-sliders"></div>
+  </div>
+
+  <!-- Two-col: sigmoid vs softmax -->
+  <div class="two-col" style="margin-bottom:20px">
+
+    <!-- Sigmoid -->
+    <div class="card">
+      <div class="card-title" style="color:#1d4ed8;font-size:13px">n = 3 Sigmoid Units &nbsp;·&nbsp; <span style="text-transform:none;letter-spacing:normal;font-size:15px">p<sub>k</sub> = σ(a<sub>k</sub>)</span></div>
+      <div id="a4-sig-bars" style="display:flex;flex-direction:column;gap:14px;margin-bottom:16px"></div>
+      <div style="border-top:2px solid var(--border);padding-top:12px;display:flex;justify-content:space-between;align-items:center">
+        <span style="font-size:14px;font-weight:700;color:var(--text)">Σ p<sub>k</sub> =</span>
+        <span id="a4-sig-sum" style="font-family:'Courier New',monospace;font-size:17px;font-weight:800"></span>
+      </div>
+      <div id="a4-sig-note" style="margin-top:10px;font-size:13px;font-weight:500"></div>
+    </div>
+
+    <!-- Softmax -->
+    <div class="card">
+      <div class="card-title" style="color:#15803d;font-size:13px">Softmax(3) &nbsp;·&nbsp; <span style="text-transform:none;letter-spacing:normal;font-size:15px">p<sub>k</sub> = e<sup>a<sub>k</sub></sup> / Z</span></div>
+      <div id="a4-smx-bars" style="display:flex;flex-direction:column;gap:14px;margin-bottom:16px"></div>
+      <div style="border-top:2px solid var(--border);padding-top:12px;display:flex;justify-content:space-between;align-items:center">
+        <span style="font-size:14px;font-weight:700;color:var(--text)">Σ p<sub>k</sub> =</span>
+        <span style="font-family:'Courier New',monospace;font-size:17px;font-weight:800;color:#15803d">1.000 ✓</span>
+      </div>
+      <div style="margin-top:10px;font-size:13px;font-weight:600;color:#15803d">Always a valid probability distribution.</div>
+    </div>
+  </div>
+
+  <!-- Key difference insight -->
+  <div class="card" style="margin-bottom:20px;border-color:#a5b4fc;background:linear-gradient(135deg,#eef2ff,#ede9ff)">
+    <div class="card-title">Key Difference — Live Observation</div>
+    <div id="a4-diff-panel" style="display:grid;grid-template-columns:1fr 1fr;gap:24px"></div>
+  </div>
+
+  <!-- Use-case quiz (gated) -->
+  <div id="a4-quiz-card" class="card" style="margin-bottom:20px">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
+      <div class="card-title" style="margin-bottom:0">When Do You Use Each? — Quiz</div>
+      <span id="a4-quiz-badge" class="badge og">0/4 answered</span>
+    </div>
+    <p style="font-size:13px;color:var(--muted);margin-bottom:14px;font-weight:500">For each scenario below, decide whether sigmoid or softmax is the right output activation.</p>
+    <div id="a4-quiz-items" style="display:flex;flex-direction:column;gap:10px"></div>
+    <div id="a4-quiz-guidance" class="guidance-box cold" style="margin-top:14px;font-size:13px">Choose sigmoid or softmax for each scenario above.</div>
+  </div>
+
+
+</div>
+
+</main>
+</div>
+<script src="../assets/app.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  initDoneBanners()
+  initAct4()
+  showTab('6.2.3')
+})
+</script>
+</body>
+</html>

@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Transfer Learn · Neural Networks Activities</title>
+<link rel="stylesheet" href="../assets/app.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+</head>
+<body>
+<header class="app-header">
+  <div>
+    <h1>Transfer Learn</h1>
+    <p class="header-sub">ISTA 457 / INFO 557 · Reuse pre-trained features</p>
+  </div>
+  <a href="../index.html" class="btn btn-g" style="text-decoration:none">&larr; All Activities</a>
+</header>
+<div class="app-body">
+<main class="app-main">
+
+<div id="tab-8.4" class="tab-panel">
+  <div class="prob-card">
+    <div style="margin-bottom:10px"><span class="prob-badge">Activity 8.4</span><span id="tl-completed" class="completed-badge">✓ 8.4 Completed</span></div>
+    <h2 style="margin:0 0 8px;font-size:1.3em">Transfer Learning</h2>
+    <p style="color:var(--muted);margin:0">
+      You plan to train a neural network to segment images into regions corresponding to sky, trees, vehicles, etc. However, you have only a few thousand images manually annotated for such segments.
+      <br><br>
+      ImageNet provides over 14 million images, tagged (but not segmented) for more than 20 thousand word senses: 1633 images tagged with canine, 1380 images tagged with motorcycle, etc. How might you use this data to pre-train your model? How would you handle the architectural differences between the pre-training task (predicting tags) and the real task (predicting segmentations)?
+    </p>
+  </div>
+  <div id="tl-s1" class="ba-locked-section unlocked">
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:14px">
+      <div class="card" style="padding:14px"><div style="font-size:1.4em;margin-bottom:6px">📦</div><strong>Data scarcity</strong><p style="color:var(--muted);font-size:0.85em;margin:6px 0 0">Pixel masks cost 100× more to label than image-level categories. Classification datasets like ImageNet dwarf segmentation ones.</p></div>
+      <div class="card" style="padding:14px"><div style="font-size:1.4em;margin-bottom:6px">🧠</div><strong>Features transfer</strong><p style="color:var(--muted);font-size:0.85em;margin:6px 0 0">Edges, textures, and shapes learned on 14M images are useful for any vision task — not just classification.</p></div>
+      <div class="card" style="padding:14px"><div style="font-size:1.4em;margin-bottom:6px">⚡</div><strong>Fast fine-tuning</strong><p style="color:var(--muted);font-size:0.85em;margin:6px 0 0">Good initial weights need far fewer labeled examples to converge — only the task-specific head needs heavy training.</p></div>
+    </div>
+    <button class="btn" onclick="tlUnlock(2)">Show me the architecture →</button>
+  </div>
+  <div id="tl-s2" class="ba-locked-section">
+    <h3 style="margin:0 0 10px">Backbone + Head Architecture</h3>
+    <svg id="tl-svg" width="100%" height="200" style="background:var(--surface);border-radius:8px;border:1px solid var(--border);display:block;margin-bottom:14px"></svg>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:14px">
+      <div><p style="margin:0 0 6px;font-weight:600;font-size:0.9em">A. What does the task head do?</p><div id="tl-q1-opts"></div><div id="tl-q1-hint" class="guidance-box cold" style="margin-top:6px"></div></div>
+      <div><p style="margin:0 0 6px;font-weight:600;font-size:0.9em">B. To switch to segmentation, you…</p><div id="tl-q2-opts"></div><div id="tl-q2-hint" class="guidance-box cold" style="margin-top:6px"></div></div>
+      <div><p style="margin:0 0 6px;font-weight:600;font-size:0.9em">C. What do you freeze during fine-tune?</p><div id="tl-q3-opts"></div><div id="tl-q3-hint" class="guidance-box cold" style="margin-top:6px"></div></div>
+    </div>
+    <button class="btn" id="tl-btn2" onclick="tlUnlock(3)" disabled>Continue →</button>
+  </div>
+  <div id="tl-s3" class="ba-locked-section">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:14px">
+      <div><p style="margin:0 0 6px;font-weight:600">Why does classification pre-training help segmentation?</p><div id="tl-q4-opts"></div><div id="tl-q4-hint" class="guidance-box cold" style="margin-top:6px"></div></div>
+      <div>
+        <p style="margin:0 0 6px;font-weight:600">Pixel count check</p>
+        <p style="color:var(--muted);font-size:0.88em;margin:0 0 8px">3,000 images × 512 × 512 pixels. How many pixel-level decisions per training pass?</p>
+        <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">3000 × 512 × 512 = <input id="tl-px-inp" class="rr-inp" style="width:120px" placeholder="?" oninput="tlCheckPixel()"> pixels</div>
+        <div id="tl-px-hint" class="guidance-box cold" style="margin-top:6px"></div>
+      </div>
+    </div>
+    <button class="btn" id="tl-btn3" onclick="tlUnlock(4)" disabled>Continue →</button>
+  </div>
+  <div id="tl-s4" class="ba-locked-section">
+    <div class="card">
+      <h3 style="margin:0 0 10px">Reflection</h3>
+      <p style="color:var(--muted);margin:0 0 8px;font-size:0.9em">You're training a medical image segmenter (X-rays) and you have ImageNet weights. The domains look very different. Would you still use them? Why?</p>
+      <textarea id="tl-ref" rows="3" style="width:100%;box-sizing:border-box;background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:8px;color:var(--text);font-family:inherit;resize:vertical" oninput="tlUpdateSummary()"></textarea>
+      <div id="tl-summary" style="margin:10px 0;font-size:0.88em;color:var(--muted)"></div>
+    </div>
+  </div>
+</div>
+
+</main>
+</div>
+<script src="../assets/app.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  initDoneBanners()
+  initTransferLearn()
+  showTab('8.4')
+})
+</script>
+</body>
+</html>

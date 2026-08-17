@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Neuron Explorer · Neural Networks Activities</title>
+<link rel="stylesheet" href="../assets/app.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+</head>
+<body>
+<header class="app-header">
+  <div>
+    <h1>Neuron Explorer</h1>
+    <p class="header-sub">ISTA 457 / INFO 557 · Weighted sum + ReLU</p>
+  </div>
+  <a href="../index.html" class="btn btn-g" style="text-decoration:none">&larr; All Activities</a>
+</header>
+<div class="app-body">
+<main class="app-main">
+
+<div id="tab-0.0" class="tab-panel active">
+  <div class="prob-card">
+    <div style="margin-bottom:10px">
+      <span class="prob-badge">Activity 0.0</span>
+      <span class="prob-title">Single Neuron — Weighted Sum + ReLU</span>
+      <span id="n-completed" class="completed-badge">✓ 0.0 Completed</span>
+    </div>
+    <p class="prob-desc">The inputs are <strong style="color:#1d4ed8">locked</strong>. Adjust the weight sliders to find a set of weights that produces the desired output.</p>
+    <div id="n-prob-eq" style="margin-bottom:12px"></div>
+    <div class="given-row">
+      <div class="given-box">
+        <div class="given-lbl">🔒 Inputs (locked)</div>
+        <div class="given-val">x = [1.0, 1.0, 0.0, −1.0, 1.0, 0.0]</div>
+      </div>
+      <div class="given-box">
+        <div class="given-lbl">🎯 Weights to find</div>
+        <div class="given-val">w = [?, ?, ?, ?, ?, ?]</div>
+      </div>
+      <div class="given-box">
+        <div class="given-lbl">Expected Output</div>
+        <div class="given-val">aⱼ = 1 &nbsp;&nbsp; oⱼ = max(0, aⱼ) = 1</div>
+      </div>
+    </div>
+  </div>
+  <div class="two-col">
+    <!-- LEFT: diagram + controls -->
+    <div>
+      <div class="card">
+        <div class="card-title">Neuron Diagram</div>
+        <div id="n-svg"></div>
+      </div>
+      <div class="card">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+          <div class="card-title" style="margin-bottom:0">Controls</div>
+          <button class="btn btn-g" onclick="resetNeuron()">Reset Weights</button>
+        </div>
+        <p class="section-label">🔒 Inputs (fixed — cannot be changed)</p>
+        <div id="n-locked-inputs" style="margin-bottom:14px"></div>
+        <p class="section-label">Weights (wᵢ) — adjust to match the given values</p>
+        <div id="n-weights"></div>
+      </div>
+    </div>
+    <!-- RIGHT: computation + contributions + guidance + log -->
+    <div>
+      <div class="card">
+        <div class="card-title">Step-by-Step Computation</div>
+        <div id="n-algebra"></div>
+      </div>
+      <div class="card">
+        <div class="card-title">What Effect Does Each Input Have?</div>
+        <div id="n-contributions"></div>
+      </div>
+      <div class="card">
+        <div class="card-title">Guidance</div>
+        <div id="n-guidance"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</main>
+</div>
+<script src="../assets/app.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  initDoneBanners()
+  initNeuron()
+  showTab('0.0')
+})
+</script>
+</body>
+</html>

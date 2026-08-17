@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Recursive NNs · Neural Networks Activities</title>
+<link rel="stylesheet" href="../assets/app.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+</head>
+<body>
+<header class="app-header">
+  <div>
+    <h1>Recursive NNs</h1>
+    <p class="header-sub">ISTA 457 / INFO 557 · Beyond language trees</p>
+  </div>
+  <a href="../index.html" class="btn btn-g" style="text-decoration:none">&larr; All Activities</a>
+</header>
+<div class="app-body">
+<main class="app-main">
+
+<div id="tab-10.6" class="tab-panel">
+  <div class="prob-card">
+    <div style="margin-bottom:10px"><span class="prob-badge">Activity 10.6</span><span class="prob-title">Recursive Neural Networks — Beyond Language</span><span id="recnets-completed" class="completed-badge">✓ 10.6 Completed</span></div>
+    <div id="rc-eq" style="margin-bottom:16px"></div>
+    <p class="prob-desc">Recursive NNs process <strong>tree-structured</strong> inputs by composing representations bottom-up. They are common in NLP (parse trees), but the structure requirement is the key: any domain with natural hierarchies could in principle use them.</p>
+    <div style="text-align:right;margin-top:12px"><button class="btn btn-p" onclick="rcUnlock(1)">See the structure →</button></div>
+  </div>
+
+  <div id="rc-s1" class="ba-locked-section" style="margin-top:16px">
+    <div class="card">
+      <div class="card-title">Stage 1 — Sequence vs. Tree</div>
+      <p style="font-size:13px;color:var(--muted);margin-bottom:12px">Click the toggle to switch between how an RNN and a Recursive NN would process the same sentence.</p>
+      <div style="display:flex;gap:8px;margin-bottom:14px">
+        <button class="btn btn-g" id="rc-seq-btn" onclick="rcShow('seq')">RNN (sequence)</button>
+        <button class="btn btn-p" id="rc-tree-btn" onclick="rcShow('tree')">Recursive NN (tree)</button>
+      </div>
+      <svg id="rc-svg" width="480" height="200" style="background:var(--surf2);border:1px solid var(--border);border-radius:10px;display:block;max-width:100%"></svg>
+      <div id="rc-mode-msg" style="margin-top:10px;font-size:13px;color:var(--muted);min-height:36px"></div>
+      <div style="margin-top:12px;text-align:right"><button class="btn btn-p" onclick="rcUnlock(2)">I see the difference →</button></div>
+    </div>
+  </div>
+
+  <div id="rc-s2" class="ba-locked-section" style="margin-top:16px">
+    <div class="card">
+      <div class="card-title">Stage 2 — What Structure Is Required?</div>
+      <div style="font-weight:600;font-size:13px;margin-bottom:8px">A recursive neural network requires the input to have what property?</div>
+      <div id="rc-q1-opts" style="display:flex;flex-direction:column;gap:5px;max-width:420px"></div>
+      <div id="rc-q1-hint" class="guidance-box cold" style="margin-top:8px;max-width:420px"></div>
+    </div>
+  </div>
+
+  <div id="rc-s3" class="ba-locked-section" style="margin-top:16px">
+    <div class="card">
+      <div class="card-title">Stage 3 — Stock Prices &amp; Images</div>
+      <p style="font-size:13px;color:var(--muted);margin-bottom:10px">The original activity asks what it would mean to apply a recursive NN to stock price prediction or image classification.</p>
+      <div style="font-weight:600;font-size:13px;margin-bottom:8px">Applying a recursive NN to stock price prediction would require:</div>
+      <div id="rc-q2-opts" style="display:flex;flex-direction:column;gap:5px;max-width:460px"></div>
+      <div id="rc-q2-hint" class="guidance-box cold" style="margin-top:8px;max-width:460px"></div>
+    </div>
+  </div>
+
+  <div id="rc-s4" class="ba-locked-section" style="margin-top:16px">
+    <div class="card">
+      <div class="card-title">Stage 4 — Finding Natural Trees Outside NLP</div>
+      <div style="font-weight:600;font-size:13px;margin-bottom:8px">Which domain most naturally provides the tree structure a recursive NN can exploit?</div>
+      <div id="rc-q3-opts" style="display:flex;flex-direction:column;gap:5px;max-width:460px"></div>
+      <div id="rc-q3-hint" class="guidance-box cold" style="margin-top:8px;max-width:460px"></div>
+    </div>
+  </div>
+
+  <div id="rc-s5" class="ba-locked-section" style="margin-top:16px">
+    <div class="two-col">
+      <div class="card">
+        <div class="card-title">Stage 5 — Good Fit or Not?</div>
+        <div style="font-weight:600;font-size:13px;margin-bottom:8px">Which of these is NOT a natural fit for a recursive NN?</div>
+        <div id="rc-q4-opts" style="display:flex;flex-direction:column;gap:5px;max-width:340px"></div>
+        <div id="rc-q4-hint" class="guidance-box cold" style="margin-top:8px;max-width:340px"></div>
+      </div>
+      <div class="card">
+        <div class="card-title">Reflect</div>
+        <p style="font-size:13px;color:var(--muted);margin-bottom:8px">Describe one domain <em>outside</em> language processing where tree structure arises naturally. What would the leaves represent? What would an internal node represent?</p>
+        <textarea id="rc-ref" rows="4" style="width:100%;box-sizing:border-box;background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:8px;color:var(--text);font-family:inherit;resize:vertical;margin-bottom:8px" placeholder="e.g. Program ASTs: leaves = variables / literals, internal nodes = operators / function calls. The recursive NN composes sub-expression representations bottom-up…" oninput="rcUpdateSummary()"></textarea>
+        <div id="rc-summary" style="font-size:.88em;color:var(--muted)"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</main>
+</div>
+<script src="../assets/app.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  initDoneBanners()
+  initRecNets()
+  showTab('10.6')
+})
+</script>
+</body>
+</html>

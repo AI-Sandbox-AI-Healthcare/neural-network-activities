@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Gradient Attribution · Neural Networks Activities</title>
+<link rel="stylesheet" href="../assets/app.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+</head>
+<body>
+<header class="app-header">
+  <div>
+    <h1>Gradient Attribution</h1>
+    <p class="header-sub">ISTA 457 / INFO 557 · Saliency vs LIME vs SHAP</p>
+  </div>
+  <a href="../index.html" class="btn btn-g" style="text-decoration:none">&larr; All Activities</a>
+</header>
+<div class="app-body">
+<main class="app-main">
+
+<div id="tab-11.GA" class="tab-panel">
+  <div class="prob-card">
+    <div style="margin-bottom:10px">
+      <span class="prob-badge">Activity 11.GA</span>
+      <span class="prob-title">Gradient Attribution vs. LIME vs. SHAP</span>
+      <span id="gradattr-completed" class="completed-badge">✓ 11.GA Completed</span>
+    </div>
+    <p class="prob-desc">Three interpretability methods — saliency (gradient attribution), LIME, and SHAP — can give different explanations for the same prediction. Explore when and why they disagree, find "right prediction for wrong reason" cases, and decide when to trust an explanation.</p>
+  </div>
+  <div class="card">
+    <div class="card-title">Stage 1 · Three Methods on One Sentence</div>
+    <p style="font-size:13px;color:var(--muted);margin-bottom:12px">A sentiment classifier predicts <strong>POSITIVE</strong> for "I loved this movie!". Click each method to see what it measures and which tokens it highlights.</p>
+    <div style="display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap">
+      <button class="btn btn-g" id="ga-m-sal-btn" onclick="gaShowMethod('sal')">Saliency</button>
+      <button class="btn btn-g" id="ga-m-lime-btn" onclick="gaShowMethod('lime')">LIME</button>
+      <button class="btn btn-g" id="ga-m-shap-btn" onclick="gaShowMethod('shap')">SHAP</button>
+    </div>
+    <svg id="ga-svg" width="520" height="140" style="display:block;border:1px solid var(--border);border-radius:8px;background:var(--surf2);margin-bottom:10px"></svg>
+    <div id="ga-method-desc" style="font-size:13px;color:var(--muted);min-height:44px;margin-bottom:10px"></div>
+    <div id="ga-methods-progress" style="font-size:12px;color:var(--muted);margin-bottom:10px">Methods explored: 0/3</div>
+    <button class="btn btn-p" id="ga-s1-btn" onclick="gaAdvanceS1()" disabled>Explore all methods to continue →</button>
+  </div>
+  <div id="ga-s2" class="ba-locked-section">
+    <div class="card">
+      <div class="card-title">Stage 2 · What Saliency Actually Measures</div>
+      <p style="font-size:13px;color:var(--muted);margin-bottom:8px">Saliency gives "loved" a score of 0.82 — the gradient of the output with respect to the "loved" token embedding is large. What does a large gradient <em>actually</em> tell you?</p>
+      <div id="ga-q1-opts" style="display:flex;flex-direction:column;gap:5px;max-width:400px"></div>
+      <div id="ga-q1-hint" class="guidance-box cold" style="margin-top:8px;max-width:400px"></div>
+    </div>
+  </div>
+  <div id="ga-s3" class="ba-locked-section">
+    <div class="card">
+      <div class="card-title">Stage 3 · Right Prediction, Wrong Reason</div>
+      <p style="font-size:13px;color:var(--muted);margin-bottom:8px">The model correctly predicts <strong>POSITIVE</strong> for "This movie was not bad." Saliency highlights <strong>"bad"</strong> with a large positive-class score. What is happening?</p>
+      <div id="ga-q2-opts" style="display:flex;flex-direction:column;gap:5px;max-width:400px"></div>
+      <div id="ga-q2-hint" class="guidance-box cold" style="margin-top:8px;max-width:400px"></div>
+    </div>
+  </div>
+  <div id="ga-s4" class="ba-locked-section">
+    <div class="card">
+      <div class="card-title">Stage 4 · When Methods Disagree</div>
+      <p style="font-size:13px;color:var(--muted);margin-bottom:8px">For "I loved this movie!": saliency ranks "loved" highest (0.82), but LIME ranks "movie" as most impactful when removed (0.30 vs. saliency's 0.03). What explains this disagreement?</p>
+      <div id="ga-q3-opts" style="display:flex;flex-direction:column;gap:5px;max-width:400px"></div>
+      <div id="ga-q3-hint" class="guidance-box cold" style="margin-top:8px;max-width:400px"></div>
+    </div>
+  </div>
+  <div id="ga-s5" class="ba-locked-section">
+    <div class="two-col">
+      <div class="card">
+        <div class="card-title">Stage 5 · Deciding to Trust</div>
+        <p style="font-size:13px;color:var(--muted);margin-bottom:8px">Which sanity check provides the strongest evidence that an interpretability method is actually examining the model's learned behavior rather than just the input structure?</p>
+        <div id="ga-q4-opts" style="display:flex;flex-direction:column;gap:5px"></div>
+        <div id="ga-q4-hint" class="guidance-box cold" style="margin-top:8px"></div>
+      </div>
+      <div class="card">
+        <div class="card-title">Reflect</div>
+        <p style="font-size:13px;color:var(--muted);margin-bottom:8px">Imagine a seizure-detection model where saliency highlights electrode channels that are noisy and often malfunctioning, but the model still predicts correctly (for other reasons). Why is "right prediction, wrong reason" especially dangerous here compared to a movie sentiment classifier?</p>
+        <textarea id="ga-ref" rows="4" style="width:100%;box-sizing:border-box;background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:8px;color:var(--text);font-family:inherit;resize:vertical;margin-bottom:8px" placeholder="In movie reviews a wrong-reason prediction is low-stakes because..." oninput="gaUpdateSummary()"></textarea>
+        <div id="ga-summary" style="font-size:.88em;color:var(--muted)"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</main>
+</div>
+<script src="../assets/app.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  initDoneBanners()
+  initGradAttr()
+  showTab('11.GA')
+})
+</script>
+</body>
+</html>

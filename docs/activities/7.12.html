@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Input Dropout · Neural Networks Activities</title>
+<link rel="stylesheet" href="../assets/app.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+</head>
+<body>
+<header class="app-header">
+  <div>
+    <h1>Input Dropout</h1>
+    <p class="header-sub">ISTA 457 / INFO 557 · Beyond hidden layers</p>
+  </div>
+  <a href="../index.html" class="btn btn-g" style="text-decoration:none">&larr; All Activities</a>
+</header>
+<div class="app-body">
+<main class="app-main">
+
+<div id="tab-7.12" class="tab-panel">
+  <div class="prob-card">
+    <div style="margin-bottom:10px"><span class="prob-badge">Activity 7.12</span><span class="prob-title">Input Dropout Explorer</span><span id="dp-completed" class="completed-badge">✓ 7.12 Completed</span></div>
+    <p class="prob-desc">Dropout is normally applied to hidden layers, but it may be applied to any units. What would it mean to apply dropout to the input units? Explore image classification, word-based text, and character-level text.</p>
+  </div>
+
+  <div id="dp-s1" class="two-col">
+    <div><div class="card"><div class="card-title">Why Dropout at All?</div>
+      <div style="display:flex;flex-direction:column;gap:10px">
+        <div style="background:#eff6ff;border:1px solid #bfdbfe;border-radius:8px;padding:13px"><div style="font-weight:700;color:var(--blue);margin-bottom:3px;font-size:13px">Prevents co-adaptation</div><div style="font-size:13px">Hidden units can't rely on specific neighbors always being present — each unit must be independently useful.</div></div>
+        <div style="background:#fff7ed;border:1px solid #fed7aa;border-radius:8px;padding:13px"><div style="font-weight:700;color:var(--orange);margin-bottom:3px;font-size:13px">At inputs: corrupts raw data</div><div style="font-size:13px">Instead of dropping hidden features, you randomly zero out elements of the <em>input itself</em> — forcing the model to work with partial information.</div></div>
+        <div style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:8px;padding:13px"><div style="font-weight:700;color:var(--green);margin-bottom:3px;font-size:13px">Implicit data augmentation</div><div style="font-size:13px">Randomly masking inputs creates many implicit versions of each training example — the model sees the same sample many different ways.</div></div>
+      </div>
+    </div></div>
+    <div><div class="card"><div class="card-title">The Key Question</div>
+      <div class="guidance-box cold">In a hidden layer, "zeroing a unit" means ignoring a learned feature.<br><br>At the <em>input</em> layer, "zeroing a unit" means something <strong>domain-specific</strong>.<br><br>The meaning depends entirely on what each input unit represents — which is different for images, words, and characters.</div>
+      <div style="text-align:center;margin-top:16px"><button class="btn btn-p" onclick="dpUnlock()">Let's explore each domain →</button></div>
+    </div></div>
+  </div>
+
+  <div id="dp-s2" class="ba-locked-section" style="margin-top:18px">
+    <div class="card">
+      <div class="card-title">Domain Explorer</div>
+      <div style="display:flex;gap:8px;margin-bottom:16px">
+        <button class="dp-domain-btn active" id="dp-btn-image" onclick="dpSetDomain('image')">Image</button>
+        <button class="dp-domain-btn" id="dp-btn-words" onclick="dpSetDomain('words')">Word-bag Text</button>
+        <button class="dp-domain-btn" id="dp-btn-chars" onclick="dpSetDomain('chars')">Character Text</button>
+      </div>
+      <div class="two-col">
+        <div>
+          <div class="slider-row"><span class="slider-label"><span class="name">Dropout rate</span><span class="val" id="dp-rate-v">40%</span></span><input type="range" id="dp-rate-slider" min="0" max="0.8" step="0.05" value="0.4" oninput="dpUpdateRate()"></div>
+          <div id="dp-vis" style="margin-top:14px"></div>
+        </div>
+        <div>
+          <div id="dp-domain-explain" style="background:var(--surf2);border:1px solid var(--border);border-radius:8px;padding:14px;font-size:13px;line-height:1.8">
+            <strong style="color:var(--blue)">Image classification:</strong> Each input unit is one pixel value. Dropping it means that pixel is set to zero during this training step.<br><br>
+            This is similar to randomly occluding part of the image — the model must learn to recognize objects even when parts are missing.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="dp-s3" class="ba-locked-section" style="margin-top:18px">
+    <div class="two-col">
+      <div>
+        <div class="card"><div class="card-title">Image Classification MCQ</div>
+          <p style="font-size:13px;color:var(--muted);margin-bottom:10px">For image classification, applying input dropout is most similar to:</p>
+          <div id="dp-image-opts" style="display:flex;flex-direction:column;gap:8px"></div>
+          <div id="dp-image-hint" class="guidance-box cold" style="margin-top:10px;font-size:13px">Think about what zeroing a pixel physically means.</div>
+        </div>
+        <div class="card" style="margin-top:18px"><div class="card-title">Character Text MCQ</div>
+          <p style="font-size:13px;color:var(--muted);margin-bottom:10px">Applying input dropout to a character-level model forces the model to:</p>
+          <div id="dp-chars-opts" style="display:flex;flex-direction:column;gap:8px"></div>
+          <div id="dp-chars-hint" class="guidance-box cold" style="margin-top:10px;font-size:13px">Think about what it means when a character type is dropped everywhere in the input.</div>
+        </div>
+      </div>
+      <div>
+        <div class="card"><div class="card-title">Word-bag Text MCQ</div>
+          <p style="font-size:13px;color:var(--muted);margin-bottom:10px">Dropping a word-bag input unit means:</p>
+          <div id="dp-words-opts" style="display:flex;flex-direction:column;gap:8px"></div>
+          <div id="dp-words-hint" class="guidance-box cold" style="margin-top:10px;font-size:13px">Each input unit represents one word's count in this example.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="dp-s4" class="ba-locked-section" style="margin-top:18px">
+    <div class="card"><div class="card-title">Which Domain Benefits Most?</div>
+      <p style="font-size:13px;color:var(--muted);margin-bottom:10px">Which problem type likely benefits <em>most</em> from input dropout as regularization?</p>
+      <div id="dp-best-opts" style="display:flex;flex-direction:column;gap:8px;max-width:560px"></div>
+      <div id="dp-best-hint" class="guidance-box cold" style="margin-top:10px;font-size:13px">Think about which domain most naturally encounters "missing input" in the real world.</div>
+    </div>
+  </div>
+</div>
+
+</main>
+</div>
+<script src="../assets/app.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  initDoneBanners()
+  initDropout()
+  showTab('7.12')
+})
+</script>
+</body>
+</html>

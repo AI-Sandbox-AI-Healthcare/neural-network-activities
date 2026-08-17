@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Linear RNN Stability · Neural Networks Activities</title>
+<link rel="stylesheet" href="../assets/app.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+</head>
+<body>
+<header class="app-header">
+  <div>
+    <h1>Linear RNN Stability</h1>
+    <p class="header-sub">ISTA 457 / INFO 557 · Unroll & w vs u</p>
+  </div>
+  <a href="../index.html" class="btn btn-g" style="text-decoration:none">&larr; All Activities</a>
+</header>
+<div class="app-body">
+<main class="app-main">
+
+<div id="tab-10.7" class="tab-panel">
+  <div class="prob-card">
+    <div style="margin-bottom:10px"><span class="prob-badge">Activity 10.7</span><span class="prob-title">Linear RNN Stability — Unrolling &amp; Memory Decay</span><span id="linrnn-completed" class="completed-badge">✓ 10.7 Completed</span></div>
+    <div id="lr7-eq" style="margin-bottom:16px"></div>
+    <p class="prob-desc">Consider a 1-unit linear RNN: <strong>h⁽ᵗ⁾ = wh⁽ᵗ⁻¹⁾ + ux⁽ᵗ⁾</strong> with h⁽⁰⁾ = 0. Unroll the recurrence into closed form, then explore how the weight <em>w</em> (not <em>u</em>) determines whether past inputs are remembered or forgotten.</p>
+    <div style="text-align:right;margin-top:12px"><button class="btn btn-p" onclick="lrUnlock(1)">Start unrolling →</button></div>
+  </div>
+
+  <div id="lr-s1" class="ba-locked-section" style="margin-top:16px">
+    <div class="card">
+      <div class="card-title">Stage 1 — Unroll the Recurrence (h⁽⁰⁾ = 0)</div>
+      <p style="font-size:13px;color:var(--muted);margin-bottom:12px">Substitute h⁽ᵗ⁻¹⁾ repeatedly to eliminate all h terms except h⁽⁰⁾ = 0. Pick the correct unrolled form for each step.</p>
+      <div style="display:flex;flex-direction:column;gap:14px;max-width:500px">
+        <div class="ba-step-block">
+          <div class="ba-step-label">h⁽¹⁾ = wh⁽⁰⁾ + ux⁽¹⁾ = ?</div>
+          <div id="lr-q1-opts" style="display:flex;flex-direction:column;gap:4px"></div>
+          <div id="lr-q1-hint" class="guidance-box cold" style="margin-top:6px"></div>
+        </div>
+        <div id="lr-step2" style="opacity:.35;pointer-events:none;transition:opacity .3s">
+          <div class="ba-step-block">
+            <div class="ba-step-label">h⁽²⁾ = wh⁽¹⁾ + ux⁽²⁾ = ?</div>
+            <div id="lr-q2-opts" style="display:flex;flex-direction:column;gap:4px"></div>
+            <div id="lr-q2-hint" class="guidance-box cold" style="margin-top:6px"></div>
+          </div>
+        </div>
+        <div id="lr-step3" style="opacity:.35;pointer-events:none;transition:opacity .3s">
+          <div class="ba-step-block">
+            <div class="ba-step-label">h⁽³⁾ = wh⁽²⁾ + ux⁽³⁾ = ?</div>
+            <div id="lr-q3-opts" style="display:flex;flex-direction:column;gap:4px"></div>
+            <div id="lr-q3-hint" class="guidance-box cold" style="margin-top:6px"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="lr-s2" class="ba-locked-section" style="margin-top:16px">
+    <div class="card">
+      <div class="card-title">Stage 2 — Memory Decay Visualiser</div>
+      <p style="font-size:13px;color:var(--muted);margin-bottom:12px">After unrolling: h⁽ᵀ⁾ = u · (w^(T−1)x⁽¹⁾ + w^(T−2)x⁽²⁾ + ··· + x⁽ᵀ⁾). Each bar shows the weight that past input x⁽ᵏ⁾ receives in the current hidden state. Drag w and observe.</p>
+      <div style="display:flex;gap:24px;flex-wrap:wrap;align-items:flex-start">
+        <div style="flex:1;min-width:200px">
+          <div class="slider-row">
+            <span class="slider-label"><span class="name">w (recurrent weight)</span><span class="val" id="lr-w-val">0.80</span></span>
+            <input type="range" id="lr-w" min="-1.5" max="1.5" step="0.05" value="0.8" oninput="lrDrawMemory()">
+          </div>
+          <div class="slider-row">
+            <span class="slider-label"><span class="name">u (input weight)</span><span class="val" id="lr-u-val">1.00</span></span>
+            <input type="range" id="lr-u" min="0.1" max="3.0" step="0.1" value="1.0" oninput="lrDrawMemory()">
+          </div>
+          <div id="lr-mem-msg" style="margin-top:10px;font-size:13px;font-weight:600;min-height:36px"></div>
+        </div>
+        <div>
+          <svg id="lr-svg" width="280" height="150" style="background:var(--surf2);border:1px solid var(--border);border-radius:8px;display:block"></svg>
+          <div style="font-size:11px;color:var(--muted);margin-top:4px;max-width:280px">Bar k = weight on x⁽ᵀ⁻ᵏ⁺¹⁾ (k=1 is most recent input)</div>
+        </div>
+      </div>
+      <div style="margin-top:12px;text-align:right"><button class="btn btn-p" id="lr-s2-btn" onclick="lrUnlock(3)" disabled>I've explored w and u →</button></div>
+    </div>
+  </div>
+
+  <div id="lr-s3" class="ba-locked-section" style="margin-top:16px">
+    <div class="card">
+      <div class="card-title">Stage 3 — What Controls Memory?</div>
+      <div style="font-weight:600;font-size:13px;margin-bottom:8px">In the unrolled form, what determines whether old inputs are remembered or forgotten?</div>
+      <div id="lr-q4-opts" style="display:flex;flex-direction:column;gap:5px;max-width:460px"></div>
+      <div id="lr-q4-hint" class="guidance-box cold" style="margin-top:8px;max-width:460px"></div>
+    </div>
+  </div>
+
+  <div id="lr-s4" class="ba-locked-section" style="margin-top:16px">
+    <div class="card">
+      <div class="card-title">Stage 4 — |u| &lt; 1 vs |w| &lt; 1</div>
+      <div style="font-weight:600;font-size:13px;margin-bottom:8px">If |u| = 0.1 but |w| = 1.4, what happens to h⁽ᵀ⁾ as T grows?</div>
+      <div id="lr-q5-opts" style="display:flex;flex-direction:column;gap:5px;max-width:460px"></div>
+      <div id="lr-q5-hint" class="guidance-box cold" style="margin-top:8px;max-width:460px"></div>
+    </div>
+  </div>
+
+  <div id="lr-s5" class="ba-locked-section" style="margin-top:16px">
+    <div class="two-col">
+      <div class="card">
+        <div class="card-title">Stage 5 — Roles of w and u</div>
+        <div style="font-weight:600;font-size:13px;margin-bottom:8px">What is the key difference between what w and u control?</div>
+        <div id="lr-q6-opts" style="display:flex;flex-direction:column;gap:5px;max-width:340px"></div>
+        <div id="lr-q6-hint" class="guidance-box cold" style="margin-top:8px;max-width:340px"></div>
+      </div>
+      <div class="card">
+        <div class="card-title">Reflect</div>
+        <p style="font-size:13px;color:var(--muted);margin-bottom:8px">If you wanted the RNN to still "remember" an input from 10 steps ago with at least 50% weight, what constraint must |w| satisfy? (Hint: the weight on x⁽ᵀ⁻¹⁰⁾ is w¹⁰.)</p>
+        <textarea id="lr-ref" rows="4" style="width:100%;box-sizing:border-box;background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:8px;color:var(--text);font-family:inherit;resize:vertical;margin-bottom:8px" placeholder="We need w¹⁰ ≥ 0.5, so |w| ≥ 0.5^(1/10) ≈ 0.933. Anything smaller and the 10-step-old input has less than half its original weight…" oninput="lrUpdateSummary()"></textarea>
+        <div id="lr-summary" style="font-size:.88em;color:var(--muted)"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</main>
+</div>
+<script src="../assets/app.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  initDoneBanners()
+  initLinRNN()
+  showTab('10.7')
+})
+</script>
+</body>
+</html>

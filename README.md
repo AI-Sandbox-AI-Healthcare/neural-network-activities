@@ -67,15 +67,33 @@ Lecture and textbook material on things like backprop, regularization, or attent
 - 11.LS · LIME for EEG — neighborhoods in time-series
 - 11.GA · Gradient Attribution — saliency vs LIME vs SHAP
 
-Each activity's URL is `/app#<number>`, e.g. `/app#6.4` opens Linear Regions directly.
+On GitHub Pages, each activity is its own page: `docs/activities/<number>.html`, e.g. `docs/activities/6.4.html` opens Linear Regions directly. See [Publishing to GitHub Pages](#publishing-to-github-pages) below.
 
 ## How it works
 
-- `backend/static/list.html` — the landing page listing every activity as a card, grouped by chapter
-- `backend/static/index.html` — the single-page app containing all 38 activities (one `tab-panel` per activity, shown/hidden by URL hash)
-- `backend/main.py` — a small FastAPI server that serves those static files and accepts activity submissions
+- `backend/static/list.html` / `backend/static/index.html` — the original single-page app (all 38 activities as hash-routed tabs), served locally by `backend/main.py` for development/editing.
+- `docs/` — the published, backend-free static site: `docs/index.html` (activity list) plus one standalone HTML page per activity under `docs/activities/`. This is what GitHub Pages serves. It has no server, collects no student data, and every "✓ Completed" badge is in-memory only — it resets the moment the page reloads.
+- `scripts/build_pages.py` — regenerates `docs/` from `backend/static/index.html`. **Run this after editing an activity** in `backend/static/index.html`, then commit the updated `docs/` output.
+- `backend/main.py` — a small FastAPI server used only for local development (editing/previewing activities before regenerating `docs/`). Not used in production; GitHub Pages serves static files directly.
 
 > `frontend/` is an early React/Vite prototype that predates the current static-HTML app. It isn't served by `backend/main.py` and isn't needed to run the activities — safe to ignore.
+
+## Publishing to GitHub Pages
+
+One-time setup after pushing this repo to GitHub:
+
+1. On GitHub, go to **Settings → Pages**.
+2. Under **Build and deployment**, set **Source** to `Deploy from a branch`.
+3. Set **Branch** to `main` and the folder to **`/docs`**, then **Save**.
+4. GitHub publishes the site at `https://<org-or-user>.github.io/<repo-name>/` within a minute or two (check the Pages settings page for the exact URL and build status).
+
+After that, every future `git push` to `main` that changes `docs/` automatically updates the live site — no rebuild step on GitHub's side.
+
+**If you edit an activity** in `backend/static/index.html`, regenerate the static site before pushing:
+```
+python scripts/build_pages.py
+```
+This overwrites everything under `docs/`. Commit and push both the source change and the regenerated `docs/` output.
 
 ## Running locally
 

@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>RNN Designer · Neural Networks Activities</title>
+<link rel="stylesheet" href="../assets/app.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+</head>
+<body>
+<header class="app-header">
+  <div>
+    <h1>RNN Designer</h1>
+    <p class="header-sub">ISTA 457 / INFO 557 · Word → sequence</p>
+  </div>
+  <a href="../index.html" class="btn btn-g" style="text-decoration:none">&larr; All Activities</a>
+</header>
+<div class="app-body">
+<main class="app-main">
+
+<div id="tab-10.2.1" class="tab-panel">
+  <div class="prob-card">
+    <div style="margin-bottom:10px"><span class="prob-badge">Activity 10.2.1</span><span class="prob-title">Word-to-Sequence RNN — Design It</span><span id="rdes-completed" class="completed-badge">✓ 10.2.1 Completed</span></div>
+    <div id="rd-eq" style="margin-bottom:16px"></div>
+    <p class="prob-desc">Build an RNN that takes a <strong>single word</strong> as input and outputs a <strong>variable-length word sequence</strong>. Work through five design choices — encoding, initialisation, recurrence, output, and stopping — to assemble the complete architecture.</p>
+    <div style="text-align:right;margin-top:12px"><button class="btn btn-p" onclick="rdUnlock(1)">Begin designing →</button></div>
+  </div>
+
+  <div id="rd-s1" class="ba-locked-section" style="margin-top:16px">
+    <div class="card">
+      <div class="card-title">Stage 1 — Encoding the Input Word</div>
+      <p style="font-size:13px;color:var(--muted);margin-bottom:10px">The input is one word from a vocabulary of size V. How should it be converted into a vector before entering the network?</p>
+      <div id="rd-q1-opts" style="display:flex;flex-direction:column;gap:5px;max-width:500px"></div>
+      <div id="rd-q1-hint" class="guidance-box cold" style="margin-top:8px;max-width:500px"></div>
+    </div>
+  </div>
+
+  <div id="rd-s2" class="ba-locked-section" style="margin-top:16px">
+    <div class="card">
+      <div class="card-title">Stage 2 — Seeding the Decoder (h⁽⁰⁾)</div>
+      <p style="font-size:13px;color:var(--muted);margin-bottom:10px">The input word is embedded as <strong>e = Ex</strong>. The decoder RNN starts from h⁽⁰⁾. How should it be computed?</p>
+      <div id="rd-q2-opts" style="display:flex;flex-direction:column;gap:5px;max-width:500px"></div>
+      <div id="rd-q2-hint" class="guidance-box cold" style="margin-top:8px;max-width:500px"></div>
+    </div>
+  </div>
+
+  <div id="rd-s3" class="ba-locked-section" style="margin-top:16px">
+    <div class="card">
+      <div class="card-title">Stage 3 — Recurrence Rule</div>
+      <p style="font-size:13px;color:var(--muted);margin-bottom:10px">At each decoder step the network updates its hidden state using only the previous hidden state (no new input word). Which update rule is most appropriate?</p>
+      <div id="rd-q3-opts" style="display:flex;flex-direction:column;gap:5px;max-width:500px"></div>
+      <div id="rd-q3-hint" class="guidance-box cold" style="margin-top:8px;max-width:500px"></div>
+    </div>
+  </div>
+
+  <div id="rd-s4" class="ba-locked-section" style="margin-top:16px">
+    <div class="card">
+      <div class="card-title">Stage 4 — Output Distribution</div>
+      <p style="font-size:13px;color:var(--muted);margin-bottom:10px">At each step the network predicts the next word. Which function turns the hidden state into a valid probability distribution over the vocabulary?</p>
+      <div id="rd-q4-opts" style="display:flex;flex-direction:column;gap:5px;max-width:500px"></div>
+      <div id="rd-q4-hint" class="guidance-box cold" style="margin-top:8px;max-width:500px"></div>
+    </div>
+  </div>
+
+  <div id="rd-s5" class="ba-locked-section" style="margin-top:16px">
+    <div class="card">
+      <div class="card-title">Stage 5 — Stopping Criterion</div>
+      <p style="font-size:13px;color:var(--muted);margin-bottom:10px">Different output sequences have different lengths. How does the decoder know when to stop generating?</p>
+      <div id="rd-q5-opts" style="display:flex;flex-direction:column;gap:5px;max-width:500px"></div>
+      <div id="rd-q5-hint" class="guidance-box cold" style="margin-top:8px;max-width:500px"></div>
+    </div>
+  </div>
+
+  <div id="rd-s6" class="ba-locked-section" style="margin-top:16px">
+    <div class="two-col">
+      <div class="card">
+        <div class="card-title">Your Complete Architecture</div>
+        <div id="rd-arch-eqs" style="background:var(--surf2);border-radius:7px;padding:14px;font-family:'Courier New',monospace;font-size:13px;line-height:2.4"></div>
+      </div>
+      <div class="card">
+        <div class="card-title">Reflect</div>
+        <p style="font-size:13px;color:var(--muted);margin-bottom:8px">You chose <strong>tanh</strong> for the recurrence and <strong>softmax</strong> for the output. In a feedforward hidden layer, ReLU is usually preferred over tanh. Why is tanh a better choice here?</p>
+        <textarea id="rd-ref" rows="4" style="width:100%;box-sizing:border-box;background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:8px;color:var(--text);font-family:inherit;resize:vertical;margin-bottom:8px" placeholder="tanh bounds the hidden state to (−1,1), preventing it from growing unboundedly over many timesteps…" oninput="rdUpdateSummary()"></textarea>
+        <div id="rd-summary" style="font-size:.88em;color:var(--muted)"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</main>
+</div>
+<script src="../assets/app.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  initDoneBanners()
+  initRNNDesign()
+  showTab('10.2.1')
+})
+</script>
+</body>
+</html>

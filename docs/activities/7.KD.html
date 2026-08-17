@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>KD Regularizer · Neural Networks Activities</title>
+<link rel="stylesheet" href="../assets/app.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+</head>
+<body>
+<header class="app-header">
+  <div>
+    <h1>KD Regularizer</h1>
+    <p class="header-sub">ISTA 457 / INFO 557 · Taxonomy-aware reg.</p>
+  </div>
+  <a href="../index.html" class="btn btn-g" style="text-decoration:none">&larr; All Activities</a>
+</header>
+<div class="app-body">
+<main class="app-main">
+
+<div id="tab-7.KD" class="tab-panel">
+  <div class="prob-card">
+    <div style="margin-bottom:10px"><span class="prob-badge">Activity 7.KD</span><span class="prob-title">Taxonomy-Aware Regularizer</span><span id="kd-completed" class="completed-badge">✓ 7.KD Completed</span></div>
+    <p class="prob-desc">You are training an image classifier for categories: chair, tree, leopard, cheetah, etc. You also have a taxonomy: <em>leopard</em> is a <em>large cat</em>, a <em>large cat</em> is a <em>mammal</em>, etc. How could you design a regularizer that takes advantage of this hierarchy?</p>
+  </div>
+
+  <div id="kd-s1" class="two-col">
+    <div><div class="card"><div class="card-title">Why Use a Taxonomy?</div>
+      <div style="display:flex;flex-direction:column;gap:10px">
+        <div style="background:#eff6ff;border:1px solid #bfdbfe;border-radius:8px;padding:13px"><div style="font-weight:700;color:var(--blue);margin-bottom:3px;font-size:13px">Cross-entropy is hierarchy-blind</div><div style="font-size:13px">Standard loss treats confusing leopard with cheetah the same as confusing leopard with chair. But these are not equally wrong!</div></div>
+        <div style="background:#fff7ed;border:1px solid #fed7aa;border-radius:8px;padding:13px"><div style="font-weight:700;color:var(--orange);margin-bottom:3px;font-size:13px">Hierarchy = similarity</div><div style="font-size:13px">Classes close in the tree should have similar predicted probabilities. A leopard image is somewhat like a cheetah — the model should reflect that.</div></div>
+        <div style="background:#fdf4ff;border:1px solid #e9d5ff;border-radius:8px;padding:13px"><div style="font-weight:700;color:var(--purple);margin-bottom:3px;font-size:13px">Free knowledge distillation</div><div style="font-size:13px">In KD, a teacher provides soft labels encoding class similarity. A taxonomy gives you those relationships for free — without needing a pre-trained teacher.</div></div>
+      </div>
+    </div></div>
+    <div><div class="card"><div class="card-title">The Design Challenge</div>
+      <div class="guidance-box cold">You need a regularization term Ω(p) that:<br><br>
+        1. Is <strong>zero</strong> when related classes have similar probabilities.<br>
+        2. <strong>Grows</strong> when related classes have very different probabilities.<br>
+        3. Uses the <strong>taxonomy distance</strong> to weight how much each pair matters.<br><br>
+        As you work through the stages, you'll build exactly this regularizer step by step.
+      </div>
+      <div style="text-align:center;margin-top:16px"><button class="btn btn-p" onclick="kdUnlock()">Let's build the regularizer →</button></div>
+    </div></div>
+  </div>
+
+  <div id="kd-s2" class="ba-locked-section" style="margin-top:18px">
+    <div class="two-col">
+      <div><div class="card"><div class="card-title">Taxonomy Tree</div>
+        <p style="font-size:13px;color:var(--muted);margin-bottom:10px">This is the class hierarchy. Leaf nodes (blue) are the actual categories your classifier predicts.</p>
+        <svg id="kd-tree-svg" viewBox="0 0 420 290" width="100%" height="290" style="border:1px solid var(--border);border-radius:8px;background:var(--surf2)"></svg>
+      </div></div>
+      <div><div class="card"><div class="card-title">Taxonomy Distances</div>
+        <p style="font-size:13px;color:var(--muted);margin-bottom:14px">Distance = number of edges between two nodes in the tree. Count the edges on the path connecting each pair.</p>
+        <div style="display:flex;flex-direction:column;gap:14px;font-family:'Courier New',monospace;font-size:13px">
+          <div style="display:flex;align-items:center;gap:10px;background:var(--surf2);border:1px solid var(--border);border-radius:8px;padding:12px">
+            <span>d(leopard, cheetah) = </span><input class="kd-inp" id="kd-d1" type="text" placeholder="?" oninput="kdCheckDist('kd-d1',2)">
+            <span style="color:var(--muted);font-size:12px">← sibling leaves</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:10px;background:var(--surf2);border:1px solid var(--border);border-radius:8px;padding:12px">
+            <span>d(leopard, dog) = </span><input class="kd-inp" id="kd-d2" type="text" placeholder="?" oninput="kdCheckDist('kd-d2',3)">
+            <span style="color:var(--muted);font-size:12px">← cousins</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:10px;background:var(--surf2);border:1px solid var(--border);border-radius:8px;padding:12px">
+            <span>d(leopard, tree) = </span><input class="kd-inp" id="kd-d3" type="text" placeholder="?" oninput="kdCheckDist('kd-d3',6)">
+            <span style="color:var(--muted);font-size:12px">← distant classes</span>
+          </div>
+        </div>
+        <div id="kd-dist-hint" class="guidance-box cold" style="margin-top:12px;font-size:13px">Count the edges (lines) on the path connecting each pair of nodes in the tree above.</div>
+        <div style="text-align:center;margin-top:14px"><button class="btn btn-p" id="kd-to-s3-btn" onclick="kdToStage3()" disabled>Design the regularizer →</button></div>
+      </div></div>
+    </div>
+  </div>
+
+  <div id="kd-s3" class="ba-locked-section" style="margin-top:18px">
+    <div class="two-col">
+      <div>
+        <div class="card"><div class="card-title">Q1 — Probability Similarity</div>
+          <p style="font-size:13px;color:var(--muted);margin-bottom:10px">If leopard and cheetah are taxonomically close, their predicted probabilities p_leopard and p_cheetah should be:</p>
+          <div id="kd-sim-opts" style="display:flex;flex-direction:column;gap:8px"></div>
+          <div id="kd-sim-hint" class="guidance-box cold" style="margin-top:10px;font-size:13px">Think about what the taxonomy tells you about the relationship between these classes.</div>
+        </div>
+        <div class="card" style="margin-top:18px"><div class="card-title">Q3 — Weight Direction</div>
+          <p style="font-size:13px;color:var(--muted);margin-bottom:10px">We set weight w_ij proportional to 1/distance. For pairs (leopard,cheetah) vs (leopard,tree), this means w_ij is:</p>
+          <div id="kd-weight-opts" style="display:flex;flex-direction:column;gap:8px"></div>
+          <div id="kd-weight-hint" class="guidance-box cold" style="margin-top:10px;font-size:13px">d(leopard,cheetah)=2, so w=1/2=0.5. d(leopard,tree)=6, so w=1/6≈0.17. Which pair gets the higher weight?</div>
+        </div>
+      </div>
+      <div>
+        <div class="card"><div class="card-title">Q2 — Penalty Formula</div>
+          <p style="font-size:13px;color:var(--muted);margin-bottom:10px">We want to penalize when close classes have different probabilities. The best penalty term for a pair (i, j) is:</p>
+          <div id="kd-formula-opts" style="display:flex;flex-direction:column;gap:8px"></div>
+          <div id="kd-formula-hint" class="guidance-box cold" style="margin-top:10px;font-size:13px">We want something that is 0 when probabilities are equal and grows as they diverge.</div>
+        </div>
+        <div class="card" style="background:#f5f0ff;border-color:#c4b5fd;margin-top:18px">
+          <div class="card-title">The Regularizer Formula</div>
+          <div style="font-size:13px;line-height:2;font-family:'Courier New',monospace">
+            Ω(p) = Σ<sub>(i,j)</sub> w<sub>ij</sub> · (p<sub>i</sub> − p<sub>j</sub>)²<br>
+            where w<sub>ij</sub> = 1 / d(i, j)<br><br>
+            <span style="color:var(--muted)">• Pairs with distance 2 → weight 0.500</span><br>
+            <span style="color:var(--muted)">• Pairs with distance 3 → weight 0.333</span><br>
+            <span style="color:var(--muted)">• Pairs with distance 6 → weight 0.167</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="kd-s4" class="ba-locked-section" style="margin-top:18px">
+    <div class="card"><div class="card-title">Final Question — Effect of the Regularizer</div>
+      <p style="font-size:13px;color:var(--muted);margin-bottom:10px">Adding Ω(p) = Σ w_ij(p_i−p_j)² to the training loss would:</p>
+      <div id="kd-effect-opts" style="display:flex;flex-direction:column;gap:8px;max-width:560px"></div>
+      <div id="kd-effect-hint" class="guidance-box cold" style="margin-top:10px;font-size:13px">Think about what adding a penalty term to the loss does — it encourages, not forces, behavior.</div>
+    </div>
+  </div>
+</div>
+
+</main>
+</div>
+<script src="../assets/app.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  initDoneBanners()
+  initTaxonomy()
+  showTab('7.KD')
+})
+</script>
+</body>
+</html>

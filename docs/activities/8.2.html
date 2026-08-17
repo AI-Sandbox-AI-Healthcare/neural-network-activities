@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Grad Norm · Neural Networks Activities</title>
+<link rel="stylesheet" href="../assets/app.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+</head>
+<body>
+<header class="app-header">
+  <div>
+    <h1>Grad Norm</h1>
+    <p class="header-sub">ISTA 457 / INFO 557 · Read the landscape</p>
+  </div>
+  <a href="../index.html" class="btn btn-g" style="text-decoration:none">&larr; All Activities</a>
+</header>
+<div class="app-body">
+<main class="app-main">
+
+<div id="tab-8.2" class="tab-panel">
+  <div class="prob-card">
+    <div style="margin-bottom:10px"><span class="prob-badge">Activity 8.2</span><span class="prob-title">Gradient Norm Stories</span><span id="gn-completed" class="completed-badge">✓ 8.2 Completed</span></div>
+    <p class="prob-desc">What would the plot of gradient norm ‖∇J‖ vs. training steps look like for each scenario: (1) ill-conditioned Hessian, (2) local minimum, (3) saddle point, (4) cliff?</p>
+    <div class="eq-block">
+      <span class="eq-line">Gradient norm:</span> ‖∇J‖ = √(Σ (∂J/∂w<sub>i</sub>)²) — your "speedometer" in loss space<br>
+      Converging → ‖∇J‖ → 0 &nbsp;·&nbsp; But the curve <em>shape</em> reveals what landscape you're navigating.
+    </div>
+  </div>
+  <!-- Stage 1 -->
+  <div class="card">
+    <div class="card-title">Stage 1 — Why track gradient norm?</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:14px">
+      <div style="background:var(--surf2);border:1px solid var(--border);border-radius:9px;padding:14px 16px">
+        <div style="font-size:11px;text-transform:uppercase;font-weight:700;color:var(--muted);margin-bottom:6px">It's your speedometer</div>
+        <p style="font-size:13px;color:var(--text)">‖∇J‖ = 0 means completely flat — no information. ‖∇J‖ large means very steep terrain. It's the only scalar that tells you how hard the optimizer is working per step.</p>
+      </div>
+      <div style="background:var(--surf2);border:1px solid var(--border);border-radius:9px;padding:14px 16px">
+        <div style="font-size:11px;text-transform:uppercase;font-weight:700;color:var(--muted);margin-bottom:6px">Different landscapes, different curves</div>
+        <p style="font-size:13px;color:var(--text)">Each loss landscape feature — bowl, elongated valley, plateau, cliff edge — leaves a characteristic fingerprint on the gradient norm over time.</p>
+      </div>
+      <div style="background:var(--surf2);border:1px solid var(--border);border-radius:9px;padding:14px 16px">
+        <div style="font-size:11px;text-transform:uppercase;font-weight:700;color:var(--muted);margin-bottom:6px">Core debugging skill</div>
+        <p style="font-size:13px;color:var(--text)">Logging ‖∇J‖ during training lets you distinguish healthy convergence from saddle-stalling, ill-conditioning oscillation, or cliff-induced explosion.</p>
+      </div>
+    </div>
+    <button class="btn btn-p" onclick="gnUnlock()">Show me the landscape fingerprints ↓</button>
+  </div>
+  <!-- Stage 2: 4 info cards -->
+  <div class="ba-locked-section" id="gn-s2">
+    <div class="card" style="margin-top:18px">
+      <div class="card-title">Stage 2 — The 4 gradient norm fingerprints</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+        <div style="background:var(--surf2);border:1px solid var(--border);border-radius:9px;padding:14px">
+          <div style="font-size:12px;font-weight:800;color:#1d4ed8;text-transform:uppercase;margin-bottom:6px">Ill-conditioned Hessian</div>
+          <svg id="gn-svg-illcond" width="220" height="80" style="display:block;margin-bottom:8px;border-radius:5px;border:1px solid var(--border)"></svg>
+          <p style="font-size:12px;color:var(--muted)">The loss surface is an elongated ellipse — steep in one direction, shallow in another. GD overshoots the steep wall and bounces back. Gradient norm <strong>oscillates up and down</strong> without steadily decreasing.</p>
+        </div>
+        <div style="background:var(--surf2);border:1px solid var(--border);border-radius:9px;padding:14px">
+          <div style="font-size:12px;font-weight:800;color:#15803d;text-transform:uppercase;margin-bottom:6px">Local Minimum</div>
+          <svg id="gn-svg-localmin" width="220" height="80" style="display:block;margin-bottom:8px;border-radius:5px;border:1px solid var(--border)"></svg>
+          <p style="font-size:12px;color:var(--muted)">The optimizer is settling into a bowl with positive curvature in all directions. Gradient norm <strong>decays monotonically toward 0</strong> as it approaches the bottom.</p>
+        </div>
+        <div style="background:var(--surf2);border:1px solid var(--border);border-radius:9px;padding:14px">
+          <div style="font-size:12px;font-weight:800;color:#c2610c;text-transform:uppercase;margin-bottom:6px">Saddle Point</div>
+          <svg id="gn-svg-saddle" width="220" height="80" style="display:block;margin-bottom:8px;border-radius:5px;border:1px solid var(--border)"></svg>
+          <p style="font-size:12px;color:var(--muted)">Optimizer approaches from a descending direction — norm falls. Then <strong>stalls near 0 for many steps</strong> (flat saddle), before SGD noise eventually pushes it away (tiny rise).</p>
+        </div>
+        <div style="background:var(--surf2);border:1px solid var(--border);border-radius:9px;padding:14px">
+          <div style="font-size:12px;font-weight:800;color:#b91c1c;text-transform:uppercase;margin-bottom:6px">Cliff</div>
+          <svg id="gn-svg-cliff" width="220" height="80" style="display:block;margin-bottom:8px;border-radius:5px;border:1px solid var(--border)"></svg>
+          <p style="font-size:12px;color:var(--muted)">Optimizer walks on flat terrain then suddenly crosses into extreme curvature. Gradient norm <strong>spikes 10–100× in a single step</strong>, then drops (or the model diverges).</p>
+        </div>
+      </div>
+      <button class="btn btn-p" style="margin-top:14px" onclick="gnToStage3()">I can identify these patterns — test me ↓</button>
+    </div>
+  </div>
+  <!-- Stage 3: 4 sequential MCQs -->
+  <div class="ba-locked-section" id="gn-s3">
+    <div class="card" style="margin-top:18px">
+      <div class="card-title">Stage 3 — Match the pattern to the scenario</div>
+      <div id="gn-mcq-container"></div>
+    </div>
+  </div>
+  <!-- Stage 4: Clip MCQ + submit -->
+  <div class="ba-locked-section" id="gn-s4">
+    <div class="card" style="margin-top:18px">
+      <div class="card-title">Stage 4 — What to do about it</div>
+      <p style="font-size:13px;font-weight:700;margin-bottom:8px">Gradient norm suddenly jumps from ~0.05 to ~180 in a single step. You should:</p>
+      <div id="gn-clip-opts"></div>
+      <div id="gn-clip-hint" class="guidance-box cold" style="margin-top:8px;margin-bottom:16px"></div>
+      <p style="font-size:13px;font-weight:600;margin-bottom:6px">Describe each scenario's gradient norm curve shape and what it tells you about the optimization state:</p>
+      <textarea id="gn-reflection" rows="4" placeholder="Ill-conditioned: … because…  Local min: … because…  Saddle: … because…  Cliff: … because…" style="width:100%;padding:10px;border:1px solid var(--border);border-radius:7px;font-size:13px;resize:vertical;outline:none;background:var(--surface);color:var(--text)" oninput="gnUpdateSubmitSummary()"></textarea>
+    </div>
+  </div>
+</div>
+
+</main>
+</div>
+<script src="../assets/app.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  initDoneBanners()
+  initGradNorm()
+  showTab('8.2')
+})
+</script>
+</body>
+</html>

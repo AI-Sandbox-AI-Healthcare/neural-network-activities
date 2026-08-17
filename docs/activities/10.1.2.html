@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>RNN Forward · Neural Networks Activities</title>
+<link rel="stylesheet" href="../assets/app.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+</head>
+<body>
+<header class="app-header">
+  <div>
+    <h1>RNN Forward</h1>
+    <p class="header-sub">ISTA 457 / INFO 557 · Step-by-step h(t) trace</p>
+  </div>
+  <a href="../index.html" class="btn btn-g" style="text-decoration:none">&larr; All Activities</a>
+</header>
+<div class="app-body">
+<main class="app-main">
+
+<div id="tab-10.1.2" class="tab-panel">
+  <div class="prob-card">
+    <div style="margin-bottom:10px"><span class="prob-badge">Activity 10.1.2</span><span class="prob-title">RNN Forward Pass — Step by Step</span><span id="rfwd-completed" class="completed-badge">✓ 10.1.2 Completed</span></div>
+    <div id="rf-eq" style="margin-bottom:16px"></div>
+    <p class="prob-desc">Trace two timesteps of <strong>h⁽ᵗ⁾ = ReLU(W₁h⁽ᵗ⁻¹⁾ + W₂x⁽ᵗ⁾)</strong> with given matrices. Fill in each intermediate value — earlier results unlock later boxes.</p>
+    <div style="text-align:right;margin-top:12px"><button class="btn btn-p" onclick="rfUnlock(1)">Start computing →</button></div>
+  </div>
+
+  <!-- Setup shown always in prob-card; stage 1 is fill-in t=1 -->
+  <div id="rf-s1" class="ba-locked-section" style="margin-top:16px">
+    <div class="card">
+      <div class="card-title">Stage 1 — Timestep 1: h⁽¹⁾ = ReLU(W₁·h⁽⁰⁾ + W₂·x⁽¹⁾)</div>
+      <p style="font-size:13px;color:var(--muted);margin-bottom:12px">h⁽⁰⁾ = [0,0], so <strong>W₁·h⁽⁰⁾ = [0,0]</strong>. You only need to compute W₂·x⁽¹⁾, then apply ReLU.</p>
+      <div class="ba-step-block">
+        <div class="ba-step-label">Step A — Compute W₂ · x⁽¹⁾ &nbsp;<span style="font-weight:400;color:var(--muted)">(x⁽¹⁾ = [1, 0])</span></div>
+        <div style="font-family:'Courier New',monospace;font-size:13px;color:var(--muted);margin-bottom:8px;line-height:2.4">
+          Row 0: 0·1 + 1·0 = ?<br>Row 1: 2·1 + (−5)·0 = ?
+        </div>
+        <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-family:'Courier New',monospace;font-weight:700">
+          W₂x⁽¹⁾ = [<input id="rf-a0" class="rr-inp" style="width:52px" type="text" placeholder="?" oninput="rfCheck()">, <input id="rf-a1" class="rr-inp" style="width:52px" type="text" placeholder="?" oninput="rfCheck()">]
+        </div>
+        <div id="rf-a-hint" class="guidance-box cold" style="margin-top:8px;max-width:360px"></div>
+      </div>
+      <div id="rf-h1-block" style="opacity:.35;pointer-events:none;margin-top:10px;transition:opacity .3s">
+        <div class="ba-step-block">
+          <div class="ba-step-label">Step B — h⁽¹⁾ = ReLU([0,0] + W₂x⁽¹⁾) &nbsp;<span style="font-weight:400;color:var(--muted)">ReLU clips negatives to 0</span></div>
+          <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-family:'Courier New',monospace;font-weight:700">
+            h⁽¹⁾ = [<input id="rf-b0" class="rr-inp" style="width:52px" type="text" placeholder="?" oninput="rfCheck()">, <input id="rf-b1" class="rr-inp" style="width:52px" type="text" placeholder="?" oninput="rfCheck()">]
+          </div>
+          <div id="rf-b-hint" class="guidance-box cold" style="margin-top:8px;max-width:360px"></div>
+        </div>
+      </div>
+      <div id="rf-s1-btn-wrap" style="margin-top:10px;opacity:.35;pointer-events:none;transition:opacity .3s">
+        <button class="btn btn-p" onclick="rfUnlock(2)">h⁽¹⁾ confirmed — compute h⁽²⁾ →</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="rf-s2" class="ba-locked-section" style="margin-top:16px">
+    <div class="card">
+      <div class="card-title">Stage 2 — Timestep 2: h⁽²⁾ = ReLU(W₁·h⁽¹⁾ + W₂·x⁽²⁾)</div>
+      <p style="font-size:13px;color:var(--muted);margin-bottom:12px">h⁽¹⁾ = [0, 2] now carries information from step 1. Both W₁h⁽¹⁾ and W₂x⁽²⁾ are nonzero.</p>
+      <div class="two-col" style="gap:14px;margin-bottom:10px">
+        <div class="ba-step-block">
+          <div class="ba-step-label">Step C — W₁ · h⁽¹⁾ &nbsp;<span style="font-weight:400;color:var(--muted)">(h⁽¹⁾=[0,2])</span></div>
+          <div style="font-family:'Courier New',monospace;font-size:13px;color:var(--muted);margin-bottom:8px;line-height:2.4">Row 0: 1·0 + 2·2 = ?<br>Row 1: 0·0 + (−1)·2 = ?</div>
+          <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-family:'Courier New',monospace;font-weight:700">
+            W₁h⁽¹⁾ = [<input id="rf-c0" class="rr-inp" style="width:52px" type="text" placeholder="?" oninput="rfCheck()">, <input id="rf-c1" class="rr-inp" style="width:52px" type="text" placeholder="?" oninput="rfCheck()">]
+          </div>
+          <div id="rf-c-hint" class="guidance-box cold" style="margin-top:8px"></div>
+        </div>
+        <div class="ba-step-block">
+          <div class="ba-step-label">Step D — W₂ · x⁽²⁾ &nbsp;<span style="font-weight:400;color:var(--muted)">(x⁽²⁾=[0,1])</span></div>
+          <div style="font-family:'Courier New',monospace;font-size:13px;color:var(--muted);margin-bottom:8px;line-height:2.4">Row 0: 0·0 + 1·1 = ?<br>Row 1: 2·0 + (−5)·1 = ?</div>
+          <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-family:'Courier New',monospace;font-weight:700">
+            W₂x⁽²⁾ = [<input id="rf-d0" class="rr-inp" style="width:52px" type="text" placeholder="?" oninput="rfCheck()">, <input id="rf-d1" class="rr-inp" style="width:52px" type="text" placeholder="?" oninput="rfCheck()">]
+          </div>
+          <div id="rf-d-hint" class="guidance-box cold" style="margin-top:8px"></div>
+        </div>
+      </div>
+      <div id="rf-h2-block" style="opacity:.35;pointer-events:none;transition:opacity .3s">
+        <div class="ba-step-block">
+          <div class="ba-step-label">Step E — h⁽²⁾ = ReLU(W₁h⁽¹⁾ + W₂x⁽²⁾)</div>
+          <div id="rf-h2-eq" style="font-family:'Courier New',monospace;font-size:13px;color:var(--muted);margin-bottom:8px"></div>
+          <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-family:'Courier New',monospace;font-weight:700">
+            h⁽²⁾ = [<input id="rf-e0" class="rr-inp" style="width:52px" type="text" placeholder="?" oninput="rfCheck()">, <input id="rf-e1" class="rr-inp" style="width:52px" type="text" placeholder="?" oninput="rfCheck()">]
+          </div>
+          <div id="rf-e-hint" class="guidance-box cold" style="margin-top:8px;max-width:400px"></div>
+        </div>
+      </div>
+      <div id="rf-s2-btn-wrap" style="margin-top:10px;opacity:.35;pointer-events:none;transition:opacity .3s">
+        <button class="btn btn-p" onclick="rfUnlock(3)">h⁽²⁾ confirmed — final question →</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="rf-s3" class="ba-locked-section" style="margin-top:16px">
+    <div class="two-col">
+      <div class="card">
+        <div class="card-title">Stage 3 — Key Insight</div>
+        <p style="font-size:13px;color:var(--muted);margin-bottom:10px">You found h⁽²⁾ = [5, 0]. Before ReLU the sum was [5, −7]; component 1 was clipped to 0. h⁽²⁾ depends on <em>both</em> x⁽¹⁾ (via h⁽¹⁾) and x⁽²⁾.</p>
+        <div style="font-weight:600;font-size:13px;margin-bottom:8px">What does it mean when ReLU zeros a hidden-state component?</div>
+        <div id="rf-q1-opts" style="display:flex;flex-direction:column;gap:5px;max-width:360px"></div>
+        <div id="rf-q1-hint" class="guidance-box cold" style="margin-top:8px;max-width:360px"></div>
+      </div>
+      <div class="card">
+        <div class="card-title">Reflect</div>
+        <p style="font-size:13px;color:var(--muted);margin-bottom:8px">h⁽²⁾ carries information from x⁽¹⁾ forward through h⁽¹⁾. How does this differ from a feedforward network that processes each input independently?</p>
+        <textarea id="rf-ref" rows="4" style="width:100%;box-sizing:border-box;background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:8px;color:var(--text);font-family:inherit;resize:vertical;margin-bottom:8px" placeholder="In an RNN the hidden state is a running summary of all past inputs — a feedforward network has no memory across positions…" oninput="rfUpdateSummary()"></textarea>
+        <div id="rf-summary" style="font-size:.88em;color:var(--muted)"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</main>
+</div>
+<script src="../assets/app.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  initDoneBanners()
+  initRNNFwd()
+  showTab('10.1.2')
+})
+</script>
+</body>
+</html>

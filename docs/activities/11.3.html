@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Learning Curves · Neural Networks Activities</title>
+<link rel="stylesheet" href="../assets/app.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+</head>
+<body>
+<header class="app-header">
+  <div>
+    <h1>Learning Curves</h1>
+    <p class="header-sub">ISTA 457 / INFO 557 · Bias vs. variance diagnosis</p>
+  </div>
+  <a href="../index.html" class="btn btn-g" style="text-decoration:none">&larr; All Activities</a>
+</header>
+<div class="app-body">
+<main class="app-main">
+
+<div id="tab-11.3" class="tab-panel">
+  <div class="prob-card">
+    <div style="margin-bottom:10px"><span class="prob-badge">Activity 11.3</span><span class="prob-title">Learning Curve Diagnosis — High Bias vs. High Variance</span><span id="learncurve-completed" class="completed-badge">✓ 11.3 Completed</span></div>
+    <p class="prob-desc">Learning curves reveal whether a model is underfitting, overfitting, or needs more data. Diagnose two tasks and prescribe the correct fix for each.</p>
+  </div>
+  <div id="lc-s1" class="card" style="margin-top:12px">
+    <div class="card-title">Stage 1 — Learning Curve Anatomy</div>
+    <p style="font-size:13px;color:var(--muted);margin-bottom:10px">Click each pattern to see what it means and what remedy applies. Explore all four to continue.</p>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px">
+      <button id="lc-pat-hb-btn" class="btn btn-g" onclick="lcShowPattern('hb')">High Bias</button>
+      <button id="lc-pat-hv-btn" class="btn btn-g" onclick="lcShowPattern('hv')">High Variance</button>
+      <button id="lc-pat-more-btn" class="btn btn-g" onclick="lcShowPattern('more')">More Data Helps</button>
+      <button id="lc-pat-done-btn" class="btn btn-g" onclick="lcShowPattern('done')">Converged OK</button>
+    </div>
+    <div style="display:flex;gap:12px;align-items:flex-start;flex-wrap:wrap">
+      <svg id="lc-anatomy-svg" width="240" height="180" style="border:1px solid var(--border);border-radius:8px;background:var(--surface);flex-shrink:0"></svg>
+      <div id="lc-anatomy-desc" style="flex:1;min-width:150px;background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:12px;font-size:12px;color:var(--muted);line-height:1.7">Click a pattern button to see what it looks like and what it means.</div>
+    </div>
+    <div id="lc-pattern-progress" style="font-size:12px;color:var(--muted);margin-top:8px">Patterns explored: 0/4</div>
+    <button class="btn btn-p" style="margin-top:8px" id="lc-s1-btn" onclick="lcAdvanceS1()" disabled>Explore all patterns first →</button>
+  </div>
+  <div id="lc-s2" class="ba-locked-section" style="margin-top:16px">
+    <div class="card">
+      <div class="card-title">Stage 2 — Task A Diagnosis</div>
+      <div style="display:flex;gap:12px;align-items:flex-start;flex-wrap:wrap;margin-bottom:12px">
+        <svg id="lc-taskA-svg" width="240" height="170" style="border:1px solid var(--border);border-radius:8px;background:var(--surface);flex-shrink:0"></svg>
+        <div style="flex:1;min-width:140px;font-size:13px;color:var(--muted)">Task A: training performance ≈ 60%, dev performance ≈ 45%. Both curves have mostly converged and are flat.</div>
+      </div>
+      <div style="font-weight:600;font-size:13px;margin-bottom:8px">What is the primary diagnosis for Task A?</div>
+      <div id="lc-q1-opts" style="display:flex;flex-direction:column;gap:5px;max-width:540px"></div>
+      <div id="lc-q1-hint" class="guidance-box cold" style="margin-top:8px;max-width:540px"></div>
+    </div>
+  </div>
+  <div id="lc-s3" class="ba-locked-section" style="margin-top:16px">
+    <div class="card">
+      <div class="card-title">Stage 3 — Fixing Task A</div>
+      <div style="font-weight:600;font-size:13px;margin-bottom:8px">For Task A (moderate bias + moderate variance), which set of steps is most appropriate?</div>
+      <div id="lc-q2-opts" style="display:flex;flex-direction:column;gap:5px;max-width:540px"></div>
+      <div id="lc-q2-hint" class="guidance-box cold" style="margin-top:8px;max-width:540px"></div>
+    </div>
+  </div>
+  <div id="lc-s4" class="ba-locked-section" style="margin-top:16px">
+    <div class="card">
+      <div class="card-title">Stage 4 — Task B Diagnosis</div>
+      <div style="display:flex;gap:12px;align-items:flex-start;flex-wrap:wrap;margin-bottom:12px">
+        <svg id="lc-taskB-svg" width="240" height="170" style="border:1px solid var(--border);border-radius:8px;background:var(--surface);flex-shrink:0"></svg>
+        <div style="flex:1;min-width:140px;font-size:13px;color:var(--muted)">Task B: training performance ≈ 100%, dev performance ≈ 60%. The train-dev gap is large and persistent.</div>
+      </div>
+      <div style="font-weight:600;font-size:13px;margin-bottom:8px">What is the primary diagnosis for Task B?</div>
+      <div id="lc-q3-opts" style="display:flex;flex-direction:column;gap:5px;max-width:540px"></div>
+      <div id="lc-q3-hint" class="guidance-box cold" style="margin-top:8px;max-width:540px"></div>
+    </div>
+  </div>
+  <div id="lc-s5" class="ba-locked-section" style="margin-top:16px">
+    <div class="two-col">
+      <div class="card">
+        <div class="card-title">Stage 5 — Fixing Task B</div>
+        <div style="font-weight:600;font-size:13px;margin-bottom:8px">For Task B (strong overfitting), which action would make things WORSE?</div>
+        <div id="lc-q4-opts" style="display:flex;flex-direction:column;gap:5px;max-width:360px"></div>
+        <div id="lc-q4-hint" class="guidance-box cold" style="margin-top:8px;max-width:360px"></div>
+      </div>
+      <div class="card">
+        <div class="card-title">Reflect</div>
+        <p style="font-size:13px;color:var(--muted);margin-bottom:8px">Task A and Task B require different fixes. If you could only take ONE action for each task, what would it be and why? Is Task B's problem that the model hasn't learned enough, or that it has learned too much of the training set?</p>
+        <textarea id="lc-ref" rows="4" style="width:100%;box-sizing:border-box;background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:8px;color:var(--text);font-family:inherit;resize:vertical;margin-bottom:8px" placeholder="For Task A I would… For Task B I would…" oninput="lcUpdateSummary()"></textarea>
+        <div id="lc-summary" style="font-size:.88em;color:var(--muted)"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</main>
+</div>
+<script src="../assets/app.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  initDoneBanners()
+  initLearnCurve()
+  showTab('11.3')
+})
+</script>
+</body>
+</html>
