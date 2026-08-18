@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Surrogate Loss · Neural Networks Activities</title>
+<title>What Loss Do We Actually Care About? · Neural Networks Activities</title>
 <link rel="stylesheet" href="../assets/app.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
@@ -12,8 +12,8 @@
 <body>
 <header class="app-header">
   <div>
-    <h1>Surrogate Loss</h1>
-    <p class="header-sub">ISTA 457 / INFO 557 · When loss isn't trainable</p>
+    <h1>What Loss Do We Actually Care About?</h1>
+    <p class="header-sub">ISTA 457 / INFO 557 · Real metric vs. surrogate loss</p>
   </div>
   <a href="../index.html" class="btn btn-g" style="text-decoration:none">&larr; All Activities</a>
 </header>
@@ -22,95 +22,208 @@
 
 <div id="tab-8.1" class="tab-panel">
   <div class="prob-card">
-    <div style="margin-bottom:10px"><span class="prob-badge">Activity 8.1</span><span class="prob-title">Surrogate Loss Detective</span><span id="sl-completed" class="completed-badge">✓ 8.1 Completed</span></div>
-    <p class="prob-desc">You're building an object detector to locate all cats in an image. Three questions: (1) What loss do you <em>actually</em> care about? (2) Can/should you optimize it directly? (3) What surrogate loss should you use instead?</p>
+    <div style="margin-bottom:10px"><span class="prob-badge">Activity 8.1</span><span class="prob-title">What Loss Do We Actually Care About?</span><span id="sl-completed" class="completed-badge">✓ 8.1 Completed</span></div>
+    <p class="prob-desc">You're building an object detector to locate all cats in an image. Three questions drive this activity: (1) What loss do we <em>actually</em> care about? (2) Can or should we optimize it directly? (3) What surrogate loss should we use instead? By the end, you should see that the metric we care about in practice is often not the same as the loss we optimize during training.</p>
     <div class="eq-block">
-      <span class="eq-line">True goal:</span> detect all cats — IoU(A,B) = |A∩B| / |A∪B| ∈ [0,1]<br>
-      <span class="eq-line">Surrogate:</span> L = L<sub>cls</sub>(classification) + λ · L<sub>loc</sub>(box coordinates)
+      <span class="eq-line">Actual goal:</span> find every cat, box it tightly, avoid false alarms — measured by precision, recall, IoU, mAP<br>
+      <span class="eq-line">Surrogate:</span> L = L<sub>cls</sub>(classification) + L<sub>box</sub>(box coordinates) + L<sub>obj</sub>(objectness)
     </div>
   </div>
-  <!-- Stage 1 -->
+
+  <!-- Stage 1: Warm-up -->
   <div class="card">
-    <div class="card-title">Stage 1 — Why can't you optimize the true detection metric?</div>
-    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:14px">
-      <div style="background:var(--surf2);border:1px solid var(--border);border-radius:9px;padding:14px 16px">
-        <div style="font-size:11px;text-transform:uppercase;font-weight:700;color:var(--muted);margin-bottom:6px">True metric ≠ trainable</div>
-        <p style="font-size:13px;color:var(--text)">mAP, IoU, precision@threshold all involve sorting, thresholding, and set operations — discrete steps with zero or undefined gradients.</p>
-      </div>
-      <div style="background:var(--surf2);border:1px solid var(--border);border-radius:9px;padding:14px 16px">
-        <div style="font-size:11px;text-transform:uppercase;font-weight:700;color:var(--muted);margin-bottom:6px">Flat regions kill training</div>
-        <p style="font-size:13px;color:var(--text)">When a predicted box misses entirely, IoU = 0 and ∂IoU/∂W = 0. The gradient carries no information about which direction to move.</p>
-      </div>
-      <div style="background:var(--surf2);border:1px solid var(--border);border-radius:9px;padding:14px 16px">
-        <div style="font-size:11px;text-transform:uppercase;font-weight:700;color:var(--muted);margin-bottom:6px">Surrogates are smooth proxies</div>
-        <p style="font-size:13px;color:var(--text)">We choose differentiable functions that correlate with the true goal. Minimize the surrogate during training; report the real metric at test time.</p>
-      </div>
+    <div class="card-title">Stage 1 — Can the Model Find the Cats?</div>
+    <p style="font-size:13px;color:var(--muted);margin-bottom:12px">You're training a model to detect cats in images. Below is one training image: some cats are easy, one is partly hidden, and there's a pillow that looks a little cat-like. Toggle the boxes to see the ground truth and what the model predicted.</p>
+    <div id="sl-scene" class="sl-scene"></div>
+    <div class="sl-toggle-row">
+      <button class="sl-toggle-btn" id="sl-gt-btn" onclick="slToggleGT()">Show ground truth</button>
+      <button class="sl-toggle-btn" id="sl-pred-btn" onclick="slTogglePred()">Show predictions</button>
     </div>
-    <button class="btn btn-p" onclick="slUnlock()">I understand — open the IoU explorer ↓</button>
+    <div style="margin-top:18px">
+      <p style="font-size:13px;font-weight:700;margin-bottom:8px">What would make this model "good"? (select every statement that applies)</p>
+      <div id="sl-warmup-opts"></div>
+      <button class="btn btn-p" style="margin-top:6px" onclick="slCheckWarmup()">Check answer</button>
+      <div id="sl-warmup-hint" class="guidance-box cold" style="margin-top:10px">Look closely at the predicted boxes above, then pick every statement that describes a genuinely good detector.</div>
+    </div>
+    <button class="btn btn-g" id="sl-warmup-continue" style="margin-top:14px;display:none" onclick="document.getElementById('sl-s2').scrollIntoView({behavior:'smooth'})">Continue — meet the vocabulary ↓</button>
   </div>
-  <!-- Stage 2: IoU Explorer -->
+
+  <!-- Stage 2: Flash cards -->
   <div class="ba-locked-section" id="sl-s2">
     <div class="card" style="margin-top:18px">
-      <div class="card-title">Stage 2 — IoU Explorer: See why gradients vanish</div>
-      <div class="two-col">
-        <div>
-          <p style="font-size:13px;color:var(--muted);margin-bottom:10px">The <strong style="color:#15803d">green box</strong> is the GT cat (fixed). Move the <strong style="color:#b91c1c">red predicted box</strong> using the sliders.</p>
-          <div class="slider-row"><span class="slider-label"><span class="name">pred x</span><span class="val" id="sl-px-val">0</span></span><input type="range" id="sl-px" min="0" max="6" step="1" value="0" oninput="slUpdateIoU()"></div>
-          <div class="slider-row"><span class="slider-label"><span class="name">pred y</span><span class="val" id="sl-py-val">0</span></span><input type="range" id="sl-py" min="0" max="6" step="1" value="0" oninput="slUpdateIoU()"></div>
-          <div class="slider-row"><span class="slider-label"><span class="name">pred w</span><span class="val" id="sl-pw-val">3</span></span><input type="range" id="sl-pw" min="1" max="6" step="1" value="3" oninput="slUpdateIoU()"></div>
-          <div class="slider-row"><span class="slider-label"><span class="name">pred h</span><span class="val" id="sl-ph-val">3</span></span><input type="range" id="sl-ph" min="1" max="6" step="1" value="3" oninput="slUpdateIoU()"></div>
-          <div style="background:var(--surf2);border:1px solid var(--border);border-radius:8px;padding:12px 16px;margin-top:10px;font-family:'Courier New',monospace">
-            IoU = <span id="sl-iou-val" style="font-size:18px;font-weight:700;color:var(--orange)">—</span>
-            <span style="margin-left:16px">∂IoU/∂W ≈ <span id="sl-grad-val" style="font-weight:700;color:var(--red)">—</span></span>
-          </div>
-          <div style="margin-top:14px;background:var(--surf2);border:1px solid var(--border);border-radius:8px;padding:14px 16px">
-            <p style="font-size:13px;font-weight:600;margin-bottom:8px">Move the red box so IoU shows 0.000 (no overlap), then fill in:</p>
-            <p style="font-size:13px;margin-bottom:6px">No overlap → IoU = <input class="rr-inp" id="sl-fill1" placeholder="?" oninput="slCheckFills()" style="width:52px"> &nbsp; gradient ≈ <input class="rr-inp" id="sl-fill2" placeholder="?" oninput="slCheckFills()" style="width:52px"></p>
-            <div id="sl-fill-hint" class="guidance-box cold" style="margin-top:8px">Drag sliders until red box doesn't touch the green box (IoU = 0.000), then type the answers.</div>
-          </div>
-          <div class="ba-locked-section" id="sl-mcq1-wrap" style="margin-top:12px">
-            <p style="font-size:13px;font-weight:600;margin-bottom:8px">Can gradient descent optimize IoU directly?</p>
-            <div id="sl-mcq1-opts"></div>
-            <div id="sl-mcq1-hint" class="guidance-box cold" style="margin-top:8px"></div>
-          </div>
-        </div>
+      <div class="card-title">Stage 2 — Vocabulary Flash Cards</div>
+      <p style="font-size:13px;color:var(--muted);margin-bottom:14px">In object detection, we usually care about whether the model finds the correct objects: does it find all the cats, draw accurate boxes, avoid boxing non-cats, and avoid duplicates? These ten terms describe how we talk about that. Click a card to flip it, and step through all ten.</p>
+      <div id="sl-flash-card" class="sl-flash" onclick="slFlipFlash()"></div>
+      <div class="sl-flash-nav">
+        <button class="btn btn-g" onclick="slFlashNav(-1)">← Prev</button>
         <div style="text-align:center">
-          <svg id="sl-grid-svg" width="196" height="196" style="border:1px solid var(--border);border-radius:8px;background:#f8fafc"></svg>
-          <p style="font-size:11px;color:var(--muted);margin-top:4px">GT box covers cells 1–5 (row &amp; col). Grid is 8×8.</p>
+          <div class="sl-flash-dots" id="sl-flash-dots"></div>
+          <div id="sl-flash-counter" style="font-size:11px;color:var(--muted);margin-top:4px"></div>
         </div>
+        <button class="btn btn-g" onclick="slFlashNav(1)">Next →</button>
       </div>
+      <button class="btn btn-g" id="sl-flash-continue" style="margin-top:14px;display:none" onclick="document.getElementById('sl-s3').scrollIntoView({behavior:'smooth'})">Continue — try the playground ↓</button>
     </div>
   </div>
-  <!-- Stage 3: Choose surrogate -->
+
+  <!-- Stage 3: Interactive playground -->
   <div class="ba-locked-section" id="sl-s3">
     <div class="card" style="margin-top:18px">
-      <div class="card-title">Stage 3 — Design your surrogate</div>
-      <p style="font-size:13px;color:var(--muted);margin-bottom:14px">Object detection has two sub-tasks. Pick the right surrogate loss for each:</p>
+      <div class="card-title">Stage 3 — Adjust the Detector</div>
+      <p style="font-size:13px;color:var(--muted);margin-bottom:14px">This panel simulates a detector looking at the same image: 4 real cats (A–D) and 1 pillow. Adjust the controls and watch how the two dashboards move — sometimes together, sometimes apart.</p>
       <div class="two-col">
         <div>
-          <p style="font-size:13px;font-weight:700;margin-bottom:8px">A. Is there a cat? (classification)</p>
-          <div id="sl-mcq2-opts"></div>
-          <div id="sl-mcq2-hint" class="guidance-box cold" style="margin-top:8px"></div>
+          <div class="slider-row"><span class="slider-label"><span class="name">confidence ≥</span><span class="val" id="sl-conf-val">0.50</span></span><input type="range" id="sl-conf-in" min="0" max="1" step="0.01" value="0.5" oninput="slSetConf(this.value)"></div>
+          <div class="slider-row"><span class="slider-label"><span class="name">IoU ≥</span><span class="val" id="sl-iou-val">0.50</span></span><input type="range" id="sl-iou-in" min="0" max="1" step="0.01" value="0.5" oninput="slSetIou(this.value)"></div>
+          <p class="section-label" style="margin-top:14px">Box quality</p>
+          <div class="sl-preset-row">
+            <button class="sl-preset-btn sl-q-btn" data-v="poor" onclick="slSetQuality('poor')">Poor</button>
+            <button class="sl-preset-btn sl-q-btn active" data-v="medium" onclick="slSetQuality('medium')">Medium</button>
+            <button class="sl-preset-btn sl-q-btn" data-v="good" onclick="slSetQuality('good')">Good</button>
+          </div>
+          <p class="section-label">Number of predictions</p>
+          <div class="sl-preset-row">
+            <button class="sl-preset-btn sl-n-btn" data-v="few" onclick="slSetNPred('few')">Few</button>
+            <button class="sl-preset-btn sl-n-btn active" data-v="balanced" onclick="slSetNPred('balanced')">Balanced</button>
+            <button class="sl-preset-btn sl-n-btn" data-v="many" onclick="slSetNPred('many')">Many</button>
+          </div>
         </div>
         <div>
-          <p style="font-size:13px;font-weight:700;margin-bottom:8px">B. Where is it? (bounding box regression)</p>
-          <div id="sl-mcq3-opts"></div>
-          <div id="sl-mcq3-hint" class="guidance-box cold" style="margin-top:8px"></div>
-          <p style="font-size:12px;color:var(--muted);margin-top:10px">MSE vs Smooth L1 on prediction error:</p>
-          <svg id="sl-loss-svg" width="260" height="110" style="border:1px solid var(--border);border-radius:6px;background:#faf8f5;margin-top:4px"></svg>
+          <p class="sl-panel-title" style="color:var(--muted)">Per-object outcome</p>
+          <div id="sl-obj-list"></div>
+          <p class="sl-panel-title" style="margin-top:14px;color:var(--blue)">What we evaluate</p>
+          <div id="sl-quality-badge" style="font-size:12px;font-weight:700;margin-bottom:4px"></div>
+          <div class="sl-stat-grid" id="sl-eval-stats"></div>
+          <p class="sl-panel-title" style="margin-top:14px;color:var(--orange)">What we optimize (surrogate loss)</p>
+          <div class="sl-stat-grid" id="sl-loss-stats"></div>
         </div>
+      </div>
+      <button class="btn btn-p" style="margin-top:16px" onclick="slContinuePlayground()">Continue — guided questions ↓</button>
+    </div>
+  </div>
+
+  <!-- Stage 4: Guided reasoning -->
+  <div class="ba-locked-section" id="sl-s4">
+    <div class="card" style="margin-top:18px">
+      <div class="card-title">Stage 4 — Guided Reasoning</div>
+      <div style="margin-bottom:18px">
+        <p style="font-size:13px;font-weight:700;margin-bottom:8px">Look at the image and the model's predicted boxes. Which outcome do we actually care about?</p>
+        <div id="sl-mcq-goal-opts"></div>
+        <div id="sl-mcq-goal-hint" class="guidance-box cold" style="margin-top:8px"></div>
+      </div>
+      <div style="margin-bottom:18px">
+        <p style="font-size:13px;font-weight:700;margin-bottom:8px">You just moved the confidence slider. What happens when you increase the confidence threshold?</p>
+        <div id="sl-mcq-conf-opts"></div>
+        <div id="sl-mcq-conf-hint" class="guidance-box cold" style="margin-top:8px"></div>
+      </div>
+      <div style="margin-bottom:18px">
+        <p style="font-size:13px;font-weight:700;margin-bottom:8px">Why does the IoU threshold matter?</p>
+        <div id="sl-mcq-iou-opts"></div>
+        <div id="sl-mcq-iou-hint" class="guidance-box cold" style="margin-top:8px"></div>
+      </div>
+      <div>
+        <p style="font-size:13px;font-weight:700;margin-bottom:8px">Model A finds almost every cat but also flags a few non-cats (high recall, lower precision). Model B only predicts when very confident and misses some hidden cats (high precision, lower recall). Which model is better?</p>
+        <div id="sl-mcq-compare-opts"></div>
+        <div id="sl-mcq-compare-hint" class="guidance-box cold" style="margin-top:8px"></div>
       </div>
     </div>
   </div>
-  <!-- Stage 4: Submit -->
-  <div class="ba-locked-section" id="sl-s4">
+
+  <!-- Stage 5: The three questions, answered -->
+  <div class="ba-locked-section" id="sl-s5">
     <div class="card" style="margin-top:18px">
-      <div class="card-title">Stage 4 — Cement it</div>
-      <p style="font-size:13px;font-weight:700;margin-bottom:8px">Why can't mAP (mean Average Precision) be used as the training loss?</p>
-      <div id="sl-mcq4-opts"></div>
-      <div id="sl-mcq4-hint" class="guidance-box cold" style="margin-top:8px;margin-bottom:16px"></div>
-      <p style="font-size:13px;font-weight:600;margin-bottom:6px">In your own words: describe the surrogate you'd use for this cat detector and why it correlates with the true goal.</p>
-      <textarea id="sl-reflection" rows="3" placeholder="e.g. For classification I'd use binary cross-entropy because…" style="width:100%;padding:10px;border:1px solid var(--border);border-radius:7px;font-size:13px;resize:vertical;outline:none;background:var(--surface);color:var(--text)" oninput="slUpdateSubmitSummary()"></textarea>
+      <div class="card-title">Stage 5 — The Three Questions, Answered</div>
+      <div style="display:grid;gap:12px">
+        <div style="background:var(--surf2);border:1px solid var(--border);border-radius:9px;padding:14px 16px">
+          <div style="font-size:11px;text-transform:uppercase;font-weight:700;color:var(--muted);margin-bottom:6px">Q1 — What loss do we actually care about?</div>
+          <p style="font-size:13px;color:var(--text)">Detection quality: did the model find all the cats, draw accurate boxes, avoid false positives, and avoid duplicates? Precision, recall, IoU, and mAP all measure pieces of this. In short: <strong>actual goal = good detections</strong> — high recall + high precision + accurate boxes.</p>
+        </div>
+        <div style="background:var(--surf2);border:1px solid var(--border);border-radius:9px;padding:14px 16px">
+          <div style="font-size:11px;text-transform:uppercase;font-weight:700;color:var(--muted);margin-bottom:6px">Q2 — Can or should we optimize it directly?</div>
+          <p style="font-size:13px;color:var(--text)">Not usually. mAP, precision, recall, and exact detection correctness involve thresholds, ranking, and matching predictions to ground truth — decisions that aren't smooth, differentiable operations. Gradient-based training needs losses that give gradual feedback, not thresholds and sorts.</p>
+        </div>
+        <div style="background:var(--surf2);border:1px solid var(--border);border-radius:9px;padding:14px 16px">
+          <div style="font-size:11px;text-transform:uppercase;font-weight:700;color:var(--muted);margin-bottom:6px">Q3 — What surrogate loss should we use instead?</div>
+          <p style="font-size:13px;color:var(--text)">A blend of easier-to-optimize pieces: <strong>classification loss</strong> ("is this a cat?"), <strong>box localization loss</strong> ("how close is my box to the true box?"), and <strong>objectness/confidence loss</strong> ("is there an object here at all?"). Minimizing these nudges the model toward the real goal.</p>
+        </div>
+      </div>
+      <button class="btn btn-p" style="margin-top:16px" onclick="slContinueRecap()">Continue — match the losses ↓</button>
+    </div>
+  </div>
+
+  <!-- Stage 6: Matching -->
+  <div class="ba-locked-section" id="sl-s6">
+    <div class="card" style="margin-top:18px">
+      <div class="card-title">Stage 6 — Match the Problem to the Loss</div>
+      <p style="font-size:13px;color:var(--muted);margin-bottom:14px">For each detection problem, pick the surrogate loss component responsible for fixing it.</p>
+      <div id="sl-match-rows"></div>
+      <button class="btn btn-p" style="margin-top:8px" onclick="slCheckMatch()">Check answers</button>
+      <div id="sl-match-hint" class="guidance-box cold" style="margin-top:10px"></div>
+    </div>
+  </div>
+
+  <!-- Stage 7: Mini simulation -->
+  <div class="ba-locked-section" id="sl-s7">
+    <div class="card" style="margin-top:18px">
+      <div class="card-title">Stage 7 — Real Metric vs. Surrogate Loss</div>
+      <p style="font-size:13px;color:var(--muted);margin-bottom:12px">Two snapshots of the same model, at different points in training:</p>
+      <table style="margin-bottom:14px">
+        <tr><th></th><th>Training loss</th><th>Precision</th><th>Recall</th><th>mAP</th></tr>
+        <tr><td>Snapshot 1</td><td>0.40</td><td>0.55</td><td>0.90</td><td>0.62</td></tr>
+        <tr><td>Snapshot 2</td><td>0.55</td><td>0.78</td><td>0.74</td><td>0.76</td></tr>
+      </table>
+      <div id="sl-mcq-sim-opts"></div>
+      <div id="sl-mcq-sim-hint" class="guidance-box cold" style="margin-top:8px"></div>
+    </div>
+  </div>
+
+  <!-- Stage 8: Quiz -->
+  <div class="ba-locked-section" id="sl-s8">
+    <div class="card" style="margin-top:18px">
+      <div class="card-title">Stage 8 — Checkpoint Quiz</div>
+      <div style="margin-bottom:16px">
+        <p style="font-size:13px;font-weight:700;margin-bottom:8px">1. In cat object detection, what do we actually care about?</p>
+        <div id="sl-mcq-q1-opts"></div>
+        <div id="sl-mcq-q1-hint" class="guidance-box cold" style="margin-top:8px"></div>
+      </div>
+      <div style="margin-bottom:16px">
+        <p style="font-size:13px;font-weight:700;margin-bottom:8px">2. Why is mAP difficult to optimize directly?</p>
+        <div id="sl-mcq-q2-opts"></div>
+        <div id="sl-mcq-q2-hint" class="guidance-box cold" style="margin-top:8px"></div>
+      </div>
+      <div style="margin-bottom:16px">
+        <p style="font-size:13px;font-weight:700;margin-bottom:8px">3. Which of the following is a surrogate loss for object detection?</p>
+        <div id="sl-mcq-q3-opts"></div>
+        <div id="sl-mcq-q3-hint" class="guidance-box cold" style="margin-top:8px"></div>
+      </div>
+      <div style="margin-bottom:16px">
+        <p style="font-size:13px;font-weight:700;margin-bottom:8px">4. A model detects every cat but also labels many pillows as cats. What is likely high and what is likely low?</p>
+        <div id="sl-mcq-q4-opts"></div>
+        <div id="sl-mcq-q4-hint" class="guidance-box cold" style="margin-top:8px"></div>
+      </div>
+      <div style="margin-bottom:16px">
+        <p style="font-size:13px;font-weight:700;margin-bottom:8px">5. A model only predicts cats when it is extremely confident, but it misses hidden cats. What is likely true?</p>
+        <div id="sl-mcq-q5-opts"></div>
+        <div id="sl-mcq-q5-hint" class="guidance-box cold" style="margin-top:8px"></div>
+      </div>
+      <div>
+        <p style="font-size:13px;font-weight:700;margin-bottom:8px">6. What does bounding box localization loss help with?</p>
+        <div id="sl-mcq-q6-opts"></div>
+        <div id="sl-mcq-q6-hint" class="guidance-box cold" style="margin-top:8px"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Stage 9: Takeaway -->
+  <div class="ba-locked-section" id="sl-s9">
+    <div class="card sl-takeaway" style="margin-top:18px">
+      <div class="card-title">Takeaway</div>
+      <ul style="padding-left:20px">
+        <li>In object detection, we care about real detection quality: finding all the cats, drawing accurate boxes, and avoiding false detections.</li>
+        <li>Real evaluation metrics like mAP are hard to optimize directly — they involve thresholds, ranking, and matching that don't have useful gradients.</li>
+        <li>So we train with a <strong>surrogate loss</strong>: classification loss + box localization loss + objectness/confidence loss.</li>
+        <li>The surrogate loss guides training, but final evaluation should still use the real detection metric.</li>
+      </ul>
     </div>
   </div>
 </div>

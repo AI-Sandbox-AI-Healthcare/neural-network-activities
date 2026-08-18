@@ -69,48 +69,39 @@ Lecture and textbook material on things like backprop, regularization, or attent
 
 On GitHub Pages, each activity is its own page: `docs/activities/<number>.html`, e.g. `docs/activities/6.4.html` opens Linear Regions directly. See [Publishing to GitHub Pages](#publishing-to-github-pages) below.
 
-## How it works
 
-- `backend/static/list.html` / `backend/static/index.html` — the original single-page app (all 38 activities as hash-routed tabs), served locally by `backend/main.py` for development/editing.
-- `docs/` — the published, backend-free static site: `docs/index.html` (activity list) plus one standalone HTML page per activity under `docs/activities/`. This is what GitHub Pages serves. It has no server, collects no student data, and every "✓ Completed" badge is in-memory only — it resets the moment the page reloads.
-- `scripts/build_pages.py` — regenerates `docs/` from `backend/static/index.html`. **Run this after editing an activity** in `backend/static/index.html`, then commit the updated `docs/` output.
-- `backend/main.py` — a small FastAPI server used only for local development (editing/previewing activities before regenerating `docs/`). Not used in production; GitHub Pages serves static files directly.
+## GitHub Pages
 
-> `frontend/` is an early React/Vite prototype that predates the current static-HTML app. It isn't served by `backend/main.py` and isn't needed to run the activities — safe to ignore.
+Neural Networks — Activities
+https://ai-sandbox-ai-healthcare.github.io/neural-network-activities/
 
-## Publishing to GitHub Pages
+Activity 0.0
+https://ai-sandbox-ai-healthcare.github.io/neural-network-activities/activities/0.0.html#0.0
 
-One-time setup after pushing this repo to GitHub:
+Activity 6.1
+https://ai-sandbox-ai-healthcare.github.io/neural-network-activities/activities/6.1.html#6.1
 
-1. On GitHub, go to **Settings → Pages**.
-2. Under **Build and deployment**, set **Source** to `Deploy from a branch`.
-3. Set **Branch** to `main` and the folder to **`/docs`**, then **Save**.
-4. GitHub publishes the site at `https://<org-or-user>.github.io/<repo-name>/` within a minute or two (check the Pages settings page for the exact URL and build status).
-
-After that, every future `git push` to `main` that changes `docs/` automatically updates the live site — no rebuild step on GitHub's side.
-
-**If you edit an activity** in `backend/static/index.html`, regenerate the static site before pushing:
-```
-python scripts/build_pages.py
-```
-This overwrites everything under `docs/`. Commit and push both the source change and the regenerated `docs/` output.
+...
 
 ## Running locally
 
 **Requirements:** Python 3.
 
-1. Install dependencies:
-   ```
-   pip install -r backend/requirements.txt
-   ```
-2. Start the server:
-   ```
-   .\start.bat
-   ```
-   (PowerShell requires the `.\` prefix to run a script from the current directory.)
+**Windows (PowerShell):**
+```
+python -m venv myenv
+.\myenv\Scripts\Activate.ps1
+pip install -r backend/requirements.txt
+.\start.bat
+```
+(PowerShell requires the `.\` prefix to run a script from the current directory.)
 
-   or, equivalently, from the `backend/` folder:
-   ```
-   python -m uvicorn main:app --reload --host 0.0.0.0 --port 8000
-   ```
-3. Open **http://localhost:8000** in a browser — this shows the activity list. Click a card, or go directly to `http://localhost:8000/app#<activity-number>` (e.g. `#7.1`).
+**Linux / macOS:**
+```
+python3 -m venv myenv
+source myenv/bin/activate
+pip install -r backend/requirements.txt
+cd backend && python -m uvicorn main:app --reload --host 0.0.0.0 --port 8000
+```
+
+Open **http://localhost:8000** in a browser — this shows the activity list. Click a card, or go directly to `http://localhost:8000/app#<activity-number>` (e.g. `#7.1`).

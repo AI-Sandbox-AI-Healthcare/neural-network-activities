@@ -833,7 +833,7 @@ function isComplete(module) {
     if (module === 'earlystop') return esStopMcq === true && esEpochOk === true
     if (module === 'dropout') return Object.values(dpMcq).filter(v=>v===true).length === 3 && dpBestMcq === true
     if (module === 'taxonomy') return kdAllDistsOk() && Object.values(kdMcq).filter(v=>v===true).length === 4
-    if (module === 'surrogate') return slFillsOk && Object.values(slMcq).filter(v=>v===true).length === 4
+    if (module === 'surrogate') return SL.warmupCorrect && SL.flashSeen.size===SL_FLASH.length && SL.matchAllOk && Object.values(SL.mcq).filter(v=>v===true).length === 11
     if (module === 'gradnorm') return Object.values(gnMcq).filter(v=>v===true).length === 4 && gnMcqClip === true
     if (module === 'momentum') return mmCountNoMomOk() === 3 && mmCountMomOk() === 3 && mmMcq.accum === true && mmMcq.carry === true
     if (module === 'transferlearn') return Object.values(tlMcq).filter(v=>v===true).length === 4 && tlPxOk
@@ -2976,168 +2976,417 @@ function initTaxonomy(){
 }
 
 // ══════════════════════════════════════════════════
-//  ACTIVITY 8.1 — SURROGATE LOSS
+//  ACTIVITY 8.1 — WHAT LOSS DO WE ACTUALLY CARE ABOUT?
 // ══════════════════════════════════════════════════
-let slStage=0, slFillsOk=false
-let slMcq={iou:null,cls:null,loc:null,map:null}
-let slReflection=''
-const SL_M1=[
-  {t:'No — IoU is non-differentiable; ∂IoU/∂W = 0 wherever boxes don\'t overlap',c:true},
-  {t:'Yes — IoU is bounded in [0,1] so it works as a loss function',c:false},
-  {t:'No — IoU is too expensive to compute each batch',c:false},
-  {t:'Yes — any bounded metric can be minimized with gradient descent',c:false}
-]
-const SL_M2=[
-  {t:'Binary cross-entropy on class confidence scores',c:true},
-  {t:'MSE between predicted and true class label (0 or 1)',c:false},
-  {t:'IoU between predicted and ground-truth boxes',c:false},
-  {t:'Hinge loss on bounding box coordinates',c:false}
-]
-const SL_M3=[
-  {t:'Smooth L1 (Huber loss) on predicted (x, y, w, h)',c:true},
-  {t:'Cross-entropy on box coordinate values',c:false},
-  {t:'IoU directly — it is differentiable w.r.t. coordinates',c:false},
-  {t:'MSE — it penalizes all coordinate errors equally',c:false}
-]
-const SL_M4=[
-  {t:'mAP requires expensive human labeling to evaluate per step',c:false},
-  {t:'mAP involves ranking predictions by confidence — a non-differentiable sort operation',c:true},
-  {t:'mAP is always 0.0 at initialization so gradients vanish',c:false},
-  {t:'mAP can only be computed per epoch, not per mini-batch',c:false}
-]
-function slUnlock(){
-  slStage=Math.max(slStage,1)
-  $('sl-s2').classList.add('unlocked')
-  slUpdateIoU()
-  slDrawLossCurves()
-  slRenderMCQs()
+let SL={
+  gtOn:false, predOn:false,
+  warmupCorrect:false,
+  flashIdx:0, flashFlip:false, flashSeen:new Set(),
+  conf:0.5, iou:0.5, quality:'medium', npred:'balanced',
+  mcq:{goal:null,conf:null,iou:null,compare:null,sim:null,q1:null,q2:null,q3:null,q4:null,q5:null,q6:null},
+  match:[null,null,null,null,null], matchAllOk:false
 }
-function slUpdateIoU(){
-  const px=parseInt($('sl-px').value),py=parseInt($('sl-py').value)
-  const pw=parseInt($('sl-pw').value),ph=parseInt($('sl-ph').value)
-  $('sl-px-val').textContent=px; $('sl-py-val').textContent=py
-  $('sl-pw-val').textContent=pw; $('sl-ph-val').textContent=ph
-  const gx1=1,gy1=1,gx2=5,gy2=5
-  const ix1=Math.max(gx1,px),iy1=Math.max(gy1,py)
-  const ix2=Math.min(gx2,px+pw),iy2=Math.min(gy2,py+ph)
-  const inter=Math.max(0,ix2-ix1)*Math.max(0,iy2-iy1)
-  const union=16+pw*ph-inter
-  const iou=inter/union
-  const iv=$('sl-iou-val')
-  iv.textContent=iou.toFixed(3)
-  iv.style.color=iou===0?'var(--red)':iou>0.5?'var(--green)':'var(--orange)'
-  const gv=$('sl-grad-val')
-  gv.textContent=inter===0?'0 (flat!)':'≠ 0'
-  gv.style.color=inter===0?'var(--red)':'var(--green)'
-  slDrawGrid(px,py,px+pw,py+ph,ix1,iy1,ix2,iy2)
-}
-function slDrawGrid(px1,py1,px2,py2,ix1,iy1,ix2,iy2){
-  const svg=$('sl-grid-svg'); if(!svg) return
-  const C=24,N=8
-  let h='<rect width="196" height="196" fill="var(--surf2)"/>'
-  for(let i=0;i<=N;i++){
-    h+=`<line x1="${i*C}" y1="0" x2="${i*C}" y2="${N*C}" stroke="#e2e8f0" stroke-width="1"/>`
-    h+=`<line x1="0" y1="${i*C}" x2="${N*C}" y2="${i*C}" stroke="#e2e8f0" stroke-width="1"/>`
+
+const SL_OBJS=[
+  {id:'A', emoji:'🐱', ex:30,  ey:64,  gt:{x:16, y:50,w:92, h:112}, predBox:{x:20, y:56,w:84,h:100}, predStatus:'good'},
+  {id:'B', emoji:'🐱', ex:172, ey:44,  gt:{x:154,y:32,w:86, h:122}, predBox:{x:178,y:50,w:76,h:98},  predStatus:'loose'},
+  {id:'C', emoji:'🐱', ex:302, ey:76,  gt:{x:286,y:62,w:70, h:106}, predBox:null,                    predStatus:'missing', dim:true},
+  {id:'D', emoji:'🐱', ex:398, ey:108, gt:{x:382,y:92,w:86, h:118}, predBox:{x:386,y:96,w:80,h:110},  predStatus:'good', dupBox:{x:396,y:106,w:80,h:110}},
+  {id:'P', emoji:'🛋️', ex:222, ey:186, gt:null,                     predBox:{x:206,y:172,w:112,h:78}, predStatus:'fp'}
+]
+
+const SL_WARMUP_OPTS=[
+  {t:'It finds every cat.',c:true},
+  {t:'It draws tight boxes around each cat.',c:true},
+  {t:'It avoids detecting non-cats.',c:true},
+  {t:'It gives high confidence to correct detections.',c:true},
+  {t:'It avoids duplicate boxes.',c:true},
+  {t:'It trains quickly.',c:false},
+  {t:'It has low training loss.',c:false}
+]
+
+const SL_FLASH=[
+  {kicker:'Ground truth', q:'What is ground truth?', a:'Ground truth is the correct answer provided in the dataset. For object detection, that means the correct class label and the correct bounding box for each object.<br><br><span class="mono">Cat: [x_min, y_min, x_max, y_max]</span>'},
+  {kicker:'Prediction', q:'What does an object detector predict?', a:'For each guess, it predicts a class label (e.g. "cat"), a confidence score, and a bounding box location.<br><br><span class="mono">Cat, confidence = 0.92, box = [50, 40, 180, 220]</span>'},
+  {kicker:'IoU', q:'What is Intersection over Union (IoU)?', a:'IoU measures how much a predicted box overlaps the ground-truth box. Higher IoU means a closer match.<br><br>IoU = 0.90 → very good overlap<br>IoU = 0.55 → acceptable, not perfect<br>IoU = 0.20 → poor localization'},
+  {kicker:'False positive', q:'What is a false positive?', a:'A false positive happens when the model predicts a cat where there is no cat.<br><br>Example: the model draws a cat box around a pillow.'},
+  {kicker:'False negative', q:'What is a false negative?', a:'A false negative happens when the model misses a real cat.<br><br>Example: a cat is in the image, but the model never detects it.'},
+  {kicker:'Precision', q:'What does precision measure?', a:'Of all the objects the model predicted as cats, how many were actually cats? High precision means fewer false alarms.'},
+  {kicker:'Recall', q:'What does recall measure?', a:'Of all the real cats in the image, how many did the model find? High recall means fewer missed cats.'},
+  {kicker:'mAP', q:'What is mAP?', a:'Mean Average Precision. It combines detection confidence, precision, recall, and box overlap into one score — closer to what we actually care about than training loss alone.'},
+  {kicker:'Training loss', q:'What is training loss?', a:'The mathematical function the model tries to minimize during training. It gives the model a gradient signal for how to improve.'},
+  {kicker:'Surrogate loss', q:'What is a surrogate loss?', a:'A loss we optimize because the metric we really care about is hard to optimize directly. For detection: we care about detection quality, but we train with classification loss + box loss + objectness loss.'}
+]
+
+const SL_CANDS=[
+  {t:'A',   conf:0.95, dIoU: 0.05},
+  {t:'B',   conf:0.83, dIoU:-0.05},
+  {t:'D',   conf:0.77, dIoU: 0.00},
+  {t:'D',   conf:0.60, dIoU:-0.10},
+  {t:null,  conf:0.65, dIoU: 0, label:'Pillow'},
+  {t:'C',   conf:0.34, dIoU:-0.25},
+  {t:null,  conf:0.45, dIoU: 0, label:'Shadow'},
+  {t:null,  conf:0.22, dIoU: 0, label:'Noise'}
+]
+const SL_NPRED={few:3, balanced:5, many:8}
+const SL_QUAL={poor:0.30, medium:0.60, good:0.85}
+
+const SL_MATCH=[
+  {t:'The model says "dog" instead of "cat".', a:'cls'},
+  {t:'The model finds the cat but the box is too wide.', a:'box'},
+  {t:'The model predicts a cat where there is only a pillow.', a:'obj'},
+  {t:'The model gives low confidence to a real cat.', a:'obj'},
+  {t:'The predicted box barely overlaps the true box.', a:'box'}
+]
+
+const SL_MCQ={
+  goal:{
+    opts:[
+      {t:'The model should find all cats and draw accurate boxes around them.',c:true},
+      {t:'The model should only reduce the training loss number.',c:false},
+      {t:'The model should minimize the number of pixels in the image.',c:false},
+      {t:'The model should always predict as many boxes as possible.',c:false}
+    ],
+    msg:'The real goal is detection quality — finding the cats and boxing them accurately — not the size of the loss number.'
+  },
+  conf:{
+    opts:[
+      {t:'More boxes appear, so recall increases and precision drops.',c:false},
+      {t:'Fewer boxes appear; this can raise precision but risks missing real cats (lower recall).',c:true},
+      {t:'It has no effect on precision or recall.',c:false},
+      {t:'It permanently changes the model\'s trained weights.',c:false}
+    ],
+    msg:'Raising the threshold removes low-confidence predictions. That usually cuts false positives, but it can also cost you real detections.'
+  },
+  iou:{
+    opts:[
+      {t:'It decides how accurate a predicted box must be to count as correct — a higher threshold demands tighter overlap.',c:true},
+      {t:'It sets how many objects the model can detect at once.',c:false},
+      {t:'It controls the learning rate used during training.',c:false},
+      {t:'It only affects classification, never localization.',c:false}
+    ],
+    msg:'A high IoU threshold means "close" boxes no longer count as correct — only tight, accurate ones do.'
+  },
+  compare:{
+    opts:[
+      {t:'Model A is always better.',c:false},
+      {t:'Model B is always better.',c:false},
+      {t:'It depends on what we care about — recall matters more when missing a cat is costly, precision matters more when false alarms are costly.',c:true},
+      {t:'Neither model can be evaluated.',c:false}
+    ],
+    msg:'Object detection is usually a tradeoff. There is rarely one "best" model without knowing which mistake costs more.'
+  },
+  sim:{
+    opts:[
+      {t:'Snapshot 1, because it has the lowest training loss.',c:false},
+      {t:'Both are equally good since their losses are close.',c:false},
+      {t:'Neither — keep training until loss reaches exactly 0.',c:false},
+      {t:'Snapshot 2, because it has the higher mAP even though its training loss is higher.',c:true}
+    ],
+    msg:'Lower training loss does not guarantee better real-world detection. The surrogate loss is a training proxy; mAP is what tells you the detector actually works.'
+  },
+  q1:{
+    opts:[
+      {t:'Whether the model uses the smallest number of parameters',c:false},
+      {t:'Whether the model finds cats accurately and avoids false detections',c:true},
+      {t:'Whether the model always predicts one box per image',c:false},
+      {t:'Whether the model has the lowest possible file size',c:false}
+    ],
+    msg:'Detection quality — accurate cats found, few false alarms — is the real target.'
+  },
+  q2:{
+    opts:[
+      {t:'It is unrelated to object detection',c:false},
+      {t:'It depends on thresholds, ranking, and matching predictions to ground truth',c:true},
+      {t:'It only works for text data',c:false},
+      {t:'It ignores bounding boxes',c:false}
+    ],
+    msg:'mAP requires ranking, thresholding, and matching predictions to ground truth — none of that is smooth and differentiable.'
+  },
+  q3:{
+    opts:[
+      {t:'Classification loss',c:false},
+      {t:'Box localization loss',c:false},
+      {t:'Objectness loss',c:false},
+      {t:'All of the above',c:true}
+    ],
+    msg:'A full detector loss blends classification, box localization, and objectness — each teaches a different sub-skill.'
+  },
+  q4:{
+    opts:[
+      {t:'High recall, low precision',c:true},
+      {t:'Low recall, high precision',c:false},
+      {t:'High precision, high recall',c:false},
+      {t:'Low precision, low recall',c:false}
+    ],
+    msg:'Finding every cat pushes recall up; mislabeling pillows as cats drags precision down.'
+  },
+  q5:{
+    opts:[
+      {t:'It has high recall and low precision',c:false},
+      {t:'It has low recall and possibly high precision',c:true},
+      {t:'It has no false negatives',c:false},
+      {t:'It has perfect mAP',c:false}
+    ],
+    msg:'A cautious, high-confidence-only model trades recall for precision.'
+  },
+  q6:{
+    opts:[
+      {t:'Predicting the correct class label',c:false},
+      {t:'Reducing the image size',c:false},
+      {t:'Making the predicted box closer to the ground-truth box',c:true},
+      {t:'Choosing the learning rate',c:false}
+    ],
+    msg:'Box localization loss (e.g. smooth L1) pulls predicted coordinates toward the ground-truth box.'
   }
-  if(ix2>ix1&&iy2>iy1) h+=`<rect x="${ix1*C+1}" y="${iy1*C+1}" width="${(ix2-ix1)*C-2}" height="${(iy2-iy1)*C-2}" fill="rgba(21,128,61,0.3)" rx="2"/>`
-  h+=`<rect x="${C+1}" y="${C+1}" width="${4*C-2}" height="${4*C-2}" fill="rgba(21,128,61,0.1)" stroke="#15803d" stroke-width="2.5" rx="2"/>`
-  h+=`<rect x="${px1*C+1}" y="${py1*C+1}" width="${(px2-px1)*C-2}" height="${(py2-py1)*C-2}" fill="rgba(185,28,28,0.08)" stroke="#b91c1c" stroke-width="2" stroke-dasharray="4,2" rx="2"/>`
-  h+=`<text x="${3*C}" y="${C-3}" text-anchor="middle" font-size="10" font-family="system-ui" fill="#15803d" font-weight="700">GT</text>`
-  svg.innerHTML=h
 }
-function slCheckFills(){
-  const v1=$('sl-fill1').value.trim(),v2=$('sl-fill2').value.trim()
-  const ok1=v1!==''&&parseFloat(v1)===0,ok2=v2!==''&&parseFloat(v2)===0
-  $('sl-fill1').className='rr-inp'+(v1===''?'':ok1?' ok':' bad')
-  $('sl-fill2').className='rr-inp'+(v2===''?'':ok2?' ok':' bad')
-  const hint=$('sl-fill-hint')
-  if(ok1&&ok2){
+const SL_QUIZ_KEYS=['q1','q2','q3','q4','q5','q6']
+
+// ── Stage 1: scene + warm-up ─────────────────────
+function slToggleGT(){
+  SL.gtOn=!SL.gtOn
+  $('sl-gt-btn').classList.toggle('on',SL.gtOn)
+  slDrawScene()
+}
+function slTogglePred(){
+  SL.predOn=!SL.predOn
+  $('sl-pred-btn').classList.toggle('on',SL.predOn)
+  slDrawScene()
+}
+function slDrawScene(){
+  const el=$('sl-scene'); if(!el) return
+  let h=''
+  SL_OBJS.forEach(o=>{
+    h+=`<span class="sl-obj" style="left:${o.ex}px;top:${o.ey}px;opacity:${o.dim?0.45:1}">${o.emoji}</span>`
+    if(o.gt && SL.gtOn){
+      h+=`<div class="sl-box gt show" style="left:${o.gt.x}px;top:${o.gt.y}px;width:${o.gt.w}px;height:${o.gt.h}px"><span class="sl-box-label" style="background:#15803d;color:#fff">GT ${o.id}</span></div>`
+    }
+    if(SL.predOn){
+      if(o.predBox){
+        const cls=o.predStatus==='good'?'pred-good':o.predStatus==='loose'?'pred-loose':'pred-fp'
+        const bg=o.predStatus==='good'?'#15803d':o.predStatus==='loose'?'#c2610c':'#b91c1c'
+        const lbl=o.predStatus==='fp'?'cat? (FP)':o.predStatus==='loose'?'cat (loose)':'cat'
+        h+=`<div class="sl-box ${cls} show" style="left:${o.predBox.x}px;top:${o.predBox.y}px;width:${o.predBox.w}px;height:${o.predBox.h}px"><span class="sl-box-label" style="background:${bg};color:#fff">${lbl}</span></div>`
+      }
+      if(o.dupBox){
+        h+=`<div class="sl-box pred-loose show" style="left:${o.dupBox.x}px;top:${o.dupBox.y}px;width:${o.dupBox.w}px;height:${o.dupBox.h}px;border-style:dashed"><span class="sl-box-label" style="background:#6d28d9;color:#fff">duplicate</span></div>`
+      }
+      if(o.predStatus==='missing'){
+        h+=`<span style="position:absolute;left:${o.gt.x}px;top:${o.gt.y+o.gt.h+2}px;font-size:11px;font-weight:800;color:#b91c1c">missed!</span>`
+      }
+    }
+  })
+  el.innerHTML=h
+}
+function slRenderWarmup(){
+  const c=$('sl-warmup-opts'); if(!c||c.children.length) return
+  c.innerHTML=SL_WARMUP_OPTS.map((o,i)=>`<label class="sl-check-opt"><input type="checkbox" id="sl-wu-${i}">${o.t}</label>`).join('')
+}
+function slCheckWarmup(){
+  const picked=SL_WARMUP_OPTS.map((o,i)=>$(`sl-wu-${i}`).checked)
+  const correct=SL_WARMUP_OPTS.every((o,i)=>picked[i]===o.c)
+  const hint=$('sl-warmup-hint')
+  if(correct){
+    SL.warmupCorrect=true
     hint.className='guidance-box done'
-    hint.innerHTML='<strong>✓ Correct!</strong> No overlap → IoU = 0 everywhere in that region, and ∂IoU/∂W = 0. GD has no signal to follow.'
-    slFillsOk=true
-    $('sl-mcq1-wrap').classList.add('unlocked')
-  } else if(v1!==''||v2!==''){
-    hint.className='guidance-box warm'
-    hint.innerHTML='Move the red box completely outside the green one (IoU should show 0.000), then try again.'
-  }
-  slUpdateSubmitSummary()
-}
-function slRenderMCQs(){
-  const render=(cid,data,q)=>{
-    const c=$(cid); if(!c||c.children.length) return
-    c.innerHTML=data.map((o,i)=>`<div class="cg-mcq-opt" id="sl-m${q}-${i}" onclick="slAnswer(${q},${i})"><span style="font-weight:700;color:var(--muted);flex-shrink:0">${String.fromCharCode(65+i)}.</span><span>${o.t}</span></div>`).join('')
-  }
-  render('sl-mcq1-opts',SL_M1,1)
-  render('sl-mcq2-opts',SL_M2,2)
-  render('sl-mcq3-opts',SL_M3,3)
-  render('sl-mcq4-opts',SL_M4,4)
-}
-function slAnswer(q,i){
-  const maps={1:SL_M1,2:SL_M2,3:SL_M3,4:SL_M4}
-  const opt=maps[q][i]
-  document.querySelectorAll(`.cg-mcq-opt[id^="sl-m${q}-"]`).forEach(e=>e.onclick=null)
-  $(`sl-m${q}-${i}`).classList.add(opt.c?'sel-ok':'sel-bad')
-  const hint=$(`sl-mcq${q}-hint`)
-  if(opt.c){
-    const msgs={
-      1:'<strong>✓ Correct!</strong> IoU is non-differentiable — flat (gradient = 0) wherever boxes don\'t overlap, which is almost everywhere at training start.',
-      2:'<strong>✓ Correct!</strong> Binary cross-entropy maps logit scores to [0,1] and gives non-zero gradients for all confidence values.',
-      3:'<strong>✓ Correct!</strong> Smooth L1 behaves like MSE for small errors (stable) but is linear for large ones — preventing extreme box predictions from dominating.',
-      4:'<strong>✓ Correct!</strong> mAP requires ranking all predictions by confidence score. Ranking uses argsort — a non-differentiable operation.'
-    }
-    if(hint){hint.className='guidance-box done';hint.innerHTML=msgs[q].replace('<strong>✓ Correct!</strong>','<strong>'+String.fromCharCode(65+i)+'. ✓ Correct!</strong>')}
-    if(q===1){slMcq.iou=true;$('sl-s3').classList.add('unlocked')}
-    if(q===2){slMcq.cls=true;if(slMcq.loc)$('sl-s4').classList.add('unlocked')}
-    if(q===3){slMcq.loc=true;$('sl-s4').classList.add('unlocked')}
-    if(q===4) slMcq.map=true
+    hint.innerHTML='<strong>✓ Exactly right.</strong> A good detector finds every cat, localizes them tightly, avoids false alarms, is confident when correct, and avoids duplicates. Low training loss and fast training are nice-to-haves — they are not the goal itself.'
+    $('sl-warmup-continue').style.display='inline-flex'
   } else {
-    const fails={
-      1:'The gradient problem is key. IoU is cheap to compute — the problem is ∂IoU/∂W = 0 in the flat zero-overlap region.',
-      2:'MSE on binary labels saturates near 0 and 1, giving vanishing gradients. Cross-entropy is designed for probability outputs.',
-      3:'IoU itself is non-differentiable — that\'s the Stage 2 lesson! MSE has the right differentiability but is overly sensitive to large outlier coordinate errors.',
-      4:'Batch-level computation isn\'t the barrier. The non-differentiable sort inside mAP is.'
+    hint.className='guidance-box warm'
+    hint.innerHTML='<strong>Not quite.</strong> Think about what a human grading this detector would check for — and notice that "trains quickly" and "low training loss" describe the training process, not the detections themselves.'
+  }
+  slCheckUnlocks()
+}
+
+// ── Stage 2: flash cards ─────────────────────────
+function slShowFlash(i){
+  SL.flashIdx=Math.max(0,Math.min(SL_FLASH.length-1,i))
+  SL.flashFlip=false
+  slRenderFlashFace()
+}
+function slFlashNav(d){ slShowFlash(SL.flashIdx+d) }
+function slFlipFlash(){
+  SL.flashFlip=!SL.flashFlip
+  if(SL.flashFlip) SL.flashSeen.add(SL.flashIdx)
+  slRenderFlashFace()
+}
+function slRenderFlashFace(){
+  const f=SL_FLASH[SL.flashIdx]
+  const card=$('sl-flash-card')
+  if(SL.flashFlip){
+    card.innerHTML=`<div class="sl-flash-kicker">${f.kicker} · Card ${SL.flashIdx+1}/${SL_FLASH.length}</div><div class="sl-flash-a">${f.a}</div><div style="font-size:11px;color:var(--muted);margin-top:14px;text-align:center">Click to see the question again</div>`
+  } else {
+    card.innerHTML=`<div class="sl-flash-kicker">${f.kicker} · Card ${SL.flashIdx+1}/${SL_FLASH.length}</div><div class="sl-flash-q">${f.q}</div><div style="font-size:11px;color:var(--muted);margin-top:14px">Click to reveal the answer</div>`
+  }
+  $('sl-flash-dots').innerHTML=SL_FLASH.map((_,i)=>`<span class="sl-flash-dot ${SL.flashSeen.has(i)?'seen':''} ${i===SL.flashIdx?'cur':''}"></span>`).join('')
+  $('sl-flash-counter').textContent=`${SL.flashSeen.size}/${SL_FLASH.length} viewed`
+  const btn=$('sl-flash-continue')
+  if(btn) btn.style.display = SL.flashSeen.size===SL_FLASH.length ? 'inline-flex' : 'none'
+  slCheckUnlocks()
+}
+
+// ── Stage 3: playground simulation ───────────────
+function slSetConf(v){ SL.conf=parseFloat(v); $('sl-conf-val').textContent=SL.conf.toFixed(2); slUpdatePlayground() }
+function slSetIou(v){ SL.iou=parseFloat(v); $('sl-iou-val').textContent=SL.iou.toFixed(2); slUpdatePlayground() }
+function slSetQuality(q){ SL.quality=q; document.querySelectorAll('.sl-q-btn').forEach(b=>b.classList.toggle('active',b.dataset.v===q)); slUpdatePlayground() }
+function slSetNPred(n){ SL.npred=n; document.querySelectorAll('.sl-n-btn').forEach(b=>b.classList.toggle('active',b.dataset.v===n)); slUpdatePlayground() }
+function slSimulate(){
+  const n=SL_NPRED[SL.npred]
+  const base=SL_QUAL[SL.quality]
+  let cands=SL_CANDS.slice(0,n).filter(c=>c.conf>=SL.conf)
+  cands=cands.slice().sort((a,b)=>b.conf-a.conf)
+  const claimed=new Set()
+  let TP=0,FP=0
+  const tpIoUs=[]
+  const objStatus={A:'fn',B:'fn',C:'fn',D:'fn',P:'none'}
+  const objIoU={}
+  cands.forEach(c=>{
+    if(c.t===null){
+      FP++
+      if(c.label==='Pillow') objStatus.P='fp'
+      return
     }
-    if(hint){hint.className='guidance-box warm';hint.innerHTML='<strong>Not quite.</strong> '+fails[q]}
-    document.querySelectorAll(`.cg-mcq-opt[id^="sl-m${q}-"]`).forEach((e,j)=>{if(j!==i)e.onclick=()=>slAnswer(q,j)})
-  }
-  slUpdateSubmitSummary()
+    const iou=Math.max(0.03,Math.min(0.98, base+c.dIoU))
+    const isMatch=iou>=SL.iou
+    if(isMatch && !claimed.has(c.t)){
+      claimed.add(c.t); TP++; tpIoUs.push(iou)
+      objStatus[c.t]='tp'; objIoU[c.t]=iou
+    } else {
+      FP++
+      objStatus[c.t] = objStatus[c.t]==='tp' ? 'tp+dup' : 'fp'
+    }
+  })
+  const FN=4-claimed.size
+  const precision=(TP+FP)>0 ? TP/(TP+FP) : 0
+  const recall=TP/4
+  const meanIoU=tpIoUs.length ? tpIoUs.reduce((a,b)=>a+b,0)/tpIoUs.length : 0
+  const qscore=(precision+recall+meanIoU)/3
+  const qualityLabel = qscore<0.4?'Poor':qscore<0.7?'Medium':'Good'
+  const clsLoss=Math.max(0.05,Math.min(1.3, 1.15-0.7*precision-0.15*recall))
+  const boxLoss= tpIoUs.length ? Math.max(0.05,Math.min(1.3, 1.05*(1-meanIoU))) : 1.10
+  const objLoss=Math.max(0.05,Math.min(1.4, 1.1-0.55*recall+0.04*FP))
+  const total=clsLoss*0.4+boxLoss*0.35+objLoss*0.25
+  return {TP,FP,FN,precision,recall,meanIoU,qualityLabel,clsLoss,boxLoss,objLoss,total,objStatus,objIoU}
 }
-function slDrawLossCurves(){
-  const svg=$('sl-loss-svg'); if(!svg) return
-  const W=260,H=110,pL=28,pR=8,pT=14,pB=22
-  const xs=x=>pL+(x+3)/6*(W-pL-pR)
-  const ys=v=>H-pB-(v/9)*(H-pT-pB)
-  let pathMSE='',pathHL=''
-  for(let xi=0;xi<=120;xi++){
-    const x=-3+xi*0.05
-    const mse=Math.min(x*x,9)
-    const hl=Math.min(Math.abs(x)<1?0.5*x*x:Math.abs(x)-0.5,9)
-    pathMSE+=(xi===0?'M':'L')+xs(x).toFixed(1)+','+ys(mse).toFixed(1)+' '
-    pathHL+=(xi===0?'M':'L')+xs(x).toFixed(1)+','+ys(hl).toFixed(1)+' '
+function slRenderObjList(sim){
+  const rows=[{k:'A',label:'🐱 Cat A'},{k:'B',label:'🐱 Cat B'},{k:'C',label:'🐱 Cat C (hidden)'},{k:'D',label:'🐱 Cat D'},{k:'P',label:'🛋️ Pillow (not a cat)'}]
+  const chip=s=>{
+    if(s==='tp') return '<span class="sl-chip tp">TP ✓</span>'
+    if(s==='fp') return '<span class="sl-chip fp">FP ✗</span>'
+    if(s==='tp+dup') return '<span class="sl-chip tp">TP</span> <span class="sl-chip dup">+dup FP</span>'
+    if(s==='fn') return '<span class="sl-chip fn">missed (FN)</span>'
+    return '<span class="sl-chip off">not raised</span>'
   }
-  const grid=[0,3,6,9].map(v=>`<line x1="${pL}" y1="${ys(v).toFixed(1)}" x2="${W-pR}" y2="${ys(v).toFixed(1)}" stroke="#e2e8f0" stroke-width="1"/>`).join('')
-  svg.innerHTML=`<rect x="${pL}" y="${pT}" width="${W-pL-pR}" height="${H-pT-pB}" fill="var(--surf2)" rx="2"/>
-    ${grid}
-    <path d="${pathMSE}" fill="none" stroke="#b91c1c" stroke-width="2"/>
-    <path d="${pathHL}" fill="none" stroke="#1d4ed8" stroke-width="2"/>
-    <line x1="${pL+4}" y1="${pT+9}" x2="${pL+18}" y2="${pT+9}" stroke="#b91c1c" stroke-width="2"/>
-    <text x="${pL+22}" y="${pT+13}" font-size="10" font-family="system-ui" fill="var(--text)">MSE</text>
-    <line x1="${pL+62}" y1="${pT+9}" x2="${pL+76}" y2="${pT+9}" stroke="#1d4ed8" stroke-width="2"/>
-    <text x="${pL+80}" y="${pT+13}" font-size="10" font-family="system-ui" fill="var(--text)">Smooth L1</text>
-    <text x="${W/2}" y="${H-3}" text-anchor="middle" font-size="10" font-family="system-ui" fill="var(--muted)">prediction error</text>`
+  const iouTxt=k => objIouLookup[k]!==undefined ? ` <span style="color:var(--muted);font-size:11px">IoU ${objIouLookup[k].toFixed(2)}</span>` : ''
+  const objIouLookup=sim.objIoU
+  $('sl-obj-list').innerHTML=rows.map(r=>`<div class="sl-obj-status"><span>${r.label}</span><span>${chip(sim.objStatus[r.k])}${r.k!=='P'?iouTxt(r.k):''}</span></div>`).join('')
 }
-function slUpdateSubmitSummary(){
-  slReflection=($('sl-reflection')||{value:''}).value
-  const el=$('sl-submit-summary')
-  if(el) el.innerHTML=`<p><strong>Fill-ins:</strong> ${slFillsOk?'<span style="color:var(--green)">✓</span>':'not yet'}</p>
-    <p><strong>IoU non-differentiable MCQ:</strong> ${slMcq.iou===true?'<span style="color:var(--green)">✓</span>':'not yet'}</p>
-    <p><strong>Cls surrogate MCQ:</strong> ${slMcq.cls===true?'<span style="color:var(--green)">✓ cross-entropy</span>':'not yet'}</p>
-    <p><strong>Loc surrogate MCQ:</strong> ${slMcq.loc===true?'<span style="color:var(--green)">✓ smooth L1</span>':'not yet'}</p>
-    <p><strong>Why not mAP MCQ:</strong> ${slMcq.map===true?'<span style="color:var(--green)">✓</span>':'not yet'}</p>
-    <p><strong>Reflection:</strong> ${slReflection.length>10?'<span style="color:var(--green)">✓</span>':'not yet'}</p>`
+function slRenderStats(sim){
+  $('sl-eval-stats').innerHTML=`
+    <div class="sl-stat"><div class="sl-stat-lbl">TP</div><div class="sl-stat-val" style="color:var(--green)">${sim.TP}</div></div>
+    <div class="sl-stat"><div class="sl-stat-lbl">FP</div><div class="sl-stat-val" style="color:var(--red)">${sim.FP}</div></div>
+    <div class="sl-stat"><div class="sl-stat-lbl">FN</div><div class="sl-stat-val" style="color:var(--orange)">${sim.FN}</div></div>
+    <div class="sl-stat"><div class="sl-stat-lbl">Precision</div><div class="sl-stat-val">${sim.precision.toFixed(2)}</div></div>
+    <div class="sl-stat"><div class="sl-stat-lbl">Recall</div><div class="sl-stat-val">${sim.recall.toFixed(2)}</div></div>
+    <div class="sl-stat"><div class="sl-stat-lbl">Mean IoU</div><div class="sl-stat-val">${sim.meanIoU?sim.meanIoU.toFixed(2):'—'}</div></div>`
+  const qEl=$('sl-quality-badge')
+  if(qEl){
+    qEl.textContent='Detection quality: '+sim.qualityLabel
+    qEl.style.color = sim.qualityLabel==='Good'?'var(--green)':sim.qualityLabel==='Medium'?'var(--orange)':'var(--red)'
+  }
+  $('sl-loss-stats').innerHTML=`
+    <div class="sl-stat"><div class="sl-stat-lbl">Cls Loss</div><div class="sl-stat-val">${sim.clsLoss.toFixed(2)}</div></div>
+    <div class="sl-stat"><div class="sl-stat-lbl">Box Loss</div><div class="sl-stat-val">${sim.boxLoss.toFixed(2)}</div></div>
+    <div class="sl-stat"><div class="sl-stat-lbl">Objectness Loss</div><div class="sl-stat-val">${sim.objLoss.toFixed(2)}</div></div>
+    <div class="sl-stat" style="grid-column:1/-1;background:#fff7ed;border-color:#c2610c"><div class="sl-stat-lbl">Total Surrogate Loss</div><div class="sl-stat-val" style="color:var(--orange)">${sim.total.toFixed(2)}</div></div>`
+}
+function slUpdatePlayground(){
+  const sim=slSimulate()
+  slRenderObjList(sim)
+  slRenderStats(sim)
+}
+function slContinuePlayground(){ $('sl-s4').classList.add('unlocked') }
+function slContinueRecap(){ $('sl-s6').classList.add('unlocked') }
+
+// ── Generic single-select MCQ engine (stages 4, 7, 8) ──
+function slRenderMCQ(key){
+  const d=SL_MCQ[key]
+  const c=$(`sl-mcq-${key}-opts`)
+  if(!c||c.children.length) return
+  c.innerHTML=d.opts.map((o,i)=>`<div class="cg-mcq-opt" id="sl-mcq-${key}-${i}" onclick="slAnswerMCQ('${key}',${i})"><span style="font-weight:700;color:var(--muted);flex-shrink:0">${String.fromCharCode(65+i)}.</span><span>${o.t}</span></div>`).join('')
+}
+function slAnswerMCQ(key,i){
+  const d=SL_MCQ[key]
+  const opt=d.opts[i]
+  document.querySelectorAll(`.cg-mcq-opt[id^="sl-mcq-${key}-"]`).forEach(e=>e.onclick=null)
+  $(`sl-mcq-${key}-${i}`).classList.add(opt.c?'sel-ok':'sel-bad')
+  const hint=$(`sl-mcq-${key}-hint`)
+  SL.mcq[key]=opt.c
+  if(opt.c){
+    hint.className='guidance-box done'
+    hint.innerHTML=`<strong>${String.fromCharCode(65+i)}. ✓ Correct!</strong> ${d.msg}`
+  } else {
+    hint.className='guidance-box warm'
+    hint.innerHTML=`<strong>Not quite.</strong> ${d.msg}`
+    document.querySelectorAll(`.cg-mcq-opt[id^="sl-mcq-${key}-"]`).forEach((e,j)=>{if(j!==i)e.onclick=()=>slAnswerMCQ(key,j)})
+  }
+  slCheckUnlocks()
+}
+function slRenderAllMCQs(){ Object.keys(SL_MCQ).forEach(slRenderMCQ) }
+
+// ── Stage 6: matching ─────────────────────────────
+function slRenderMatch(){
+  const c=$('sl-match-rows'); if(!c||c.children.length) return
+  c.innerHTML=SL_MATCH.map((r,i)=>`
+    <div class="sl-match-row">
+      <span class="sl-match-txt">${r.t}</span>
+      <select class="sl-match-sel" id="sl-match-${i}" onchange="SL.match[${i}]=this.value">
+        <option value="">— choose —</option>
+        <option value="cls">Classification loss</option>
+        <option value="box">Box localization loss</option>
+        <option value="obj">Objectness / confidence loss</option>
+      </select>
+    </div>`).join('')
+}
+function slCheckMatch(){
+  let allOk=true
+  SL_MATCH.forEach((r,i)=>{
+    const sel=$(`sl-match-${i}`)
+    const ok=sel.value===r.a
+    sel.className='sl-match-sel '+(sel.value?(ok?'ok':'bad'):'bad')
+    if(!ok) allOk=false
+  })
+  SL.matchAllOk=allOk
+  const hint=$('sl-match-hint')
+  if(allOk){
+    hint.className='guidance-box done'
+    hint.innerHTML='<strong>✓ All correct.</strong> Each part of the surrogate loss teaches the model a different piece of the detection task — together they push it toward the real goal.'
+  } else {
+    hint.className='guidance-box warm'
+    hint.innerHTML='<strong>Not all correct yet.</strong> Red rows need another look — think about whether the problem is about the label, the box, or whether an object exists at all.'
+  }
+  slCheckUnlocks()
+}
+
+// ── Progressive unlock + completion ──────────────
+function slCheckUnlocks(){
+  if(SL.warmupCorrect) $('sl-s2').classList.add('unlocked')
+  if(SL.flashSeen.size===SL_FLASH.length) $('sl-s3').classList.add('unlocked')
+  if(SL.mcq.goal && SL.mcq.conf && SL.mcq.iou && SL.mcq.compare) $('sl-s5').classList.add('unlocked')
+  if(SL.matchAllOk) $('sl-s7').classList.add('unlocked')
+  if(SL.mcq.sim) $('sl-s8').classList.add('unlocked')
+  if(SL_QUIZ_KEYS.every(k=>SL.mcq[k])) $('sl-s9').classList.add('unlocked')
   updateBadge('sl-completed', isComplete('surrogate'))
 }
-function initSurrogateLoss(){ slUpdateSubmitSummary() }
+function initSurrogateLoss(){
+  slRenderWarmup()
+  slDrawScene()
+  slShowFlash(0)
+  slRenderAllMCQs()
+  slRenderMatch()
+  slUpdatePlayground()
+  slCheckUnlocks()
+}
 
 // ══════════════════════════════════════════════════
 //  ACTIVITY 8.2 — GRADIENT NORM STORIES
