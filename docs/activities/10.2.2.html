@@ -31,7 +31,7 @@
   <div id="rn-s1" class="ba-locked-section" style="margin-top:16px">
     <div class="card">
       <div class="card-title">Stage 1 — The tanh Derivative</div>
-      <p style="font-size:13px;color:var(--muted);margin-bottom:12px">tanh′(z) = 1 − tanh²(z). Drag z and observe: near z=0 the derivative is close to 1 (healthy gradient); at large |z| it collapses toward 0 (saturated).</p>
+      <p style="font-size:14.5px;color:var(--muted);margin-bottom:12px">tanh′(z) = 1 − tanh²(z). Drag z and observe: near z=0 the derivative is close to 1 (healthy gradient); at large |z| it collapses toward 0 (saturated).</p>
       <div style="display:flex;gap:24px;flex-wrap:wrap;align-items:flex-start">
         <svg id="rn-svg" width="280" height="170" style="background:var(--surf2);border:1px solid var(--border);border-radius:8px;display:block"></svg>
         <div style="flex:1;min-width:200px">
@@ -39,11 +39,11 @@
             <span class="slider-label"><span class="name">z</span><span class="val" id="rn-z-val">0.0</span></span>
             <input type="range" id="rn-z" min="-4" max="4" step="0.1" value="0" oninput="rnSlider()">
           </div>
-          <div style="background:var(--surf2);border-radius:7px;padding:10px 14px;font-family:'Courier New',monospace;font-size:13px;line-height:2.4;margin-top:8px">
+          <div style="background:var(--surf2);border-radius:7px;padding:10px 14px;font-family:'Courier New',monospace;font-size:14.5px;line-height:2.4;margin-top:8px">
             tanh(z) = <strong id="rn-tanh-v" style="color:var(--blue)">0.000</strong><br>
             tanh′(z) = <strong id="rn-dt-v" style="color:var(--red)">1.000</strong>
           </div>
-          <div id="rn-sat-msg" style="margin-top:10px;font-size:13px;font-weight:600;min-height:20px"></div>
+          <div id="rn-sat-msg" style="margin-top:10px;font-size:14.5px;font-weight:600;min-height:20px"></div>
         </div>
       </div>
       <div style="margin-top:12px;text-align:right">
@@ -55,8 +55,8 @@
   <div id="rn-s2" class="ba-locked-section" style="margin-top:16px">
     <div class="card">
       <div class="card-title">Stage 2 — Where Does Saturation Hit Hardest in BPTT?</div>
-      <p style="font-size:13px;color:var(--muted);margin-bottom:10px">BPTT unrolls the RNN and multiplies Jacobians: <span style="font-family:'Courier New',monospace">∂h⁽ᵛ⁾/∂h⁽ᵛ⁻¹⁾ = diag(1−h²)·W</span>. Going back T steps multiplies T−1 of these together.</p>
-      <div style="font-weight:600;font-size:13px;margin-bottom:8px">Where is the greatest risk of saturation during BPTT?</div>
+      <p style="font-size:14.5px;color:var(--muted);margin-bottom:10px">BPTT unrolls the RNN and multiplies Jacobians: <span style="font-family:'Courier New',monospace">∂h⁽ᵛ⁾/∂h⁽ᵛ⁻¹⁾ = diag(1−h²)·W</span>. Going back T steps multiplies T−1 of these together.</p>
+      <div style="font-weight:600;font-size:14.5px;margin-bottom:8px">Where is the greatest risk of saturation during BPTT?</div>
       <div id="rn-q1-opts" style="display:flex;flex-direction:column;gap:5px;max-width:500px"></div>
       <div id="rn-q1-hint" class="guidance-box cold" style="margin-top:8px;max-width:500px"></div>
     </div>
@@ -65,7 +65,7 @@
   <div id="rn-s3" class="ba-locked-section" style="margin-top:16px">
     <div class="card">
       <div class="card-title">Stage 3 — Gradient Decay Over Timesteps</div>
-      <p style="font-size:13px;color:var(--muted);margin-bottom:12px">Each step back multiplies the gradient by <strong>tanh′ · ‖W‖</strong>. Adjust the sliders to see how the magnitude changes at each past timestep.</p>
+      <p style="font-size:14.5px;color:var(--muted);margin-bottom:12px">Each step back multiplies the gradient by <strong>tanh′ · ‖W‖</strong>. Adjust the sliders to see how the magnitude changes at each past timestep.</p>
       <div style="display:flex;gap:24px;flex-wrap:wrap;align-items:flex-start">
         <div style="flex:1;min-width:200px">
           <div class="slider-row">
@@ -76,14 +76,14 @@
             <span class="slider-label"><span class="name">‖W‖</span><span class="val" id="rn-wr-val">1.00</span></span>
             <input type="range" id="rn-wr" min="0.5" max="2.0" step="0.05" value="1.0" oninput="rnDrawFlow()">
           </div>
-          <div id="rn-flow-msg" style="margin-top:8px;font-size:13px;font-weight:600;min-height:18px"></div>
+          <div id="rn-flow-msg" style="margin-top:8px;font-size:14.5px;font-weight:600;min-height:18px"></div>
         </div>
         <div>
           <svg id="rn-flow-svg" width="260" height="130" style="background:var(--surf2);border:1px solid var(--border);border-radius:8px;display:block"></svg>
-          <div style="font-size:11px;color:var(--muted);margin-top:4px">Bars = relative gradient magnitude at each step back (1 = present)</div>
+          <div style="font-size:12.5px;color:var(--muted);margin-top:4px">Bars = relative gradient magnitude at each step back (1 = present)</div>
         </div>
       </div>
-      <div style="font-weight:600;font-size:13px;margin:12px 0 8px">With tanh′ = 0.2 and ‖W‖ = 1, what is ∂L/∂h⁽¹⁾ after 10 steps back?</div>
+      <div style="font-weight:600;font-size:14.5px;margin:12px 0 8px">With tanh′ = 0.2 and ‖W‖ = 1, what is ∂L/∂h⁽¹⁾ after 10 steps back?</div>
       <div id="rn-q2-opts" style="display:flex;flex-direction:column;gap:5px;max-width:500px"></div>
       <div id="rn-q2-hint" class="guidance-box cold" style="margin-top:8px;max-width:500px"></div>
     </div>
@@ -92,7 +92,7 @@
   <div id="rn-s4" class="ba-locked-section" style="margin-top:16px">
     <div class="card">
       <div class="card-title">Stage 4 — The Standard Fix</div>
-      <p style="font-size:13px;color:var(--muted);margin-bottom:10px">Vanishing gradients prevent the network from learning long-range dependencies. Which architectural fix most directly solves this?</p>
+      <p style="font-size:14.5px;color:var(--muted);margin-bottom:10px">Vanishing gradients prevent the network from learning long-range dependencies. Which architectural fix most directly solves this?</p>
       <div id="rn-q3-opts" style="display:flex;flex-direction:column;gap:5px;max-width:500px"></div>
       <div id="rn-q3-hint" class="guidance-box cold" style="margin-top:8px;max-width:500px"></div>
     </div>
@@ -102,13 +102,13 @@
     <div class="two-col">
       <div class="card">
         <div class="card-title">Stage 5 — Replacing tanh with ReLU</div>
-        <p style="font-size:13px;color:var(--muted);margin-bottom:10px">Using ReLU in h⁽ᵗ⁾ = ReLU(Wh⁽ᵗ⁻¹⁾ + Ux⁽ᵗ⁾) removes the near-zero derivative problem. What new issue does it introduce?</p>
+        <p style="font-size:14.5px;color:var(--muted);margin-bottom:10px">Using ReLU in h⁽ᵗ⁾ = ReLU(Wh⁽ᵗ⁻¹⁾ + Ux⁽ᵗ⁾) removes the near-zero derivative problem. What new issue does it introduce?</p>
         <div id="rn-q4-opts" style="display:flex;flex-direction:column;gap:5px;max-width:360px"></div>
         <div id="rn-q4-hint" class="guidance-box cold" style="margin-top:8px;max-width:360px"></div>
       </div>
       <div class="card">
         <div class="card-title">Reflect</div>
-        <p style="font-size:13px;color:var(--muted);margin-bottom:8px">The recurrent term <strong>Wh⁽ᵗ⁻¹⁾</strong> appears T−1 times in the BPTT chain, while the input term <strong>Ux⁽ᵗ⁾</strong> appears once per step. Why does the recurrent connection accumulate more saturation risk?</p>
+        <p style="font-size:14.5px;color:var(--muted);margin-bottom:8px">The recurrent term <strong>Wh⁽ᵗ⁻¹⁾</strong> appears T−1 times in the BPTT chain, while the input term <strong>Ux⁽ᵗ⁾</strong> appears once per step. Why does the recurrent connection accumulate more saturation risk?</p>
         <textarea id="rn-ref" rows="4" style="width:100%;box-sizing:border-box;background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:8px;color:var(--text);font-family:inherit;resize:vertical;margin-bottom:8px" placeholder="The W·h term is chained T−1 times because each step passes h back through W again…" oninput="rnUpdateSummary()"></textarea>
         <div id="rn-summary" style="font-size:.88em;color:var(--muted)"></div>
       </div>

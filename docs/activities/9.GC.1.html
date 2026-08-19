@@ -35,13 +35,13 @@
         <div>
           <div class="section-label">Fixed 5-node graph</div>
           <svg id="gm-svg" width="240" height="240" style="background:var(--surf2);border:1px solid var(--border);border-radius:8px;display:block"></svg>
-          <div style="margin-top:6px;font-size:12px;color:var(--muted)">Node features h = [4, 1, 3, 0, 2]</div>
+          <div style="margin-top:6px;font-size:13.5px;color:var(--muted)">Node features h = [4, 1, 3, 0, 2]</div>
         </div>
         <div style="flex:1;min-width:220px">
           <div class="section-label">Adjacency matrix A (including self-loops)</div>
           <div id="gm-adj-grid" style="display:grid;grid-template-columns:repeat(5,36px);gap:2px;margin-bottom:14px"></div>
-          <div id="gm-degree-disp" style="font-size:13px;background:var(--surf2);border-radius:6px;padding:10px;font-family:monospace;line-height:2;margin-bottom:10px"></div>
-          <div style="font-weight:600;font-size:13px;margin-bottom:6px">Q — The centre node (node 2) connects to how many other nodes (excluding itself)?</div>
+          <div id="gm-degree-disp" style="font-size:14.5px;background:var(--surf2);border-radius:6px;padding:10px;font-family:monospace;line-height:2;margin-bottom:10px"></div>
+          <div style="font-weight:600;font-size:14.5px;margin-bottom:6px">Q — The centre node (node 2) connects to how many other nodes (excluding itself)?</div>
           <div id="gm-q1-opts" style="display:flex;flex-direction:column;gap:5px;max-width:260px"></div>
           <div id="gm-q1-hint" class="guidance-box cold" style="margin-top:6px;max-width:260px"></div>
         </div>
@@ -52,16 +52,16 @@
   <div id="gm-s2" class="ba-locked-section" style="margin-top:16px">
     <div class="card">
       <div class="card-title">Stage 2 — One Message-Passing Step (W = 1)</div>
-      <p style="font-size:13px;color:var(--muted);margin-bottom:14px">With W=1 and mean-aggregation: <strong>h_new[i] = mean of h[j] for all j connected to i (including i itself)</strong>.</p>
+      <p style="font-size:14.5px;color:var(--muted);margin-bottom:14px">With W=1 and mean-aggregation: <strong>h_new[i] = mean of h[j] for all j connected to i (including i itself)</strong>.</p>
       <div style="display:flex;gap:24px;flex-wrap:wrap;align-items:flex-start">
         <div>
           <svg id="gm-svg2" width="240" height="240" style="background:var(--surf2);border:1px solid var(--border);border-radius:8px;display:block"></svg>
           <div style="margin-top:8px;text-align:center"><button class="btn btn-p" onclick="gmAnimate()">▶ Run one step</button></div>
         </div>
         <div style="flex:1;min-width:220px">
-          <div id="gm-step-disp" style="font-family:monospace;font-size:13px;background:var(--surf2);border-radius:6px;padding:12px;line-height:2.2;margin-bottom:14px">Press "Run one step" to see the computation.</div>
-          <div style="font-weight:600;font-size:13px;margin-bottom:6px">Fill in h_new for two nodes:</div>
-          <div style="font-size:13px;line-height:2.4;margin-bottom:8px">
+          <div id="gm-step-disp" style="font-family:monospace;font-size:14.5px;background:var(--surf2);border-radius:6px;padding:12px;line-height:2.2;margin-bottom:14px">Press "Run one step" to see the computation.</div>
+          <div style="font-weight:600;font-size:14.5px;margin-bottom:6px">Fill in h_new for two nodes:</div>
+          <div style="font-size:14.5px;line-height:2.4;margin-bottom:8px">
             h_new[0] = (h[0]+h[1]+h[4]) / 3 = <input id="gm-f0" class="rr-inp" style="width:60px;text-align:center" placeholder="?" oninput="gmCheckFill()">
             <br>h_new[2] = (h[0]+h[1]+h[2]+h[3]) / 4 = <input id="gm-f2" class="rr-inp" style="width:60px;text-align:center" placeholder="?" oninput="gmCheckFill()">
           </div>
@@ -78,12 +78,12 @@
         <div class="card-title">Stage 3 — Key Properties of GCN</div>
         <div style="display:flex;flex-direction:column;gap:14px">
           <div>
-            <div style="font-weight:600;font-size:13px;margin-bottom:6px">Q1 — Does GCN know which direction a message came from?</div>
+            <div style="font-weight:600;font-size:14.5px;margin-bottom:6px">Q1 — Does GCN know which direction a message came from?</div>
             <div id="gm-q2-opts" style="display:flex;flex-direction:column;gap:5px;max-width:320px"></div>
             <div id="gm-q2-hint" class="guidance-box cold" style="margin-top:5px;max-width:320px"></div>
           </div>
           <div>
-            <div style="font-weight:600;font-size:13px;margin-bottom:6px">Q2 — Node 1 and node 3 both have h=1 and h=0. Would GCN treat them identically?</div>
+            <div style="font-weight:600;font-size:14.5px;margin-bottom:6px">Q2 — Node 1 and node 3 both have h=1 and h=0. Would GCN treat them identically?</div>
             <div id="gm-q3-opts" style="display:flex;flex-direction:column;gap:5px;max-width:320px"></div>
             <div id="gm-q3-hint" class="guidance-box cold" style="margin-top:5px;max-width:320px"></div>
           </div>

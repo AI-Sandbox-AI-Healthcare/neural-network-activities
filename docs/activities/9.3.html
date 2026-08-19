@@ -30,7 +30,7 @@
   <div id="pl-s1" class="ba-locked-section" style="margin-top:16px">
     <div class="card">
       <div class="card-title">Stage 1 — Why Fixed Pool + Stride Fails</div>
-      <p style="font-size:13px;color:var(--muted);margin-bottom:14px">Drag the sliders. Notice what happens to output size as H changes.</p>
+      <p style="font-size:14.5px;color:var(--muted);margin-bottom:14px">Drag the sliders. Notice what happens to output size as H changes.</p>
       <div style="display:flex;gap:24px;flex-wrap:wrap;align-items:flex-start">
         <div style="flex:1;min-width:200px">
           <div class="slider-row"><span class="slider-label"><span class="name">p (pool)</span><span class="val" id="pl-p-val">+100</span></span><input type="range" id="pl-p" min="1" max="300" value="100" style="flex:1" oninput="plUpdate()"></div>
@@ -39,11 +39,11 @@
         </div>
         <div style="flex:1;min-width:220px">
           <div id="pl-bar-wrap" style="margin-bottom:10px"></div>
-          <div id="pl-out-disp" style="font-size:22px;font-weight:800;font-family:monospace;margin-bottom:8px"></div>
-          <div style="font-size:12px;color:var(--muted)">Output = ⌊(H − p) / s⌋ + 1</div>
+          <div id="pl-out-disp" style="font-size:24.5px;font-weight:800;font-family:monospace;margin-bottom:8px"></div>
+          <div style="font-size:13.5px;color:var(--muted)">Output = ⌊(H − p) / s⌋ + 1</div>
         </div>
       </div>
-      <div style="margin-top:14px;font-weight:600;font-size:13px;margin-bottom:6px">Q — Set p=100, s=100. Drag H from 32 to 960. What happens to output size?</div>
+      <div style="margin-top:14px;font-weight:600;font-size:14.5px;margin-bottom:6px">Q — Set p=100, s=100. Drag H from 32 to 960. What happens to output size?</div>
       <div id="pl-q1-opts" style="display:flex;flex-direction:column;gap:5px;max-width:380px"></div>
       <div id="pl-q1-hint" class="guidance-box cold" style="margin-top:6px;max-width:380px"></div>
     </div>
@@ -52,7 +52,7 @@
   <div id="pl-s2" class="ba-locked-section" style="margin-top:16px">
     <div class="card">
       <div class="card-title">Stage 2 — Adaptive Pooling: Set the Target, Not the Window</div>
-      <p style="font-size:13px;color:var(--muted);margin-bottom:14px">Instead of fixing p and s, fix the <strong>output size T</strong>. The window adapts per image: p = ⌈H/T⌉, s = ⌊H/T⌋.</p>
+      <p style="font-size:14.5px;color:var(--muted);margin-bottom:14px">Instead of fixing p and s, fix the <strong>output size T</strong>. The window adapts per image: p = ⌈H/T⌉, s = ⌊H/T⌋.</p>
       <div style="display:flex;gap:24px;flex-wrap:wrap;align-items:flex-start">
         <div style="flex:1;min-width:200px">
           <div class="slider-row"><span class="slider-label"><span class="name">T (target)</span><span class="val" id="pl-T-val">+4</span></span><input type="range" id="pl-T" min="1" max="8" value="4" style="flex:1" oninput="plAdaptUpdate()"></div>
@@ -60,11 +60,11 @@
         </div>
         <div style="flex:1;min-width:220px">
           <div id="pl-adapt-bar-wrap" style="margin-bottom:10px"></div>
-          <div id="pl-adapt-disp" style="font-size:13px;font-family:monospace;line-height:2;background:var(--surf2);border-radius:6px;padding:10px"></div>
+          <div id="pl-adapt-disp" style="font-size:14.5px;font-family:monospace;line-height:2;background:var(--surf2);border-radius:6px;padding:10px"></div>
         </div>
       </div>
-      <div style="margin-top:14px;font-size:13px;font-weight:600;margin-bottom:8px">Fill in the blanks (in terms of H and T):</div>
-      <div style="display:flex;gap:12px;flex-wrap:wrap;align-items:center;font-size:13px;margin-bottom:10px">
+      <div style="margin-top:14px;font-size:14.5px;font-weight:600;margin-bottom:8px">Fill in the blanks (in terms of H and T):</div>
+      <div style="display:flex;gap:12px;flex-wrap:wrap;align-items:center;font-size:14.5px;margin-bottom:10px">
         <span>p = ⌈H /</span><input id="pl-fill-p" class="rr-inp" style="width:50px;text-align:center" placeholder="?" oninput="plCheckFill()"><span>⌉</span>
         <span style="margin-left:16px">s = ⌊H /</span><input id="pl-fill-s" class="rr-inp" style="width:50px;text-align:center" placeholder="?" oninput="plCheckFill()"><span>⌋</span>
       </div>
@@ -79,12 +79,12 @@
         <div class="card-title">Stage 3 — Apply the Insight</div>
         <div style="display:flex;flex-direction:column;gap:12px">
           <div>
-            <div style="font-weight:600;font-size:13px;margin-bottom:6px">Q1 — Global Average Pooling (p = H, s = H) gives output size:</div>
+            <div style="font-weight:600;font-size:14.5px;margin-bottom:6px">Q1 — Global Average Pooling (p = H, s = H) gives output size:</div>
             <div id="pl-q2-opts" style="display:flex;flex-direction:column;gap:5px;max-width:280px"></div>
             <div id="pl-q2-hint" class="guidance-box cold" style="margin-top:5px;max-width:280px"></div>
           </div>
           <div>
-            <div style="font-weight:600;font-size:13px;margin-bottom:6px">Q2 — nn.AdaptiveAvgPool2d(4) on any size image gives output:</div>
+            <div style="font-weight:600;font-size:14.5px;margin-bottom:6px">Q2 — nn.AdaptiveAvgPool2d(4) on any size image gives output:</div>
             <div id="pl-q3-opts" style="display:flex;flex-direction:column;gap:5px;max-width:280px"></div>
             <div id="pl-q3-hint" class="guidance-box cold" style="margin-top:5px;max-width:280px"></div>
           </div>
@@ -92,7 +92,7 @@
       </div>
       <div class="card">
         <div class="card-title">Reflect</div>
-        <div style="font-weight:600;font-size:13px;margin-bottom:6px">Q3 — Why is Global Average Pooling (T=1) so popular before a classifier?</div>
+        <div style="font-weight:600;font-size:14.5px;margin-bottom:6px">Q3 — Why is Global Average Pooling (T=1) so popular before a classifier?</div>
         <div id="pl-q4-opts" style="display:flex;flex-direction:column;gap:5px;max-width:360px;margin-bottom:10px"></div>
         <div id="pl-q4-hint" class="guidance-box cold" style="max-width:360px;margin-bottom:12px"></div>
         <textarea id="pl-ref" rows="3" style="width:100%;box-sizing:border-box;background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:8px;color:var(--text);font-family:inherit;resize:vertical;margin-bottom:10px" placeholder="Reflection: when would you prefer T=4 over T=1? What is the trade-off?" oninput="plUpdateSummary()"></textarea>

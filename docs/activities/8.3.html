@@ -35,16 +35,16 @@
     <div class="card-title">Stage 1 — What does momentum do?</div>
     <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:14px">
       <div style="background:var(--surf2);border:1px solid var(--border);border-radius:9px;padding:14px 16px">
-        <div style="font-size:11px;text-transform:uppercase;font-weight:700;color:var(--muted);margin-bottom:6px">Momentum = inertia</div>
-        <p style="font-size:13px;color:var(--text)">The velocity vector v remembers past gradients. Each step is a weighted mix of the current gradient and everything that pushed you before.</p>
+        <div style="font-size:12.5px;text-transform:uppercase;font-weight:700;color:var(--muted);margin-bottom:6px">Momentum = inertia</div>
+        <p style="font-size:14.5px;color:var(--text)">The velocity vector v remembers past gradients. Each step is a weighted mix of the current gradient and everything that pushed you before.</p>
       </div>
       <div style="background:var(--surf2);border:1px solid var(--border);border-radius:9px;padding:14px 16px">
-        <div style="font-size:11px;text-transform:uppercase;font-weight:700;color:var(--muted);margin-bottom:6px">Consistent → accelerate</div>
-        <p style="font-size:13px;color:var(--text)">When gradients repeatedly point the same direction (g₁ and g₃ both push −y), velocity accumulates and steps grow larger in that direction.</p>
+        <div style="font-size:12.5px;text-transform:uppercase;font-weight:700;color:var(--muted);margin-bottom:6px">Consistent → accelerate</div>
+        <p style="font-size:14.5px;color:var(--text)">When gradients repeatedly point the same direction (g₁ and g₃ both push −y), velocity accumulates and steps grow larger in that direction.</p>
       </div>
       <div style="background:var(--surf2);border:1px solid var(--border);border-radius:9px;padding:14px 16px">
-        <div style="font-size:11px;text-transform:uppercase;font-weight:700;color:var(--muted);margin-bottom:6px">α controls memory</div>
-        <p style="font-size:13px;color:var(--text)">α=0.5: half past velocity survives each step. The −ε·g term injects current gradient. Larger α = longer memory, stronger accumulation.</p>
+        <div style="font-size:12.5px;text-transform:uppercase;font-weight:700;color:var(--muted);margin-bottom:6px">α controls memory</div>
+        <p style="font-size:14.5px;color:var(--text)">α=0.5: half past velocity survives each step. The −ε·g term injects current gradient. Larger α = longer memory, stronger accumulation.</p>
       </div>
     </div>
     <button class="btn btn-p" onclick="mmUnlock()">Let me compute it step by step ↓</button>
@@ -53,7 +53,7 @@
   <div class="ba-locked-section" id="mm-s2">
     <div class="card" style="margin-top:18px">
       <div class="card-title">Stage 2 — Without momentum: W ← W − 0.5·g</div>
-      <p style="font-size:13px;color:var(--muted);margin-bottom:12px">Fill in new W₀ and W₁ after each step. Formula: <strong>W_new = W_prev − 0.5 × g</strong>. Step 2 unlocks after step 1 is correct.</p>
+      <p style="font-size:14.5px;color:var(--muted);margin-bottom:12px">Fill in new W₀ and W₁ after each step. Formula: <strong>W_new = W_prev − 0.5 × g</strong>. Step 2 unlocks after step 1 is correct.</p>
       <div style="overflow-x:auto">
       <table style="width:auto;margin-bottom:12px">
         <thead><tr>
@@ -97,9 +97,9 @@
       <div class="card-title">Stage 3 — With momentum: v ← 0.5·v − 0.5·g, then W ← W + v</div>
       <div class="two-col">
         <div>
-          <p style="font-size:13px;color:var(--muted);margin-bottom:10px">Fill in v and W row by row. Compute v first, then W = W_prev + v. Step 2 unlocks after step 1 is correct.</p>
+          <p style="font-size:14.5px;color:var(--muted);margin-bottom:10px">Fill in v and W row by row. Compute v first, then W = W_prev + v. Step 2 unlocks after step 1 is correct.</p>
           <div style="overflow-x:auto">
-          <table style="width:auto;font-size:12px">
+          <table style="width:auto;font-size:13.5px">
             <thead><tr>
               <th>Step</th><th>g</th>
               <th style="color:#6d28d9">new v₀</th><th style="color:#6d28d9">new v₁</th>
@@ -134,9 +134,9 @@
           <div id="mm-mom-hint" class="guidance-box cold" style="margin-top:10px"></div>
         </div>
         <div>
-          <p style="font-size:13px;font-weight:600;margin-bottom:6px">2D trajectory (W₀ vs W₁)</p>
+          <p style="font-size:14.5px;font-weight:600;margin-bottom:6px">2D trajectory (W₀ vs W₁)</p>
           <svg id="mm-traj-svg" width="260" height="220" style="border:1px solid var(--border);border-radius:8px;background:#f8fafc"></svg>
-          <p style="font-size:11px;color:var(--muted);margin-top:4px"><span style="color:#1d4ed8;font-weight:700">●</span> with momentum &nbsp; <span style="color:#c2610c;font-weight:700">●</span> without momentum</p>
+          <p style="font-size:12.5px;color:var(--muted);margin-top:4px"><span style="color:#1d4ed8;font-weight:700">●</span> with momentum &nbsp; <span style="color:#c2610c;font-weight:700">●</span> without momentum</p>
         </div>
       </div>
     </div>
@@ -145,14 +145,14 @@
   <div class="ba-locked-section" id="mm-s4">
     <div class="card" style="margin-top:18px">
       <div class="card-title">Stage 4 — Why did momentum go further?</div>
-      <p style="font-size:13px;font-weight:700;margin-bottom:8px">W₁ with momentum (−1.375) is larger in magnitude than without (−1.0). Why?</p>
+      <p style="font-size:14.5px;font-weight:700;margin-bottom:8px">W₁ with momentum (−1.375) is larger in magnitude than without (−1.0). Why?</p>
       <div id="mm-mcq1-opts"></div>
       <div id="mm-mcq1-hint" class="guidance-box cold" style="margin-top:8px;margin-bottom:16px"></div>
-      <p style="font-size:13px;font-weight:700;margin-bottom:8px">When consecutive gradients point in the SAME direction, momentum causes the step size to:</p>
+      <p style="font-size:14.5px;font-weight:700;margin-bottom:8px">When consecutive gradients point in the SAME direction, momentum causes the step size to:</p>
       <div id="mm-mcq2-opts"></div>
       <div id="mm-mcq2-hint" class="guidance-box cold" style="margin-top:8px;margin-bottom:16px"></div>
-      <p style="font-size:13px;font-weight:600;margin-bottom:6px">In your own words: what does momentum do to the trajectory when gradients are consistent vs. alternating?</p>
-      <textarea id="mm-reflection" rows="3" placeholder="When gradients are consistent (same direction), momentum… When they alternate, momentum…" style="width:100%;padding:10px;border:1px solid var(--border);border-radius:7px;font-size:13px;resize:vertical;outline:none;background:var(--surface);color:var(--text)" oninput="mmUpdateSubmitSummary()"></textarea>
+      <p style="font-size:14.5px;font-weight:600;margin-bottom:6px">In your own words: what does momentum do to the trajectory when gradients are consistent vs. alternating?</p>
+      <textarea id="mm-reflection" rows="3" placeholder="When gradients are consistent (same direction), momentum… When they alternate, momentum…" style="width:100%;padding:10px;border:1px solid var(--border);border-radius:7px;font-size:14.5px;resize:vertical;outline:none;background:var(--surface);color:var(--text)" oninput="mmUpdateSubmitSummary()"></textarea>
     </div>
   </div>
 </div>

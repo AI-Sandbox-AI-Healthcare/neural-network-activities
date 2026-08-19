@@ -27,26 +27,26 @@
   </div>
   <div id="gg-s1" class="card" style="margin-top:12px">
     <div class="card-title">Stage 1 — The Two Architectures Side by Side</div>
-    <p style="font-size:13px;color:var(--muted);margin-bottom:12px">Review both sets of equations. Notice what each architecture has that the other lacks.</p>
+    <p style="font-size:14.5px;color:var(--muted);margin-bottom:12px">Review both sets of equations. Notice what each architecture has that the other lacks.</p>
     <div style="display:flex;gap:16px;flex-wrap:wrap">
       <div style="flex:1;min-width:220px;background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:12px">
-        <div style="font-weight:700;font-size:13px;margin-bottom:8px;color:#1d4ed8">GRU (3 update equations)</div>
-        <div style="font-family:monospace;font-size:12px;line-height:2.2">
-          <div style="background:#eff6ff;border-radius:4px;padding:3px 8px;margin-bottom:3px"><strong>r</strong><sup>t</sup> = σ(U<sub>r</sub>h<sup>t−1</sup> + W<sub>r</sub>x<sup>t</sup>) <span style="color:#6b7280;font-size:11px">← reset gate</span></div>
-          <div style="background:#eff6ff;border-radius:4px;padding:3px 8px;margin-bottom:3px"><strong>z</strong><sup>t</sup> = σ(U<sub>z</sub>h<sup>t−1</sup> + W<sub>z</sub>x<sup>t</sup>) <span style="color:#6b7280;font-size:11px">← update gate</span></div>
-          <div style="background:#eff6ff;border-radius:4px;padding:3px 8px;margin-bottom:3px"><strong>h̃</strong><sup>t</sup> = tanh(U<sub>h</sub>(<strong>r</strong>⊙h<sup>t−1</sup>) + W<sub>h</sub>x<sup>t</sup>) <span style="color:#6b7280;font-size:11px">← candidate</span></div>
-          <div style="background:#dbeafe;border-radius:4px;padding:3px 8px"><strong>h</strong><sup>t</sup> = (1−z)⊙h<sup>t−1</sup> + z⊙<strong>h̃</strong><sup>t</sup> <span style="color:#6b7280;font-size:11px">← output (no cell state)</span></div>
+        <div style="font-weight:700;font-size:14.5px;margin-bottom:8px;color:#1d4ed8">GRU (3 update equations)</div>
+        <div style="font-family:monospace;font-size:13.5px;line-height:2.2">
+          <div style="background:#eff6ff;border-radius:4px;padding:3px 8px;margin-bottom:3px"><strong>r</strong><sup>t</sup> = σ(U<sub>r</sub>h<sup>t−1</sup> + W<sub>r</sub>x<sup>t</sup>) <span style="color:#6b7280;font-size:12.5px">← reset gate</span></div>
+          <div style="background:#eff6ff;border-radius:4px;padding:3px 8px;margin-bottom:3px"><strong>z</strong><sup>t</sup> = σ(U<sub>z</sub>h<sup>t−1</sup> + W<sub>z</sub>x<sup>t</sup>) <span style="color:#6b7280;font-size:12.5px">← update gate</span></div>
+          <div style="background:#eff6ff;border-radius:4px;padding:3px 8px;margin-bottom:3px"><strong>h̃</strong><sup>t</sup> = tanh(U<sub>h</sub>(<strong>r</strong>⊙h<sup>t−1</sup>) + W<sub>h</sub>x<sup>t</sup>) <span style="color:#6b7280;font-size:12.5px">← candidate</span></div>
+          <div style="background:#dbeafe;border-radius:4px;padding:3px 8px"><strong>h</strong><sup>t</sup> = (1−z)⊙h<sup>t−1</sup> + z⊙<strong>h̃</strong><sup>t</sup> <span style="color:#6b7280;font-size:12.5px">← output (no cell state)</span></div>
         </div>
       </div>
       <div style="flex:1;min-width:220px;background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:12px">
-        <div style="font-weight:700;font-size:13px;margin-bottom:8px;color:#15803d">LSTM (6 update equations)</div>
-        <div style="font-family:monospace;font-size:12px;line-height:2.2">
-          <div style="background:#f0fdf4;border-radius:4px;padding:3px 8px;margin-bottom:3px"><strong>f</strong><sup>t</sup> = σ(U<sub>f</sub>h<sup>t−1</sup> + W<sub>f</sub>x<sup>t</sup>) <span style="color:#6b7280;font-size:11px">← forget gate</span></div>
-          <div style="background:#f0fdf4;border-radius:4px;padding:3px 8px;margin-bottom:3px"><strong>i</strong><sup>t</sup> = σ(U<sub>i</sub>h<sup>t−1</sup> + W<sub>i</sub>x<sup>t</sup>) <span style="color:#6b7280;font-size:11px">← input gate</span></div>
-          <div style="background:#f0fdf4;border-radius:4px;padding:3px 8px;margin-bottom:3px"><strong>o</strong><sup>t</sup> = σ(U<sub>o</sub>h<sup>t−1</sup> + W<sub>o</sub>x<sup>t</sup>) <span style="color:#6b7280;font-size:11px">← output gate</span></div>
-          <div style="background:#f0fdf4;border-radius:4px;padding:3px 8px;margin-bottom:3px"><strong>g</strong><sup>t</sup> = tanh(U<sub>g</sub>h<sup>t−1</sup> + W<sub>g</sub>x<sup>t</sup>) <span style="color:#6b7280;font-size:11px">← candidate (no reset!)</span></div>
-          <div style="background:#dcfce7;border-radius:4px;padding:3px 8px;margin-bottom:3px"><strong>c</strong><sup>t</sup> = f⊙c<sup>t−1</sup> + i⊙<strong>g</strong><sup>t</sup> <span style="color:#6b7280;font-size:11px">← cell state</span></div>
-          <div style="background:#dcfce7;border-radius:4px;padding:3px 8px"><strong>h</strong><sup>t</sup> = o⊙tanh(<strong>c</strong><sup>t</sup>) <span style="color:#6b7280;font-size:11px">← output (uses cell state)</span></div>
+        <div style="font-weight:700;font-size:14.5px;margin-bottom:8px;color:#15803d">LSTM (6 update equations)</div>
+        <div style="font-family:monospace;font-size:13.5px;line-height:2.2">
+          <div style="background:#f0fdf4;border-radius:4px;padding:3px 8px;margin-bottom:3px"><strong>f</strong><sup>t</sup> = σ(U<sub>f</sub>h<sup>t−1</sup> + W<sub>f</sub>x<sup>t</sup>) <span style="color:#6b7280;font-size:12.5px">← forget gate</span></div>
+          <div style="background:#f0fdf4;border-radius:4px;padding:3px 8px;margin-bottom:3px"><strong>i</strong><sup>t</sup> = σ(U<sub>i</sub>h<sup>t−1</sup> + W<sub>i</sub>x<sup>t</sup>) <span style="color:#6b7280;font-size:12.5px">← input gate</span></div>
+          <div style="background:#f0fdf4;border-radius:4px;padding:3px 8px;margin-bottom:3px"><strong>o</strong><sup>t</sup> = σ(U<sub>o</sub>h<sup>t−1</sup> + W<sub>o</sub>x<sup>t</sup>) <span style="color:#6b7280;font-size:12.5px">← output gate</span></div>
+          <div style="background:#f0fdf4;border-radius:4px;padding:3px 8px;margin-bottom:3px"><strong>g</strong><sup>t</sup> = tanh(U<sub>g</sub>h<sup>t−1</sup> + W<sub>g</sub>x<sup>t</sup>) <span style="color:#6b7280;font-size:12.5px">← candidate (no reset!)</span></div>
+          <div style="background:#dcfce7;border-radius:4px;padding:3px 8px;margin-bottom:3px"><strong>c</strong><sup>t</sup> = f⊙c<sup>t−1</sup> + i⊙<strong>g</strong><sup>t</sup> <span style="color:#6b7280;font-size:12.5px">← cell state</span></div>
+          <div style="background:#dcfce7;border-radius:4px;padding:3px 8px"><strong>h</strong><sup>t</sup> = o⊙tanh(<strong>c</strong><sup>t</sup>) <span style="color:#6b7280;font-size:12.5px">← output (uses cell state)</span></div>
         </div>
       </div>
     </div>
@@ -56,7 +56,7 @@
   <div id="gg-s2" class="ba-locked-section" style="margin-top:16px">
     <div class="card">
       <div class="card-title">Stage 2 — Shared Intuition</div>
-      <div style="font-weight:600;font-size:13px;margin-bottom:8px">What problem do both GRU and LSTM solve that a vanilla RNN cannot?</div>
+      <div style="font-weight:600;font-size:14.5px;margin-bottom:8px">What problem do both GRU and LSTM solve that a vanilla RNN cannot?</div>
       <div id="gg-q1-opts" style="display:flex;flex-direction:column;gap:5px;max-width:520px"></div>
       <div id="gg-q1-hint" class="guidance-box cold" style="margin-top:8px;max-width:520px"></div>
     </div>
@@ -64,8 +64,8 @@
   <div id="gg-s3" class="ba-locked-section" style="margin-top:16px">
     <div class="card">
       <div class="card-title">Stage 3 — Identifying a Dimension</div>
-      <div style="font-size:12px;color:var(--muted);margin-bottom:8px">GRU: <code>h<sup>t</sup> = (1−z)⊙h<sup>t−1</sup> + z⊙h̃<sup>t</sup></code> &nbsp;|&nbsp; LSTM: <code>c<sup>t</sup> = f⊙c<sup>t−1</sup> + i⊙g<sup>t</sup></code></div>
-      <div style="font-weight:600;font-size:13px;margin-bottom:8px">What architectural dimension separates these two memory update rules?</div>
+      <div style="font-size:13.5px;color:var(--muted);margin-bottom:8px">GRU: <code>h<sup>t</sup> = (1−z)⊙h<sup>t−1</sup> + z⊙h̃<sup>t</sup></code> &nbsp;|&nbsp; LSTM: <code>c<sup>t</sup> = f⊙c<sup>t−1</sup> + i⊙g<sup>t</sup></code></div>
+      <div style="font-weight:600;font-size:14.5px;margin-bottom:8px">What architectural dimension separates these two memory update rules?</div>
       <div id="gg-q2-opts" style="display:flex;flex-direction:column;gap:5px;max-width:520px"></div>
       <div id="gg-q2-hint" class="guidance-box cold" style="margin-top:8px;max-width:520px"></div>
     </div>
@@ -73,7 +73,7 @@
   <div id="gg-s4" class="ba-locked-section" style="margin-top:16px">
     <div class="card">
       <div class="card-title">Stage 4 — Architecture Builder</div>
-      <p style="font-size:13px;color:var(--muted);margin-bottom:12px">Toggle each architectural dimension on/off to explore the search space. Interact with all four to continue.</p>
+      <p style="font-size:14.5px;color:var(--muted);margin-bottom:12px">Toggle each architectural dimension on/off to explore the search space. Interact with all four to continue.</p>
       <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px">
         <button id="gg-t-cell" class="btn btn-g" onclick="ggToggle('cell')">Separate cell state c<sup>t</sup></button>
         <button id="gg-t-outgate" class="btn btn-g" onclick="ggToggle('outgate')">Output gate o<sup>t</sup></button>
@@ -81,15 +81,15 @@
         <button id="gg-t-reset" class="btn btn-g" onclick="ggToggle('reset')">Reset gate r<sup>t</sup></button>
       </div>
       <svg id="gg-svg" width="540" height="160" style="border:1px solid var(--border);border-radius:8px;background:var(--surface);max-width:100%"></svg>
-      <div id="gg-arch-label" style="font-size:13px;font-weight:600;margin-top:8px;color:var(--muted)">Current variant: GRU (reset gate on by default)</div>
-      <div id="gg-toggle-progress" style="font-size:12px;color:var(--muted);margin-top:4px">Dimensions toggled: 0/4</div>
+      <div id="gg-arch-label" style="font-size:14.5px;font-weight:600;margin-top:8px;color:var(--muted)">Current variant: GRU (reset gate on by default)</div>
+      <div id="gg-toggle-progress" style="font-size:13.5px;color:var(--muted);margin-top:4px">Dimensions toggled: 0/4</div>
       <div id="gg-s4-hint" class="guidance-box cold" style="margin-top:8px"></div>
     </div>
   </div>
   <div id="gg-s5" class="ba-locked-section" style="margin-top:16px">
     <div class="card">
       <div class="card-title">Stage 5 — The Search Space</div>
-      <div style="font-weight:600;font-size:13px;margin-bottom:8px">If each of the 4 architectural dimensions is binary (present/absent), how many distinct variants exist in the search space?</div>
+      <div style="font-weight:600;font-size:14.5px;margin-bottom:8px">If each of the 4 architectural dimensions is binary (present/absent), how many distinct variants exist in the search space?</div>
       <div id="gg-q3-opts" style="display:flex;flex-direction:column;gap:5px;max-width:460px"></div>
       <div id="gg-q3-hint" class="guidance-box cold" style="margin-top:8px;max-width:460px"></div>
     </div>
@@ -98,13 +98,13 @@
     <div class="two-col">
       <div class="card">
         <div class="card-title">Stage 6 — Minimal GRU Insight</div>
-        <div style="font-weight:600;font-size:13px;margin-bottom:8px">Research shows minimal GRU variants (2 gates, no cell state) match LSTM on many tasks. What does this imply about the search space?</div>
+        <div style="font-weight:600;font-size:14.5px;margin-bottom:8px">Research shows minimal GRU variants (2 gates, no cell state) match LSTM on many tasks. What does this imply about the search space?</div>
         <div id="gg-q4-opts" style="display:flex;flex-direction:column;gap:5px;max-width:360px"></div>
         <div id="gg-q4-hint" class="guidance-box cold" style="margin-top:8px;max-width:360px"></div>
       </div>
       <div class="card">
         <div class="card-title">Reflect</div>
-        <p style="font-size:13px;color:var(--muted);margin-bottom:8px">If you were running an architecture search over the 16-variant space, which dimension would you explore first — separate cell state, output gate, decoupled gates, or reset gate? What is your reasoning?</p>
+        <p style="font-size:14.5px;color:var(--muted);margin-bottom:8px">If you were running an architecture search over the 16-variant space, which dimension would you explore first — separate cell state, output gate, decoupled gates, or reset gate? What is your reasoning?</p>
         <textarea id="gg-ref" rows="4" style="width:100%;box-sizing:border-box;background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:8px;color:var(--text);font-family:inherit;resize:vertical;margin-bottom:8px" placeholder="I would start with the separate cell state because…" oninput="ggUpdateSummary()"></textarea>
         <div id="gg-summary" style="font-size:.88em;color:var(--muted)"></div>
       </div>

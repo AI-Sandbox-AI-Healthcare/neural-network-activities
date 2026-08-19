@@ -37,7 +37,7 @@
     </p>
     <div class="eq-block">
       <div class="eq-line">J(W) = −(1/|D|) Σₙ y⁽ⁿ⁾ ⊙ log₂ p⁽ⁿ⁾ &nbsp;&nbsp; (⊙ = element-wise, log₂ = bits)</div>
-      <div style="margin-top:10px;display:flex;gap:24px;flex-wrap:wrap;font-size:13px;line-height:2;font-weight:500">
+      <div style="margin-top:10px;display:flex;gap:24px;flex-wrap:wrap;font-size:14.5px;line-height:2;font-weight:500">
         <div><span style="color:var(--text);font-weight:700">|D|</span> <span style="color:var(--muted)">= number of training samples.</span> <span style="color:var(--orange);font-weight:700">Here |D| = 3</span> <span style="color:var(--muted)">(Y and P each have 3 rows).</span></div>
         <div><span style="color:var(--text);font-weight:700">n</span> <span style="color:var(--muted)">= index over each sample (row), running from 1 to |D|.</span> <span style="color:var(--orange);font-weight:700">Here n = 1, 2, 3</span> <span style="color:var(--muted)">(one row at a time).</span></div>
       </div>
@@ -73,7 +73,7 @@
       </div>
       <div class="given-box">
         <div class="given-lbl">Find</div>
-        <div class="given-val" style="font-size:13px;line-height:2.1">
+        <div class="given-val" style="font-size:14.5px;line-height:2.1">
           log₂(P) matrix<br>
           Y ⊙ log₂(P) matrix<br>
           <strong style="color:#b45309">J(W) = (?, ?)</strong>
@@ -90,22 +90,22 @@
     </div>
     <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:16px">
       <div style="background:var(--surf2);border:1px solid var(--border);border-radius:8px;padding:14px">
-        <div style="font-size:12px;font-weight:800;color:#c2610c;margin-bottom:8px">📐 Punishes Confident Mistakes</div>
-        <div style="font-size:13px;color:var(--muted);line-height:1.8">
+        <div style="font-size:13.5px;font-weight:800;color:#c2610c;margin-bottom:8px">📐 Punishes Confident Mistakes</div>
+        <div style="font-size:14.5px;color:var(--muted);line-height:1.8">
           If the model is 99% sure of the <em>wrong</em> answer, cross-entropy makes that mistake cost a lot.
           Being confidently wrong is punished much more than being only a little off.
         </div>
       </div>
       <div style="background:var(--surf2);border:1px solid var(--border);border-radius:8px;padding:14px">
-        <div style="font-size:12px;font-weight:800;color:#6d28d9;margin-bottom:8px">∂ Easy to Learn From</div>
-        <div style="font-size:13px;color:var(--muted);line-height:1.8">
+        <div style="font-size:13.5px;font-weight:800;color:#6d28d9;margin-bottom:8px">∂ Easy to Learn From</div>
+        <div style="font-size:14.5px;color:var(--muted);line-height:1.8">
           Paired with softmax, the update rule is simple: <code style="color:#6d28d9">prediction − truth</code>.
           The model just compares its guess to the right answer and nudges itself in that direction.
         </div>
       </div>
       <div style="background:var(--surf2);border:1px solid var(--border);border-radius:8px;padding:14px">
-        <div style="font-size:12px;font-weight:800;color:#0f766e;margin-bottom:8px">📊 Measures "Surprise"</div>
-        <div style="font-size:13px;color:var(--muted);line-height:1.8">
+        <div style="font-size:13.5px;font-weight:800;color:#0f766e;margin-bottom:8px">📊 Measures "Surprise"</div>
+        <div style="font-size:14.5px;color:var(--muted);line-height:1.8">
           Think of it as a surprise score. A confident, correct guess isn't surprising at all
           (<strong style="color:var(--text)">low cost</strong>). A confident, wrong guess is very surprising
           (<strong style="color:var(--text)">high cost</strong>).
@@ -124,10 +124,10 @@
       <span id="ce-s2-badge" class="badge og">Step 2 of 5 — locked</span>
     </div>
     <div style="background:var(--surf2);border:1px solid var(--border);border-radius:8px;padding:16px;margin-bottom:14px">
-      <p style="font-size:13px;color:var(--text);margin-bottom:12px">Start from <strong style="color:#d97706">P</strong> and apply the formula column by column:</p>
+      <p style="font-size:14.5px;color:var(--text);margin-bottom:12px">Start from <strong style="color:#d97706">P</strong> and apply the formula column by column:</p>
       <div style="display:flex;align-items:flex-start;gap:20px;flex-wrap:wrap">
         <div style="text-align:center">
-          <div style="font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);font-weight:700;margin-bottom:6px">Step A — log₂(P)</div>
+          <div style="font-size:12.5px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);font-weight:700;margin-bottom:6px">Step A — log₂(P)</div>
           <div class="ba-matrix" style="color:#7c3aed">
             <div class="ba-matrix-bracket-l"></div>
             <div class="ba-matrix-body">
@@ -137,11 +137,11 @@
             </div>
             <div class="ba-matrix-bracket-r"></div>
           </div>
-          <div style="font-size:12px;color:var(--muted);margin-top:6px">= negative numbers<br>(more negative = more surprising)</div>
+          <div style="font-size:13.5px;color:var(--muted);margin-top:6px">= negative numbers<br>(more negative = more surprising)</div>
         </div>
-        <div style="font-size:20px;color:var(--muted);padding-top:40px">→</div>
+        <div style="font-size:22.5px;color:var(--muted);padding-top:40px">→</div>
         <div style="text-align:center">
-          <div style="font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);font-weight:700;margin-bottom:6px">Step B — Y ⊙ log₂(P)</div>
+          <div style="font-size:12.5px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);font-weight:700;margin-bottom:6px">Step B — Y ⊙ log₂(P)</div>
           <div class="ba-matrix" style="color:#0d9488">
             <div class="ba-matrix-bracket-l"></div>
             <div class="ba-matrix-body">
@@ -151,15 +151,15 @@
             </div>
             <div class="ba-matrix-bracket-r"></div>
           </div>
-          <div style="font-size:12px;color:var(--muted);margin-top:6px">zeros mask irrelevant class;<br>y=1 selects the right loss</div>
+          <div style="font-size:13.5px;color:var(--muted);margin-top:6px">zeros mask irrelevant class;<br>y=1 selects the right loss</div>
         </div>
-        <div style="font-size:20px;color:var(--muted);padding-top:40px">→</div>
+        <div style="font-size:22.5px;color:var(--muted);padding-top:40px">→</div>
         <div style="text-align:center">
-          <div style="font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);font-weight:700;margin-bottom:6px">Step C — J(W)</div>
-          <div style="font-family:'Courier New',monospace;font-size:13px;color:var(--text)">
+          <div style="font-size:12.5px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);font-weight:700;margin-bottom:6px">Step C — J(W)</div>
+          <div style="font-family:'Courier New',monospace;font-size:14.5px;color:var(--text)">
             <div style="color:#b45309;font-weight:700;margin-top:8px">= (0.05, 1.44)</div>
           </div>
-          <div style="font-size:12px;color:var(--muted);font-weight:500;margin-top:12px">class 0 easy; class 1 hard<br>(model was confidently wrong)</div>
+          <div style="font-size:13.5px;color:var(--muted);font-weight:500;margin-top:12px">class 0 easy; class 1 hard<br>(model was confidently wrong)</div>
         </div>
       </div>
     </div>
@@ -179,11 +179,11 @@
             <div class="card-title" style="margin-bottom:0">Step A — Fill in log₂(P)</div>
             <span id="ce-logp-badge" class="badge rg">0/6 correct</span>
           </div>
-          <p style="font-size:13px;color:var(--muted);margin-bottom:12px">
+          <p style="font-size:14.5px;color:var(--muted);margin-bottom:12px">
             Each cell: <code style="color:#7c3aed">log₂(p)</code>. Round to 2 decimal places. Hint: log₂(0.5) = −1.
           </p>
           <div id="ce-logp-grid" style="display:grid;grid-template-columns:auto auto auto;gap:6px;width:fit-content;align-items:center;margin-bottom:10px"></div>
-          <div id="ce-logp-hint" class="guidance-box cold" style="font-size:13px">Fill each log₂(p) value. Remember: log₂(p) = ln(p)/ln(2). All values will be negative or zero.</div>
+          <div id="ce-logp-hint" class="guidance-box cold" style="font-size:14.5px">Fill each log₂(p) value. Remember: log₂(p) = ln(p)/ln(2). All values will be negative or zero.</div>
         </div>
 
         <div class="card" id="ce-ylogp-card" style="margin-bottom:16px;opacity:0.4;pointer-events:none;transition:opacity .3s">
@@ -191,11 +191,11 @@
             <div class="card-title" style="margin-bottom:0">Step B — Fill in Y ⊙ log₂(P)</div>
             <span id="ce-ylogp-badge" class="badge rg">0/6 correct</span>
           </div>
-          <p style="font-size:13px;color:var(--muted);margin-bottom:12px">
+          <p style="font-size:14.5px;color:var(--muted);margin-bottom:12px">
             Multiply each cell: <code style="color:#0d9488">yᵢⱼ × log₂(pᵢⱼ)</code>. If yᵢⱼ = 0, the product is 0.
           </p>
           <div id="ce-ylogp-grid" style="display:grid;grid-template-columns:auto auto auto;gap:6px;width:fit-content;align-items:center;margin-bottom:10px"></div>
-          <div id="ce-ylogp-hint" class="guidance-box cold" style="font-size:13px">When y = 0, the product is always 0. When y = 1, the product equals log₂(p) — it "selects" the loss for the true class.</div>
+          <div id="ce-ylogp-hint" class="guidance-box cold" style="font-size:14.5px">When y = 0, the product is always 0. When y = 1, the product equals log₂(p) — it "selects" the loss for the true class.</div>
         </div>
 
         <div class="card" id="ce-jw-card" style="opacity:0.4;pointer-events:none;transition:opacity .3s">
@@ -203,11 +203,11 @@
             <div class="card-title" style="margin-bottom:0">Step C — Compute J(W)</div>
             <span id="ce-jw-badge" class="badge rg">not yet</span>
           </div>
-          <p style="font-size:13px;color:var(--muted);margin-bottom:12px">
+          <p style="font-size:14.5px;color:var(--muted);margin-bottom:12px">
             Sum each column of Y ⊙ log₂(P), then multiply by −(1/3):
           </p>
           <div id="ce-jw-inputs" style="display:flex;gap:16px;align-items:center;margin-bottom:10px;flex-wrap:wrap"></div>
-          <div id="ce-jw-hint" class="guidance-box cold" style="font-size:13px">J(W) is a vector with one cost per output class. Fill in both components rounded to 2 decimal places.</div>
+          <div id="ce-jw-hint" class="guidance-box cold" style="font-size:14.5px">J(W) is a vector with one cost per output class. Fill in both components rounded to 2 decimal places.</div>
         </div>
       </div>
 
@@ -215,7 +215,7 @@
       <div>
         <div class="card">
           <div class="card-title">Live Computation</div>
-          <div id="ce-steps" style="font-size:13px"></div>
+          <div id="ce-steps" style="font-size:14.5px"></div>
         </div>
       </div>
     </div>
@@ -225,7 +225,7 @@
   <div id="ce-stage5" class="ba-locked-section">
     <div class="card" style="background:linear-gradient(135deg,#f0fdf4,#dcfce7);border-color:#16a34a;margin-bottom:16px">
       <div class="card-title">What You Just Computed</div>
-      <ul style="font-size:13px;color:var(--text);font-weight:500;line-height:2.4;padding-left:18px;margin:0">
+      <ul style="font-size:14.5px;color:var(--text);font-weight:500;line-height:2.4;padding-left:18px;margin:0">
         <li><strong style="color:#7c3aed">log₂(p)</strong> measures bits of surprise — perfect predictions cost 0 bits.</li>
         <li>The <strong style="color:#0d9488">Y ⊙ log₂(P)</strong> mask zeroes out all wrong-class contributions.</li>
         <li>Summing and averaging gives <strong style="color:#b45309">J(W)</strong> — the per-class average cost.</li>

@@ -30,17 +30,17 @@
         <div class="section-label">Kernel K (position-specific weights)</div>
         <div id="ge-kernel-grid" style="display:grid;grid-template-columns:repeat(3,52px);gap:3px"></div>
       </div>
-      <div style="font-size:20px;color:var(--muted);padding-top:28px">vs</div>
+      <div style="font-size:22.5px;color:var(--muted);padding-top:28px">vs</div>
       <div>
         <div class="section-label">GCN: same W for every neighbour</div>
         <div id="ge-gcn-grid" style="display:grid;grid-template-columns:repeat(3,52px);gap:3px"></div>
-        <div style="margin-top:8px;display:flex;align-items:center;gap:8px;font-size:13px">
+        <div style="margin-top:8px;display:flex;align-items:center;gap:8px;font-size:14.5px">
           W = <input type="range" id="ge-W-sl" min="1" max="9" step="1" value="5" style="width:100px" oninput="geUpdateW()">
           <span id="ge-W-val" style="font-family:monospace;font-weight:700">5</span>
         </div>
       </div>
       <div style="flex:1;min-width:200px">
-        <div id="ge-mismatch-disp" style="font-size:13px;background:var(--surf2);border-radius:8px;padding:12px;line-height:2;font-family:monospace"></div>
+        <div id="ge-mismatch-disp" style="font-size:14.5px;background:var(--surf2);border-radius:8px;padding:12px;line-height:2;font-family:monospace"></div>
       </div>
     </div>
     <div style="text-align:right;margin-top:14px"><button class="btn btn-p" onclick="geUnlock(1)">I see the difference — explore further →</button></div>
@@ -53,14 +53,14 @@
         <div>
           <div class="section-label">Image pixels as graph nodes</div>
           <svg id="ge-svg" width="220" height="220" style="background:var(--surf2);border:1px solid var(--border);border-radius:8px;display:block"></svg>
-          <div style="margin-top:6px;font-size:12px;color:var(--muted);max-width:220px">Each pixel is a node. Edges = 8-neighbourhood (king moves).</div>
+          <div style="margin-top:6px;font-size:13.5px;color:var(--muted);max-width:220px">Each pixel is a node. Edges = 8-neighbourhood (king moves).</div>
         </div>
         <div style="flex:1;min-width:220px">
-          <p style="font-size:13px;color:var(--muted);margin-bottom:12px">For a 3×3 convolution, each output pixel aggregates its 3×3 neighbourhood. Let's model this as a graph where every pixel connects to its 8 neighbours (+ itself via self-loop in A*).</p>
-          <div style="font-weight:600;font-size:13px;margin-bottom:6px">Q1 — The corner pixel (node 0) has how many neighbours (excluding itself)?</div>
+          <p style="font-size:14.5px;color:var(--muted);margin-bottom:12px">For a 3×3 convolution, each output pixel aggregates its 3×3 neighbourhood. Let's model this as a graph where every pixel connects to its 8 neighbours (+ itself via self-loop in A*).</p>
+          <div style="font-weight:600;font-size:14.5px;margin-bottom:6px">Q1 — The corner pixel (node 0) has how many neighbours (excluding itself)?</div>
           <div id="ge-q1-opts" style="display:flex;flex-direction:column;gap:5px;max-width:280px"></div>
           <div id="ge-q1-hint" class="guidance-box cold" style="margin-top:5px;max-width:280px;margin-bottom:14px"></div>
-          <div style="font-weight:600;font-size:13px;margin-bottom:6px">Q2 — So A is well-defined. Can we also define a single W that replicates K?</div>
+          <div style="font-weight:600;font-size:14.5px;margin-bottom:6px">Q2 — So A is well-defined. Can we also define a single W that replicates K?</div>
           <div id="ge-q2-opts" style="display:flex;flex-direction:column;gap:5px;max-width:280px"></div>
           <div id="ge-q2-hint" class="guidance-box cold" style="margin-top:5px;max-width:280px"></div>
         </div>
@@ -72,18 +72,18 @@
   <div id="ge-s2" class="ba-locked-section" style="margin-top:16px">
     <div class="card">
       <div class="card-title">Stage 2 — The Position Problem</div>
-      <p style="font-size:13px;color:var(--muted);margin-bottom:14px">GCN computes: <strong>h_new[i] = W × (sum of h[j] for j ∈ neighbours(i))</strong>. The same scalar W is applied to every neighbour. Compare this to conv:</p>
+      <p style="font-size:14.5px;color:var(--muted);margin-bottom:14px">GCN computes: <strong>h_new[i] = W × (sum of h[j] for j ∈ neighbours(i))</strong>. The same scalar W is applied to every neighbour. Compare this to conv:</p>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:14px">
         <div style="background:#eff6ff;border:1px solid #bfdbfe;border-radius:8px;padding:14px">
-          <div style="font-weight:700;color:var(--blue);margin-bottom:8px;font-size:13px">Image Convolution (for output pixel at centre)</div>
-          <div style="font-family:monospace;font-size:12px;line-height:2" id="ge-conv-show"></div>
+          <div style="font-weight:700;color:var(--blue);margin-bottom:8px;font-size:14.5px">Image Convolution (for output pixel at centre)</div>
+          <div style="font-family:monospace;font-size:13.5px;line-height:2" id="ge-conv-show"></div>
         </div>
         <div style="background:#fff7ed;border:1px solid #fed7aa;border-radius:8px;padding:14px">
-          <div style="font-weight:700;color:var(--orange);margin-bottom:8px;font-size:13px">GCN (single W, mean aggregation)</div>
-          <div style="font-family:monospace;font-size:12px;line-height:2" id="ge-gcn-show"></div>
+          <div style="font-weight:700;color:var(--orange);margin-bottom:8px;font-size:14.5px">GCN (single W, mean aggregation)</div>
+          <div style="font-family:monospace;font-size:13.5px;line-height:2" id="ge-gcn-show"></div>
         </div>
       </div>
-      <div style="font-weight:600;font-size:13px;margin-bottom:6px">Q3 — Which kernel <em>could</em> GCN emulate with a single W and uniform A*?</div>
+      <div style="font-weight:600;font-size:14.5px;margin-bottom:6px">Q3 — Which kernel <em>could</em> GCN emulate with a single W and uniform A*?</div>
       <div id="ge-q3-opts" style="display:flex;flex-direction:column;gap:5px;max-width:400px"></div>
       <div id="ge-q3-hint" class="guidance-box cold" style="margin-top:6px;max-width:400px"></div>
     </div>
@@ -95,12 +95,12 @@
         <div class="card-title">Stage 3 — Conclusion</div>
         <div style="display:flex;flex-direction:column;gap:14px">
           <div>
-            <div style="font-weight:600;font-size:13px;margin-bottom:6px">Q4 — Is it possible to emulate K = [[1..9]] with standard GCN (single A*, single W)?</div>
+            <div style="font-weight:600;font-size:14.5px;margin-bottom:6px">Q4 — Is it possible to emulate K = [[1..9]] with standard GCN (single A*, single W)?</div>
             <div id="ge-q4-opts" style="display:flex;flex-direction:column;gap:5px;max-width:340px"></div>
             <div id="ge-q4-hint" class="guidance-box cold" style="margin-top:5px;max-width:340px"></div>
           </div>
           <div>
-            <div style="font-weight:600;font-size:13px;margin-bottom:6px">Q5 — To support arbitrary kernels in a GCN, what change is needed?</div>
+            <div style="font-weight:600;font-size:14.5px;margin-bottom:6px">Q5 — To support arbitrary kernels in a GCN, what change is needed?</div>
             <div id="ge-q5-opts" style="display:flex;flex-direction:column;gap:5px;max-width:340px"></div>
             <div id="ge-q5-hint" class="guidance-box cold" style="margin-top:5px;max-width:340px"></div>
           </div>

@@ -29,9 +29,9 @@
   <div id="es-s1" class="two-col">
     <div><div class="card"><div class="card-title">Why Early Stopping Works</div>
       <div style="display:flex;flex-direction:column;gap:10px">
-        <div style="background:#eff6ff;border:1px solid #bfdbfe;border-radius:8px;padding:13px"><div style="font-weight:700;color:var(--blue);margin-bottom:3px;font-size:13px">Training loss always decreases</div><div style="font-size:13px">Given enough epochs, a model can fit training data arbitrarily well. But that's not generalization — it's memorization.</div></div>
-        <div style="background:#fff7ed;border:1px solid #fed7aa;border-radius:8px;padding:13px"><div style="font-weight:700;color:var(--orange);margin-bottom:3px;font-size:13px">Validation loss is the signal</div><div style="font-size:13px">A held-out set you never train on tells you when the model stops generalizing. Its loss dips then rises — stop at the dip.</div></div>
-        <div style="background:#fdf4ff;border:1px solid #e9d5ff;border-radius:8px;padding:13px"><div style="font-weight:700;color:var(--purple);margin-bottom:3px;font-size:13px">The catch: you can't use all 1000</div><div style="font-size:13px">To have a validation set, you must set aside some data. You literally cannot train on everything if you want to use early stopping.</div></div>
+        <div style="background:#eff6ff;border:1px solid #bfdbfe;border-radius:8px;padding:13px"><div style="font-weight:700;color:var(--blue);margin-bottom:3px;font-size:14.5px">Training loss always decreases</div><div style="font-size:14.5px">Given enough epochs, a model can fit training data arbitrarily well. But that's not generalization — it's memorization.</div></div>
+        <div style="background:#fff7ed;border:1px solid #fed7aa;border-radius:8px;padding:13px"><div style="font-weight:700;color:var(--orange);margin-bottom:3px;font-size:14.5px">Validation loss is the signal</div><div style="font-size:14.5px">A held-out set you never train on tells you when the model stops generalizing. Its loss dips then rises — stop at the dip.</div></div>
+        <div style="background:#fdf4ff;border:1px solid #e9d5ff;border-radius:8px;padding:13px"><div style="font-weight:700;color:var(--purple);margin-bottom:3px;font-size:14.5px">The catch: you can't use all 1000</div><div style="font-size:14.5px">To have a validation set, you must set aside some data. You literally cannot train on everything if you want to use early stopping.</div></div>
       </div>
     </div></div>
     <div><div class="card"><div class="card-title">The Core Tension</div>
@@ -43,31 +43,31 @@
   <div id="es-s2" class="ba-locked-section" style="margin-top:18px">
     <div class="two-col">
       <div><div class="card"><div class="card-title">Step 1 — Design Your Data Split</div>
-        <p style="font-size:13px;color:var(--muted);margin-bottom:14px">Split your 1000 instances across Train / Validation / Test. Remember: you need validation data to know when to stop.</p>
+        <p style="font-size:14.5px;color:var(--muted);margin-bottom:14px">Split your 1000 instances across Train / Validation / Test. Remember: you need validation data to know when to stop.</p>
         <div class="slider-row"><span class="slider-label"><span class="name">Train %</span><span class="val" id="es-train-v">70</span></span><input type="range" id="es-train-slider" min="30" max="90" step="5" value="70" oninput="esUpdateSplit('train')"></div>
         <div class="slider-row"><span class="slider-label"><span class="name">Val %</span><span class="val" id="es-val-v">20</span></span><input type="range" id="es-val-slider" min="5" max="40" step="5" value="20" oninput="esUpdateSplit('val')"></div>
-        <div id="es-val-warn" style="display:none;font-size:13px;color:var(--red);margin-top:8px;font-weight:600"></div>
+        <div id="es-val-warn" style="display:none;font-size:14.5px;color:var(--red);margin-top:8px;font-weight:600"></div>
         <div id="es-split-bar" style="display:flex;border-radius:6px;overflow:hidden;margin-top:10px;margin-bottom:10px">
-          <div style="flex:70;background:#60a5fa;height:32px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:#fff">70%</div>
-          <div style="flex:20;background:#fb923c;height:32px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:#fff">20%</div>
-          <div style="flex:10;background:#86efac;height:32px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:#14532d">10%</div>
+          <div style="flex:70;background:#60a5fa;height:32px;display:flex;align-items:center;justify-content:center;font-size:13.5px;font-weight:700;color:#fff">70%</div>
+          <div style="flex:20;background:#fb923c;height:32px;display:flex;align-items:center;justify-content:center;font-size:13.5px;font-weight:700;color:#fff">20%</div>
+          <div style="flex:10;background:#86efac;height:32px;display:flex;align-items:center;justify-content:center;font-size:13.5px;font-weight:700;color:#14532d">10%</div>
         </div>
-        <div style="display:flex;gap:14px;font-size:11px;color:var(--muted);margin-bottom:10px">
+        <div style="display:flex;gap:14px;font-size:12.5px;color:var(--muted);margin-bottom:10px">
           <span><span style="display:inline-block;width:10px;height:10px;background:#60a5fa;border-radius:2px;margin-right:4px"></span>Train</span>
           <span><span style="display:inline-block;width:10px;height:10px;background:#fb923c;border-radius:2px;margin-right:4px"></span>Val</span>
           <span><span style="display:inline-block;width:10px;height:10px;background:#86efac;border-radius:2px;margin-right:4px"></span>Test</span>
         </div>
-        <div style="background:var(--surf2);border:1px solid var(--border);border-radius:8px;padding:14px;font-family:'Courier New',monospace;font-size:13px;line-height:2.1">
+        <div style="background:var(--surf2);border:1px solid var(--border);border-radius:8px;padding:14px;font-family:'Courier New',monospace;font-size:14.5px;line-height:2.1">
           Train: <strong id="es-n-train">700</strong> instances<br>
           Validate: <strong id="es-n-val">200</strong> instances<br>
           Test: <strong id="es-n-test">100</strong> instances<br>
-          <span style="color:var(--muted);font-size:12px">Suggestions: You can train on at most <strong id="es-n-train2">700</strong> of the 1000 instances.</span>
+          <span style="color:var(--muted);font-size:13.5px">Suggestions: You can train on at most <strong id="es-n-train2">700</strong> of the 1000 instances.</span>
         </div>
         <div style="text-align:center;margin-top:14px"><button class="btn btn-p" id="es-to-s3-btn" onclick="esToStage3()">View loss curves →</button></div>
       </div></div>
       <div><div class="card"><div class="card-title">What's the Split For?</div>
         <div class="guidance-box cold" style="margin-bottom:12px"><strong>Train set:</strong> model learns from these — weights are updated on each example.<br><br><strong>Validation set:</strong> checked after each epoch to see if generalization is improving.<br><br><strong>Test set:</strong> touched only once at the very end to report final performance honestly.</div>
-        <div style="background:#fdf4ff;border:1px solid #e9d5ff;border-radius:8px;padding:12px;font-size:13px">
+        <div style="background:#fdf4ff;border:1px solid #e9d5ff;border-radius:8px;padding:12px;font-size:14.5px">
           <span style="font-weight:700;color:var(--purple)">Key insight:</span> Early stopping uses validation loss as its stopping signal. Without validation data, there's no signal — you'd be guessing.
         </div>
       </div></div>
@@ -77,25 +77,25 @@
   <div id="es-s3" class="ba-locked-section" style="margin-top:18px">
     <div class="two-col">
       <div><div class="card"><div class="card-title">Step 2 — The Loss Curves</div>
-        <p style="font-size:13px;color:var(--muted);margin-bottom:10px">Drag the stop epoch slider to see what happens at different stopping points.</p>
+        <p style="font-size:14.5px;color:var(--muted);margin-bottom:10px">Drag the stop epoch slider to see what happens at different stopping points.</p>
         <svg id="es-curve-svg" viewBox="0 0 460 200" width="100%" height="200" style="border:1px solid var(--border);border-radius:8px;overflow:visible"></svg>
         <div class="slider-row" style="margin-top:10px"><span class="slider-label"><span class="name">Stop epoch</span><span class="val" id="es-epoch-v">50</span></span><input type="range" id="es-epoch-slider" min="1" max="100" step="1" value="50" oninput="esUpdateEpoch()"></div>
-        <div id="es-stop-info" style="font-size:13px;color:var(--muted);margin-top:6px;font-family:'Courier New',monospace"></div>
+        <div id="es-stop-info" style="font-size:14.5px;color:var(--muted);margin-top:6px;font-family:'Courier New',monospace"></div>
       </div></div>
       <div>
         <div class="card"><div class="card-title">When Should You Stop?</div>
-          <p style="font-size:13px;color:var(--muted);margin-bottom:10px">Explore the curves, then answer:</p>
+          <p style="font-size:14.5px;color:var(--muted);margin-bottom:10px">Explore the curves, then answer:</p>
           <div id="es-stop-opts" style="display:flex;flex-direction:column;gap:8px"></div>
-          <div id="es-stop-hint" class="guidance-box cold" style="margin-top:10px;font-size:13px">Select the correct stopping criterion.</div>
+          <div id="es-stop-hint" class="guidance-box cold" style="margin-top:10px;font-size:14.5px">Select the correct stopping criterion.</div>
         </div>
         <div id="es-s4" class="ba-locked-section" style="margin-top:18px">
           <div class="card">
             <div class="card-title">Find the Optimal Stopping Epoch</div>
-            <p style="font-size:13px;color:var(--muted);margin-bottom:10px">Drag the slider above until the label reads <strong>Optimal Zone!</strong>, then enter that epoch number.</p>
+            <p style="font-size:14.5px;color:var(--muted);margin-bottom:10px">Drag the slider above until the label reads <strong>Optimal Zone!</strong>, then enter that epoch number.</p>
             <div style="display:flex;align-items:center;gap:10px">
               <input type="number" id="es-epoch-answer" class="ba-cell-input" style="width:90px" placeholder="epoch #" oninput="esCheckEpochAnswer()">
             </div>
-            <div id="es-epoch-hint" class="guidance-box cold" style="margin-top:10px;font-size:13px">Enter the epoch number where the validation loss curve is in the Optimal Zone.</div>
+            <div id="es-epoch-hint" class="guidance-box cold" style="margin-top:10px;font-size:14.5px">Enter the epoch number where the validation loss curve is in the Optimal Zone.</div>
           </div>
         </div>
       </div>

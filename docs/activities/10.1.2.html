@@ -32,10 +32,10 @@
   <div id="rf-s1" class="ba-locked-section" style="margin-top:16px">
     <div class="card">
       <div class="card-title">Stage 1 — Timestep 1: h⁽¹⁾ = ReLU(W₁·h⁽⁰⁾ + W₂·x⁽¹⁾)</div>
-      <p style="font-size:13px;color:var(--muted);margin-bottom:12px">h⁽⁰⁾ = [0,0], so <strong>W₁·h⁽⁰⁾ = [0,0]</strong>. You only need to compute W₂·x⁽¹⁾, then apply ReLU.</p>
+      <p style="font-size:14.5px;color:var(--muted);margin-bottom:12px">h⁽⁰⁾ = [0,0], so <strong>W₁·h⁽⁰⁾ = [0,0]</strong>. You only need to compute W₂·x⁽¹⁾, then apply ReLU.</p>
       <div class="ba-step-block">
         <div class="ba-step-label">Step A — Compute W₂ · x⁽¹⁾ &nbsp;<span style="font-weight:400;color:var(--muted)">(x⁽¹⁾ = [1, 0])</span></div>
-        <div style="font-family:'Courier New',monospace;font-size:13px;color:var(--muted);margin-bottom:8px;line-height:2.4">
+        <div style="font-family:'Courier New',monospace;font-size:14.5px;color:var(--muted);margin-bottom:8px;line-height:2.4">
           Row 0: 0·1 + 1·0 = ?<br>Row 1: 2·1 + (−5)·0 = ?
         </div>
         <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-family:'Courier New',monospace;font-weight:700">
@@ -61,11 +61,11 @@
   <div id="rf-s2" class="ba-locked-section" style="margin-top:16px">
     <div class="card">
       <div class="card-title">Stage 2 — Timestep 2: h⁽²⁾ = ReLU(W₁·h⁽¹⁾ + W₂·x⁽²⁾)</div>
-      <p style="font-size:13px;color:var(--muted);margin-bottom:12px">h⁽¹⁾ = [0, 2] now carries information from step 1. Both W₁h⁽¹⁾ and W₂x⁽²⁾ are nonzero.</p>
+      <p style="font-size:14.5px;color:var(--muted);margin-bottom:12px">h⁽¹⁾ = [0, 2] now carries information from step 1. Both W₁h⁽¹⁾ and W₂x⁽²⁾ are nonzero.</p>
       <div class="two-col" style="gap:14px;margin-bottom:10px">
         <div class="ba-step-block">
           <div class="ba-step-label">Step C — W₁ · h⁽¹⁾ &nbsp;<span style="font-weight:400;color:var(--muted)">(h⁽¹⁾=[0,2])</span></div>
-          <div style="font-family:'Courier New',monospace;font-size:13px;color:var(--muted);margin-bottom:8px;line-height:2.4">Row 0: 1·0 + 2·2 = ?<br>Row 1: 0·0 + (−1)·2 = ?</div>
+          <div style="font-family:'Courier New',monospace;font-size:14.5px;color:var(--muted);margin-bottom:8px;line-height:2.4">Row 0: 1·0 + 2·2 = ?<br>Row 1: 0·0 + (−1)·2 = ?</div>
           <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-family:'Courier New',monospace;font-weight:700">
             W₁h⁽¹⁾ = [<input id="rf-c0" class="rr-inp" style="width:52px" type="text" placeholder="?" oninput="rfCheck()">, <input id="rf-c1" class="rr-inp" style="width:52px" type="text" placeholder="?" oninput="rfCheck()">]
           </div>
@@ -73,7 +73,7 @@
         </div>
         <div class="ba-step-block">
           <div class="ba-step-label">Step D — W₂ · x⁽²⁾ &nbsp;<span style="font-weight:400;color:var(--muted)">(x⁽²⁾=[0,1])</span></div>
-          <div style="font-family:'Courier New',monospace;font-size:13px;color:var(--muted);margin-bottom:8px;line-height:2.4">Row 0: 0·0 + 1·1 = ?<br>Row 1: 2·0 + (−5)·1 = ?</div>
+          <div style="font-family:'Courier New',monospace;font-size:14.5px;color:var(--muted);margin-bottom:8px;line-height:2.4">Row 0: 0·0 + 1·1 = ?<br>Row 1: 2·0 + (−5)·1 = ?</div>
           <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-family:'Courier New',monospace;font-weight:700">
             W₂x⁽²⁾ = [<input id="rf-d0" class="rr-inp" style="width:52px" type="text" placeholder="?" oninput="rfCheck()">, <input id="rf-d1" class="rr-inp" style="width:52px" type="text" placeholder="?" oninput="rfCheck()">]
           </div>
@@ -83,7 +83,7 @@
       <div id="rf-h2-block" style="opacity:.35;pointer-events:none;transition:opacity .3s">
         <div class="ba-step-block">
           <div class="ba-step-label">Step E — h⁽²⁾ = ReLU(W₁h⁽¹⁾ + W₂x⁽²⁾)</div>
-          <div id="rf-h2-eq" style="font-family:'Courier New',monospace;font-size:13px;color:var(--muted);margin-bottom:8px"></div>
+          <div id="rf-h2-eq" style="font-family:'Courier New',monospace;font-size:14.5px;color:var(--muted);margin-bottom:8px"></div>
           <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-family:'Courier New',monospace;font-weight:700">
             h⁽²⁾ = [<input id="rf-e0" class="rr-inp" style="width:52px" type="text" placeholder="?" oninput="rfCheck()">, <input id="rf-e1" class="rr-inp" style="width:52px" type="text" placeholder="?" oninput="rfCheck()">]
           </div>
@@ -100,14 +100,14 @@
     <div class="two-col">
       <div class="card">
         <div class="card-title">Stage 3 — Key Insight</div>
-        <p style="font-size:13px;color:var(--muted);margin-bottom:10px">You found h⁽²⁾ = [5, 0]. Before ReLU the sum was [5, −7]; component 1 was clipped to 0. h⁽²⁾ depends on <em>both</em> x⁽¹⁾ (via h⁽¹⁾) and x⁽²⁾.</p>
-        <div style="font-weight:600;font-size:13px;margin-bottom:8px">What does it mean when ReLU zeros a hidden-state component?</div>
+        <p style="font-size:14.5px;color:var(--muted);margin-bottom:10px">You found h⁽²⁾ = [5, 0]. Before ReLU the sum was [5, −7]; component 1 was clipped to 0. h⁽²⁾ depends on <em>both</em> x⁽¹⁾ (via h⁽¹⁾) and x⁽²⁾.</p>
+        <div style="font-weight:600;font-size:14.5px;margin-bottom:8px">What does it mean when ReLU zeros a hidden-state component?</div>
         <div id="rf-q1-opts" style="display:flex;flex-direction:column;gap:5px;max-width:360px"></div>
         <div id="rf-q1-hint" class="guidance-box cold" style="margin-top:8px;max-width:360px"></div>
       </div>
       <div class="card">
         <div class="card-title">Reflect</div>
-        <p style="font-size:13px;color:var(--muted);margin-bottom:8px">h⁽²⁾ carries information from x⁽¹⁾ forward through h⁽¹⁾. How does this differ from a feedforward network that processes each input independently?</p>
+        <p style="font-size:14.5px;color:var(--muted);margin-bottom:8px">h⁽²⁾ carries information from x⁽¹⁾ forward through h⁽¹⁾. How does this differ from a feedforward network that processes each input independently?</p>
         <textarea id="rf-ref" rows="4" style="width:100%;box-sizing:border-box;background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:8px;color:var(--text);font-family:inherit;resize:vertical;margin-bottom:8px" placeholder="In an RNN the hidden state is a running summary of all past inputs — a feedforward network has no memory across positions…" oninput="rfUpdateSummary()"></textarea>
         <div id="rf-summary" style="font-size:.88em;color:var(--muted)"></div>
       </div>

@@ -29,9 +29,9 @@
   <div id="dp-s1" class="two-col">
     <div><div class="card"><div class="card-title">Why Dropout at All?</div>
       <div style="display:flex;flex-direction:column;gap:10px">
-        <div style="background:#eff6ff;border:1px solid #bfdbfe;border-radius:8px;padding:13px"><div style="font-weight:700;color:var(--blue);margin-bottom:3px;font-size:13px">Prevents co-adaptation</div><div style="font-size:13px">Hidden units can't rely on specific neighbors always being present — each unit must be independently useful.</div></div>
-        <div style="background:#fff7ed;border:1px solid #fed7aa;border-radius:8px;padding:13px"><div style="font-weight:700;color:var(--orange);margin-bottom:3px;font-size:13px">At inputs: corrupts raw data</div><div style="font-size:13px">Instead of dropping hidden features, you randomly zero out elements of the <em>input itself</em> — forcing the model to work with partial information.</div></div>
-        <div style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:8px;padding:13px"><div style="font-weight:700;color:var(--green);margin-bottom:3px;font-size:13px">Implicit data augmentation</div><div style="font-size:13px">Randomly masking inputs creates many implicit versions of each training example — the model sees the same sample many different ways.</div></div>
+        <div style="background:#eff6ff;border:1px solid #bfdbfe;border-radius:8px;padding:13px"><div style="font-weight:700;color:var(--blue);margin-bottom:3px;font-size:14.5px">Prevents co-adaptation</div><div style="font-size:14.5px">Hidden units can't rely on specific neighbors always being present — each unit must be independently useful.</div></div>
+        <div style="background:#fff7ed;border:1px solid #fed7aa;border-radius:8px;padding:13px"><div style="font-weight:700;color:var(--orange);margin-bottom:3px;font-size:14.5px">At inputs: corrupts raw data</div><div style="font-size:14.5px">Instead of dropping hidden features, you randomly zero out elements of the <em>input itself</em> — forcing the model to work with partial information.</div></div>
+        <div style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:8px;padding:13px"><div style="font-weight:700;color:var(--green);margin-bottom:3px;font-size:14.5px">Implicit data augmentation</div><div style="font-size:14.5px">Randomly masking inputs creates many implicit versions of each training example — the model sees the same sample many different ways.</div></div>
       </div>
     </div></div>
     <div><div class="card"><div class="card-title">The Key Question</div>
@@ -54,7 +54,7 @@
           <div id="dp-vis" style="margin-top:14px"></div>
         </div>
         <div>
-          <div id="dp-domain-explain" style="background:var(--surf2);border:1px solid var(--border);border-radius:8px;padding:14px;font-size:13px;line-height:1.8">
+          <div id="dp-domain-explain" style="background:var(--surf2);border:1px solid var(--border);border-radius:8px;padding:14px;font-size:14.5px;line-height:1.8">
             <strong style="color:var(--blue)">Image classification:</strong> Each input unit is one pixel value. Dropping it means that pixel is set to zero during this training step.<br><br>
             This is similar to randomly occluding part of the image — the model must learn to recognize objects even when parts are missing.
           </div>
@@ -67,21 +67,21 @@
     <div class="two-col">
       <div>
         <div class="card"><div class="card-title">Image Classification MCQ</div>
-          <p style="font-size:13px;color:var(--muted);margin-bottom:10px">For image classification, applying input dropout is most similar to:</p>
+          <p style="font-size:14.5px;color:var(--muted);margin-bottom:10px">For image classification, applying input dropout is most similar to:</p>
           <div id="dp-image-opts" style="display:flex;flex-direction:column;gap:8px"></div>
-          <div id="dp-image-hint" class="guidance-box cold" style="margin-top:10px;font-size:13px">Think about what zeroing a pixel physically means.</div>
+          <div id="dp-image-hint" class="guidance-box cold" style="margin-top:10px;font-size:14.5px">Think about what zeroing a pixel physically means.</div>
         </div>
         <div class="card" style="margin-top:18px"><div class="card-title">Character Text MCQ</div>
-          <p style="font-size:13px;color:var(--muted);margin-bottom:10px">Applying input dropout to a character-level model forces the model to:</p>
+          <p style="font-size:14.5px;color:var(--muted);margin-bottom:10px">Applying input dropout to a character-level model forces the model to:</p>
           <div id="dp-chars-opts" style="display:flex;flex-direction:column;gap:8px"></div>
-          <div id="dp-chars-hint" class="guidance-box cold" style="margin-top:10px;font-size:13px">Think about what it means when a character type is dropped everywhere in the input.</div>
+          <div id="dp-chars-hint" class="guidance-box cold" style="margin-top:10px;font-size:14.5px">Think about what it means when a character type is dropped everywhere in the input.</div>
         </div>
       </div>
       <div>
         <div class="card"><div class="card-title">Word-bag Text MCQ</div>
-          <p style="font-size:13px;color:var(--muted);margin-bottom:10px">Dropping a word-bag input unit means:</p>
+          <p style="font-size:14.5px;color:var(--muted);margin-bottom:10px">Dropping a word-bag input unit means:</p>
           <div id="dp-words-opts" style="display:flex;flex-direction:column;gap:8px"></div>
-          <div id="dp-words-hint" class="guidance-box cold" style="margin-top:10px;font-size:13px">Each input unit represents one word's count in this example.</div>
+          <div id="dp-words-hint" class="guidance-box cold" style="margin-top:10px;font-size:14.5px">Each input unit represents one word's count in this example.</div>
         </div>
       </div>
     </div>
@@ -89,9 +89,9 @@
 
   <div id="dp-s4" class="ba-locked-section" style="margin-top:18px">
     <div class="card"><div class="card-title">Which Domain Benefits Most?</div>
-      <p style="font-size:13px;color:var(--muted);margin-bottom:10px">Which problem type likely benefits <em>most</em> from input dropout as regularization?</p>
+      <p style="font-size:14.5px;color:var(--muted);margin-bottom:10px">Which problem type likely benefits <em>most</em> from input dropout as regularization?</p>
       <div id="dp-best-opts" style="display:flex;flex-direction:column;gap:8px;max-width:560px"></div>
-      <div id="dp-best-hint" class="guidance-box cold" style="margin-top:10px;font-size:13px">Think about which domain most naturally encounters "missing input" in the real world.</div>
+      <div id="dp-best-hint" class="guidance-box cold" style="margin-top:10px;font-size:14.5px">Think about which domain most naturally encounters "missing input" in the real world.</div>
     </div>
   </div>
 </div>

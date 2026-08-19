@@ -81,7 +81,7 @@
       </div>
       <div class="given-box">
         <div class="given-lbl">Goal</div>
-        <div class="given-val" style="font-size:13px;line-height:2.1">Find X_new, W_new<br>one operation = same result</div>
+        <div class="given-val" style="font-size:14.5px;line-height:2.1">Find X_new, W_new<br>one operation = same result</div>
       </div>
     </div>
   </div>
@@ -94,24 +94,24 @@
     </div>
     <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:16px">
       <div style="background:var(--surf2);border:1px solid var(--border);border-radius:8px;padding:14px">
-        <div style="font-size:12px;font-weight:800;color:#c2610c;margin-bottom:8px">⚡ Speed</div>
-        <div style="font-size:13px;color:var(--muted);line-height:1.8">
+        <div style="font-size:13.5px;font-weight:800;color:#c2610c;margin-bottom:8px">⚡ Speed</div>
+        <div style="font-size:14.5px;color:var(--muted);line-height:1.8">
           <code style="color:#b45309">XW + c</code> = two GPU calls.<br>
           <code style="color:#15803d">X_new W_new</code> = one.<br>
           Across millions of samples and hundreds of layers, this compounds.
         </div>
       </div>
       <div style="background:var(--surf2);border:1px solid var(--border);border-radius:8px;padding:14px">
-        <div style="font-size:12px;font-weight:800;color:#6d28d9;margin-bottom:8px">∂ Unified Gradients</div>
-        <div style="font-size:13px;color:var(--muted);line-height:1.8">
+        <div style="font-size:13.5px;font-weight:800;color:#6d28d9;margin-bottom:8px">∂ Unified Gradients</div>
+        <div style="font-size:14.5px;color:var(--muted);line-height:1.8">
           Backprop computes one <code style="color:#6d28d9">∂L/∂W_new</code> instead of separate
           <code style="color:#6d28d9">∂L/∂W</code> and <code style="color:#6d28d9">∂L/∂c</code>.
           Bias becomes just another weight row.
         </div>
       </div>
       <div style="background:var(--surf2);border:1px solid var(--border);border-radius:8px;padding:14px">
-        <div style="font-size:12px;font-weight:800;color:#0f766e;margin-bottom:8px">💡 Architectural Insight</div>
-        <div style="font-size:13px;color:var(--muted);line-height:1.8">
+        <div style="font-size:13.5px;font-weight:800;color:#0f766e;margin-bottom:8px">💡 Architectural Insight</div>
+        <div style="font-size:14.5px;color:var(--muted);line-height:1.8">
           Bias is not special — it is a weight connected to a constant input of <strong style="color:var(--text)">1</strong>.
           PyTorch and most frameworks store W and b together for exactly this reason.
         </div>
@@ -129,22 +129,22 @@
       <span id="ba-s2-badge" class="badge og">Step 2 of 6 — locked</span>
     </div>
     <div style="background:var(--surf2);border:1px solid var(--border);border-radius:8px;padding:16px;margin-bottom:14px">
-      <p style="font-size:13px;color:var(--text);margin-bottom:10px">Think about what <strong style="color:#0d9488">c</strong> actually does:</p>
-      <p style="font-size:13px;color:var(--muted);line-height:1.8;margin-bottom:14px">
+      <p style="font-size:14.5px;color:var(--text);margin-bottom:10px">Think about what <strong style="color:#0d9488">c</strong> actually does:</p>
+      <p style="font-size:14.5px;color:var(--muted);line-height:1.8;margin-bottom:14px">
         <code style="color:#b45309">XW + c</code> adds the same fixed offset <code style="color:#0d9488">[0, −1]</code>
         to <strong>every row</strong> of XW.
       </p>
       <div style="background:#fff;border:1px solid var(--border);border-radius:6px;padding:14px;text-align:center;margin-bottom:14px">
-        <div style="font-size:13px;color:var(--muted);margin-bottom:8px">Key question:</div>
-        <div style="font-size:15px;color:var(--text);font-family:'Courier New',monospace;letter-spacing:.05em">
+        <div style="font-size:14.5px;color:var(--muted);margin-bottom:8px">Key question:</div>
+        <div style="font-size:17px;color:var(--text);font-family:'Courier New',monospace;letter-spacing:.05em">
           <span style="color:#b45309">?</span>&nbsp; × &nbsp;c&nbsp; = &nbsp;c
         </div>
-        <div style="font-size:13px;color:var(--muted);margin-top:8px">What value, times c, always returns c unchanged?</div>
-        <div style="font-size:14px;color:#15803d;font-family:'Courier New',monospace;margin-top:10px;font-weight:700">
+        <div style="font-size:14.5px;color:var(--muted);margin-top:8px">What value, times c, always returns c unchanged?</div>
+        <div style="font-size:15.5px;color:#15803d;font-family:'Courier New',monospace;margin-top:10px;font-weight:700">
           Answer: 1 &nbsp;— because &nbsp; 1 × c = c &nbsp; for any c.
         </div>
       </div>
-      <p style="font-size:13px;color:var(--muted);line-height:1.8;margin-bottom:10px">
+      <p style="font-size:14.5px;color:var(--muted);line-height:1.8;margin-bottom:10px">
         So if every sample row in X carries a <strong style="color:var(--text)">1</strong> in an extra column,
         and W carries <strong style="color:#0d9488">c</strong> as an extra row at the bottom, the multiply absorbs the bias automatically:
       </p>
@@ -174,14 +174,14 @@
             <div class="ba-matrix-bracket-r"></div>
           </div>
           <span style="font-family:'Courier New',monospace;color:var(--muted)">=</span>
-          <div style="font-family:'Courier New',monospace;font-size:13px">
+          <div style="font-family:'Courier New',monospace;font-size:14.5px">
             <div style="color:var(--text);font-weight:700">XW + c</div>
-            <div style="color:var(--muted);font-size:12px;margin-top:4px">← same result, one multiply</div>
+            <div style="color:var(--muted);font-size:13.5px;margin-top:4px">← same result, one multiply</div>
           </div>
         </div>
         <div style="margin-top:14px;background:var(--surf2);border:1px solid var(--border);border-radius:6px;padding:10px 14px">
-          <div style="font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);font-weight:700;margin-bottom:6px">e.g. first output element for any row</div>
-          <div style="font-family:'Courier New',monospace;font-size:13px">
+          <div style="font-size:12.5px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);font-weight:700;margin-bottom:6px">e.g. first output element for any row</div>
+          <div style="font-family:'Courier New',monospace;font-size:14.5px">
             <span style="color:#1d4ed8">x₁</span><span style="color:#d97706">w₁₁</span>
             <span style="color:var(--muted)"> + </span>
             <span style="color:#1d4ed8">x₂</span><span style="color:#d97706">w₂₁</span>
@@ -189,7 +189,7 @@
             <span style="color:#15803d">1</span><span style="color:#0d9488">·c₁</span>
             <span style="color:var(--muted)">
           </div>
-          <div style="font-size:12px;color:var(--muted);margin-top:6px">
+          <div style="font-size:13.5px;color:var(--muted);margin-top:6px">
             The <span style="color:#15803d">1</span> multiplies <span style="color:#0d9488">c₁</span> directly — so the bias is added without a separate operation.
           </div>
         </div>
@@ -206,7 +206,7 @@
       <div class="card-title" style="margin-bottom:0">Step 1 of 3 — Choose the Shapes</div>
       <span id="ba-s3-badge" class="badge og">Step 3 of 6 — locked</span>
     </div>
-    <p style="font-size:13px;color:var(--muted);line-height:1.8;margin-bottom:18px">
+    <p style="font-size:14.5px;color:var(--muted);line-height:1.8;margin-bottom:18px">
       X is (4×2). W is (2×2). c is (1×2).<br>
       <code style="color:#b45309">XW + c</code> produces a <strong style="color:var(--text)">(4×2)</strong> result.
       <code style="color:#15803d">X_new W_new</code> must also output <strong style="color:var(--text)">(4×2)</strong> — shape is forced by the math.
@@ -214,7 +214,7 @@
 
     <!-- X_new shape -->
     <div style="margin-bottom:22px">
-      <p style="font-size:13px;font-weight:700;color:#1d4ed8;margin-bottom:10px">X_new must have shape:</p>
+      <p style="font-size:14.5px;font-weight:700;color:#1d4ed8;margin-bottom:10px">X_new must have shape:</p>
       <div id="ba-xshape-opts" style="display:flex;gap:10px;flex-wrap:wrap">
         <label class="ba-shape-opt" data-val="4x1"><input type="radio" name="xshape" value="4x1"> (4×1)</label>
         <label class="ba-shape-opt" data-val="4x2"><input type="radio" name="xshape" value="4x2"> (4×2)</label>
@@ -226,7 +226,7 @@
 
     <!-- W_new shape (locked until X shape correct) -->
     <div id="ba-wshape-section" class="ba-locked-section" style="margin-bottom:20px">
-      <p style="font-size:13px;font-weight:700;color:#c2610c;margin-bottom:10px">W_new must have shape:</p>
+      <p style="font-size:14.5px;font-weight:700;color:#c2610c;margin-bottom:10px">W_new must have shape:</p>
       <div id="ba-wshape-opts" style="display:flex;gap:10px;flex-wrap:wrap">
         <label class="ba-shape-opt" data-val="2x2"><input type="radio" name="wshape" value="2x2"> (2×2)</label>
         <label class="ba-shape-opt" data-val="2x3"><input type="radio" name="wshape" value="2x3"> (2×3)</label>
@@ -252,12 +252,12 @@
             <div class="card-title" style="margin-bottom:0">Step 2 of 3 — Fill X_new (4×3)</div>
             <span id="ba-xval-badge" class="badge rg">0/4 correct</span>
           </div>
-          <p style="font-size:13px;color:var(--muted);margin-bottom:12px">
+          <p style="font-size:14.5px;color:var(--muted);margin-bottom:12px">
             Columns 1–2 are locked (original X). Fill the
             <strong style="color:#15803d">new column</strong> — what constant value should go here?
           </p>
           <div id="ba-xnew-grid" style="display:grid;grid-template-columns:auto auto auto;gap:6px;width:fit-content;margin-bottom:12px"></div>
-          <div id="ba-xval-hint" class="guidance-box cold" style="font-size:13px">Fill the new column. What value, multiplied by c, always returns c unchanged?</div>
+          <div id="ba-xval-hint" class="guidance-box cold" style="font-size:14.5px">Fill the new column. What value, multiplied by c, always returns c unchanged?</div>
         </div>
 
         <div class="card">
@@ -265,12 +265,12 @@
             <div class="card-title" style="margin-bottom:0">Step 3 of 3 — Fill W_new (3×2)</div>
             <span id="ba-wval-badge" class="badge rg">0/2 correct</span>
           </div>
-          <p style="font-size:13px;color:var(--muted);margin-bottom:12px">
+          <p style="font-size:14.5px;color:var(--muted);margin-bottom:12px">
             Rows 1–2 are locked (original W). Fill the
             <strong style="color:#0d9488">bias row</strong> — where does c live in the new weight matrix?
           </p>
           <div id="ba-wnew-grid" style="display:grid;grid-template-columns:auto auto;gap:6px;width:fit-content;margin-bottom:12px"></div>
-          <div id="ba-wval-hint" class="guidance-box cold" style="font-size:13px">Fill the bias row with the values from c = [0, −1].</div>
+          <div id="ba-wval-hint" class="guidance-box cold" style="font-size:14.5px">Fill the bias row with the values from c = [0, −1].</div>
         </div>
       </div>
 
@@ -278,7 +278,7 @@
       <div>
         <div class="card">
           <div class="card-title">Step-by-Step Computation</div>
-          <div id="ba-steps" style="font-size:13px"></div>
+          <div id="ba-steps" style="font-size:14.5px"></div>
         </div>
       </div>
     </div>
@@ -293,12 +293,12 @@
       </div>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px">
         <div>
-          <p style="font-size:12px;font-weight:800;color:#1d4ed8;margin-bottom:10px;text-transform:uppercase;letter-spacing:.05em">PATH A: max(0, XW + c)</p>
-          <div id="ba-path-a" style="font-family:'Courier New',monospace;font-size:13px;line-height:2.4"></div>
+          <p style="font-size:13.5px;font-weight:800;color:#1d4ed8;margin-bottom:10px;text-transform:uppercase;letter-spacing:.05em">PATH A: max(0, XW + c)</p>
+          <div id="ba-path-a" style="font-family:'Courier New',monospace;font-size:14.5px;line-height:2.4"></div>
         </div>
         <div>
-          <p style="font-size:12px;font-weight:800;color:#15803d;margin-bottom:10px;text-transform:uppercase;letter-spacing:.05em">PATH B: max(0, X_new W_new)</p>
-          <div id="ba-path-b" style="font-family:'Courier New',monospace;font-size:13px;line-height:2.4"></div>
+          <p style="font-size:13.5px;font-weight:800;color:#15803d;margin-bottom:10px;text-transform:uppercase;letter-spacing:.05em">PATH B: max(0, X_new W_new)</p>
+          <div id="ba-path-b" style="font-family:'Courier New',monospace;font-size:14.5px;line-height:2.4"></div>
         </div>
       </div>
       <div id="ba-verify-result" style="margin-top:14px"></div>
@@ -309,7 +309,7 @@
   <div id="ba-stage7" class="ba-locked-section">
     <div class="card" style="background:linear-gradient(135deg,#f0fdf4,#dcfce7);border-color:#16a34a;margin-bottom:16px">
       <div class="card-title">What You Just Did</div>
-      <ul style="font-size:13px;color:var(--text);font-weight:500;line-height:2.4;padding-left:18px;margin:0">
+      <ul style="font-size:14.5px;color:var(--text);font-weight:500;line-height:2.4;padding-left:18px;margin:0">
         <li>Bias <strong style="color:#0d9488">c</strong> is just a weight connected to a constant input of <strong style="color:var(--text)">1</strong>.</li>
         <li>Adding a column of <strong style="color:var(--text)">1s</strong> to X gives the bias a carrier that fires for every sample.</li>
         <li>Stacking <strong style="color:#0d9488">c</strong> as a new bottom row in W folds the bias into the weight matrix.</li>

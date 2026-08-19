@@ -32,8 +32,8 @@
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px">
       <!-- Algorithm -->
       <div>
-        <div style="font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin-bottom:8px">Algorithm</div>
-        <div style="background:var(--surf2);border:1px solid var(--border);border-radius:8px;padding:14px 16px;font-family:'Courier New',monospace;font-size:13.5px;line-height:2;color:var(--text)">
+        <div style="font-size:12.5px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin-bottom:8px">Algorithm</div>
+        <div style="background:var(--surf2);border:1px solid var(--border);border-radius:8px;padding:14px 16px;font-family:'Courier New',monospace;font-size:15px;line-height:2;color:var(--text)">
           <span style="color:#1d4ed8;font-weight:700">build_grad</span>(V, G, G′, grad_table):<br>
           &nbsp;&nbsp;<span style="color:#8a7a6e">if</span> V ∈ grad_table: <span style="color:#8a7a6e">return</span> grad_table[V]<br>
           &nbsp;&nbsp;<span style="color:#8a7a6e">for</span> i, C ∈ enumerate(get_consumers(V, G′)):<br>
@@ -45,7 +45,7 @@
       </div>
       <!-- Graph values -->
       <div>
-        <div style="font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin-bottom:8px">Graph node values</div>
+        <div style="font-size:12.5px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin-bottom:8px">Graph node values</div>
         <div style="background:var(--surf2);border:1px solid var(--border);border-radius:8px;padding:8px">
           <svg viewBox="0 0 320 210" style="width:100%;min-height:170px">
             <!-- edges -->
@@ -84,7 +84,7 @@
             <text x="230" y="35" text-anchor="middle" font-size="10" font-weight="700" fill="#14532d" font-family="'Courier New',monospace">=2</text>
           </svg>
         </div>
-        <div style="margin-top:10px;background:#fff7ed;border:1px solid #c2610c;border-radius:7px;padding:10px 14px;font-size:13px;font-weight:600;color:#7c2d12">
+        <div style="margin-top:10px;background:#fff7ed;border:1px solid #c2610c;border-radius:7px;padding:10px 14px;font-size:14.5px;font-weight:600;color:#7c2d12">
           Seed: grad_table[u<sup>(6)</sup>] = 1 &nbsp;·&nbsp; Goal: find G for u<sup>(1)</sup>
         </div>
       </div>
@@ -99,16 +99,16 @@
     </div>
     <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:16px">
       <div style="background:var(--surf2);border:1px solid var(--border);border-radius:8px;padding:14px">
-        <div style="font-size:12px;font-weight:800;color:#c2610c;margin-bottom:8px">⚡ One backward pass</div>
-        <div style="font-size:13px;color:var(--muted);line-height:1.8">Computing all gradients ∂L/∂uⁱ at once is no more expensive than a single forward pass — O(edges) total work.</div>
+        <div style="font-size:13.5px;font-weight:800;color:#c2610c;margin-bottom:8px">⚡ One backward pass</div>
+        <div style="font-size:14.5px;color:var(--muted);line-height:1.8">Computing all gradients ∂L/∂uⁱ at once is no more expensive than a single forward pass — O(edges) total work.</div>
       </div>
       <div style="background:var(--surf2);border:1px solid var(--border);border-radius:8px;padding:14px">
-        <div style="font-size:12px;font-weight:800;color:#6d28d9;margin-bottom:8px">🔁 Recursive + cached</div>
-        <div style="font-size:13px;color:var(--muted);line-height:1.8">grad_table memoises each G so shared nodes (like <code>p</code> in 6.5.1) accumulate contributions from all consumers without redundant calls.</div>
+        <div style="font-size:13.5px;font-weight:800;color:#6d28d9;margin-bottom:8px">🔁 Recursive + cached</div>
+        <div style="font-size:14.5px;color:var(--muted);line-height:1.8">grad_table memoises each G so shared nodes (like <code>p</code> in 6.5.1) accumulate contributions from all consumers without redundant calls.</div>
       </div>
       <div style="background:var(--surf2);border:1px solid var(--border);border-radius:8px;padding:14px">
-        <div style="font-size:12px;font-weight:800;color:#0f766e;margin-bottom:8px">∂ Chain rule formalised</div>
-        <div style="font-size:13px;color:var(--muted);line-height:1.8">Each <code>op.bprop</code> multiplies the upstream gradient D by the local derivative dC/dV — this is the chain rule encoded as data.</div>
+        <div style="font-size:13.5px;font-weight:800;color:#0f766e;margin-bottom:8px">∂ Chain rule formalised</div>
+        <div style="font-size:14.5px;color:var(--muted);line-height:1.8">Each <code>op.bprop</code> multiplies the upstream gradient D by the local derivative dC/dV — this is the chain rule encoded as data.</div>
       </div>
     </div>
     <div style="text-align:right"><button class="btn btn-p" onclick="bpUnlock(2)">Understood — fill the table →</button></div>
@@ -124,7 +124,7 @@
             <div class="card-title" style="margin-bottom:0">Step 2 of 3 — Complete the Table</div>
             <span id="bp-table-badge" class="badge og">0/6 correct</span>
           </div>
-          <p style="font-size:13px;color:var(--muted);margin-bottom:12px;line-height:1.8">
+          <p style="font-size:14.5px;color:var(--muted);margin-bottom:12px;line-height:1.8">
             Rows 1–2 are <span style="color:#1d4ed8;font-weight:700">given</span>. Fill the blank cells in rows 3–4.
             <br><strong>dC/dV</strong> = local derivative of C w.r.t. V &nbsp;·&nbsp; <strong>G</strong> = dC/dV × D (upstream grad)
           </p>
@@ -138,7 +138,7 @@
               <tbody id="bp-table-body"></tbody>
             </table>
           </div>
-          <div id="bp-table-hint" class="guidance-box warm" style="margin-top:12px;font-size:13px"><strong>Hints:</strong> For addition (u⁴+u³), dC/dV = 1. For multiplication (u¹×u²), d/du¹ = u² = 5. Multiply local derivative × D (the upstream G).</div>
+          <div id="bp-table-hint" class="guidance-box warm" style="margin-top:12px;font-size:14.5px"><strong>Hints:</strong> For addition (u⁴+u³), dC/dV = 1. For multiplication (u¹×u²), d/du¹ = u² = 5. Multiply local derivative × D (the upstream G).</div>
         </div>
       </div>
       <!-- RIGHT: graph trace + step-by-step -->
@@ -149,13 +149,13 @@
         </div>
         <div class="card">
           <div class="card-title">What Each Column Means</div>
-          <div style="font-size:13px;color:var(--muted);line-height:2.2;font-weight:500">
+          <div style="font-size:14.5px;color:var(--muted);line-height:2.2;font-weight:500">
             <div><strong style="color:var(--text)">dC/dV</strong> — local derivative: how much C changes per unit change in V</div>
             <div><strong style="color:var(--text)">D</strong> — upstream gradient G(C) already computed above in the table</div>
             <div><strong style="color:var(--text)">dC/dV × D</strong> — chain rule product: local × upstream</div>
             <div><strong style="color:var(--text)">G(V)</strong> — sum over all consumers C of V (here each V has one consumer)</div>
           </div>
-          <div id="bp-chain-steps" style="margin-top:12px;font-family:'Courier New',monospace;font-size:12.5px;line-height:2.1;color:var(--muted)"></div>
+          <div id="bp-chain-steps" style="margin-top:12px;font-family:'Courier New',monospace;font-size:14px;line-height:2.1;color:var(--muted)"></div>
         </div>
       </div>
     </div>
@@ -168,13 +168,13 @@
         <div class="card-title" style="margin-bottom:0">Step 3 of 3 — Interpret G(u<sup>(1)</sup>) = −5</div>
         <span id="bp-mcq-badge" class="badge og">not yet</span>
       </div>
-      <p style="font-size:13px;font-weight:600;margin-bottom:12px;color:var(--text)">G(u<sup>(1)</sup>) = −5 means:</p>
+      <p style="font-size:14.5px;font-weight:600;margin-bottom:12px;color:var(--text)">G(u<sup>(1)</sup>) = −5 means:</p>
       <div id="bp-mcq-opts" style="display:flex;flex-direction:column;gap:8px"></div>
-      <div id="bp-mcq-hint" class="guidance-box cold" style="margin-top:12px;font-size:13px">Select the best interpretation of G = −5.</div>
+      <div id="bp-mcq-hint" class="guidance-box cold" style="margin-top:12px;font-size:14.5px">Select the best interpretation of G = −5.</div>
     </div>
     <div class="card" style="background:linear-gradient(135deg,#f0fdf4,#dcfce7);border-color:#16a34a;margin-bottom:14px">
       <div class="card-title">What You Just Did</div>
-      <ul style="font-size:13px;color:var(--text);font-weight:500;line-height:2.4;padding-left:18px;margin:0">
+      <ul style="font-size:14.5px;color:var(--text);font-weight:500;line-height:2.4;padding-left:18px;margin:0">
         <li><code>build_grad</code> starts at the output (G=1) and multiplies local derivatives backward.</li>
         <li>For <strong>addition</strong>: local derivative = 1 for both inputs — gradients pass through unchanged.</li>
         <li>For <strong>multiplication</strong> u¹×u²: d/du¹ = u² = 5 — the other operand becomes the gradient multiplier.</li>

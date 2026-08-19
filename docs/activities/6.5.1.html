@@ -36,9 +36,9 @@
       <div class="eq-line" style="color:#15803d">y = (1 − z) ⊙ p + z ⊙ n</div>
     </div>
     <div class="given-row">
-      <div class="given-box"><div class="given-lbl">Inputs (leaves)</div><div class="given-val" style="font-size:13px">p, W<sub>z</sub>, W<sub>r</sub>, W<sub>n</sub></div></div>
-      <div class="given-box"><div class="given-lbl">Computed nodes</div><div class="given-val" style="font-size:13px">z, r, n, y</div></div>
-      <div class="given-box"><div class="given-lbl">Key rule</div><div class="given-val" style="font-size:13px">Each variable = exactly one node</div></div>
+      <div class="given-box"><div class="given-lbl">Inputs (leaves)</div><div class="given-val" style="font-size:14.5px">p, W<sub>z</sub>, W<sub>r</sub>, W<sub>n</sub></div></div>
+      <div class="given-box"><div class="given-lbl">Computed nodes</div><div class="given-val" style="font-size:14.5px">z, r, n, y</div></div>
+      <div class="given-box"><div class="given-lbl">Key rule</div><div class="given-val" style="font-size:14.5px">Each variable = exactly one node</div></div>
     </div>
   </div>
 
@@ -50,16 +50,16 @@
     </div>
     <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:16px">
       <div style="background:var(--surf2);border:1px solid var(--border);border-radius:8px;padding:14px">
-        <div style="font-size:12px;font-weight:800;color:#c2610c;margin-bottom:8px">⚡ No Redundant Computation</div>
-        <div style="font-size:13px;color:var(--muted);line-height:1.8">p appears in 4 equations but is computed once. The graph caches the result and fans it out to 4 consumers — no wasted work.</div>
+        <div style="font-size:13.5px;font-weight:800;color:#c2610c;margin-bottom:8px">⚡ No Redundant Computation</div>
+        <div style="font-size:14.5px;color:var(--muted);line-height:1.8">p appears in 4 equations but is computed once. The graph caches the result and fans it out to 4 consumers — no wasted work.</div>
       </div>
       <div style="background:var(--surf2);border:1px solid var(--border);border-radius:8px;padding:14px">
-        <div style="font-size:12px;font-weight:800;color:#6d28d9;margin-bottom:8px">∂ Automatic Differentiation</div>
-        <div style="font-size:13px;color:var(--muted);line-height:1.8">A gradient shows how much the output changes when an input changes. Walk backward from the output, edge by edge, adding gradients wherever a node like p feeds multiple paths.</div>
+        <div style="font-size:13.5px;font-weight:800;color:#6d28d9;margin-bottom:8px">∂ Automatic Differentiation</div>
+        <div style="font-size:14.5px;color:var(--muted);line-height:1.8">A gradient shows how much the output changes when an input changes. Walk backward from the output, edge by edge, adding gradients wherever a node like p feeds multiple paths.</div>
       </div>
       <div style="background:var(--surf2);border:1px solid var(--border);border-radius:8px;padding:14px">
-        <div style="font-size:12px;font-weight:800;color:#0f766e;margin-bottom:8px">🗺 Execution Blueprint</div>
-        <div style="font-size:13px;color:var(--muted);line-height:1.8">A node can't run until its inputs are ready, so the graph order matters: compute inputs first, then work forward node by node — exactly what PyTorch does at runtime.</div>
+        <div style="font-size:13.5px;font-weight:800;color:#0f766e;margin-bottom:8px">🗺 Execution Blueprint</div>
+        <div style="font-size:14.5px;color:var(--muted);line-height:1.8">A node can't run until its inputs are ready, so the graph order matters: compute inputs first, then work forward node by node — exactly what PyTorch does at runtime.</div>
       </div>
     </div>
     <div style="text-align:right"><button class="btn btn-p" onclick="cgUnlock(2)">Understood — classify nodes →</button></div>
@@ -71,7 +71,7 @@
       <div class="card-title" style="margin-bottom:0">Step 1 of 3 — Classify Every Variable</div>
       <span id="cg-classify-badge" class="badge og">0/8 correct — locked</span>
     </div>
-    <p style="font-size:13px;color:var(--muted);margin-bottom:14px;line-height:1.8">Click each variable to toggle: <strong style="color:#1d4ed8">INPUT</strong> (leaf — no formula defines it) or <strong style="color:#c2610c">COMPUTED</strong> (has a formula on its left-hand side).</p>
+    <p style="font-size:14.5px;color:var(--muted);margin-bottom:14px;line-height:1.8">Click each variable to toggle: <strong style="color:#1d4ed8">INPUT</strong> (leaf — no formula defines it) or <strong style="color:#c2610c">COMPUTED</strong> (has a formula on its left-hand side).</p>
     <div id="cg-classify-grid" style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:14px"></div>
     <div id="cg-classify-hint" class="guidance-box cold">Click each variable above to classify it as INPUT or COMPUTED.</div>
   </div>
@@ -86,7 +86,7 @@
             <div class="card-title" style="margin-bottom:0">Step 2 of 3 — Wire the Connections</div>
             <span id="cg-wire-badge" class="badge og">0/4 wired</span>
           </div>
-          <p style="font-size:13px;color:var(--muted);margin-bottom:14px;line-height:1.8">For each computed node, select which variables feed into it. The graph builds on the right as you answer.</p>
+          <p style="font-size:14.5px;color:var(--muted);margin-bottom:14px;line-height:1.8">For each computed node, select which variables feed into it. The graph builds on the right as you answer.</p>
           <div id="cg-wire-questions" style="display:flex;flex-direction:column;gap:18px"></div>
           <div id="cg-wire-hint" class="guidance-box cold" style="margin-top:14px">Answer each question to wire the graph.</div>
         </div>
@@ -96,7 +96,7 @@
         <div class="card" style="height:100%">
           <div class="card-title">Computational Graph — builds as you answer</div>
           <svg id="cg-graph-svg" viewBox="0 0 560 340" style="width:100%;min-height:300px"></svg>
-          <div id="cg-graph-legend" style="font-size:12px;color:var(--muted);margin-top:8px;line-height:1.9;font-weight:500"></div>
+          <div id="cg-graph-legend" style="font-size:13.5px;color:var(--muted);margin-top:8px;line-height:1.9;font-weight:500"></div>
         </div>
       </div>
     </div>
@@ -108,23 +108,23 @@
       <div class="card-title">Step 3 of 3 — The Shared Variable Insight</div>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:14px">
         <div>
-          <div style="font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;color:#1d4ed8;margin-bottom:8px">In the equations</div>
-          <table style="font-family:'Courier New',monospace;font-size:13px;width:100%;border-collapse:collapse">
+          <div style="font-size:13.5px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;color:#1d4ed8;margin-bottom:8px">In the equations</div>
+          <table style="font-family:'Courier New',monospace;font-size:14.5px;width:100%;border-collapse:collapse">
             <tr><td style="padding:4px 8px;border-bottom:1px solid var(--border);font-weight:700">p</td><td style="padding:4px 8px;border-bottom:1px solid var(--border);color:var(--muted)">appears on RHS of all 4 equations</td></tr>
             <tr><td style="padding:4px 8px;border-bottom:1px solid var(--border);font-weight:700">z</td><td style="padding:4px 8px;border-bottom:1px solid var(--border);color:var(--muted)">appears in equation 4 twice: (1−z) and z⊙n</td></tr>
             <tr><td style="padding:4px 8px;font-weight:700">r</td><td style="padding:4px 8px;color:var(--muted)">appears in equation 3</td></tr>
           </table>
         </div>
         <div>
-          <div style="font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;color:#15803d;margin-bottom:8px">In the graph</div>
-          <table style="font-family:'Courier New',monospace;font-size:13px;width:100%;border-collapse:collapse">
+          <div style="font-size:13.5px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;color:#15803d;margin-bottom:8px">In the graph</div>
+          <table style="font-family:'Courier New',monospace;font-size:14.5px;width:100%;border-collapse:collapse">
             <tr><td style="padding:4px 8px;border-bottom:1px solid var(--border);font-weight:700">p</td><td style="padding:4px 8px;border-bottom:1px solid var(--border);color:var(--muted)">1 node, 4 outgoing edges (shared)</td></tr>
             <tr><td style="padding:4px 8px;border-bottom:1px solid var(--border);font-weight:700">z</td><td style="padding:4px 8px;border-bottom:1px solid var(--border);color:var(--muted)">1 node, 2 outgoing edges to y</td></tr>
             <tr><td style="padding:4px 8px;font-weight:700">r</td><td style="padding:4px 8px;color:var(--muted)">1 node, 1 outgoing edge to n</td></tr>
           </table>
         </div>
       </div>
-      <ul style="font-size:13px;color:var(--text);font-weight:500;line-height:2.4;padding-left:18px;margin:0">
+      <ul style="font-size:14.5px;color:var(--text);font-weight:500;line-height:2.4;padding-left:18px;margin:0">
         <li>Every variable appears <strong>exactly once</strong> as a node, no matter how many equations reference it.</li>
         <li>Multiple outgoing edges = the value is <strong>reused</strong>, not recomputed.</li>
         <li>This is why PyTorch's autograd can accumulate <code>∂L/∂p</code> from all 4 paths in one backward pass.</li>

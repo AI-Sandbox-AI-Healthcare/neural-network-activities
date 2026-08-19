@@ -31,7 +31,7 @@
   </div>
   <div class="card">
     <div class="card-title">Stage 1 · Bracket Structure</div>
-    <p style="font-size:13px;color:var(--muted);margin-bottom:12px">Click each bracket to see how many configs it starts with and how many iterations each config gets. The outer loop runs from s=s_max down to s=0.</p>
+    <p style="font-size:14.5px;color:var(--muted);margin-bottom:12px">Click each bracket to see how many configs it starts with and how many iterations each config gets. The outer loop runs from s=s_max down to s=0.</p>
     <div style="display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap">
       <button class="btn btn-g" id="hb-b3-btn" onclick="hbShowBracket(3)">Bracket s=3</button>
       <button class="btn btn-g" id="hb-b2-btn" onclick="hbShowBracket(2)">Bracket s=2</button>
@@ -39,14 +39,14 @@
       <button class="btn btn-g" id="hb-b0-btn" onclick="hbShowBracket(0)">Bracket s=0</button>
     </div>
     <svg id="hb-svg" width="540" height="160" style="display:block;border:1px solid var(--border);border-radius:8px;background:var(--surf2);margin-bottom:10px"></svg>
-    <div id="hb-bracket-desc" style="font-size:13px;color:var(--muted);min-height:32px;margin-bottom:10px"></div>
-    <div id="hb-bracket-progress" style="font-size:12px;color:var(--muted);margin-bottom:10px">Brackets explored: 0/4</div>
+    <div id="hb-bracket-desc" style="font-size:14.5px;color:var(--muted);min-height:32px;margin-bottom:10px"></div>
+    <div id="hb-bracket-progress" style="font-size:13.5px;color:var(--muted);margin-bottom:10px">Brackets explored: 0/4</div>
     <button class="btn btn-p" id="hb-s1-btn" onclick="hbAdvanceS1()" disabled>Explore all brackets to continue →</button>
   </div>
   <div id="hb-s2" class="ba-locked-section">
     <div class="card">
       <div class="card-title">Stage 2 · Computing s_max</div>
-      <p style="font-size:13px;color:var(--muted);margin-bottom:10px">The outer loop runs from <code>s = s_max</code> down to <code>s = 0</code>. What is <code>s_max</code> when <code>max_iter=1000</code> and <code>eta=10</code>?</p>
+      <p style="font-size:14.5px;color:var(--muted);margin-bottom:10px">The outer loop runs from <code>s = s_max</code> down to <code>s = 0</code>. What is <code>s_max</code> when <code>max_iter=1000</code> and <code>eta=10</code>?</p>
       <div class="algebra" style="margin-bottom:12px">s_max = int(log₁₀(1000) / log₁₀(10)) = int(? / ?) = ?</div>
       <div id="hb-q1-opts" style="display:flex;flex-direction:column;gap:5px;max-width:380px"></div>
       <div id="hb-q1-hint" class="guidance-box cold" style="margin-top:8px;max-width:380px"></div>
@@ -55,9 +55,9 @@
   <div id="hb-s3" class="ba-locked-section">
     <div class="card">
       <div class="card-title">Stage 3 · Tracing n_configs for s=1</div>
-      <p style="font-size:13px;color:var(--muted);margin-bottom:10px">For bracket <strong>s=1</strong>, apply the formula: <code>int(ceil(int((s_max+1)/(s+1)) × eta^s))</code>.</p>
+      <p style="font-size:14.5px;color:var(--muted);margin-bottom:10px">For bracket <strong>s=1</strong>, apply the formula: <code>int(ceil(int((s_max+1)/(s+1)) × eta^s))</code>.</p>
       <div class="algebra" style="margin-bottom:12px">int(ceil( int((3+1)/(1+1)) × 10¹ ))<br>= int(ceil( int(2.0) × 10 ))<br>= int(ceil( 2 × 10 )) = ?</div>
-      <p style="font-size:13px;color:var(--muted);margin-bottom:8px">How many configurations does bracket s=1 start with?</p>
+      <p style="font-size:14.5px;color:var(--muted);margin-bottom:8px">How many configurations does bracket s=1 start with?</p>
       <div id="hb-q2-opts" style="display:flex;flex-direction:column;gap:5px;max-width:380px"></div>
       <div id="hb-q2-hint" class="guidance-box cold" style="margin-top:8px;max-width:380px"></div>
     </div>
@@ -65,7 +65,7 @@
   <div id="hb-s4" class="ba-locked-section">
     <div class="card">
       <div class="card-title">Stage 4 · Total Calls to random_hyperparameters()</div>
-      <p style="font-size:13px;color:var(--muted);margin-bottom:10px"><code>random_hyperparameters()</code> is called once per configuration at the start of each bracket. Sum across all four brackets:</p>
+      <p style="font-size:14.5px;color:var(--muted);margin-bottom:10px"><code>random_hyperparameters()</code> is called once per configuration at the start of each bracket. Sum across all four brackets:</p>
       <div class="algebra" style="margin-bottom:12px">s=3: n_configs = 1000<br>s=2: n_configs = 100<br>s=1: n_configs = 20<br>s=0: n_configs = 4<br><strong>Total = ?</strong></div>
       <div id="hb-q3-opts" style="display:flex;flex-direction:column;gap:5px;max-width:380px"></div>
       <div id="hb-q3-hint" class="guidance-box cold" style="margin-top:8px;max-width:380px"></div>
@@ -75,13 +75,13 @@
     <div class="two-col">
       <div class="card">
         <div class="card-title">Stage 5 · Bracket Intuition</div>
-        <p style="font-size:13px;color:var(--muted);margin-bottom:8px">Bracket s=3 starts <strong>1000 configurations</strong> but runs each for only <strong>1 iteration</strong>. What is the key assumption that makes this useful?</p>
+        <p style="font-size:14.5px;color:var(--muted);margin-bottom:8px">Bracket s=3 starts <strong>1000 configurations</strong> but runs each for only <strong>1 iteration</strong>. What is the key assumption that makes this useful?</p>
         <div id="hb-q4-opts" style="display:flex;flex-direction:column;gap:5px"></div>
         <div id="hb-q4-hint" class="guidance-box cold" style="margin-top:8px"></div>
       </div>
       <div class="card">
         <div class="card-title">Reflect</div>
-        <p style="font-size:13px;color:var(--muted);margin-bottom:8px">Hyperband assumes a config that looks bad after 1 iteration will likely stay bad. Describe a hyperparameter scenario (e.g., learning rate warmup, batch normalization) where this early-performance assumption could fail and Hyperband might discard the eventual best config.</p>
+        <p style="font-size:14.5px;color:var(--muted);margin-bottom:8px">Hyperband assumes a config that looks bad after 1 iteration will likely stay bad. Describe a hyperparameter scenario (e.g., learning rate warmup, batch normalization) where this early-performance assumption could fail and Hyperband might discard the eventual best config.</p>
         <textarea id="hb-ref" rows="4" style="width:100%;box-sizing:border-box;background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:8px;color:var(--text);font-family:inherit;resize:vertical;margin-bottom:8px" placeholder="A config that needs warmup steps might look terrible early but..." oninput="hbUpdateSummary()"></textarea>
         <div id="hb-summary" style="font-size:.88em;color:var(--muted)"></div>
       </div>

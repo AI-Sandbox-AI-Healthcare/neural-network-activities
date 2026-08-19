@@ -31,7 +31,7 @@
   <div id="rd-s1" class="ba-locked-section" style="margin-top:16px">
     <div class="card">
       <div class="card-title">Stage 1 — Encoding the Input Word</div>
-      <p style="font-size:13px;color:var(--muted);margin-bottom:10px">The input is one word from a vocabulary of size V. How should it be converted into a vector before entering the network?</p>
+      <p style="font-size:14.5px;color:var(--muted);margin-bottom:10px">The input is one word from a vocabulary of size V. How should it be converted into a vector before entering the network?</p>
       <div id="rd-q1-opts" style="display:flex;flex-direction:column;gap:5px;max-width:500px"></div>
       <div id="rd-q1-hint" class="guidance-box cold" style="margin-top:8px;max-width:500px"></div>
     </div>
@@ -40,7 +40,7 @@
   <div id="rd-s2" class="ba-locked-section" style="margin-top:16px">
     <div class="card">
       <div class="card-title">Stage 2 — Seeding the Decoder (h⁽⁰⁾)</div>
-      <p style="font-size:13px;color:var(--muted);margin-bottom:10px">The input word is embedded as <strong>e = Ex</strong>. The decoder RNN starts from h⁽⁰⁾. How should it be computed?</p>
+      <p style="font-size:14.5px;color:var(--muted);margin-bottom:10px">The input word is embedded as <strong>e = Ex</strong>. The decoder RNN starts from h⁽⁰⁾. How should it be computed?</p>
       <div id="rd-q2-opts" style="display:flex;flex-direction:column;gap:5px;max-width:500px"></div>
       <div id="rd-q2-hint" class="guidance-box cold" style="margin-top:8px;max-width:500px"></div>
     </div>
@@ -49,7 +49,7 @@
   <div id="rd-s3" class="ba-locked-section" style="margin-top:16px">
     <div class="card">
       <div class="card-title">Stage 3 — Recurrence Rule</div>
-      <p style="font-size:13px;color:var(--muted);margin-bottom:10px">At each decoder step the network updates its hidden state using only the previous hidden state (no new input word). Which update rule is most appropriate?</p>
+      <p style="font-size:14.5px;color:var(--muted);margin-bottom:10px">At each decoder step the network updates its hidden state using only the previous hidden state (no new input word). Which update rule is most appropriate?</p>
       <div id="rd-q3-opts" style="display:flex;flex-direction:column;gap:5px;max-width:500px"></div>
       <div id="rd-q3-hint" class="guidance-box cold" style="margin-top:8px;max-width:500px"></div>
     </div>
@@ -58,7 +58,7 @@
   <div id="rd-s4" class="ba-locked-section" style="margin-top:16px">
     <div class="card">
       <div class="card-title">Stage 4 — Output Distribution</div>
-      <p style="font-size:13px;color:var(--muted);margin-bottom:10px">At each step the network predicts the next word. Which function turns the hidden state into a valid probability distribution over the vocabulary?</p>
+      <p style="font-size:14.5px;color:var(--muted);margin-bottom:10px">At each step the network predicts the next word. Which function turns the hidden state into a valid probability distribution over the vocabulary?</p>
       <div id="rd-q4-opts" style="display:flex;flex-direction:column;gap:5px;max-width:500px"></div>
       <div id="rd-q4-hint" class="guidance-box cold" style="margin-top:8px;max-width:500px"></div>
     </div>
@@ -67,7 +67,7 @@
   <div id="rd-s5" class="ba-locked-section" style="margin-top:16px">
     <div class="card">
       <div class="card-title">Stage 5 — Stopping Criterion</div>
-      <p style="font-size:13px;color:var(--muted);margin-bottom:10px">Different output sequences have different lengths. How does the decoder know when to stop generating?</p>
+      <p style="font-size:14.5px;color:var(--muted);margin-bottom:10px">Different output sequences have different lengths. How does the decoder know when to stop generating?</p>
       <div id="rd-q5-opts" style="display:flex;flex-direction:column;gap:5px;max-width:500px"></div>
       <div id="rd-q5-hint" class="guidance-box cold" style="margin-top:8px;max-width:500px"></div>
     </div>
@@ -77,11 +77,11 @@
     <div class="two-col">
       <div class="card">
         <div class="card-title">Your Complete Architecture</div>
-        <div id="rd-arch-eqs" style="background:var(--surf2);border-radius:7px;padding:14px;font-family:'Courier New',monospace;font-size:13px;line-height:2.4"></div>
+        <div id="rd-arch-eqs" style="background:var(--surf2);border-radius:7px;padding:14px;font-family:'Courier New',monospace;font-size:14.5px;line-height:2.4"></div>
       </div>
       <div class="card">
         <div class="card-title">Reflect</div>
-        <p style="font-size:13px;color:var(--muted);margin-bottom:8px">You chose <strong>tanh</strong> for the recurrence and <strong>softmax</strong> for the output. In a feedforward hidden layer, ReLU is usually preferred over tanh. Why is tanh a better choice here?</p>
+        <p style="font-size:14.5px;color:var(--muted);margin-bottom:8px">You chose <strong>tanh</strong> for the recurrence and <strong>softmax</strong> for the output. In a feedforward hidden layer, ReLU is usually preferred over tanh. Why is tanh a better choice here?</p>
         <textarea id="rd-ref" rows="4" style="width:100%;box-sizing:border-box;background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:8px;color:var(--text);font-family:inherit;resize:vertical;margin-bottom:8px" placeholder="tanh bounds the hidden state to (−1,1), preventing it from growing unboundedly over many timesteps…" oninput="rdUpdateSummary()"></textarea>
         <div id="rd-summary" style="font-size:.88em;color:var(--muted)"></div>
       </div>

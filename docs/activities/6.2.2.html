@@ -53,8 +53,8 @@
       <div style="margin-bottom:10px">
         <div class="section-label" style="margin-bottom:4px">True label y</div>
         <div style="display:flex;gap:8px">
-          <button id="a4-y0-btn" class="btn btn-p" onclick="a4SetY(0)" style="min-width:90px;font-size:14px">y = 0</button>
-          <button id="a4-y1-btn" class="btn btn-g" onclick="a4SetY(1)" style="min-width:90px;font-size:14px">y = 1</button>
+          <button id="a4-y0-btn" class="btn btn-p" onclick="a4SetY(0)" style="min-width:90px;font-size:15.5px">y = 0</button>
+          <button id="a4-y1-btn" class="btn btn-g" onclick="a4SetY(1)" style="min-width:90px;font-size:15.5px">y = 1</button>
         </div>
       </div>
 
@@ -62,11 +62,11 @@
       <div>
         <div class="section-label" style="margin-bottom:4px">Raw score &nbsp;<span style="color:var(--blue);font-family:'Courier New',monospace">z = w<sup>T</sup>h + b</span></div>
         <div style="display:flex;align-items:center;gap:10px">
-          <span style="font-family:'Courier New',monospace;font-size:12px;color:var(--muted)">−10</span>
+          <span style="font-family:'Courier New',monospace;font-size:13.5px;color:var(--muted)">−10</span>
           <input type="range" id="a4-z-slider" min="-10" max="10" step="0.1" value="0" style="flex:1" oninput="a4UpdateZ(this.value)">
-          <span style="font-family:'Courier New',monospace;font-size:12px;color:var(--muted)">+10</span>
+          <span style="font-family:'Courier New',monospace;font-size:13.5px;color:var(--muted)">+10</span>
         </div>
-        <div style="text-align:center;font-family:'Courier New',monospace;font-size:18px;font-weight:800;color:var(--blue);margin-top:6px">z = <span id="a4-z-val">0.0</span></div>
+        <div style="text-align:center;font-family:'Courier New',monospace;font-size:20px;font-weight:800;color:var(--blue);margin-top:6px">z = <span id="a4-z-val">0.0</span></div>
       </div>
     </div>
 
@@ -86,7 +86,7 @@
     <!-- Row 2, col 1: scenario checklist -->
     <div class="card" style="padding:14px">
       <div class="card-title" style="margin-bottom:8px">4 Cases to Explore</div>
-      <p style="font-size:13px;color:var(--muted);font-weight:500;margin-bottom:8px">Move the z slider into each region, or click to snap there. Each case reveals a key insight.</p>
+      <p style="font-size:14.5px;color:var(--muted);font-weight:500;margin-bottom:8px">Move the z slider into each region, or click to snap there. Each case reveals a key insight.</p>
       <div style="display:flex;flex-direction:column;gap:6px">
         <div id="a4-sc0" class="a4-scenario" onclick="a4SnapScenario(0,-3)">
           <span class="a4-sc-icon">○</span>
@@ -105,18 +105,18 @@
           <div><strong>y = 1,&nbsp; z &gt; 0</strong> <span class="a4-sc-hint">— model leans toward "class 1"</span></div>
         </div>
       </div>
-      <div id="a4-sc-guidance" class="guidance-box cold" style="margin-top:8px;font-size:13px">Explore all four cases to unlock the quiz below.</div>
+      <div id="a4-sc-guidance" class="guidance-box cold" style="margin-top:8px;font-size:14.5px">Explore all four cases to unlock the quiz below.</div>
     </div>
 
     <!-- Row 2, col 2: cost curve -->
     <div class="card" style="padding:14px;display:flex;flex-direction:column">
       <div class="card-title2" style="margin-bottom:6px">Cost Curve &nbsp; ζ(z) = −log σ(−z)</div>
       <svg id="a4-plot" viewBox="0 0 420 280" style="width:100%;flex:1;min-height:200px"></svg>
-      <div style="display:flex;gap:18px;margin-top:6px;font-size:13px;flex-wrap:wrap;font-weight:500">
+      <div style="display:flex;gap:18px;margin-top:6px;font-size:14.5px;flex-wrap:wrap;font-weight:500">
         <div style="display:flex;align-items:center;gap:7px"><span style="width:28px;height:3px;background:#1d4ed8;display:inline-block;border-radius:2px"></span>ζ(z) &nbsp;— cost when <strong>y = 0</strong></div>
         <div style="display:flex;align-items:center;gap:7px"><span style="width:28px;height:3px;background:#15803d;display:inline-block;border-radius:2px"></span>ζ(−z) — cost when <strong>y = 1</strong></div>
       </div>
-      <div id="a4-plot-label" style="margin-top:8px;background:var(--surf2);border:1px solid var(--border);border-radius:7px;padding:8px 14px;font-family:'Courier New',monospace;font-size:13px;font-weight:700;text-align:center"></div>
+      <div id="a4-plot-label" style="margin-top:8px;background:var(--surf2);border:1px solid var(--border);border-radius:7px;padding:8px 14px;font-family:'Courier New',monospace;font-size:14.5px;font-weight:700;text-align:center"></div>
     </div>
   </div>
 
@@ -135,16 +135,16 @@
     <p class="prob-desc">Both produce n outputs in (0, 1) — but they behave fundamentally differently. Sigmoid units are <strong>independent</strong>: each output has its own gate, and changing one leaves the others unchanged. Softmax outputs <strong>compete</strong>: boosting one always suppresses the rest, because all outputs are forced to sum to exactly 1.</p>
     <div class="eq-block" style="display:grid;grid-template-columns:1fr 1fr;gap:24px">
       <div>
-        <div style="font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.07em;color:#1d4ed8;margin-bottom:8px">n Sigmoid Units</div>
-        <div class="eq-line" style="font-size:16px">p<sub>k</sub> = σ(a<sub>k</sub>) = 1 / (1 + e<sup>−a<sub>k</sub></sup>)</div>
-        <div style="font-size:13px;color:var(--muted);margin-top:6px;font-weight:500">each output independent ∈ (0, 1)</div>
-        <div style="font-size:13px;color:#c2610c;margin-top:3px;font-weight:600">Σ p<sub>k</sub> can be anything in (0, n)</div>
+        <div style="font-size:12.5px;font-weight:800;text-transform:uppercase;letter-spacing:.07em;color:#1d4ed8;margin-bottom:8px">n Sigmoid Units</div>
+        <div class="eq-line" style="font-size:18px">p<sub>k</sub> = σ(a<sub>k</sub>) = 1 / (1 + e<sup>−a<sub>k</sub></sup>)</div>
+        <div style="font-size:14.5px;color:var(--muted);margin-top:6px;font-weight:500">each output independent ∈ (0, 1)</div>
+        <div style="font-size:14.5px;color:#c2610c;margin-top:3px;font-weight:600">Σ p<sub>k</sub> can be anything in (0, n)</div>
       </div>
       <div>
-        <div style="font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.07em;color:#15803d;margin-bottom:8px">Softmax(n)</div>
-        <div class="eq-line" style="font-size:16px">p<sub>k</sub> = e<sup>a<sub>k</sub></sup> / Σ<sub>j</sub> e<sup>a<sub>j</sub></sup> &nbsp;&nbsp; (Z = Σ<sub>j</sub> e<sup>a<sub>j</sub></sup>)</div>
-        <div style="font-size:13px;color:var(--muted);margin-top:6px;font-weight:500">globally normalized — competitive</div>
-        <div style="font-size:13px;color:#15803d;margin-top:3px;font-weight:600">Σ p<sub>k</sub> = 1.000 always ✓</div>
+        <div style="font-size:12.5px;font-weight:800;text-transform:uppercase;letter-spacing:.07em;color:#15803d;margin-bottom:8px">Softmax(n)</div>
+        <div class="eq-line" style="font-size:18px">p<sub>k</sub> = e<sup>a<sub>k</sub></sup> / Σ<sub>j</sub> e<sup>a<sub>j</sub></sup> &nbsp;&nbsp; (Z = Σ<sub>j</sub> e<sup>a<sub>j</sub></sup>)</div>
+        <div style="font-size:14.5px;color:var(--muted);margin-top:6px;font-weight:500">globally normalized — competitive</div>
+        <div style="font-size:14.5px;color:#15803d;margin-top:3px;font-weight:600">Σ p<sub>k</sub> = 1.000 always ✓</div>
       </div>
     </div>
   </div>
@@ -152,7 +152,7 @@
   <!-- Shared sliders -->
   <div class="card" style="margin-bottom:20px">
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;flex-wrap:wrap;gap:10px">
-      <div class="card-title" style="margin-bottom:0;font-size:13px;text-transform:none;letter-spacing:normal;font-weight:600">Raw scores a<sub>1</sub>, a<sub>2</sub>, a<sub>3</sub> — shared by both panels</div>
+      <div class="card-title" style="margin-bottom:0;font-size:14.5px;text-transform:none;letter-spacing:normal;font-weight:600">Raw scores a<sub>1</sub>, a<sub>2</sub>, a<sub>3</sub> — shared by both panels</div>
       <div style="display:flex;gap:8px;flex-wrap:wrap">
         <button class="btn btn-g" onclick="a4Preset([2,-1,0.5])">Default</button>
         <button class="btn btn-g" onclick="a4Preset([5,-1,0.5])"><span>Boost a<sub>1</sub> → 5</span></button>
@@ -168,24 +168,24 @@
 
     <!-- Sigmoid -->
     <div class="card">
-      <div class="card-title" style="color:#1d4ed8;font-size:13px">n = 3 Sigmoid Units &nbsp;·&nbsp; <span style="text-transform:none;letter-spacing:normal;font-size:15px">p<sub>k</sub> = σ(a<sub>k</sub>)</span></div>
+      <div class="card-title" style="color:#1d4ed8;font-size:14.5px">n = 3 Sigmoid Units &nbsp;·&nbsp; <span style="text-transform:none;letter-spacing:normal;font-size:17px">p<sub>k</sub> = σ(a<sub>k</sub>)</span></div>
       <div id="a4-sig-bars" style="display:flex;flex-direction:column;gap:14px;margin-bottom:16px"></div>
       <div style="border-top:2px solid var(--border);padding-top:12px;display:flex;justify-content:space-between;align-items:center">
-        <span style="font-size:14px;font-weight:700;color:var(--text)">Σ p<sub>k</sub> =</span>
-        <span id="a4-sig-sum" style="font-family:'Courier New',monospace;font-size:17px;font-weight:800"></span>
+        <span style="font-size:15.5px;font-weight:700;color:var(--text)">Σ p<sub>k</sub> =</span>
+        <span id="a4-sig-sum" style="font-family:'Courier New',monospace;font-size:19px;font-weight:800"></span>
       </div>
-      <div id="a4-sig-note" style="margin-top:10px;font-size:13px;font-weight:500"></div>
+      <div id="a4-sig-note" style="margin-top:10px;font-size:14.5px;font-weight:500"></div>
     </div>
 
     <!-- Softmax -->
     <div class="card">
-      <div class="card-title" style="color:#15803d;font-size:13px">Softmax(3) &nbsp;·&nbsp; <span style="text-transform:none;letter-spacing:normal;font-size:15px">p<sub>k</sub> = e<sup>a<sub>k</sub></sup> / Z</span></div>
+      <div class="card-title" style="color:#15803d;font-size:14.5px">Softmax(3) &nbsp;·&nbsp; <span style="text-transform:none;letter-spacing:normal;font-size:17px">p<sub>k</sub> = e<sup>a<sub>k</sub></sup> / Z</span></div>
       <div id="a4-smx-bars" style="display:flex;flex-direction:column;gap:14px;margin-bottom:16px"></div>
       <div style="border-top:2px solid var(--border);padding-top:12px;display:flex;justify-content:space-between;align-items:center">
-        <span style="font-size:14px;font-weight:700;color:var(--text)">Σ p<sub>k</sub> =</span>
-        <span style="font-family:'Courier New',monospace;font-size:17px;font-weight:800;color:#15803d">1.000 ✓</span>
+        <span style="font-size:15.5px;font-weight:700;color:var(--text)">Σ p<sub>k</sub> =</span>
+        <span style="font-family:'Courier New',monospace;font-size:19px;font-weight:800;color:#15803d">1.000 ✓</span>
       </div>
-      <div style="margin-top:10px;font-size:13px;font-weight:600;color:#15803d">Always a valid probability distribution.</div>
+      <div style="margin-top:10px;font-size:14.5px;font-weight:600;color:#15803d">Always a valid probability distribution.</div>
     </div>
   </div>
 
@@ -201,9 +201,9 @@
       <div class="card-title" style="margin-bottom:0">When Do You Use Each? — Quiz</div>
       <span id="a4-quiz-badge" class="badge og">0/4 answered</span>
     </div>
-    <p style="font-size:13px;color:var(--muted);margin-bottom:14px;font-weight:500">For each scenario below, decide whether sigmoid or softmax is the right output activation.</p>
+    <p style="font-size:14.5px;color:var(--muted);margin-bottom:14px;font-weight:500">For each scenario below, decide whether sigmoid or softmax is the right output activation.</p>
     <div id="a4-quiz-items" style="display:flex;flex-direction:column;gap:10px"></div>
-    <div id="a4-quiz-guidance" class="guidance-box cold" style="margin-top:14px;font-size:13px">Choose sigmoid or softmax for each scenario above.</div>
+    <div id="a4-quiz-guidance" class="guidance-box cold" style="margin-top:14px;font-size:14.5px">Choose sigmoid or softmax for each scenario above.</div>
   </div>
 
 

@@ -31,21 +31,21 @@
   </div>
   <div class="card">
     <div class="card-title">Stage 1 · LIME Across Domains</div>
-    <p style="font-size:13px;color:var(--muted);margin-bottom:12px">LIME needs an <em>interpretable representation</em> and a <em>neighborhood sampling strategy</em>. Click each domain to see how LIME is applied there — then apply the same reasoning to EEG.</p>
+    <p style="font-size:14.5px;color:var(--muted);margin-bottom:12px">LIME needs an <em>interpretable representation</em> and a <em>neighborhood sampling strategy</em>. Click each domain to see how LIME is applied there — then apply the same reasoning to EEG.</p>
     <div style="display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap">
       <button class="btn btn-g" id="le-d-text-btn" onclick="leShowDomain('text')">Text</button>
       <button class="btn btn-g" id="le-d-img-btn" onclick="leShowDomain('img')">Image</button>
       <button class="btn btn-g" id="le-d-tab-btn" onclick="leShowDomain('tab')">Tabular</button>
     </div>
     <svg id="le-svg" width="480" height="120" style="display:block;border:1px solid var(--border);border-radius:8px;background:var(--surf2);margin-bottom:10px"></svg>
-    <div id="le-domain-desc" style="font-size:13px;color:var(--muted);min-height:44px;margin-bottom:10px"></div>
-    <div id="le-domain-progress" style="font-size:12px;color:var(--muted);margin-bottom:10px">Domains explored: 0/3</div>
+    <div id="le-domain-desc" style="font-size:14.5px;color:var(--muted);min-height:44px;margin-bottom:10px"></div>
+    <div id="le-domain-progress" style="font-size:13.5px;color:var(--muted);margin-bottom:10px">Domains explored: 0/3</div>
     <button class="btn btn-p" id="le-s1-btn" onclick="leAdvanceS1()" disabled>Now apply to EEG →</button>
   </div>
   <div id="le-s2" class="ba-locked-section">
     <div class="card">
       <div class="card-title">Stage 2 · The EEG Instance</div>
-      <p style="font-size:13px;color:var(--muted);margin-bottom:8px">What does a single input <em>instance</em> look like for an EEG seizure detection model?</p>
+      <p style="font-size:14.5px;color:var(--muted);margin-bottom:8px">What does a single input <em>instance</em> look like for an EEG seizure detection model?</p>
       <div id="le-q1-opts" style="display:flex;flex-direction:column;gap:5px;max-width:400px"></div>
       <div id="le-q1-hint" class="guidance-box cold" style="margin-top:8px;max-width:400px"></div>
     </div>
@@ -53,7 +53,7 @@
   <div id="le-s3" class="ba-locked-section">
     <div class="card">
       <div class="card-title">Stage 3 · Interpretable Components</div>
-      <p style="font-size:13px;color:var(--muted);margin-bottom:8px">LIME requires breaking the instance into independently maskable <em>interpretable components</em> (like words in text or superpixels in images). What is the most natural decomposition for a 10-second, 19-channel EEG recording?</p>
+      <p style="font-size:14.5px;color:var(--muted);margin-bottom:8px">LIME requires breaking the instance into independently maskable <em>interpretable components</em> (like words in text or superpixels in images). What is the most natural decomposition for a 10-second, 19-channel EEG recording?</p>
       <div id="le-q2-opts" style="display:flex;flex-direction:column;gap:5px;max-width:400px"></div>
       <div id="le-q2-hint" class="guidance-box cold" style="margin-top:8px;max-width:400px"></div>
     </div>
@@ -61,7 +61,7 @@
   <div id="le-s4" class="ba-locked-section">
     <div class="card">
       <div class="card-title">Stage 4 · Sampling the Neighborhood</div>
-      <p style="font-size:13px;color:var(--muted);margin-bottom:8px">To sample the neighborhood, LIME randomly masks components, runs each through the model, and fits a linear model to the results. What should a <em>masked</em> EEG time segment look like?</p>
+      <p style="font-size:14.5px;color:var(--muted);margin-bottom:8px">To sample the neighborhood, LIME randomly masks components, runs each through the model, and fits a linear model to the results. What should a <em>masked</em> EEG time segment look like?</p>
       <div id="le-q3-opts" style="display:flex;flex-direction:column;gap:5px;max-width:400px"></div>
       <div id="le-q3-hint" class="guidance-box cold" style="margin-top:8px;max-width:400px"></div>
     </div>
@@ -70,13 +70,13 @@
     <div class="two-col">
       <div class="card">
         <div class="card-title">Stage 5 · Medical Interpretation</div>
-        <p style="font-size:13px;color:var(--muted);margin-bottom:8px">A LIME explanation highlights "seconds 3–5 on Left-Temporal channels" as most driving the seizure prediction. A neurologist confirms this matches known temporal lobe onset patterns. What does this tell you?</p>
+        <p style="font-size:14.5px;color:var(--muted);margin-bottom:8px">A LIME explanation highlights "seconds 3–5 on Left-Temporal channels" as most driving the seizure prediction. A neurologist confirms this matches known temporal lobe onset patterns. What does this tell you?</p>
         <div id="le-q4-opts" style="display:flex;flex-direction:column;gap:5px"></div>
         <div id="le-q4-hint" class="guidance-box cold" style="margin-top:8px"></div>
       </div>
       <div class="card">
         <div class="card-title">Reflect</div>
-        <p style="font-size:13px;color:var(--muted);margin-bottom:8px">EEG electrodes have known spatial positions on the scalp, and adjacent electrodes capture overlapping signals. If LIME masks channels independently and at random, what structural problem might arise? How could you design the neighborhood to respect electrode relationships?</p>
+        <p style="font-size:14.5px;color:var(--muted);margin-bottom:8px">EEG electrodes have known spatial positions on the scalp, and adjacent electrodes capture overlapping signals. If LIME masks channels independently and at random, what structural problem might arise? How could you design the neighborhood to respect electrode relationships?</p>
         <textarea id="le-ref" rows="4" style="width:100%;box-sizing:border-box;background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:8px;color:var(--text);font-family:inherit;resize:vertical;margin-bottom:8px" placeholder="Masking adjacent electrodes independently could create unrealistic combinations because..." oninput="leUpdateSummary()"></textarea>
         <div id="le-summary" style="font-size:.88em;color:var(--muted)"></div>
       </div>

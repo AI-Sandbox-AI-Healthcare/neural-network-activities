@@ -31,7 +31,7 @@
   <div id="tc-s1" class="ba-locked-section" style="margin-top:16px">
     <div class="card">
       <div class="card-title">Stage 1 — Slide the Window</div>
-      <p style="font-size:13px;color:var(--muted);margin-bottom:12px">Choose a sentence and drag k. Each blue chip is one n-gram the filter scores; max-pooling keeps the top scorer.</p>
+      <p style="font-size:14.5px;color:var(--muted);margin-bottom:12px">Choose a sentence and drag k. Each blue chip is one n-gram the filter scores; max-pooling keeps the top scorer.</p>
       <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px">
         <button class="btn btn-g" id="tc-btn0" onclick="tcSentence(0)">A: negative</button>
         <button class="btn btn-g" id="tc-btn1" onclick="tcSentence(1)">B: positive</button>
@@ -53,8 +53,8 @@
   <div id="tc-s2" class="ba-locked-section" style="margin-top:16px">
     <div class="card">
       <div class="card-title">Stage 2 — The Bigram Insight</div>
-      <p style="font-size:13px;color:var(--muted);margin-bottom:10px">Sentence A contains "good" yet is <em>negative</em>; Sentence B contains "bad" yet is <em>positive</em>. A k=1 filter can't separate them. Both end with either "<strong>being bad</strong>" or "<strong>being good</strong>" — context is the critical bigram.</p>
-      <div style="font-weight:600;font-size:13px;margin-bottom:8px">What is the minimum k that captures "being bad" / "being good" inside one n-gram?</div>
+      <p style="font-size:14.5px;color:var(--muted);margin-bottom:10px">Sentence A contains "good" yet is <em>negative</em>; Sentence B contains "bad" yet is <em>positive</em>. A k=1 filter can't separate them. Both end with either "<strong>being bad</strong>" or "<strong>being good</strong>" — context is the critical bigram.</p>
+      <div style="font-weight:600;font-size:14.5px;margin-bottom:8px">What is the minimum k that captures "being bad" / "being good" inside one n-gram?</div>
       <div id="tc-q1-opts" style="display:flex;flex-direction:column;gap:5px;max-width:380px"></div>
       <div id="tc-q1-hint" class="guidance-box cold" style="margin-top:8px;max-width:380px"></div>
     </div>
@@ -63,11 +63,11 @@
   <div id="tc-s3" class="ba-locked-section" style="margin-top:16px">
     <div class="card">
       <div class="card-title">Stage 3 — The Negation Gap</div>
-      <div style="font-family:'Courier New',monospace;font-size:13px;background:var(--surf2);border-radius:7px;padding:10px 14px;margin-bottom:10px;line-height:2.4">
+      <div style="font-family:'Courier New',monospace;font-size:14.5px;background:var(--surf2);border-radius:7px;padding:10px 14px;margin-bottom:10px;line-height:2.4">
         It[1] &nbsp; <strong>wasn't</strong>[2] &nbsp; the[3] &nbsp; case[4] &nbsp; that[5] &nbsp; he[6] &nbsp; was[7] &nbsp; <strong>unhappy</strong>[8]
       </div>
-      <p style="font-size:13px;color:var(--muted);margin-bottom:10px">"wasn't" is at position 2, "unhappy" is at position 8. Both must appear inside the <em>same</em> n-gram for the filter to see their relationship.</p>
-      <div style="font-weight:600;font-size:13px;margin-bottom:8px">What is the minimum k so that both words sit inside one window?</div>
+      <p style="font-size:14.5px;color:var(--muted);margin-bottom:10px">"wasn't" is at position 2, "unhappy" is at position 8. Both must appear inside the <em>same</em> n-gram for the filter to see their relationship.</p>
+      <div style="font-weight:600;font-size:14.5px;margin-bottom:8px">What is the minimum k so that both words sit inside one window?</div>
       <div id="tc-q2-opts" style="display:flex;flex-direction:column;gap:5px;max-width:380px"></div>
       <div id="tc-q2-hint" class="guidance-box cold" style="margin-top:8px;max-width:380px"></div>
     </div>
@@ -77,14 +77,14 @@
     <div class="two-col">
       <div class="card">
         <div class="card-title">Stage 4 — CNN Limitation</div>
-        <p style="font-size:13px;color:var(--muted);margin-bottom:10px">A k=2 filter trained on A &amp; B learns "being bad"→negative and "being good"→positive. Applied to Sentence C, the highest-scoring bigram is "was unhappy" — strongly negative. The negation "wasn't" seven words earlier is invisible.</p>
-        <div style="font-weight:600;font-size:13px;margin-bottom:8px">What does the k=2 model incorrectly predict for Sentence C?</div>
+        <p style="font-size:14.5px;color:var(--muted);margin-bottom:10px">A k=2 filter trained on A &amp; B learns "being bad"→negative and "being good"→positive. Applied to Sentence C, the highest-scoring bigram is "was unhappy" — strongly negative. The negation "wasn't" seven words earlier is invisible.</p>
+        <div style="font-weight:600;font-size:14.5px;margin-bottom:8px">What does the k=2 model incorrectly predict for Sentence C?</div>
         <div id="tc-q3-opts" style="display:flex;flex-direction:column;gap:5px;max-width:340px"></div>
         <div id="tc-q3-hint" class="guidance-box cold" style="margin-top:8px;max-width:340px"></div>
       </div>
       <div class="card">
         <div class="card-title">Reflect</div>
-        <p style="font-size:13px;color:var(--muted);margin-bottom:8px">An RNN maintains a hidden state h⁽ᵗ⁾ updated at every word. How does this let it correctly classify Sentence C where the k=2 CNN fails?</p>
+        <p style="font-size:14.5px;color:var(--muted);margin-bottom:8px">An RNN maintains a hidden state h⁽ᵗ⁾ updated at every word. How does this let it correctly classify Sentence C where the k=2 CNN fails?</p>
         <textarea id="tc-ref" rows="4" style="width:100%;box-sizing:border-box;background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:8px;color:var(--text);font-family:inherit;resize:vertical;margin-bottom:8px" placeholder="When the RNN reads 'unhappy', its hidden state already encodes that 'wasn't' appeared earlier…" oninput="tcUpdateSummary()"></textarea>
         <div id="tc-summary" style="font-size:.88em;color:var(--muted)"></div>
       </div>

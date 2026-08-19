@@ -33,7 +33,7 @@
       <code style="color:#b45309">h = max(w<sub>1</sub>x+b<sub>1</sub>, w<sub>2</sub>x+b<sub>2</sub>, …, w<sub>k</sub>x+b<sub>k</sub>)</code>.
       Pick weights and biases for each piece so the maxout output matches the target function for every x.</p>
     <div class="eq-block">
-      <div class="eq-line" style="font-family:Georgia,'Times New Roman',serif;font-style:italic;font-size:19px;letter-spacing:0.2px">h(x) = <span style="font-style:normal">max</span>(w<sub>1</sub>x + b<sub>1</sub>, w<sub>2</sub>x + b<sub>2</sub>, …, w<sub>k</sub>x + b<sub>k</sub>)</div>
+      <div class="eq-line" style="font-family:Georgia,'Times New Roman',serif;font-style:italic;font-size:21.5px;letter-spacing:0.2px">h(x) = <span style="font-style:normal">max</span>(w<sub>1</sub>x + b<sub>1</sub>, w<sub>2</sub>x + b<sub>2</sub>, …, w<sub>k</sub>x + b<sub>k</sub>)</div>
     </div>
     <div style="display:flex;gap:10px;margin-bottom:14px">
       <button id="mx-mode-relu" class="btn btn-p" onclick="mxSetMode('relu')">Simulate ReLU</button>
@@ -42,7 +42,7 @@
     <div class="given-row">
       <div class="given-box"><div class="given-lbl">Target</div><div class="given-val" id="mx-target-label">ReLU(x) = max(0, x)</div></div>
       <div class="given-box"><div class="given-lbl">Domain</div><div class="given-val">x ∈ [−3, 3]</div></div>
-      <div class="given-box"><div class="given-lbl">Goal</div><div class="given-val" style="font-size:13px;line-height:2.1">maxout(x) = target(x)<br>for every x in the domain</div></div>
+      <div class="given-box"><div class="given-lbl">Goal</div><div class="given-val" style="font-size:14.5px;line-height:2.1">maxout(x) = target(x)<br>for every x in the domain</div></div>
     </div>
   </div>
 
@@ -52,7 +52,7 @@
       <div class="card">
         <div class="card-title">Piece Builder</div>
         <div id="mx-pieces"></div>
-        <label style="display:flex;align-items:center;gap:8px;margin-top:8px;font-size:13px;color:var(--muted);font-weight:600;cursor:pointer">
+        <label style="display:flex;align-items:center;gap:8px;margin-top:8px;font-size:14.5px;color:var(--muted);font-weight:600;cursor:pointer">
           <input type="checkbox" id="mx-piece3-toggle" onchange="mxTogglePiece3(this.checked)">
           + Add piece 3 (bonus — does an unused piece change anything?)
         </label>
@@ -60,7 +60,7 @@
       <div class="card">
         <div class="card-title">Live Plot</div>
         <svg id="mx-plot" viewBox="0 0 420 320" style="width:100%;min-height:260px"></svg>
-        <div id="mx-legend" style="display:flex;gap:14px;margin-top:8px;font-size:12px;flex-wrap:wrap;font-weight:500"></div>
+        <div id="mx-legend" style="display:flex;gap:14px;margin-top:8px;font-size:13.5px;flex-wrap:wrap;font-weight:500"></div>
       </div>
     </div>
 
@@ -69,11 +69,11 @@
       <div class="card">
         <div class="card-title">Step-by-Step at a Sample Point</div>
         <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px">
-          <span style="font-family:'Courier New',monospace;font-size:12px;color:var(--muted)">−3</span>
+          <span style="font-family:'Courier New',monospace;font-size:13.5px;color:var(--muted)">−3</span>
           <input type="range" id="mx-x-slider" min="-3" max="3" step="0.25" value="1.5" style="flex:1" oninput="mxUpdateX(this.value)">
-          <span style="font-family:'Courier New',monospace;font-size:12px;color:var(--muted)">+3</span>
+          <span style="font-family:'Courier New',monospace;font-size:13.5px;color:var(--muted)">+3</span>
         </div>
-        <div style="text-align:center;font-family:'Courier New',monospace;font-size:16px;font-weight:800;color:var(--blue);margin-bottom:10px">x = <span id="mx-x-val">1.50</span></div>
+        <div style="text-align:center;font-family:'Courier New',monospace;font-size:18px;font-weight:800;color:var(--blue);margin-bottom:10px">x = <span id="mx-x-val">1.50</span></div>
         <div id="mx-algebra" class="algebra"></div>
       </div>
       <div class="card">

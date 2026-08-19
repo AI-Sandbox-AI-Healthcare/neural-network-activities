@@ -25,11 +25,11 @@
     <div style="margin-bottom:10px"><span class="prob-badge">Activity 9.1</span><span class="prob-title">Convolution Step-by-Step</span><span id="cv-completed" class="completed-badge">✓ 9.1 Completed</span></div>
     <div id="cv-prob-eq" style="margin-bottom:16px"></div>
     <div style="display:flex;gap:28px;flex-wrap:wrap;align-items:flex-start">
-      <div><div class="section-label">Input I (3×3)</div><table id="cv-I-tbl" style="border-collapse:separate;border-spacing:3px;font-family:monospace;font-size:15px"></table></div>
-      <div style="font-size:26px;color:var(--muted);padding-top:24px">★</div>
-      <div><div class="section-label">Kernel K (2×2)</div><table id="cv-K-tbl" style="border-collapse:separate;border-spacing:3px;font-family:monospace;font-size:15px"></table></div>
-      <div style="font-size:26px;color:var(--muted);padding-top:24px">=</div>
-      <div><div class="section-label">Output I★K (2×2)</div><table id="cv-out-tbl" style="border-collapse:separate;border-spacing:3px;font-family:monospace;font-size:15px"></table></div>
+      <div><div class="section-label">Input I (3×3)</div><table id="cv-I-tbl" style="border-collapse:separate;border-spacing:3px;font-family:monospace;font-size:17px"></table></div>
+      <div style="font-size:29px;color:var(--muted);padding-top:24px">★</div>
+      <div><div class="section-label">Kernel K (2×2)</div><table id="cv-K-tbl" style="border-collapse:separate;border-spacing:3px;font-family:monospace;font-size:17px"></table></div>
+      <div style="font-size:29px;color:var(--muted);padding-top:24px">=</div>
+      <div><div class="section-label">Output I★K (2×2)</div><table id="cv-out-tbl" style="border-collapse:separate;border-spacing:3px;font-family:monospace;font-size:17px"></table></div>
     </div>
     <div style="margin-top:14px;text-align:right"><button class="btn btn-p" onclick="cvUnlock(1)">I understand — show me the kernel slide →</button></div>
   </div>
@@ -42,7 +42,7 @@
           <svg id="cv-svg" width="230" height="230" style="background:var(--surf2);border:1px solid var(--border);border-radius:8px;display:block"></svg>
           <div style="margin-top:10px;display:flex;gap:8px;align-items:center">
             <button class="btn" id="cv-prev-btn" onclick="cvStep(-1)" disabled>← Prev</button>
-            <span id="cv-pos-lbl" style="font-size:12px;color:var(--muted);min-width:90px;text-align:center">Position 1 / 4</span>
+            <span id="cv-pos-lbl" style="font-size:13.5px;color:var(--muted);min-width:90px;text-align:center">Position 1 / 4</span>
             <button class="btn btn-p" id="cv-next-btn" onclick="cvStep(1)">Next →</button>
           </div>
         </div>
@@ -59,7 +59,7 @@
   <div id="cv-s2" class="ba-locked-section" style="margin-top:16px">
     <div class="card">
       <div class="card-title">Stage 2 — Fill the Output Grid</div>
-      <p style="font-size:13px;color:var(--muted);margin-bottom:14px">Enter the four values of I★K using what you computed in the kernel slide above.</p>
+      <p style="font-size:14.5px;color:var(--muted);margin-bottom:14px">Enter the four values of I★K using what you computed in the kernel slide above.</p>
       <div style="display:grid;grid-template-columns:80px 80px;gap:8px;margin-bottom:14px">
         <input id="cv-o00" class="rr-inp" style="text-align:center" placeholder="(0,0)" oninput="cvCheckOut()">
         <input id="cv-o01" class="rr-inp" style="text-align:center" placeholder="(0,1)" oninput="cvCheckOut()">
@@ -74,20 +74,20 @@
     <div class="two-col">
       <div class="card">
         <div class="card-title">Generalise — Output Size & Stride</div>
-        <p style="font-size:13px;color:var(--muted);margin-bottom:10px">Formula: <strong>⌊(H − k) / s + 1⌋</strong> per dimension.</p>
+        <p style="font-size:14.5px;color:var(--muted);margin-bottom:10px">Formula: <strong>⌊(H − k) / s + 1⌋</strong> per dimension.</p>
         <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px">
-          <span style="font-size:13px">Stride:</span>
+          <span style="font-size:14.5px">Stride:</span>
           <input type="range" id="cv-stride-sl" min="1" max="2" step="1" value="1" style="flex:1" oninput="cvUpdateStride()">
           <span id="cv-stride-val" style="font-family:monospace;font-weight:700;min-width:16px">1</span>
         </div>
-        <div id="cv-stride-res" style="background:var(--surf2);border-radius:6px;padding:10px;font-family:monospace;font-size:13px;margin-bottom:14px"></div>
-        <div style="font-weight:600;font-size:13px;margin-bottom:6px">Q1 — For a 5×5 input, 3×3 kernel, stride 2, the output is:</div>
+        <div id="cv-stride-res" style="background:var(--surf2);border-radius:6px;padding:10px;font-family:monospace;font-size:14.5px;margin-bottom:14px"></div>
+        <div style="font-weight:600;font-size:14.5px;margin-bottom:6px">Q1 — For a 5×5 input, 3×3 kernel, stride 2, the output is:</div>
         <div id="cv-q1-opts" style="display:flex;flex-direction:column;gap:5px;max-width:300px"></div>
         <div id="cv-q1-hint" class="guidance-box cold" style="margin-top:6px;max-width:300px"></div>
       </div>
       <div class="card">
         <div class="card-title">Reflect</div>
-        <div style="font-weight:600;font-size:13px;margin-bottom:6px">Q2 — Sliding the kernel across all positions gives CNNs which property?</div>
+        <div style="font-weight:600;font-size:14.5px;margin-bottom:6px">Q2 — Sliding the kernel across all positions gives CNNs which property?</div>
         <div id="cv-q2-opts" style="display:flex;flex-direction:column;gap:5px;max-width:340px"></div>
         <div id="cv-q2-hint" class="guidance-box cold" style="margin-top:6px;max-width:340px;margin-bottom:14px"></div>
         <textarea id="cv-ref" rows="3" style="width:100%;box-sizing:border-box;background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:8px;color:var(--text);font-family:inherit;resize:vertical;margin-bottom:10px" placeholder="Reflection: what is the difference between cross-correlation and true convolution? Does it matter in practice?" oninput="cvUpdateSummary()"></textarea>

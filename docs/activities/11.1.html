@@ -27,7 +27,7 @@
   </div>
   <div id="cn-s1" class="card" style="margin-top:12px">
     <div class="card-title">Stage 1 — The Cost Asymmetry</div>
-    <p style="font-size:13px;color:var(--muted);margin-bottom:10px">Drag the threshold to see how it shifts the confusion matrix. Notice which error type is most dangerous in a medical context.</p>
+    <p style="font-size:14.5px;color:var(--muted);margin-bottom:10px">Drag the threshold to see how it shifts the confusion matrix. Notice which error type is most dangerous in a medical context.</p>
     <div style="display:flex;gap:16px;align-items:flex-start;flex-wrap:wrap">
       <div style="flex:1;min-width:220px">
         <div class="slider-row" style="margin-bottom:10px">
@@ -35,14 +35,14 @@
           <input type="range" id="cn-thresh" min="0.1" max="0.9" step="0.05" value="0.5" style="flex:1" oninput="cnSliderMove()">
         </div>
         <svg id="cn-svg" width="260" height="175" style="max-width:100%"></svg>
-        <div id="cn-warning" style="font-size:12px;margin-top:4px;min-height:18px"></div>
+        <div id="cn-warning" style="font-size:13.5px;margin-top:4px;min-height:18px"></div>
       </div>
       <div style="flex:1;min-width:160px">
         <div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:12px">
-          <div id="cn-metrics" style="font-size:12px;line-height:2;font-family:monospace"></div>
+          <div id="cn-metrics" style="font-size:13.5px;line-height:2;font-family:monospace"></div>
         </div>
         <div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:10px;margin-top:8px">
-          <div style="font-size:11px;color:var(--muted);line-height:1.7"><strong style="color:#dc2626">FN (False Negative)</strong>: cancer note NOT flagged → patient is missed<br><strong style="color:#d97706">FP (False Positive)</strong>: non-cancer note flagged → registrar reads extra note</div>
+          <div style="font-size:12.5px;color:var(--muted);line-height:1.7"><strong style="color:#dc2626">FN (False Negative)</strong>: cancer note NOT flagged → patient is missed<br><strong style="color:#d97706">FP (False Positive)</strong>: non-cancer note flagged → registrar reads extra note</div>
         </div>
       </div>
     </div>
@@ -52,7 +52,7 @@
   <div id="cn-s2" class="ba-locked-section" style="margin-top:16px">
     <div class="card">
       <div class="card-title">Stage 2 — Framing the Task</div>
-      <div style="font-weight:600;font-size:13px;margin-bottom:8px">How should you frame the classification task for the cancer registrar system?</div>
+      <div style="font-weight:600;font-size:14.5px;margin-bottom:8px">How should you frame the classification task for the cancer registrar system?</div>
       <div id="cn-q1-opts" style="display:flex;flex-direction:column;gap:5px;max-width:540px"></div>
       <div id="cn-q1-hint" class="guidance-box cold" style="margin-top:8px;max-width:540px"></div>
     </div>
@@ -60,7 +60,7 @@
   <div id="cn-s3" class="ba-locked-section" style="margin-top:16px">
     <div class="card">
       <div class="card-title">Stage 3 — Choosing the Right Metric</div>
-      <div style="font-weight:600;font-size:13px;margin-bottom:8px">The goal is that no cancer patient slips through undetected. Which metric must be maximised first?</div>
+      <div style="font-weight:600;font-size:14.5px;margin-bottom:8px">The goal is that no cancer patient slips through undetected. Which metric must be maximised first?</div>
       <div id="cn-q2-opts" style="display:flex;flex-direction:column;gap:5px;max-width:540px"></div>
       <div id="cn-q2-hint" class="guidance-box cold" style="margin-top:8px;max-width:540px"></div>
     </div>
@@ -68,8 +68,8 @@
   <div id="cn-s4" class="ba-locked-section" style="margin-top:16px">
     <div class="card">
       <div class="card-title">Stage 4 — Reading the Numbers</div>
-      <div style="font-size:13px;color:var(--muted);margin-bottom:8px">A model flags 1,000 notes out of 10,000 total. It has <strong>98% recall</strong> and <strong>40% precision</strong>.</div>
-      <div style="font-weight:600;font-size:13px;margin-bottom:8px">What does 40% precision mean in practice for the registrars?</div>
+      <div style="font-size:14.5px;color:var(--muted);margin-bottom:8px">A model flags 1,000 notes out of 10,000 total. It has <strong>98% recall</strong> and <strong>40% precision</strong>.</div>
+      <div style="font-weight:600;font-size:14.5px;margin-bottom:8px">What does 40% precision mean in practice for the registrars?</div>
       <div id="cn-q3-opts" style="display:flex;flex-direction:column;gap:5px;max-width:540px"></div>
       <div id="cn-q3-hint" class="guidance-box cold" style="margin-top:8px;max-width:540px"></div>
     </div>
@@ -78,13 +78,13 @@
     <div class="two-col">
       <div class="card">
         <div class="card-title">Stage 5 — Setting the Target</div>
-        <div style="font-weight:600;font-size:13px;margin-bottom:8px">Since the goal is to speed up (not replace) registrars, what performance profile makes sense?</div>
+        <div style="font-weight:600;font-size:14.5px;margin-bottom:8px">Since the goal is to speed up (not replace) registrars, what performance profile makes sense?</div>
         <div id="cn-q4-opts" style="display:flex;flex-direction:column;gap:5px;max-width:360px"></div>
         <div id="cn-q4-hint" class="guidance-box cold" style="margin-top:8px;max-width:360px"></div>
       </div>
       <div class="card">
         <div class="card-title">Reflect</div>
-        <p style="font-size:13px;color:var(--muted);margin-bottom:8px">If you had to report one number to hospital management as the model's "performance," would you report accuracy, F1, or recall? Justify your choice given the cost of missing a cancer diagnosis.</p>
+        <p style="font-size:14.5px;color:var(--muted);margin-bottom:8px">If you had to report one number to hospital management as the model's "performance," would you report accuracy, F1, or recall? Justify your choice given the cost of missing a cancer diagnosis.</p>
         <textarea id="cn-ref" rows="4" style="width:100%;box-sizing:border-box;background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:8px;color:var(--text);font-family:inherit;resize:vertical;margin-bottom:8px" placeholder="I would report recall because…" oninput="cnUpdateSummary()"></textarea>
         <div id="cn-summary" style="font-size:.88em;color:var(--muted)"></div>
       </div>

@@ -35,18 +35,18 @@
       <strong>Combination</strong> "n choose d" — counts the ways to choose d of n units. Explore how depth and
       width drive this bound, and compare it to the regions an actual random network produces.</p>
     <div class="eq-block">
-      <div class="eq-line" style="font-family:Georgia,'Times New Roman',serif;font-style:italic;font-size:19px;display:flex;align-items:center;gap:1px">
-        <span style="font-style:normal">O</span><span style="font-style:normal;font-size:26px;font-weight:300">(</span>
+      <div class="eq-line" style="font-family:Georgia,'Times New Roman',serif;font-style:italic;font-size:21.5px;display:flex;align-items:center;gap:1px">
+        <span style="font-style:normal">O</span><span style="font-style:normal;font-size:29px;font-weight:300">(</span>
         <span style="display:inline-flex;align-items:center">
-          <span style="font-style:normal;font-size:22px;font-weight:300">(</span>
-          <span style="display:inline-flex;flex-direction:column;align-items:center;line-height:1.05;font-size:14px;margin:0 2px"><span>n</span><span>d</span></span>
-          <span style="font-style:normal;font-size:22px;font-weight:300">)</span>
-        </span><sup style="font-size:12px;position:relative;top:-8px">d(l−1)</sup>
-        <span style="font-style:normal">&nbsp;·&nbsp;</span>n<sup style="font-size:12px">d</sup>
-        <span style="font-style:normal;font-size:26px;font-weight:300">)</span>
+          <span style="font-style:normal;font-size:24.5px;font-weight:300">(</span>
+          <span style="display:inline-flex;flex-direction:column;align-items:center;line-height:1.05;font-size:15.5px;margin:0 2px"><span>n</span><span>d</span></span>
+          <span style="font-style:normal;font-size:24.5px;font-weight:300">)</span>
+        </span><sup style="font-size:13.5px;position:relative;top:-8px">d(l−1)</sup>
+        <span style="font-style:normal">&nbsp;·&nbsp;</span>n<sup style="font-size:13.5px">d</sup>
+        <span style="font-style:normal;font-size:29px;font-weight:300">)</span>
       </div>
-      <div style="font-family:system-ui,-apple-system,sans-serif;font-style:normal;font-size:12px;color:var(--muted);font-weight:500;margin-top:6px">
-        <span style="display:inline-flex;flex-direction:column;align-items:center;line-height:1;font-size:11px;vertical-align:middle;margin:0 1px"><span>n</span><span>d</span></span>
+      <div style="font-family:system-ui,-apple-system,sans-serif;font-style:normal;font-size:13.5px;color:var(--muted);font-weight:500;margin-top:6px">
+        <span style="display:inline-flex;flex-direction:column;align-items:center;line-height:1;font-size:12.5px;vertical-align:middle;margin:0 1px"><span>n</span><span>d</span></span>
         &nbsp;= C(n,d) = <strong>Combination</strong> — the number of ways to choose d units out of n, order doesn't matter
       </div>
     </div>
@@ -54,7 +54,7 @@
       <div class="given-box"><div class="given-lbl">d (locked)</div><div class="given-val">d = 1 🔒</div></div>
       <div class="given-box"><div class="given-lbl">l (depth)</div><div class="given-val" id="lr-l-label">l = 3</div></div>
       <div class="given-box"><div class="given-lbl">n (width)</div><div class="given-val" id="lr-n-label">n = 2</div></div>
-      <div class="given-box"><div class="given-lbl">Action</div><div class="given-val"><button class="btn btn-w" style="font-size:12px;padding:6px 12px" onclick="lrDoubleDepth()">Double Depth →</button></div></div>
+      <div class="given-box"><div class="given-lbl">Action</div><div class="given-val"><button class="btn btn-w" style="font-size:13.5px;padding:6px 12px" onclick="lrDoubleDepth()">Double Depth →</button></div></div>
     </div>
   </div>
 
@@ -67,15 +67,15 @@
         </div>
         <div class="section-label">Depth l</div>
         <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px">
-          <span style="font-family:'Courier New',monospace;font-size:12px;color:var(--muted)">1</span>
+          <span style="font-family:'Courier New',monospace;font-size:13.5px;color:var(--muted)">1</span>
           <input type="range" id="lr-l-slider" min="1" max="6" step="1" value="3" style="flex:1" oninput="lrSetL(this.value)">
-          <span style="font-family:'Courier New',monospace;font-size:12px;color:var(--muted)">6</span>
+          <span style="font-family:'Courier New',monospace;font-size:13.5px;color:var(--muted)">6</span>
         </div>
         <div class="section-label">Width n</div>
         <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px">
-          <span style="font-family:'Courier New',monospace;font-size:12px;color:var(--muted)">2</span>
+          <span style="font-family:'Courier New',monospace;font-size:13.5px;color:var(--muted)">2</span>
           <input type="range" id="lr-n-slider" min="2" max="4" step="1" value="2" style="flex:1" oninput="lrSetN(this.value)">
-          <span style="font-family:'Courier New',monospace;font-size:12px;color:var(--muted)">4</span>
+          <span style="font-family:'Courier New',monospace;font-size:13.5px;color:var(--muted)">4</span>
         </div>
         <svg id="lr-net" viewBox="0 0 580 220" style="width:100%;min-height:180px"></svg>
       </div>
@@ -89,11 +89,11 @@
           <span id="lr-steps-badge" class="badge rg">0/5 correct</span>
         </div>
         <div id="lr-steps"></div>
-        <div id="lr-steps-guidance" class="guidance-box cold" style="margin-top:10px;font-size:13px">Fill in Step A to begin.</div>
+        <div id="lr-steps-guidance" class="guidance-box cold" style="margin-top:10px;font-size:14.5px">Fill in Step A to begin.</div>
       </div>
       <div class="card">
         <div class="card-title">Depth-Doubling Comparison</div>
-        <p style="font-size:13px;color:var(--muted);margin-bottom:10px">Completed runs (l, n → O) appear here as you finish the guided computation above. To see the comparison, complete the computation for <strong>l = 3</strong>, then set <strong>l = 6</strong> (or use the <strong>Action → Double Depth</strong> button at the top) and complete it again.</p>
+        <p style="font-size:14.5px;color:var(--muted);margin-bottom:10px">Completed runs (l, n → O) appear here as you finish the guided computation above. To see the comparison, complete the computation for <strong>l = 3</strong>, then set <strong>l = 6</strong> (or use the <strong>Action → Double Depth</strong> button at the top) and complete it again.</p>
         <div id="lr-history"></div>
       </div>
     </div>

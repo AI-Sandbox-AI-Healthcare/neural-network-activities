@@ -34,16 +34,16 @@
     <div class="card-title">Stage 1 — Why track gradient norm?</div>
     <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:14px">
       <div style="background:var(--surf2);border:1px solid var(--border);border-radius:9px;padding:14px 16px">
-        <div style="font-size:11px;text-transform:uppercase;font-weight:700;color:var(--muted);margin-bottom:6px">It's your speedometer</div>
-        <p style="font-size:13px;color:var(--text)">‖∇J‖ = 0 means completely flat — no information. ‖∇J‖ large means very steep terrain. It's the only scalar that tells you how hard the optimizer is working per step.</p>
+        <div style="font-size:12.5px;text-transform:uppercase;font-weight:700;color:var(--muted);margin-bottom:6px">It's your speedometer</div>
+        <p style="font-size:14.5px;color:var(--text)">‖∇J‖ = 0 means completely flat — no information. ‖∇J‖ large means very steep terrain. It's the only scalar that tells you how hard the optimizer is working per step.</p>
       </div>
       <div style="background:var(--surf2);border:1px solid var(--border);border-radius:9px;padding:14px 16px">
-        <div style="font-size:11px;text-transform:uppercase;font-weight:700;color:var(--muted);margin-bottom:6px">Different landscapes, different curves</div>
-        <p style="font-size:13px;color:var(--text)">Each loss landscape feature — bowl, elongated valley, plateau, cliff edge — leaves a characteristic fingerprint on the gradient norm over time.</p>
+        <div style="font-size:12.5px;text-transform:uppercase;font-weight:700;color:var(--muted);margin-bottom:6px">Different landscapes, different curves</div>
+        <p style="font-size:14.5px;color:var(--text)">Each loss landscape feature — bowl, elongated valley, plateau, cliff edge — leaves a characteristic fingerprint on the gradient norm over time.</p>
       </div>
       <div style="background:var(--surf2);border:1px solid var(--border);border-radius:9px;padding:14px 16px">
-        <div style="font-size:11px;text-transform:uppercase;font-weight:700;color:var(--muted);margin-bottom:6px">Core debugging skill</div>
-        <p style="font-size:13px;color:var(--text)">Logging ‖∇J‖ during training lets you distinguish healthy convergence from saddle-stalling, ill-conditioning oscillation, or cliff-induced explosion.</p>
+        <div style="font-size:12.5px;text-transform:uppercase;font-weight:700;color:var(--muted);margin-bottom:6px">Core debugging skill</div>
+        <p style="font-size:14.5px;color:var(--text)">Logging ‖∇J‖ during training lets you distinguish healthy convergence from saddle-stalling, ill-conditioning oscillation, or cliff-induced explosion.</p>
       </div>
     </div>
     <button class="btn btn-p" onclick="gnUnlock()">Show me the landscape fingerprints ↓</button>
@@ -54,24 +54,24 @@
       <div class="card-title">Stage 2 — The 4 gradient norm fingerprints</div>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
         <div style="background:var(--surf2);border:1px solid var(--border);border-radius:9px;padding:14px">
-          <div style="font-size:12px;font-weight:800;color:#1d4ed8;text-transform:uppercase;margin-bottom:6px">Ill-conditioned Hessian</div>
+          <div style="font-size:13.5px;font-weight:800;color:#1d4ed8;text-transform:uppercase;margin-bottom:6px">Ill-conditioned Hessian</div>
           <svg id="gn-svg-illcond" width="220" height="80" style="display:block;margin-bottom:8px;border-radius:5px;border:1px solid var(--border)"></svg>
-          <p style="font-size:12px;color:var(--muted)">The loss surface is an elongated ellipse — steep in one direction, shallow in another. GD overshoots the steep wall and bounces back. Gradient norm <strong>oscillates up and down</strong> without steadily decreasing.</p>
+          <p style="font-size:13.5px;color:var(--muted)">The loss surface is an elongated ellipse — steep in one direction, shallow in another. GD overshoots the steep wall and bounces back. Gradient norm <strong>oscillates up and down</strong> without steadily decreasing.</p>
         </div>
         <div style="background:var(--surf2);border:1px solid var(--border);border-radius:9px;padding:14px">
-          <div style="font-size:12px;font-weight:800;color:#15803d;text-transform:uppercase;margin-bottom:6px">Local Minimum</div>
+          <div style="font-size:13.5px;font-weight:800;color:#15803d;text-transform:uppercase;margin-bottom:6px">Local Minimum</div>
           <svg id="gn-svg-localmin" width="220" height="80" style="display:block;margin-bottom:8px;border-radius:5px;border:1px solid var(--border)"></svg>
-          <p style="font-size:12px;color:var(--muted)">The optimizer is settling into a bowl with positive curvature in all directions. Gradient norm <strong>decays monotonically toward 0</strong> as it approaches the bottom.</p>
+          <p style="font-size:13.5px;color:var(--muted)">The optimizer is settling into a bowl with positive curvature in all directions. Gradient norm <strong>decays monotonically toward 0</strong> as it approaches the bottom.</p>
         </div>
         <div style="background:var(--surf2);border:1px solid var(--border);border-radius:9px;padding:14px">
-          <div style="font-size:12px;font-weight:800;color:#c2610c;text-transform:uppercase;margin-bottom:6px">Saddle Point</div>
+          <div style="font-size:13.5px;font-weight:800;color:#c2610c;text-transform:uppercase;margin-bottom:6px">Saddle Point</div>
           <svg id="gn-svg-saddle" width="220" height="80" style="display:block;margin-bottom:8px;border-radius:5px;border:1px solid var(--border)"></svg>
-          <p style="font-size:12px;color:var(--muted)">Optimizer approaches from a descending direction — norm falls. Then <strong>stalls near 0 for many steps</strong> (flat saddle), before SGD noise eventually pushes it away (tiny rise).</p>
+          <p style="font-size:13.5px;color:var(--muted)">Optimizer approaches from a descending direction — norm falls. Then <strong>stalls near 0 for many steps</strong> (flat saddle), before SGD noise eventually pushes it away (tiny rise).</p>
         </div>
         <div style="background:var(--surf2);border:1px solid var(--border);border-radius:9px;padding:14px">
-          <div style="font-size:12px;font-weight:800;color:#b91c1c;text-transform:uppercase;margin-bottom:6px">Cliff</div>
+          <div style="font-size:13.5px;font-weight:800;color:#b91c1c;text-transform:uppercase;margin-bottom:6px">Cliff</div>
           <svg id="gn-svg-cliff" width="220" height="80" style="display:block;margin-bottom:8px;border-radius:5px;border:1px solid var(--border)"></svg>
-          <p style="font-size:12px;color:var(--muted)">Optimizer walks on flat terrain then suddenly crosses into extreme curvature. Gradient norm <strong>spikes 10–100× in a single step</strong>, then drops (or the model diverges).</p>
+          <p style="font-size:13.5px;color:var(--muted)">Optimizer walks on flat terrain then suddenly crosses into extreme curvature. Gradient norm <strong>spikes 10–100× in a single step</strong>, then drops (or the model diverges).</p>
         </div>
       </div>
       <button class="btn btn-p" style="margin-top:14px" onclick="gnToStage3()">I can identify these patterns — test me ↓</button>
@@ -88,11 +88,11 @@
   <div class="ba-locked-section" id="gn-s4">
     <div class="card" style="margin-top:18px">
       <div class="card-title">Stage 4 — What to do about it</div>
-      <p style="font-size:13px;font-weight:700;margin-bottom:8px">Gradient norm suddenly jumps from ~0.05 to ~180 in a single step. You should:</p>
+      <p style="font-size:14.5px;font-weight:700;margin-bottom:8px">Gradient norm suddenly jumps from ~0.05 to ~180 in a single step. You should:</p>
       <div id="gn-clip-opts"></div>
       <div id="gn-clip-hint" class="guidance-box cold" style="margin-top:8px;margin-bottom:16px"></div>
-      <p style="font-size:13px;font-weight:600;margin-bottom:6px">Describe each scenario's gradient norm curve shape and what it tells you about the optimization state:</p>
-      <textarea id="gn-reflection" rows="4" placeholder="Ill-conditioned: … because…  Local min: … because…  Saddle: … because…  Cliff: … because…" style="width:100%;padding:10px;border:1px solid var(--border);border-radius:7px;font-size:13px;resize:vertical;outline:none;background:var(--surface);color:var(--text)" oninput="gnUpdateSubmitSummary()"></textarea>
+      <p style="font-size:14.5px;font-weight:600;margin-bottom:6px">Describe each scenario's gradient norm curve shape and what it tells you about the optimization state:</p>
+      <textarea id="gn-reflection" rows="4" placeholder="Ill-conditioned: … because…  Local min: … because…  Saddle: … because…  Cliff: … because…" style="width:100%;padding:10px;border:1px solid var(--border);border-radius:7px;font-size:14.5px;resize:vertical;outline:none;background:var(--surface);color:var(--text)" oninput="gnUpdateSubmitSummary()"></textarea>
     </div>
   </div>
 </div>
