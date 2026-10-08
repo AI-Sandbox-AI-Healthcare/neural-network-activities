@@ -9,6 +9,9 @@ Reads the single big SPA (backend/static/index.html) and splits it into:
   - docs/activities/<id>.html  (one standalone page per activity)
   - docs/index.html       (landing page linking to every activity)
 
+Every generated page also loads docs/assets/analytics.js (Google Analytics,
+see ANALYTICS.md). That file is hand-maintained; this script never writes it.
+
 Re-run this script whenever backend/static/index.html changes.
 """
 import re
@@ -21,6 +24,10 @@ DOCS = ROOT / "docs"
 KATEX_LINKS = """<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>"""
+
+# Google Analytics (docs/assets/analytics.js, hand-maintained). `defer` runs it
+# after app.js and before each page's DOMContentLoaded bootstrap.
+ANALYTICS_TAG = '<script src="{root}assets/analytics.js" defer></script>'
 
 # ── Activity metadata: (id, prefix-list unused here, title, sub, chapter, init-fn(s), module-group tab ids) ──
 # module-group tab ids: normally just [id]; the 6.2.2 / 6.2.3 pair shares one JS module (initAct4)
@@ -158,6 +165,7 @@ def main():
 <title>{title} · Neural Networks Activities</title>
 <link rel="stylesheet" href="../assets/app.css">
 {KATEX_LINKS}
+{ANALYTICS_TAG.format(root='../')}
 </head>
 <body>
 <header class="app-header">
@@ -233,6 +241,7 @@ body{background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Neural Networks - Activities · ISTA 457</title>
 <style>{landing_css}</style>
+{ANALYTICS_TAG.format(root='')}
 </head>
 <body>
 <header class="app-header">

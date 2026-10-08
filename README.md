@@ -83,6 +83,8 @@ https://ai-sandbox-ai-healthcare.github.io/neural-network-activities/activities/
 
 ...
 
+The published pages report anonymous usage (time on task, completion, answers tried, slider changes, clicks) to Google Analytics 4, in the same property as the assignment explorers. Running locally sends nothing. See [ANALYTICS.md](ANALYTICS.md) for the events, setup and the BigQuery report in [`analysis/activities_report.sql`](analysis/activities_report.sql).
+
 ## Running locally
 
 **Requirements:** Python 3.
