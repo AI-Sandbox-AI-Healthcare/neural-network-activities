@@ -75,20 +75,13 @@
   </div>
 
   <div id="ns-s5" class="ba-locked-section" style="margin-top:16px">
-    <div class="two-col">
-      <div class="card">
-        <div class="card-title">Stage 5 — Design a Format</div>
-        <p style="font-size:14.5px;color:var(--muted);margin-bottom:10px">Consider: <em>"Google was founded by Larry Page in California."</em></p>
-        <div style="font-weight:600;font-size:14.5px;margin-bottom:8px">Which output format is a valid seq2seq NER output for this sentence?</div>
-        <div id="ns-q4-opts" style="display:flex;flex-direction:column;gap:5px;max-width:360px"></div>
-        <div id="ns-q4-hint" class="guidance-box cold" style="margin-top:8px;max-width:360px"></div>
-      </div>
-      <div class="card">
-        <div class="card-title">Reflect</div>
-        <p style="font-size:14.5px;color:var(--muted);margin-bottom:8px">Write the exact input sequence and output sequence you would feed to a seq2seq NER model for: <em>"Óscar Romero was born in El Salvador."</em></p>
-        <textarea id="ns-ref" rows="4" style="width:100%;box-sizing:border-box;background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:8px;color:var(--text);font-family:inherit;resize:vertical;margin-bottom:8px" placeholder="Input: [Óscar, Romero, was, born, in, El, Salvador]&#10;Output: &lt;PER&gt; Óscar Romero &lt;/PER&gt; was born in &lt;LOC&gt; El Salvador &lt;/LOC&gt;" oninput="nsUpdateSummary()"></textarea>
-        <div id="ns-summary" style="font-size:.88em;color:var(--muted)"></div>
-      </div>
+    <div class="card">
+      <div class="card-title">Stage 5 — Design a Format</div>
+      <p style="font-size:14.5px;color:var(--muted);margin-bottom:10px">Consider: <em>"Google was founded by Larry Page in California."</em></p>
+      <div style="font-weight:600;font-size:14.5px;margin-bottom:8px">Which output format is a valid seq2seq NER output for this sentence?</div>
+      <div id="ns-q4-opts" style="display:flex;flex-direction:column;gap:5px;max-width:360px"></div>
+      <div id="ns-q4-hint" class="guidance-box cold" style="margin-top:8px;max-width:360px"></div>
+      <div id="ns-summary" style="font-size:.88em;color:var(--muted);margin-top:12px"></div>
     </div>
   </div>
 </div>

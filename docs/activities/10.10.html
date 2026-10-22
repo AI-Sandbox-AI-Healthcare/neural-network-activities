@@ -96,19 +96,12 @@
     </div>
   </div>
   <div id="gg-s6" class="ba-locked-section" style="margin-top:16px">
-    <div class="two-col">
-      <div class="card">
-        <div class="card-title">Stage 6 — Minimal GRU Insight</div>
-        <div style="font-weight:600;font-size:14.5px;margin-bottom:8px">Research shows minimal GRU variants (2 gates, no cell state) match LSTM on many tasks. What does this imply about the search space?</div>
-        <div id="gg-q4-opts" style="display:flex;flex-direction:column;gap:5px;max-width:360px"></div>
-        <div id="gg-q4-hint" class="guidance-box cold" style="margin-top:8px;max-width:360px"></div>
-      </div>
-      <div class="card">
-        <div class="card-title">Reflect</div>
-        <p style="font-size:14.5px;color:var(--muted);margin-bottom:8px">If you were running an architecture search over the 16-variant space, which dimension would you explore first — separate cell state, output gate, decoupled gates, or reset gate? What is your reasoning?</p>
-        <textarea id="gg-ref" rows="4" style="width:100%;box-sizing:border-box;background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:8px;color:var(--text);font-family:inherit;resize:vertical;margin-bottom:8px" placeholder="I would start with the separate cell state because…" oninput="ggUpdateSummary()"></textarea>
-        <div id="gg-summary" style="font-size:.88em;color:var(--muted)"></div>
-      </div>
+    <div class="card">
+      <div class="card-title">Stage 6 — Minimal GRU Insight</div>
+      <div style="font-weight:600;font-size:14.5px;margin-bottom:8px">Research shows minimal GRU variants (2 gates, no cell state) match LSTM on many tasks. What does this imply about the search space?</div>
+      <div id="gg-q4-opts" style="display:flex;flex-direction:column;gap:5px;max-width:360px"></div>
+      <div id="gg-q4-hint" class="guidance-box cold" style="margin-top:8px;max-width:360px"></div>
+      <div id="gg-summary" style="font-size:.88em;color:var(--muted);margin-top:12px"></div>
     </div>
   </div>
 </div>

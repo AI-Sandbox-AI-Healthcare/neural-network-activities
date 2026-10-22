@@ -116,20 +116,13 @@
   </div>
 
   <div id="br-s5" class="ba-locked-section" style="margin-top:16px">
-    <div class="two-col">
-      <div class="card">
-        <div class="card-title">Stage 5 — When Does Context Matter?</div>
-        <p style="font-size:14.5px;color:var(--muted);margin-bottom:10px">At timestep t, h_f^(t) encodes everything <em>before</em> t; h_b^(t) encodes everything <em>after</em> t. Their combination gives full bidirectional context.</p>
-        <div style="font-weight:600;font-size:14.5px;margin-bottom:8px">For which task does seeing future tokens matter most?</div>
-        <div id="br-q3-opts" style="display:flex;flex-direction:column;gap:5px;max-width:340px"></div>
-        <div id="br-q3-hint" class="guidance-box cold" style="margin-top:8px;max-width:340px"></div>
-      </div>
-      <div class="card">
-        <div class="card-title">Reflect</div>
-        <p style="font-size:14.5px;color:var(--muted);margin-bottom:8px">A standard unidirectional RNN can be used for text generation (predicting the next word). Could you use a BiRNN for text generation? Why or why not?</p>
-        <textarea id="br-ref" rows="4" style="width:100%;box-sizing:border-box;background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:8px;color:var(--text);font-family:inherit;resize:vertical;margin-bottom:8px" placeholder="A BiRNN requires the full sequence to be available — it can't generate token-by-token because h_b depends on future tokens…" oninput="brUpdateSummary()"></textarea>
-        <div id="br-summary" style="font-size:.88em;color:var(--muted)"></div>
-      </div>
+    <div class="card">
+      <div class="card-title">Stage 5 — When Does Context Matter?</div>
+      <p style="font-size:14.5px;color:var(--muted);margin-bottom:10px">At timestep t, h_f^(t) encodes everything <em>before</em> t; h_b^(t) encodes everything <em>after</em> t. Their combination gives full bidirectional context.</p>
+      <div style="font-weight:600;font-size:14.5px;margin-bottom:8px">For which task does seeing future tokens matter most?</div>
+      <div id="br-q3-opts" style="display:flex;flex-direction:column;gap:5px;max-width:340px"></div>
+      <div id="br-q3-hint" class="guidance-box cold" style="margin-top:8px;max-width:340px"></div>
+      <div id="br-summary" style="font-size:.88em;color:var(--muted);margin-top:12px"></div>
     </div>
   </div>
 </div>

@@ -78,20 +78,13 @@
     </div>
   </div>
   <div id="tp-s5" class="ba-locked-section" style="margin-top:16px">
-    <div class="two-col">
-      <div class="card">
-        <div class="card-title">Stage 5 — ALiBi: Attention with Linear Biases</div>
-        <p style="font-size:14.5px;color:var(--muted);margin-bottom:8px">ALiBi subtracts m|i−j| from attention logits before softmax (m is a head-specific slope). No position vectors are added to the input.</p>
-        <div style="font-weight:600;font-size:14.5px;margin-bottom:8px">What does the −m|i−j| bias accomplish?</div>
-        <div id="tp-q4-opts" style="display:flex;flex-direction:column;gap:5px;max-width:360px"></div>
-        <div id="tp-q4-hint" class="guidance-box cold" style="margin-top:8px;max-width:360px"></div>
-      </div>
-      <div class="card">
-        <div class="card-title">Reflect</div>
-        <p style="font-size:14.5px;color:var(--muted);margin-bottom:8px">RoPE (Rotary PE) rotates Q and K vectors by a position-dependent angle before computing attention, so q<sub>i</sub>ᵀk<sub>j</sub> depends only on relative position i−j. How does this differ from sinusoidal PE (added to inputs) and ALiBi (added to attention scores)?</p>
-        <textarea id="tp-ref" rows="4" style="width:100%;box-sizing:border-box;background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:8px;color:var(--text);font-family:inherit;resize:vertical;margin-bottom:8px" placeholder="RoPE is different because it modifies Q and K directly before the dot product, meaning position encodes into the inner product geometry rather than…" oninput="tpUpdateSummary()"></textarea>
-        <div id="tp-summary" style="font-size:.88em;color:var(--muted)"></div>
-      </div>
+    <div class="card">
+      <div class="card-title">Stage 5 — ALiBi: Attention with Linear Biases</div>
+      <p style="font-size:14.5px;color:var(--muted);margin-bottom:8px">ALiBi subtracts m|i−j| from attention logits before softmax (m is a head-specific slope). No position vectors are added to the input.</p>
+      <div style="font-weight:600;font-size:14.5px;margin-bottom:8px">What does the −m|i−j| bias accomplish?</div>
+      <div id="tp-q4-opts" style="display:flex;flex-direction:column;gap:5px;max-width:360px"></div>
+      <div id="tp-q4-hint" class="guidance-box cold" style="margin-top:8px;max-width:360px"></div>
+      <div id="tp-summary" style="font-size:.88em;color:var(--muted);margin-top:12px"></div>
     </div>
   </div>
 </div>

@@ -100,19 +100,12 @@
   </div>
 
   <div id="rn-s5" class="ba-locked-section" style="margin-top:16px">
-    <div class="two-col">
-      <div class="card">
-        <div class="card-title">Stage 5 — Replacing tanh with ReLU</div>
-        <p style="font-size:14.5px;color:var(--muted);margin-bottom:10px">Using ReLU in h⁽ᵗ⁾ = ReLU(Wh⁽ᵗ⁻¹⁾ + Ux⁽ᵗ⁾) removes the near-zero derivative problem. What new issue does it introduce?</p>
-        <div id="rn-q4-opts" style="display:flex;flex-direction:column;gap:5px;max-width:360px"></div>
-        <div id="rn-q4-hint" class="guidance-box cold" style="margin-top:8px;max-width:360px"></div>
-      </div>
-      <div class="card">
-        <div class="card-title">Reflect</div>
-        <p style="font-size:14.5px;color:var(--muted);margin-bottom:8px">The recurrent term <strong>Wh⁽ᵗ⁻¹⁾</strong> appears T−1 times in the BPTT chain, while the input term <strong>Ux⁽ᵗ⁾</strong> appears once per step. Why does the recurrent connection accumulate more saturation risk?</p>
-        <textarea id="rn-ref" rows="4" style="width:100%;box-sizing:border-box;background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:8px;color:var(--text);font-family:inherit;resize:vertical;margin-bottom:8px" placeholder="The W·h term is chained T−1 times because each step passes h back through W again…" oninput="rnUpdateSummary()"></textarea>
-        <div id="rn-summary" style="font-size:.88em;color:var(--muted)"></div>
-      </div>
+    <div class="card">
+      <div class="card-title">Stage 5 — Replacing tanh with ReLU</div>
+      <p style="font-size:14.5px;color:var(--muted);margin-bottom:10px">Using ReLU in h⁽ᵗ⁾ = ReLU(Wh⁽ᵗ⁻¹⁾ + Ux⁽ᵗ⁾) removes the near-zero derivative problem. What new issue does it introduce?</p>
+      <div id="rn-q4-opts" style="display:flex;flex-direction:column;gap:5px;max-width:360px"></div>
+      <div id="rn-q4-hint" class="guidance-box cold" style="margin-top:8px;max-width:360px"></div>
+      <div id="rn-summary" style="font-size:.88em;color:var(--muted);margin-top:12px"></div>
     </div>
   </div>
 </div>

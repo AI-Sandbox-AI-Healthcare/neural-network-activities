@@ -2162,9 +2162,7 @@ tr.hi{background:#dbeafe}tr.good{background:#dcfce7}tr.bad{background:#fee2e2}
       <div class="card-title">Stage 4 — What to do about it</div>
       <p style="font-size:14.5px;font-weight:700;margin-bottom:8px">Gradient norm suddenly jumps from ~0.05 to ~180 in a single step. You should:</p>
       <div id="gn-clip-opts"></div>
-      <div id="gn-clip-hint" class="guidance-box cold" style="margin-top:8px;margin-bottom:16px"></div>
-      <p style="font-size:14.5px;font-weight:600;margin-bottom:6px">Describe each scenario's gradient norm curve shape and what it tells you about the optimization state:</p>
-      <textarea id="gn-reflection" rows="4" placeholder="Ill-conditioned: … because…  Local min: … because…  Saddle: … because…  Cliff: … because…" style="width:100%;padding:10px;border:1px solid var(--border);border-radius:7px;font-size:14.5px;resize:vertical;outline:none;background:var(--surface);color:var(--text)" oninput="gnUpdateSubmitSummary()"></textarea>
+      <div id="gn-clip-hint" class="guidance-box cold" style="margin-top:8px"></div>
     </div>
   </div>
 </div>
@@ -2300,9 +2298,7 @@ tr.hi{background:#dbeafe}tr.good{background:#dcfce7}tr.bad{background:#fee2e2}
       <div id="mm-mcq1-hint" class="guidance-box cold" style="margin-top:8px;margin-bottom:16px"></div>
       <p style="font-size:14.5px;font-weight:700;margin-bottom:8px">When consecutive gradients point in the SAME direction, momentum causes the step size to:</p>
       <div id="mm-mcq2-opts"></div>
-      <div id="mm-mcq2-hint" class="guidance-box cold" style="margin-top:8px;margin-bottom:16px"></div>
-      <p style="font-size:14.5px;font-weight:600;margin-bottom:6px">In your own words: what does momentum do to the trajectory when gradients are consistent vs. alternating?</p>
-      <textarea id="mm-reflection" rows="3" placeholder="When gradients are consistent (same direction), momentum… When they alternate, momentum…" style="width:100%;padding:10px;border:1px solid var(--border);border-radius:7px;font-size:14.5px;resize:vertical;outline:none;background:var(--surface);color:var(--text)" oninput="mmUpdateSubmitSummary()"></textarea>
+      <div id="mm-mcq2-hint" class="guidance-box cold" style="margin-top:8px"></div>
     </div>
   </div>
 </div>
@@ -2346,15 +2342,7 @@ tr.hi{background:#dbeafe}tr.good{background:#dcfce7}tr.bad{background:#fee2e2}
         <div id="tl-px-hint" class="guidance-box cold" style="margin-top:6px"></div>
       </div>
     </div>
-    <button class="btn" id="tl-btn3" onclick="tlUnlock(4)" disabled>Continue →</button>
-  </div>
-  <div id="tl-s4" class="ba-locked-section">
-    <div class="card">
-      <h3 style="margin:0 0 10px">Reflection</h3>
-      <p style="color:var(--muted);margin:0 0 8px;font-size:0.9em">You're training a medical image segmenter (X-rays) and you have ImageNet weights. The domains look very different. Would you still use them? Why?</p>
-      <textarea id="tl-ref" rows="3" style="width:100%;box-sizing:border-box;background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:8px;color:var(--text);font-family:inherit;resize:vertical" oninput="tlUpdateSummary()"></textarea>
-      <div id="tl-summary" style="margin:10px 0;font-size:0.88em;color:var(--muted)"></div>
-    </div>
+    <div id="tl-summary" style="margin:10px 0;font-size:0.88em;color:var(--muted)"></div>
   </div>
 </div>
 
@@ -2410,12 +2398,7 @@ tr.hi{background:#dbeafe}tr.good{background:#dcfce7}tr.bad{background:#fee2e2}
     <p style="font-weight:600;margin:0 0 8px">On this surface, which optimizer reaches closest to (3,2) in 30 steps at η=0.30?</p>
     <div id="or-fmcq" style="display:flex;flex-direction:column;gap:6px;max-width:500px;margin-bottom:10px"></div>
     <div id="or-fhint" class="guidance-box cold" style="max-width:500px;margin-bottom:14px"></div>
-    <div class="card">
-      <h3 style="margin:0 0 10px">Reflection</h3>
-      <p style="color:var(--muted);margin:0 0 8px;font-size:0.9em">If the loss surface were well-conditioned (nearly circular contours), would optimizer choice still matter as much? What changes?</p>
-      <textarea id="or-ref" rows="3" style="width:100%;box-sizing:border-box;background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:8px;color:var(--text);font-family:inherit;resize:vertical" oninput="orUpdateSummary()"></textarea>
-      <div id="or-summary" style="margin:10px 0;font-size:0.88em;color:var(--muted)"></div>
-    </div>
+    <div id="or-summary" style="margin:10px 0;font-size:0.88em;color:var(--muted)"></div>
   </div>
 </div>
 
@@ -2486,15 +2469,7 @@ tr.hi{background:#dbeafe}tr.good{background:#dcfce7}tr.bad{background:#fee2e2}
     <p style="font-weight:600;margin:0 0 8px">Why is setting β easier than adjusting W?</p>
     <div id="bn-why-opts" style="display:flex;flex-direction:column;gap:6px;max-width:520px"></div>
     <div id="bn-whyhint" class="guidance-box cold" style="margin-top:6px;max-width:520px;margin-bottom:14px"></div>
-    <button class="btn" id="bn-btn4" onclick="bnUnlock(5)" disabled>Continue →</button>
-  </div>
-  <div id="bn-s5" class="ba-locked-section">
-    <div class="card">
-      <h3 style="margin:0 0 10px">Reflection</h3>
-      <p style="color:var(--muted);margin:0 0 8px;font-size:0.9em">BN normalizes within a batch. What happens at batch size 1? What problem does this cause and how is it usually handled?</p>
-      <textarea id="bn-ref" rows="3" style="width:100%;box-sizing:border-box;background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:8px;color:var(--text);font-family:inherit;resize:vertical" oninput="bnUpdateSummary()"></textarea>
-      <div id="bn-summary" style="margin:10px 0;font-size:0.88em;color:var(--muted)"></div>
-    </div>
+    <div id="bn-summary" style="margin:10px 0;font-size:0.88em;color:var(--muted)"></div>
   </div>
 </div>
 
@@ -2566,11 +2541,10 @@ tr.hi{background:#dbeafe}tr.good{background:#dcfce7}tr.bad{background:#fee2e2}
         <div id="cv-q1-hint" class="guidance-box cold" style="margin-top:6px;max-width:300px"></div>
       </div>
       <div class="card">
-        <div class="card-title">Reflect</div>
+        <div class="card-title">Why Slide the Kernel?</div>
         <div style="font-weight:600;font-size:14.5px;margin-bottom:6px">Q2 — Sliding the kernel across all positions gives CNNs which property?</div>
         <div id="cv-q2-opts" style="display:flex;flex-direction:column;gap:5px;max-width:340px"></div>
         <div id="cv-q2-hint" class="guidance-box cold" style="margin-top:6px;max-width:340px;margin-bottom:14px"></div>
-        <textarea id="cv-ref" rows="3" style="width:100%;box-sizing:border-box;background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:8px;color:var(--text);font-family:inherit;resize:vertical;margin-bottom:10px" placeholder="Reflection: what is the difference between cross-correlation and true convolution? Does it matter in practice?" oninput="cvUpdateSummary()"></textarea>
         <div id="cv-summary" style="font-size:.88em;color:var(--muted);margin-bottom:10px"></div>
       </div>
     </div>
@@ -2632,30 +2606,26 @@ tr.hi{background:#dbeafe}tr.good{background:#dcfce7}tr.bad{background:#fee2e2}
   </div>
 
   <div id="pl-s3" class="ba-locked-section" style="margin-top:16px">
-    <div class="two-col">
-      <div class="card">
-        <div class="card-title">Stage 3 — Apply the Insight</div>
-        <div style="display:flex;flex-direction:column;gap:12px">
-          <div>
-            <div style="font-weight:600;font-size:14.5px;margin-bottom:6px">Q1 — Global Average Pooling (p = H, s = H) gives output size:</div>
-            <div id="pl-q2-opts" style="display:flex;flex-direction:column;gap:5px;max-width:280px"></div>
-            <div id="pl-q2-hint" class="guidance-box cold" style="margin-top:5px;max-width:280px"></div>
-          </div>
-          <div>
-            <div style="font-weight:600;font-size:14.5px;margin-bottom:6px">Q2 — nn.AdaptiveAvgPool2d(4) on any size image gives output:</div>
-            <div id="pl-q3-opts" style="display:flex;flex-direction:column;gap:5px;max-width:280px"></div>
-            <div id="pl-q3-hint" class="guidance-box cold" style="margin-top:5px;max-width:280px"></div>
-          </div>
+    <div class="card">
+      <div class="card-title">Stage 3 — Apply the Insight</div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px;align-items:start">
+        <div>
+          <div style="font-weight:600;font-size:14.5px;margin-bottom:6px">Q1 — Global Average Pooling (p = H, s = H) gives output size:</div>
+          <div id="pl-q2-opts" style="display:flex;flex-direction:column;gap:5px"></div>
+          <div id="pl-q2-hint" class="guidance-box cold" style="margin-top:5px"></div>
+        </div>
+        <div>
+          <div style="font-weight:600;font-size:14.5px;margin-bottom:6px">Q2 — nn.AdaptiveAvgPool2d(4) on any size image gives output:</div>
+          <div id="pl-q3-opts" style="display:flex;flex-direction:column;gap:5px"></div>
+          <div id="pl-q3-hint" class="guidance-box cold" style="margin-top:5px"></div>
+        </div>
+        <div>
+          <div style="font-weight:600;font-size:14.5px;margin-bottom:6px">Q3 — Why is Global Average Pooling (T=1) so popular before a classifier?</div>
+          <div id="pl-q4-opts" style="display:flex;flex-direction:column;gap:5px"></div>
+          <div id="pl-q4-hint" class="guidance-box cold" style="margin-top:5px"></div>
         </div>
       </div>
-      <div class="card">
-        <div class="card-title">Reflect</div>
-        <div style="font-weight:600;font-size:14.5px;margin-bottom:6px">Q3 — Why is Global Average Pooling (T=1) so popular before a classifier?</div>
-        <div id="pl-q4-opts" style="display:flex;flex-direction:column;gap:5px;max-width:360px;margin-bottom:10px"></div>
-        <div id="pl-q4-hint" class="guidance-box cold" style="max-width:360px;margin-bottom:12px"></div>
-        <textarea id="pl-ref" rows="3" style="width:100%;box-sizing:border-box;background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:8px;color:var(--text);font-family:inherit;resize:vertical;margin-bottom:10px" placeholder="Reflection: when would you prefer T=4 over T=1? What is the trade-off?" oninput="plUpdateSummary()"></textarea>
-        <div id="pl-summary" style="font-size:.88em;color:var(--muted);margin-bottom:10px"></div>
-      </div>
+      <div id="pl-summary" style="font-size:.88em;color:var(--muted);margin-top:12px"></div>
     </div>
   </div>
 </div>
@@ -2703,7 +2673,7 @@ tr.hi{background:#dbeafe}tr.good{background:#dcfce7}tr.bad{background:#fee2e2}
           <div id="gm-step-disp" style="font-family:monospace;font-size:14.5px;background:var(--surf2);border-radius:6px;padding:12px;line-height:2.2;margin-bottom:14px">Press "Run one step" to see the computation.</div>
           <div style="font-weight:600;font-size:14.5px;margin-bottom:6px">Fill in h_new for two nodes:</div>
           <div style="font-size:14.5px;line-height:2.4;margin-bottom:8px">
-            h_new[0] = (h[0]+h[1]+h[4]) / 3 = <input id="gm-f0" class="rr-inp" style="width:60px;text-align:center" placeholder="?" oninput="gmCheckFill()">
+            h_new[0] = (h[0]+h[1]+h[2]+h[4]) / 4 = <input id="gm-f0" class="rr-inp" style="width:60px;text-align:center" placeholder="?" oninput="gmCheckFill()">
             <br>h_new[2] = (h[0]+h[1]+h[2]+h[3]) / 4 = <input id="gm-f2" class="rr-inp" style="width:60px;text-align:center" placeholder="?" oninput="gmCheckFill()">
           </div>
           <div id="gm-fill-hint" class="guidance-box cold" style="margin-bottom:12px"></div>
@@ -2714,26 +2684,19 @@ tr.hi{background:#dbeafe}tr.good{background:#dcfce7}tr.bad{background:#fee2e2}
   </div>
 
   <div id="gm-s3" class="ba-locked-section" style="margin-top:16px">
-    <div class="two-col">
-      <div class="card">
-        <div class="card-title">Stage 3 — Key Properties of GCN</div>
-        <div style="display:flex;flex-direction:column;gap:14px">
-          <div>
-            <div style="font-weight:600;font-size:14.5px;margin-bottom:6px">Q1 — Does GCN know which direction a message came from?</div>
-            <div id="gm-q2-opts" style="display:flex;flex-direction:column;gap:5px;max-width:320px"></div>
-            <div id="gm-q2-hint" class="guidance-box cold" style="margin-top:5px;max-width:320px"></div>
-          </div>
-          <div>
-            <div style="font-weight:600;font-size:14.5px;margin-bottom:6px">Q2 — Node 1 and node 3 both have h=1 and h=0. Would GCN treat them identically?</div>
-            <div id="gm-q3-opts" style="display:flex;flex-direction:column;gap:5px;max-width:320px"></div>
-            <div id="gm-q3-hint" class="guidance-box cold" style="margin-top:5px;max-width:320px"></div>
-          </div>
+    <div class="card">
+      <div class="card-title">Stage 3 — Key Properties of GCN</div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px;align-items:start">
+        <div>
+          <div style="font-weight:600;font-size:14.5px;margin-bottom:6px">Q1 — Does GCN know which direction a message came from?</div>
+          <div id="gm-q2-opts" style="display:flex;flex-direction:column;gap:5px"></div>
+          <div id="gm-q2-hint" class="guidance-box cold" style="margin-top:5px"></div>
         </div>
-      </div>
-      <div class="card">
-        <div class="card-title">Reflect</div>
-        <textarea id="gm-ref" rows="4" style="width:100%;box-sizing:border-box;background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:8px;color:var(--text);font-family:inherit;resize:vertical;margin-bottom:10px" placeholder="Reflection: what information does A capture that W cannot, and vice versa?" oninput="gmUpdateSummary()"></textarea>
-        <div id="gm-summary" style="font-size:.88em;color:var(--muted);margin-bottom:10px"></div>
+        <div>
+          <div style="font-weight:600;font-size:14.5px;margin-bottom:6px">Q2 — Node 1 (h=1) and node 3 (h=0) sit in different parts of the graph. Does GCN use a different W for each of them?</div>
+          <div id="gm-q3-opts" style="display:flex;flex-direction:column;gap:5px"></div>
+          <div id="gm-q3-hint" class="guidance-box cold" style="margin-top:5px"></div>
+        </div>
       </div>
     </div>
   </div>
@@ -2777,12 +2740,18 @@ tr.hi{background:#dbeafe}tr.good{background:#dcfce7}tr.bad{background:#fee2e2}
         </div>
         <div style="flex:1;min-width:220px">
           <p style="font-size:14.5px;color:var(--muted);margin-bottom:12px">For a 3×3 convolution, each output pixel aggregates its 3×3 neighbourhood. Let's model this as a graph where every pixel connects to its 8 neighbours (+ itself via self-loop in A*).</p>
-          <div style="font-weight:600;font-size:14.5px;margin-bottom:6px">Q1 — The corner pixel (node 0) has how many neighbours (excluding itself)?</div>
-          <div id="ge-q1-opts" style="display:flex;flex-direction:column;gap:5px;max-width:280px"></div>
-          <div id="ge-q1-hint" class="guidance-box cold" style="margin-top:5px;max-width:280px;margin-bottom:14px"></div>
-          <div style="font-weight:600;font-size:14.5px;margin-bottom:6px">Q2 — So A is well-defined. Can we also define a single W that replicates K?</div>
-          <div id="ge-q2-opts" style="display:flex;flex-direction:column;gap:5px;max-width:280px"></div>
-          <div id="ge-q2-hint" class="guidance-box cold" style="margin-top:5px;max-width:280px"></div>
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px;align-items:start">
+            <div>
+              <div style="font-weight:600;font-size:14.5px;margin-bottom:6px">Q1 — The corner pixel (node 0) has how many neighbours (excluding itself)?</div>
+              <div id="ge-q1-opts" style="display:flex;flex-direction:column;gap:5px"></div>
+              <div id="ge-q1-hint" class="guidance-box cold" style="margin-top:5px"></div>
+            </div>
+            <div>
+              <div style="font-weight:600;font-size:14.5px;margin-bottom:6px">Q2 — So A is well-defined. Can we also define a single W that replicates K?</div>
+              <div id="ge-q2-opts" style="display:flex;flex-direction:column;gap:5px"></div>
+              <div id="ge-q2-hint" class="guidance-box cold" style="margin-top:5px"></div>
+            </div>
+          </div>
         </div>
       </div>
       <div style="text-align:right;margin-top:14px"><button class="btn btn-p" id="ge-s1-btn" onclick="geUnlock(2)" disabled>Show me why →</button></div>
@@ -2799,7 +2768,7 @@ tr.hi{background:#dbeafe}tr.good{background:#dcfce7}tr.bad{background:#fee2e2}
           <div style="font-family:monospace;font-size:13.5px;line-height:2" id="ge-conv-show"></div>
         </div>
         <div style="background:#fff7ed;border:1px solid #fed7aa;border-radius:8px;padding:14px">
-          <div style="font-weight:700;color:var(--orange);margin-bottom:8px;font-size:14.5px">GCN (single W, mean aggregation)</div>
+          <div style="font-weight:700;color:var(--orange);margin-bottom:8px;font-size:14.5px">GCN (single W, sum aggregation)</div>
           <div style="font-family:monospace;font-size:13.5px;line-height:2" id="ge-gcn-show"></div>
         </div>
       </div>
@@ -2810,26 +2779,19 @@ tr.hi{background:#dbeafe}tr.good{background:#dcfce7}tr.bad{background:#fee2e2}
   </div>
 
   <div id="ge-s3" class="ba-locked-section" style="margin-top:16px">
-    <div class="two-col">
-      <div class="card">
-        <div class="card-title">Stage 3 — Conclusion</div>
-        <div style="display:flex;flex-direction:column;gap:14px">
-          <div>
-            <div style="font-weight:600;font-size:14.5px;margin-bottom:6px">Q4 — Is it possible to emulate K = [[1..9]] with standard GCN (single A*, single W)?</div>
-            <div id="ge-q4-opts" style="display:flex;flex-direction:column;gap:5px;max-width:340px"></div>
-            <div id="ge-q4-hint" class="guidance-box cold" style="margin-top:5px;max-width:340px"></div>
-          </div>
-          <div>
-            <div style="font-weight:600;font-size:14.5px;margin-bottom:6px">Q5 — To support arbitrary kernels in a GCN, what change is needed?</div>
-            <div id="ge-q5-opts" style="display:flex;flex-direction:column;gap:5px;max-width:340px"></div>
-            <div id="ge-q5-hint" class="guidance-box cold" style="margin-top:5px;max-width:340px"></div>
-          </div>
+    <div class="card">
+      <div class="card-title">Stage 3 — Conclusion</div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px;align-items:start">
+        <div>
+          <div style="font-weight:600;font-size:14.5px;margin-bottom:6px">Q4 — Is it possible to emulate K = [[1..9]] with standard GCN (single A*, single W)?</div>
+          <div id="ge-q4-opts" style="display:flex;flex-direction:column;gap:5px"></div>
+          <div id="ge-q4-hint" class="guidance-box cold" style="margin-top:5px"></div>
         </div>
-      </div>
-      <div class="card">
-        <div class="card-title">Reflect</div>
-        <textarea id="ge-ref" rows="4" style="width:100%;box-sizing:border-box;background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:8px;color:var(--text);font-family:inherit;resize:vertical;margin-bottom:10px" placeholder="Reflection: GCN makes a key assumption about neighbours that image convolution does not. What is that assumption, and why is it actually a feature for real graphs (social networks, molecules)?" oninput="geUpdateSummary()"></textarea>
-        <div id="ge-summary" style="font-size:.88em;color:var(--muted);margin-bottom:10px"></div>
+        <div>
+          <div style="font-weight:600;font-size:14.5px;margin-bottom:6px">Q5 — To support arbitrary kernels in a GCN, what change is needed?</div>
+          <div id="ge-q5-opts" style="display:flex;flex-direction:column;gap:5px"></div>
+          <div id="ge-q5-hint" class="guidance-box cold" style="margin-top:5px"></div>
+        </div>
       </div>
     </div>
   </div>
@@ -2890,20 +2852,13 @@ tr.hi{background:#dbeafe}tr.good{background:#dcfce7}tr.bad{background:#fee2e2}
   </div>
 
   <div id="tc-s4" class="ba-locked-section" style="margin-top:16px">
-    <div class="two-col">
-      <div class="card">
-        <div class="card-title">Stage 4 — CNN Limitation</div>
-        <p style="font-size:14.5px;color:var(--muted);margin-bottom:10px">A k=2 filter trained on A &amp; B learns "being bad"→negative and "being good"→positive. Applied to Sentence C, the highest-scoring bigram is "was unhappy" — strongly negative. The negation "wasn't" seven words earlier is invisible.</p>
-        <div style="font-weight:600;font-size:14.5px;margin-bottom:8px">What does the k=2 model incorrectly predict for Sentence C?</div>
-        <div id="tc-q3-opts" style="display:flex;flex-direction:column;gap:5px;max-width:340px"></div>
-        <div id="tc-q3-hint" class="guidance-box cold" style="margin-top:8px;max-width:340px"></div>
-      </div>
-      <div class="card">
-        <div class="card-title">Reflect</div>
-        <p style="font-size:14.5px;color:var(--muted);margin-bottom:8px">An RNN maintains a hidden state h⁽ᵗ⁾ updated at every word. How does this let it correctly classify Sentence C where the k=2 CNN fails?</p>
-        <textarea id="tc-ref" rows="4" style="width:100%;box-sizing:border-box;background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:8px;color:var(--text);font-family:inherit;resize:vertical;margin-bottom:8px" placeholder="When the RNN reads 'unhappy', its hidden state already encodes that 'wasn't' appeared earlier…" oninput="tcUpdateSummary()"></textarea>
-        <div id="tc-summary" style="font-size:.88em;color:var(--muted)"></div>
-      </div>
+    <div class="card">
+      <div class="card-title">Stage 4 — CNN Limitation</div>
+      <p style="font-size:14.5px;color:var(--muted);margin-bottom:10px">A k=2 filter trained on A &amp; B learns "being bad"→negative and "being good"→positive. Applied to Sentence C, the highest-scoring bigram is "was unhappy" — strongly negative. The negation "wasn't" seven words earlier is invisible.</p>
+      <div style="font-weight:600;font-size:14.5px;margin-bottom:8px">What does the k=2 model incorrectly predict for Sentence C?</div>
+      <div id="tc-q3-opts" style="display:flex;flex-direction:column;gap:5px;max-width:340px"></div>
+      <div id="tc-q3-hint" class="guidance-box cold" style="margin-top:8px;max-width:340px"></div>
+      <div id="tc-summary" style="font-size:.88em;color:var(--muted);margin-top:12px"></div>
     </div>
   </div>
 </div>
@@ -2986,20 +2941,13 @@ tr.hi{background:#dbeafe}tr.good{background:#dcfce7}tr.bad{background:#fee2e2}
   </div>
 
   <div id="rf-s3" class="ba-locked-section" style="margin-top:16px">
-    <div class="two-col">
-      <div class="card">
-        <div class="card-title">Stage 3 — Key Insight</div>
-        <p style="font-size:14.5px;color:var(--muted);margin-bottom:10px">You found h⁽²⁾ = [5, 0]. Before ReLU the sum was [5, −7]; component 1 was clipped to 0. h⁽²⁾ depends on <em>both</em> x⁽¹⁾ (via h⁽¹⁾) and x⁽²⁾.</p>
-        <div style="font-weight:600;font-size:14.5px;margin-bottom:8px">What does it mean when ReLU zeros a hidden-state component?</div>
-        <div id="rf-q1-opts" style="display:flex;flex-direction:column;gap:5px;max-width:360px"></div>
-        <div id="rf-q1-hint" class="guidance-box cold" style="margin-top:8px;max-width:360px"></div>
-      </div>
-      <div class="card">
-        <div class="card-title">Reflect</div>
-        <p style="font-size:14.5px;color:var(--muted);margin-bottom:8px">h⁽²⁾ carries information from x⁽¹⁾ forward through h⁽¹⁾. How does this differ from a feedforward network that processes each input independently?</p>
-        <textarea id="rf-ref" rows="4" style="width:100%;box-sizing:border-box;background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:8px;color:var(--text);font-family:inherit;resize:vertical;margin-bottom:8px" placeholder="In an RNN the hidden state is a running summary of all past inputs — a feedforward network has no memory across positions…" oninput="rfUpdateSummary()"></textarea>
-        <div id="rf-summary" style="font-size:.88em;color:var(--muted)"></div>
-      </div>
+    <div class="card">
+      <div class="card-title">Stage 3 — Key Insight</div>
+      <p style="font-size:14.5px;color:var(--muted);margin-bottom:10px">You found h⁽²⁾ = [5, 0]. Before ReLU the sum was [5, −7]; component 1 was clipped to 0. h⁽²⁾ depends on <em>both</em> x⁽¹⁾ (via h⁽¹⁾) and x⁽²⁾.</p>
+      <div style="font-weight:600;font-size:14.5px;margin-bottom:8px">What does it mean when ReLU zeros a hidden-state component?</div>
+      <div id="rf-q1-opts" style="display:flex;flex-direction:column;gap:5px;max-width:360px"></div>
+      <div id="rf-q1-hint" class="guidance-box cold" style="margin-top:8px;max-width:360px"></div>
+      <div id="rf-summary" style="font-size:.88em;color:var(--muted);margin-top:12px"></div>
     </div>
   </div>
 </div>
@@ -3059,17 +3007,10 @@ tr.hi{background:#dbeafe}tr.good{background:#dcfce7}tr.bad{background:#fee2e2}
   </div>
 
   <div id="rd-s6" class="ba-locked-section" style="margin-top:16px">
-    <div class="two-col">
-      <div class="card">
-        <div class="card-title">Your Complete Architecture</div>
-        <div id="rd-arch-eqs" style="background:var(--surf2);border-radius:7px;padding:14px;font-family:'Courier New',monospace;font-size:14.5px;line-height:2.4"></div>
-      </div>
-      <div class="card">
-        <div class="card-title">Reflect</div>
-        <p style="font-size:14.5px;color:var(--muted);margin-bottom:8px">You chose <strong>tanh</strong> for the recurrence and <strong>softmax</strong> for the output. In a feedforward hidden layer, ReLU is usually preferred over tanh. Why is tanh a better choice here?</p>
-        <textarea id="rd-ref" rows="4" style="width:100%;box-sizing:border-box;background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:8px;color:var(--text);font-family:inherit;resize:vertical;margin-bottom:8px" placeholder="tanh bounds the hidden state to (−1,1), preventing it from growing unboundedly over many timesteps…" oninput="rdUpdateSummary()"></textarea>
-        <div id="rd-summary" style="font-size:.88em;color:var(--muted)"></div>
-      </div>
+    <div class="card">
+      <div class="card-title">Your Complete Architecture</div>
+      <div id="rd-arch-eqs" style="background:var(--surf2);border-radius:7px;padding:14px;font-family:'Courier New',monospace;font-size:14.5px;line-height:2.4"></div>
+      <div id="rd-summary" style="font-size:.88em;color:var(--muted);margin-top:12px"></div>
     </div>
   </div>
 </div>
@@ -3154,19 +3095,12 @@ tr.hi{background:#dbeafe}tr.good{background:#dcfce7}tr.bad{background:#fee2e2}
   </div>
 
   <div id="rn-s5" class="ba-locked-section" style="margin-top:16px">
-    <div class="two-col">
-      <div class="card">
-        <div class="card-title">Stage 5 — Replacing tanh with ReLU</div>
-        <p style="font-size:14.5px;color:var(--muted);margin-bottom:10px">Using ReLU in h⁽ᵗ⁾ = ReLU(Wh⁽ᵗ⁻¹⁾ + Ux⁽ᵗ⁾) removes the near-zero derivative problem. What new issue does it introduce?</p>
-        <div id="rn-q4-opts" style="display:flex;flex-direction:column;gap:5px;max-width:360px"></div>
-        <div id="rn-q4-hint" class="guidance-box cold" style="margin-top:8px;max-width:360px"></div>
-      </div>
-      <div class="card">
-        <div class="card-title">Reflect</div>
-        <p style="font-size:14.5px;color:var(--muted);margin-bottom:8px">The recurrent term <strong>Wh⁽ᵗ⁻¹⁾</strong> appears T−1 times in the BPTT chain, while the input term <strong>Ux⁽ᵗ⁾</strong> appears once per step. Why does the recurrent connection accumulate more saturation risk?</p>
-        <textarea id="rn-ref" rows="4" style="width:100%;box-sizing:border-box;background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:8px;color:var(--text);font-family:inherit;resize:vertical;margin-bottom:8px" placeholder="The W·h term is chained T−1 times because each step passes h back through W again…" oninput="rnUpdateSummary()"></textarea>
-        <div id="rn-summary" style="font-size:.88em;color:var(--muted)"></div>
-      </div>
+    <div class="card">
+      <div class="card-title">Stage 5 — Replacing tanh with ReLU</div>
+      <p style="font-size:14.5px;color:var(--muted);margin-bottom:10px">Using ReLU in h⁽ᵗ⁾ = ReLU(Wh⁽ᵗ⁻¹⁾ + Ux⁽ᵗ⁾) removes the near-zero derivative problem. What new issue does it introduce?</p>
+      <div id="rn-q4-opts" style="display:flex;flex-direction:column;gap:5px;max-width:360px"></div>
+      <div id="rn-q4-hint" class="guidance-box cold" style="margin-top:8px;max-width:360px"></div>
+      <div id="rn-summary" style="font-size:.88em;color:var(--muted);margin-top:12px"></div>
     </div>
   </div>
 </div>
@@ -3267,20 +3201,13 @@ tr.hi{background:#dbeafe}tr.good{background:#dcfce7}tr.bad{background:#fee2e2}
   </div>
 
   <div id="br-s5" class="ba-locked-section" style="margin-top:16px">
-    <div class="two-col">
-      <div class="card">
-        <div class="card-title">Stage 5 — When Does Context Matter?</div>
-        <p style="font-size:14.5px;color:var(--muted);margin-bottom:10px">At timestep t, h_f^(t) encodes everything <em>before</em> t; h_b^(t) encodes everything <em>after</em> t. Their combination gives full bidirectional context.</p>
-        <div style="font-weight:600;font-size:14.5px;margin-bottom:8px">For which task does seeing future tokens matter most?</div>
-        <div id="br-q3-opts" style="display:flex;flex-direction:column;gap:5px;max-width:340px"></div>
-        <div id="br-q3-hint" class="guidance-box cold" style="margin-top:8px;max-width:340px"></div>
-      </div>
-      <div class="card">
-        <div class="card-title">Reflect</div>
-        <p style="font-size:14.5px;color:var(--muted);margin-bottom:8px">A standard unidirectional RNN can be used for text generation (predicting the next word). Could you use a BiRNN for text generation? Why or why not?</p>
-        <textarea id="br-ref" rows="4" style="width:100%;box-sizing:border-box;background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:8px;color:var(--text);font-family:inherit;resize:vertical;margin-bottom:8px" placeholder="A BiRNN requires the full sequence to be available — it can't generate token-by-token because h_b depends on future tokens…" oninput="brUpdateSummary()"></textarea>
-        <div id="br-summary" style="font-size:.88em;color:var(--muted)"></div>
-      </div>
+    <div class="card">
+      <div class="card-title">Stage 5 — When Does Context Matter?</div>
+      <p style="font-size:14.5px;color:var(--muted);margin-bottom:10px">At timestep t, h_f^(t) encodes everything <em>before</em> t; h_b^(t) encodes everything <em>after</em> t. Their combination gives full bidirectional context.</p>
+      <div style="font-weight:600;font-size:14.5px;margin-bottom:8px">For which task does seeing future tokens matter most?</div>
+      <div id="br-q3-opts" style="display:flex;flex-direction:column;gap:5px;max-width:340px"></div>
+      <div id="br-q3-hint" class="guidance-box cold" style="margin-top:8px;max-width:340px"></div>
+      <div id="br-summary" style="font-size:.88em;color:var(--muted);margin-top:12px"></div>
     </div>
   </div>
 </div>
@@ -3340,20 +3267,13 @@ tr.hi{background:#dbeafe}tr.good{background:#dcfce7}tr.bad{background:#fee2e2}
   </div>
 
   <div id="ns-s5" class="ba-locked-section" style="margin-top:16px">
-    <div class="two-col">
-      <div class="card">
-        <div class="card-title">Stage 5 — Design a Format</div>
-        <p style="font-size:14.5px;color:var(--muted);margin-bottom:10px">Consider: <em>"Google was founded by Larry Page in California."</em></p>
-        <div style="font-weight:600;font-size:14.5px;margin-bottom:8px">Which output format is a valid seq2seq NER output for this sentence?</div>
-        <div id="ns-q4-opts" style="display:flex;flex-direction:column;gap:5px;max-width:360px"></div>
-        <div id="ns-q4-hint" class="guidance-box cold" style="margin-top:8px;max-width:360px"></div>
-      </div>
-      <div class="card">
-        <div class="card-title">Reflect</div>
-        <p style="font-size:14.5px;color:var(--muted);margin-bottom:8px">Write the exact input sequence and output sequence you would feed to a seq2seq NER model for: <em>"Óscar Romero was born in El Salvador."</em></p>
-        <textarea id="ns-ref" rows="4" style="width:100%;box-sizing:border-box;background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:8px;color:var(--text);font-family:inherit;resize:vertical;margin-bottom:8px" placeholder="Input: [Óscar, Romero, was, born, in, El, Salvador]&#10;Output: &lt;PER&gt; Óscar Romero &lt;/PER&gt; was born in &lt;LOC&gt; El Salvador &lt;/LOC&gt;" oninput="nsUpdateSummary()"></textarea>
-        <div id="ns-summary" style="font-size:.88em;color:var(--muted)"></div>
-      </div>
+    <div class="card">
+      <div class="card-title">Stage 5 — Design a Format</div>
+      <p style="font-size:14.5px;color:var(--muted);margin-bottom:10px">Consider: <em>"Google was founded by Larry Page in California."</em></p>
+      <div style="font-weight:600;font-size:14.5px;margin-bottom:8px">Which output format is a valid seq2seq NER output for this sentence?</div>
+      <div id="ns-q4-opts" style="display:flex;flex-direction:column;gap:5px;max-width:360px"></div>
+      <div id="ns-q4-hint" class="guidance-box cold" style="margin-top:8px;max-width:360px"></div>
+      <div id="ns-summary" style="font-size:.88em;color:var(--muted);margin-top:12px"></div>
     </div>
   </div>
 </div>
@@ -3410,19 +3330,12 @@ tr.hi{background:#dbeafe}tr.good{background:#dcfce7}tr.bad{background:#fee2e2}
   </div>
 
   <div id="rc-s5" class="ba-locked-section" style="margin-top:16px">
-    <div class="two-col">
-      <div class="card">
-        <div class="card-title">Stage 5 — Good Fit or Not?</div>
-        <div style="font-weight:600;font-size:14.5px;margin-bottom:8px">Which of these is NOT a natural fit for a recursive NN?</div>
-        <div id="rc-q4-opts" style="display:flex;flex-direction:column;gap:5px;max-width:340px"></div>
-        <div id="rc-q4-hint" class="guidance-box cold" style="margin-top:8px;max-width:340px"></div>
-      </div>
-      <div class="card">
-        <div class="card-title">Reflect</div>
-        <p style="font-size:14.5px;color:var(--muted);margin-bottom:8px">Describe one domain <em>outside</em> language processing where tree structure arises naturally. What would the leaves represent? What would an internal node represent?</p>
-        <textarea id="rc-ref" rows="4" style="width:100%;box-sizing:border-box;background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:8px;color:var(--text);font-family:inherit;resize:vertical;margin-bottom:8px" placeholder="e.g. Program ASTs: leaves = variables / literals, internal nodes = operators / function calls. The recursive NN composes sub-expression representations bottom-up…" oninput="rcUpdateSummary()"></textarea>
-        <div id="rc-summary" style="font-size:.88em;color:var(--muted)"></div>
-      </div>
+    <div class="card">
+      <div class="card-title">Stage 5 — Good Fit or Not?</div>
+      <div style="font-weight:600;font-size:14.5px;margin-bottom:8px">Which of these is NOT a natural fit for a recursive NN?</div>
+      <div id="rc-q4-opts" style="display:flex;flex-direction:column;gap:5px;max-width:340px"></div>
+      <div id="rc-q4-hint" class="guidance-box cold" style="margin-top:8px;max-width:340px"></div>
+      <div id="rc-summary" style="font-size:.88em;color:var(--muted);margin-top:12px"></div>
     </div>
   </div>
 </div>
@@ -3440,7 +3353,7 @@ tr.hi{background:#dbeafe}tr.good{background:#dcfce7}tr.bad{background:#fee2e2}
     <div class="card">
       <div class="card-title">Stage 1 — Unroll the Recurrence (h⁽⁰⁾ = 0)</div>
       <p style="font-size:14.5px;color:var(--muted);margin-bottom:12px">Substitute h⁽ᵗ⁻¹⁾ repeatedly to eliminate all h terms except h⁽⁰⁾ = 0. Pick the correct unrolled form for each step.</p>
-      <div style="display:flex;flex-direction:column;gap:14px;max-width:500px">
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px;align-items:start">
         <div class="ba-step-block">
           <div class="ba-step-label">h⁽¹⁾ = wh⁽⁰⁾ + ux⁽¹⁾ = ?</div>
           <div id="lr-q1-opts" style="display:flex;flex-direction:column;gap:4px"></div>
@@ -3508,19 +3421,12 @@ tr.hi{background:#dbeafe}tr.good{background:#dcfce7}tr.bad{background:#fee2e2}
   </div>
 
   <div id="lr-s5" class="ba-locked-section" style="margin-top:16px">
-    <div class="two-col">
-      <div class="card">
-        <div class="card-title">Stage 5 — Roles of w and u</div>
-        <div style="font-weight:600;font-size:14.5px;margin-bottom:8px">What is the key difference between what w and u control?</div>
-        <div id="lr-q6-opts" style="display:flex;flex-direction:column;gap:5px;max-width:340px"></div>
-        <div id="lr-q6-hint" class="guidance-box cold" style="margin-top:8px;max-width:340px"></div>
-      </div>
-      <div class="card">
-        <div class="card-title">Reflect</div>
-        <p style="font-size:14.5px;color:var(--muted);margin-bottom:8px">If you wanted the RNN to still "remember" an input from 10 steps ago with at least 50% weight, what constraint must |w| satisfy? (Hint: the weight on x⁽ᵀ⁻¹⁰⁾ is w¹⁰.)</p>
-        <textarea id="lr-ref" rows="4" style="width:100%;box-sizing:border-box;background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:8px;color:var(--text);font-family:inherit;resize:vertical;margin-bottom:8px" placeholder="We need w¹⁰ ≥ 0.5, so |w| ≥ 0.5^(1/10) ≈ 0.933. Anything smaller and the 10-step-old input has less than half its original weight…" oninput="lrUpdateSummary()"></textarea>
-        <div id="lr-summary" style="font-size:.88em;color:var(--muted)"></div>
-      </div>
+    <div class="card">
+      <div class="card-title">Stage 5 — Roles of w and u</div>
+      <div style="font-weight:600;font-size:14.5px;margin-bottom:8px">What is the key difference between what w and u control?</div>
+      <div id="lr-q6-opts" style="display:flex;flex-direction:column;gap:5px;max-width:340px"></div>
+      <div id="lr-q6-hint" class="guidance-box cold" style="margin-top:8px;max-width:340px"></div>
+      <div id="lr-summary" style="font-size:.88em;color:var(--muted);margin-top:12px"></div>
     </div>
   </div>
 </div>
@@ -3602,19 +3508,12 @@ tr.hi{background:#dbeafe}tr.good{background:#dcfce7}tr.bad{background:#fee2e2}
     </div>
   </div>
   <div id="gg-s6" class="ba-locked-section" style="margin-top:16px">
-    <div class="two-col">
-      <div class="card">
-        <div class="card-title">Stage 6 — Minimal GRU Insight</div>
-        <div style="font-weight:600;font-size:14.5px;margin-bottom:8px">Research shows minimal GRU variants (2 gates, no cell state) match LSTM on many tasks. What does this imply about the search space?</div>
-        <div id="gg-q4-opts" style="display:flex;flex-direction:column;gap:5px;max-width:360px"></div>
-        <div id="gg-q4-hint" class="guidance-box cold" style="margin-top:8px;max-width:360px"></div>
-      </div>
-      <div class="card">
-        <div class="card-title">Reflect</div>
-        <p style="font-size:14.5px;color:var(--muted);margin-bottom:8px">If you were running an architecture search over the 16-variant space, which dimension would you explore first — separate cell state, output gate, decoupled gates, or reset gate? What is your reasoning?</p>
-        <textarea id="gg-ref" rows="4" style="width:100%;box-sizing:border-box;background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:8px;color:var(--text);font-family:inherit;resize:vertical;margin-bottom:8px" placeholder="I would start with the separate cell state because…" oninput="ggUpdateSummary()"></textarea>
-        <div id="gg-summary" style="font-size:.88em;color:var(--muted)"></div>
-      </div>
+    <div class="card">
+      <div class="card-title">Stage 6 — Minimal GRU Insight</div>
+      <div style="font-weight:600;font-size:14.5px;margin-bottom:8px">Research shows minimal GRU variants (2 gates, no cell state) match LSTM on many tasks. What does this imply about the search space?</div>
+      <div id="gg-q4-opts" style="display:flex;flex-direction:column;gap:5px;max-width:360px"></div>
+      <div id="gg-q4-hint" class="guidance-box cold" style="margin-top:8px;max-width:360px"></div>
+      <div id="gg-summary" style="font-size:.88em;color:var(--muted);margin-top:12px"></div>
     </div>
   </div>
 </div>
@@ -3677,20 +3576,13 @@ tr.hi{background:#dbeafe}tr.good{background:#dcfce7}tr.bad{background:#fee2e2}
     </div>
   </div>
   <div id="tp-s5" class="ba-locked-section" style="margin-top:16px">
-    <div class="two-col">
-      <div class="card">
-        <div class="card-title">Stage 5 — ALiBi: Attention with Linear Biases</div>
-        <p style="font-size:14.5px;color:var(--muted);margin-bottom:8px">ALiBi subtracts m|i−j| from attention logits before softmax (m is a head-specific slope). No position vectors are added to the input.</p>
-        <div style="font-weight:600;font-size:14.5px;margin-bottom:8px">What does the −m|i−j| bias accomplish?</div>
-        <div id="tp-q4-opts" style="display:flex;flex-direction:column;gap:5px;max-width:360px"></div>
-        <div id="tp-q4-hint" class="guidance-box cold" style="margin-top:8px;max-width:360px"></div>
-      </div>
-      <div class="card">
-        <div class="card-title">Reflect</div>
-        <p style="font-size:14.5px;color:var(--muted);margin-bottom:8px">RoPE (Rotary PE) rotates Q and K vectors by a position-dependent angle before computing attention, so q<sub>i</sub>ᵀk<sub>j</sub> depends only on relative position i−j. How does this differ from sinusoidal PE (added to inputs) and ALiBi (added to attention scores)?</p>
-        <textarea id="tp-ref" rows="4" style="width:100%;box-sizing:border-box;background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:8px;color:var(--text);font-family:inherit;resize:vertical;margin-bottom:8px" placeholder="RoPE is different because it modifies Q and K directly before the dot product, meaning position encodes into the inner product geometry rather than…" oninput="tpUpdateSummary()"></textarea>
-        <div id="tp-summary" style="font-size:.88em;color:var(--muted)"></div>
-      </div>
+    <div class="card">
+      <div class="card-title">Stage 5 — ALiBi: Attention with Linear Biases</div>
+      <p style="font-size:14.5px;color:var(--muted);margin-bottom:8px">ALiBi subtracts m|i−j| from attention logits before softmax (m is a head-specific slope). No position vectors are added to the input.</p>
+      <div style="font-weight:600;font-size:14.5px;margin-bottom:8px">What does the −m|i−j| bias accomplish?</div>
+      <div id="tp-q4-opts" style="display:flex;flex-direction:column;gap:5px;max-width:360px"></div>
+      <div id="tp-q4-hint" class="guidance-box cold" style="margin-top:8px;max-width:360px"></div>
+      <div id="tp-summary" style="font-size:.88em;color:var(--muted);margin-top:12px"></div>
     </div>
   </div>
 </div>
@@ -3751,19 +3643,12 @@ tr.hi{background:#dbeafe}tr.good{background:#dcfce7}tr.bad{background:#fee2e2}
     </div>
   </div>
   <div id="cn-s5" class="ba-locked-section" style="margin-top:16px">
-    <div class="two-col">
-      <div class="card">
-        <div class="card-title">Stage 5 — Setting the Target</div>
-        <div style="font-weight:600;font-size:14.5px;margin-bottom:8px">Since the goal is to speed up (not replace) registrars, what performance profile makes sense?</div>
-        <div id="cn-q4-opts" style="display:flex;flex-direction:column;gap:5px;max-width:360px"></div>
-        <div id="cn-q4-hint" class="guidance-box cold" style="margin-top:8px;max-width:360px"></div>
-      </div>
-      <div class="card">
-        <div class="card-title">Reflect</div>
-        <p style="font-size:14.5px;color:var(--muted);margin-bottom:8px">If you had to report one number to hospital management as the model's "performance," would you report accuracy, F1, or recall? Justify your choice given the cost of missing a cancer diagnosis.</p>
-        <textarea id="cn-ref" rows="4" style="width:100%;box-sizing:border-box;background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:8px;color:var(--text);font-family:inherit;resize:vertical;margin-bottom:8px" placeholder="I would report recall because…" oninput="cnUpdateSummary()"></textarea>
-        <div id="cn-summary" style="font-size:.88em;color:var(--muted)"></div>
-      </div>
+    <div class="card">
+      <div class="card-title">Stage 5 — Setting the Target</div>
+      <div style="font-weight:600;font-size:14.5px;margin-bottom:8px">Since the goal is to speed up (not replace) registrars, what performance profile makes sense?</div>
+      <div id="cn-q4-opts" style="display:flex;flex-direction:column;gap:5px;max-width:360px"></div>
+      <div id="cn-q4-hint" class="guidance-box cold" style="margin-top:8px;max-width:360px"></div>
+      <div id="cn-summary" style="font-size:.88em;color:var(--muted);margin-top:12px"></div>
     </div>
   </div>
 </div>
@@ -3823,19 +3708,12 @@ tr.hi{background:#dbeafe}tr.good{background:#dcfce7}tr.bad{background:#fee2e2}
     </div>
   </div>
   <div id="lc-s5" class="ba-locked-section" style="margin-top:16px">
-    <div class="two-col">
-      <div class="card">
-        <div class="card-title">Stage 5 — Fixing Task B</div>
-        <div style="font-weight:600;font-size:14.5px;margin-bottom:8px">For Task B (strong overfitting), which action would make things WORSE?</div>
-        <div id="lc-q4-opts" style="display:flex;flex-direction:column;gap:5px;max-width:360px"></div>
-        <div id="lc-q4-hint" class="guidance-box cold" style="margin-top:8px;max-width:360px"></div>
-      </div>
-      <div class="card">
-        <div class="card-title">Reflect</div>
-        <p style="font-size:14.5px;color:var(--muted);margin-bottom:8px">Task A and Task B require different fixes. If you could only take ONE action for each task, what would it be and why? Is Task B's problem that the model hasn't learned enough, or that it has learned too much of the training set?</p>
-        <textarea id="lc-ref" rows="4" style="width:100%;box-sizing:border-box;background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:8px;color:var(--text);font-family:inherit;resize:vertical;margin-bottom:8px" placeholder="For Task A I would… For Task B I would…" oninput="lcUpdateSummary()"></textarea>
-        <div id="lc-summary" style="font-size:.88em;color:var(--muted)"></div>
-      </div>
+    <div class="card">
+      <div class="card-title">Stage 5 — Fixing Task B</div>
+      <div style="font-weight:600;font-size:14.5px;margin-bottom:8px">For Task B (strong overfitting), which action would make things WORSE?</div>
+      <div id="lc-q4-opts" style="display:flex;flex-direction:column;gap:5px;max-width:360px"></div>
+      <div id="lc-q4-hint" class="guidance-box cold" style="margin-top:8px;max-width:360px"></div>
+      <div id="lc-summary" style="font-size:.88em;color:var(--muted);margin-top:12px"></div>
     </div>
   </div>
 </div>
@@ -3894,19 +3772,12 @@ tr.hi{background:#dbeafe}tr.good{background:#dcfce7}tr.bad{background:#fee2e2}
     </div>
   </div>
   <div id="hb-s5" class="ba-locked-section">
-    <div class="two-col">
-      <div class="card">
-        <div class="card-title">Stage 5 · Bracket Intuition</div>
-        <p style="font-size:14.5px;color:var(--muted);margin-bottom:8px">Bracket s=3 starts <strong>1000 configurations</strong> but runs each for only <strong>1 iteration</strong>. What is the key assumption that makes this useful?</p>
-        <div id="hb-q4-opts" style="display:flex;flex-direction:column;gap:5px"></div>
-        <div id="hb-q4-hint" class="guidance-box cold" style="margin-top:8px"></div>
-      </div>
-      <div class="card">
-        <div class="card-title">Reflect</div>
-        <p style="font-size:14.5px;color:var(--muted);margin-bottom:8px">Hyperband assumes a config that looks bad after 1 iteration will likely stay bad. Describe a hyperparameter scenario (e.g., learning rate warmup, batch normalization) where this early-performance assumption could fail and Hyperband might discard the eventual best config.</p>
-        <textarea id="hb-ref" rows="4" style="width:100%;box-sizing:border-box;background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:8px;color:var(--text);font-family:inherit;resize:vertical;margin-bottom:8px" placeholder="A config that needs warmup steps might look terrible early but..." oninput="hbUpdateSummary()"></textarea>
-        <div id="hb-summary" style="font-size:.88em;color:var(--muted)"></div>
-      </div>
+    <div class="card">
+      <div class="card-title">Stage 5 · Bracket Intuition</div>
+      <p style="font-size:14.5px;color:var(--muted);margin-bottom:8px">Bracket s=3 starts <strong>1000 configurations</strong> but runs each for only <strong>1 iteration</strong>. What is the key assumption that makes this useful?</p>
+      <div id="hb-q4-opts" style="display:flex;flex-direction:column;gap:5px;max-width:380px"></div>
+      <div id="hb-q4-hint" class="guidance-box cold" style="margin-top:8px;max-width:380px"></div>
+      <div id="hb-summary" style="font-size:.88em;color:var(--muted);margin-top:12px"></div>
     </div>
   </div>
 </div>
@@ -3959,19 +3830,12 @@ tr.hi{background:#dbeafe}tr.good{background:#dcfce7}tr.bad{background:#fee2e2}
     </div>
   </div>
   <div id="le-s5" class="ba-locked-section">
-    <div class="two-col">
-      <div class="card">
-        <div class="card-title">Stage 5 · Medical Interpretation</div>
-        <p style="font-size:14.5px;color:var(--muted);margin-bottom:8px">A LIME explanation highlights "seconds 3–5 on Left-Temporal channels" as most driving the seizure prediction. A neurologist confirms this matches known temporal lobe onset patterns. What does this tell you?</p>
-        <div id="le-q4-opts" style="display:flex;flex-direction:column;gap:5px"></div>
-        <div id="le-q4-hint" class="guidance-box cold" style="margin-top:8px"></div>
-      </div>
-      <div class="card">
-        <div class="card-title">Reflect</div>
-        <p style="font-size:14.5px;color:var(--muted);margin-bottom:8px">EEG electrodes have known spatial positions on the scalp, and adjacent electrodes capture overlapping signals. If LIME masks channels independently and at random, what structural problem might arise? How could you design the neighborhood to respect electrode relationships?</p>
-        <textarea id="le-ref" rows="4" style="width:100%;box-sizing:border-box;background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:8px;color:var(--text);font-family:inherit;resize:vertical;margin-bottom:8px" placeholder="Masking adjacent electrodes independently could create unrealistic combinations because..." oninput="leUpdateSummary()"></textarea>
-        <div id="le-summary" style="font-size:.88em;color:var(--muted)"></div>
-      </div>
+    <div class="card">
+      <div class="card-title">Stage 5 · Medical Interpretation</div>
+      <p style="font-size:14.5px;color:var(--muted);margin-bottom:8px">A LIME explanation highlights "seconds 3–5 on Left-Temporal channels" as most driving the seizure prediction. A neurologist confirms this matches known temporal lobe onset patterns. What does this tell you?</p>
+      <div id="le-q4-opts" style="display:flex;flex-direction:column;gap:5px;max-width:400px"></div>
+      <div id="le-q4-hint" class="guidance-box cold" style="margin-top:8px;max-width:400px"></div>
+      <div id="le-summary" style="font-size:.88em;color:var(--muted);margin-top:12px"></div>
     </div>
   </div>
 </div>
@@ -4024,19 +3888,12 @@ tr.hi{background:#dbeafe}tr.good{background:#dcfce7}tr.bad{background:#fee2e2}
     </div>
   </div>
   <div id="ga-s5" class="ba-locked-section">
-    <div class="two-col">
-      <div class="card">
-        <div class="card-title">Stage 5 · Deciding to Trust</div>
-        <p style="font-size:14.5px;color:var(--muted);margin-bottom:8px">Which sanity check provides the strongest evidence that an interpretability method is actually examining the model's learned behavior rather than just the input structure?</p>
-        <div id="ga-q4-opts" style="display:flex;flex-direction:column;gap:5px"></div>
-        <div id="ga-q4-hint" class="guidance-box cold" style="margin-top:8px"></div>
-      </div>
-      <div class="card">
-        <div class="card-title">Reflect</div>
-        <p style="font-size:14.5px;color:var(--muted);margin-bottom:8px">Imagine a seizure-detection model where saliency highlights electrode channels that are noisy and often malfunctioning, but the model still predicts correctly (for other reasons). Why is "right prediction, wrong reason" especially dangerous here compared to a movie sentiment classifier?</p>
-        <textarea id="ga-ref" rows="4" style="width:100%;box-sizing:border-box;background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:8px;color:var(--text);font-family:inherit;resize:vertical;margin-bottom:8px" placeholder="In movie reviews a wrong-reason prediction is low-stakes because..." oninput="gaUpdateSummary()"></textarea>
-        <div id="ga-summary" style="font-size:.88em;color:var(--muted)"></div>
-      </div>
+    <div class="card">
+      <div class="card-title">Stage 5 · Deciding to Trust</div>
+      <p style="font-size:14.5px;color:var(--muted);margin-bottom:8px">Which sanity check provides the strongest evidence that an interpretability method is actually examining the model's learned behavior rather than just the input structure?</p>
+      <div id="ga-q4-opts" style="display:flex;flex-direction:column;gap:5px;max-width:400px"></div>
+      <div id="ga-q4-hint" class="guidance-box cold" style="margin-top:8px;max-width:400px"></div>
+      <div id="ga-summary" style="font-size:.88em;color:var(--muted);margin-top:12px"></div>
     </div>
   </div>
 </div>
@@ -4896,21 +4753,23 @@ function isComplete(module) {
     if (module === 'batchnorm') return bnMeansOk && bnWpOk && bnBetaOk && bnWhyOk
     if (module === 'conv91') return cvOutputOk && cvQ1 === true && cvQ2 === true
     if (module === 'pool93') return plFillOk && [plQ1,plQ2,plQ3,plQ4].every(v=>v===true)
-    if (module === 'textcnn') return tcQ1===true && tcQ2===true && tcQ3===true && ($('tc-ref')||{value:''}).value.trim().length > 10
-    if (module === 'rnnfwd') return rfFillOk && rfMCQ===true && ($('rf-ref')||{value:''}).value.trim().length > 10
-    if (module === 'rnndesign') return rdQ1===true && rdQ2===true && rdQ3===true && rdQ4===true && rdQ5===true && ($('rd-ref')||{value:''}).value.trim().length > 10
-    if (module === 'rnntanh') return rnMoves>=3 && rnQ1===true && rnQ2===true && rnQ3===true && rnQ4===true && ($('rn-ref')||{value:''}).value.trim().length > 10
-    if (module === 'birnn') return brEq1ok && brEq2ok && brEq3ok && brQ1===true && brQ2===true && brQ3===true && ($('br-ref')||{value:''}).value.trim().length > 10
-    if (module === 'nerseq') return nsQ1===true && nsQ2===true && nsQ3===true && nsQ4===true && ($('ns-ref')||{value:''}).value.trim().length > 10
-    if (module === 'recnets') return rcQ1===true && rcQ2===true && rcQ3===true && rcQ4===true && ($('rc-ref')||{value:''}).value.trim().length > 10
-    if (module === 'linrnn') return lrQ1===true && lrQ2===true && lrQ3===true && lrQ4===true && lrQ5===true && lrQ6===true && lrSliderMoves>=3 && ($('lr-ref')||{value:''}).value.trim().length > 10
-    if (module === 'grucomp') return ggQ1===true && ggQ2===true && ggQ3===true && ggQ4===true && ggToggleSeen.size>=4 && ($('gg-ref')||{value:''}).value.trim().length > 10
-    if (module === 'trfpos') return tpQ1===true && tpQ2===true && tpQ3===true && tpQ4===true && tpOrdersSeen.size>=2 && ($('tp-ref')||{value:''}).value.trim().length > 10
-    if (module === 'cancernlp') return cnQ1===true && cnQ2===true && cnQ3===true && cnQ4===true && cnSliderMoves>=3 && ($('cn-ref')||{value:''}).value.trim().length > 10
-    if (module === 'learncurve') return lcQ1===true && lcQ2===true && lcQ3===true && lcQ4===true && lcPatternsSeen.size>=4 && ($('lc-ref')||{value:''}).value.trim().length > 10
-    if (module === 'hypband') return hbQ1===true && hbQ2===true && hbQ3===true && hbQ4===true && hbBracketsSeen.size>=4 && ($('hb-ref')||{value:''}).value.trim().length > 10
-    if (module === 'limeeeg') return leQ1===true && leQ2===true && leQ3===true && leQ4===true && leDomainsSeen.size>=3 && ($('le-ref')||{value:''}).value.trim().length > 10
-    if (module === 'gradattr') return gaQ1===true && gaQ2===true && gaQ3===true && gaQ4===true && gaMethodsSeen.size>=3 && ($('ga-ref')||{value:''}).value.trim().length > 10
+    if (module === 'gcmech') return gmQ1===true && gmFillOk && gmQ2===true && gmQ3===true
+    if (module === 'gceq') return [geQ1,geQ2,geQ3,geQ4,geQ5].every(v=>v===true)
+    if (module === 'textcnn') return tcQ1===true && tcQ2===true && tcQ3===true
+    if (module === 'rnnfwd') return rfFillOk && rfMCQ===true
+    if (module === 'rnndesign') return rdQ1===true && rdQ2===true && rdQ3===true && rdQ4===true && rdQ5===true
+    if (module === 'rnntanh') return rnMoves>=3 && rnQ1===true && rnQ2===true && rnQ3===true && rnQ4===true
+    if (module === 'birnn') return brEq1ok && brEq2ok && brEq3ok && brQ1===true && brQ2===true && brQ3===true
+    if (module === 'nerseq') return nsQ1===true && nsQ2===true && nsQ3===true && nsQ4===true
+    if (module === 'recnets') return rcQ1===true && rcQ2===true && rcQ3===true && rcQ4===true
+    if (module === 'linrnn') return lrQ1===true && lrQ2===true && lrQ3===true && lrQ4===true && lrQ5===true && lrQ6===true && lrSliderMoves>=3
+    if (module === 'grucomp') return ggQ1===true && ggQ2===true && ggQ3===true && ggQ4===true && ggToggleSeen.size>=4
+    if (module === 'trfpos') return tpQ1===true && tpQ2===true && tpQ3===true && tpQ4===true && tpOrdersSeen.size>=2
+    if (module === 'cancernlp') return cnQ1===true && cnQ2===true && cnQ3===true && cnQ4===true && cnSliderMoves>=3
+    if (module === 'learncurve') return lcQ1===true && lcQ2===true && lcQ3===true && lcQ4===true && lcPatternsSeen.size>=4
+    if (module === 'hypband') return hbQ1===true && hbQ2===true && hbQ3===true && hbQ4===true && hbBracketsSeen.size>=4
+    if (module === 'limeeeg') return leQ1===true && leQ2===true && leQ3===true && leQ4===true && leDomainsSeen.size>=3
+    if (module === 'gradattr') return gaQ1===true && gaQ2===true && gaQ3===true && gaQ4===true && gaMethodsSeen.size>=3
   } catch(e) {}
   return false
 }
@@ -5049,8 +4908,7 @@ async function submitWork(module) {
     data = {
       scenario_mcqs: Object.values(gnMcq).filter(v=>v===true).length,
       clip_mcq: gnMcqClip===true,
-      stage_reached: gnStage,
-      reflection: gnReflection
+      stage_reached: gnStage
     }
   } else if (module === 'momentum') {
     data = {
@@ -5058,23 +4916,22 @@ async function submitWork(module) {
       mom_correct: mmCountMomOk(),
       accum_mcq: mmMcq.accum===true,
       carry_mcq: mmMcq.carry===true,
-      stage_reached: mmStage,
-      reflection: mmReflection
+      stage_reached: mmStage
     }
   } else if (module === 'transferlearn') {
-    data = { mcqs_ok: Object.values(tlMcq).filter(v=>v===true).length, pixel_ok: tlPxOk, stage_reached: tlStage, reflection: tlRef }
+    data = { mcqs_ok: Object.values(tlMcq).filter(v=>v===true).length, pixel_ok: tlPxOk, stage_reached: tlStage }
   } else if (module === 'optrace') {
-    data = { match_ok: Object.values(orMcq).filter(v=>v===true).length, sim_run: orRan, final_mcq: orFinal===true, stage_reached: orStage, reflection: orRef }
+    data = { match_ok: Object.values(orMcq).filter(v=>v===true).length, sim_run: orRan, final_mcq: orFinal===true, stage_reached: orStage }
   } else if (module === 'batchnorm') {
-    data = { means_ok: bnMeansOk, wp_ok: bnWpOk, beta_ok: bnBetaOk, why_ok: bnWhyOk, stage_reached: bnStage, reflection: bnRef }
+    data = { means_ok: bnMeansOk, wp_ok: bnWpOk, beta_ok: bnBetaOk, why_ok: bnWhyOk, stage_reached: bnStage }
   } else if (module === 'conv91') {
-    data = { output_ok: cvOutputOk, q1_ok: cvQ1===true, q2_ok: cvQ2===true, stage_reached: cvStage, reflection: ($('cv-ref')||{value:''}).value }
+    data = { output_ok: cvOutputOk, q1_ok: cvQ1===true, q2_ok: cvQ2===true, stage_reached: cvStage }
   } else if (module === 'pool93') {
-    data = { fill_ok: plFillOk, mcqs_ok: [plQ1,plQ2,plQ3,plQ4].filter(v=>v===true).length, stage_reached: plStage, reflection: ($('pl-ref')||{value:''}).value }
+    data = { fill_ok: plFillOk, mcqs_ok: [plQ1,plQ2,plQ3,plQ4].filter(v=>v===true).length, stage_reached: plStage }
   } else if (module === 'gcmech') {
-    data = { fill_ok: gmFillOk, mcqs_ok: [gmQ1,gmQ2,gmQ3].filter(v=>v===true).length, stage_reached: gmStage, reflection: ($('gm-ref')||{value:''}).value }
+    data = { fill_ok: gmFillOk, mcqs_ok: [gmQ1,gmQ2,gmQ3].filter(v=>v===true).length, stage_reached: gmStage }
   } else if (module === 'gceq') {
-    data = { mcqs_ok: [geQ1,geQ2,geQ3,geQ4,geQ5].filter(v=>v===true).length, stage_reached: geStage, reflection: ($('ge-ref')||{value:''}).value }
+    data = { mcqs_ok: [geQ1,geQ2,geQ3,geQ4,geQ5].filter(v=>v===true).length, stage_reached: geStage }
   }
 
   const prefix = module === 'ce' ? 'ce' : module === 'maxout' ? 'mx' : module === 'regions' ? 'lr' : module === 'compgraph' ? 'cg' : module === 'backprop' ? 'bp' : module === 'regrace' ? 'rr' : module === 'earlystop' ? 'es' : module === 'dropout' ? 'dp' : module === 'taxonomy' ? 'kd' : module === 'surrogate' ? 'sl' : module === 'gradnorm' ? 'gn' : module === 'momentum' ? 'mm' : module === 'transferlearn' ? 'tl' : module === 'optrace' ? 'or' : module === 'batchnorm' ? 'bn' : module === 'conv91' ? 'cv' : module === 'pool93' ? 'pl' : module === 'gcmech' ? 'gm' : module === 'gceq' ? 'ge' : module[0]==='a' ? module : module[0]
@@ -7682,7 +7539,6 @@ function initSurrogateLoss(){
 let gnStage=0
 let gnMcq={illcond:null,localmin:null,saddle:null,cliff:null}
 let gnMcqClip=null
-let gnReflection=''
 let gnMcqIdx=0
 const GN_SCENARIOS=[
   {key:'illcond',
@@ -7811,13 +7667,11 @@ function gnClipAnswer(i){
   gnUpdateSubmitSummary()
 }
 function gnUpdateSubmitSummary(){
-  gnReflection=($('gn-reflection')||{value:''}).value
   const el=$('gn-submit-summary')
   const n=Object.values(gnMcq).filter(v=>v===true).length
   if(el) el.innerHTML=`<p><strong>Scenario MCQs:</strong> ${n}/4 ${n===4?'<span style="color:var(--green)">✓</span>':''}</p>
     <p><strong>Gradient clipping MCQ:</strong> ${gnMcqClip===true?'<span style="color:var(--green)">✓</span>':'not yet'}</p>
-    <p><strong>Stage reached:</strong> ${gnStage}/2</p>
-    <p><strong>Reflection:</strong> ${gnReflection.length>10?'<span style="color:var(--green)">✓</span>':'not yet'}</p>`
+    <p><strong>Stage reached:</strong> ${gnStage}/2</p>`
   updateBadge('gn-completed', isComplete('gradnorm'))
 }
 function initGradNorm(){ gnUpdateSubmitSummary() }
@@ -7827,7 +7681,6 @@ function initGradNorm(){ gnUpdateSubmitSummary() }
 // ══════════════════════════════════════════════════
 let mmStage=0
 let mmMcq={accum:null,carry:null}
-let mmReflection=''
 const MM_NO=[{W0:0,W1:-0.5},{W0:-0.5,W1:-0.5},{W0:-0.5,W1:-1.0}]
 const MM_MOM=[
   {v0:0,v1:-0.5,W0:0,W1:-0.5},
@@ -8001,14 +7854,12 @@ function mmAnswer(q,i){
   mmUpdateSubmitSummary()
 }
 function mmUpdateSubmitSummary(){
-  mmReflection=($('mm-reflection')||{value:''}).value
   const el=$('mm-submit-summary')
   if(el) el.innerHTML=`<p><strong>No-momentum table:</strong> ${mmCountNoMomOk()}/3 steps correct</p>
     <p><strong>Momentum table:</strong> ${mmCountMomOk()}/3 steps correct</p>
     <p><strong>Accumulation MCQ:</strong> ${mmMcq.accum===true?'<span style="color:var(--green)">✓</span>':'not yet'}</p>
     <p><strong>Step-size MCQ:</strong> ${mmMcq.carry===true?'<span style="color:var(--green)">✓</span>':'not yet'}</p>
-    <p><strong>Stage reached:</strong> ${mmStage}/3</p>
-    <p><strong>Reflection:</strong> ${mmReflection.length>10?'<span style="color:var(--green)">✓</span>':'not yet'}</p>`
+    <p><strong>Stage reached:</strong> ${mmStage}/3</p>`
   updateBadge('mm-completed', isComplete('momentum'))
 }
 function initMomentum(){
@@ -8020,7 +7871,7 @@ function initMomentum(){
 // ══════════════════════════════════════════════════
 //  ACTIVITY 8.4 — TRANSFER LEARNING
 // ══════════════════════════════════════════════════
-let tlStage=0, tlMcq={a:null,b:null,c:null,d:null}, tlPxOk=false, tlRef=''
+let tlStage=0, tlMcq={a:null,b:null,c:null,d:null}, tlPxOk=false
 const TL_Q1=[
   {t:'Maps backbone features to task-specific outputs (class scores or pixel labels)',c:true},
   {t:'Stores the model weights before fine-tuning begins',c:false},
@@ -8107,8 +7958,6 @@ function tlAns(q,i){
   }
   const s2ok=tlMcq.a&&tlMcq.b&&tlMcq.c
   const btn2=$('tl-btn2'); if(btn2) btn2.disabled=!s2ok
-  const s3ok=tlMcq.d&&tlPxOk
-  const btn3=$('tl-btn3'); if(btn3) btn3.disabled=!s3ok
   tlUpdateSummary()
 }
 function tlCheckPixel(){
@@ -8123,15 +7972,12 @@ function tlCheckPixel(){
     if(hint){hint.className='guidance-box warm';hint.innerHTML='Try 3000 × 512 × 512.'}
     tlPxOk=false
   }
-  const s3ok=tlMcq.d&&tlPxOk
-  const btn3=$('tl-btn3'); if(btn3) btn3.disabled=!s3ok
   tlUpdateSummary()
 }
 function tlUpdateSummary(){
-  tlRef=($('tl-ref')||{value:''}).value
   const el=$('tl-summary'); if(!el) return
   const n=Object.values(tlMcq).filter(v=>v===true).length
-  el.innerHTML=`<p><strong>MCQs:</strong> ${n}/4</p><p><strong>Pixel count:</strong> ${tlPxOk?'<span style="color:var(--green)">✓</span>':'not yet'}</p><p><strong>Stage:</strong> ${tlStage}/4</p><p><strong>Reflection:</strong> ${tlRef.length>10?'<span style="color:var(--green)">✓</span>':'not yet'}</p>`
+  el.innerHTML=`<p><strong>MCQs:</strong> ${n}/4</p><p><strong>Pixel count:</strong> ${tlPxOk?'<span style="color:var(--green)">✓</span>':'not yet'}</p><p><strong>Stage:</strong> ${tlStage}/3</p>`
   updateBadge('tl-completed', isComplete('transferlearn'))
 }
 function initTransferLearn(){tlUpdateSummary()}
@@ -8139,7 +7985,7 @@ function initTransferLearn(){tlUpdateSummary()}
 // ══════════════════════════════════════════════════
 //  ACTIVITY 8.5 — OPTIMIZER RACE
 // ══════════════════════════════════════════════════
-let orStage=0, orMcq={sgd:null,ada:null,rms:null,adam:null}, orFinal=null, orRan=false, orRef=''
+let orStage=0, orMcq={sgd:null,ada:null,rms:null,adam:null}, orFinal=null, orRan=false
 const OR_F=(x,y)=>(x-3)**2+8*(y-2)**2
 const OR_GX=(x,_)=>2*(x-3)
 const OR_GY=(_,y)=>16*(y-2)
@@ -8284,10 +8130,9 @@ function orFinalAns(i){
   orUpdateSummary()
 }
 function orUpdateSummary(){
-  orRef=($('or-ref')||{value:''}).value
   const el=$('or-summary'); if(!el) return
   const n=Object.values(orMcq).filter(v=>v===true).length
-  el.innerHTML=`<p><strong>Matching MCQs:</strong> ${n}/4</p><p><strong>Simulation run:</strong> ${orRan?'<span style="color:var(--green)">✓</span>':'not yet'}</p><p><strong>Final MCQ:</strong> ${orFinal===true?'<span style="color:var(--green)">✓</span>':'not yet'}</p><p><strong>Stage:</strong> ${orStage}/5</p><p><strong>Reflection:</strong> ${orRef.length>10?'<span style="color:var(--green)">✓</span>':'not yet'}</p>`
+  el.innerHTML=`<p><strong>Matching MCQs:</strong> ${n}/4</p><p><strong>Simulation run:</strong> ${orRan?'<span style="color:var(--green)">✓</span>':'not yet'}</p><p><strong>Final MCQ:</strong> ${orFinal===true?'<span style="color:var(--green)">✓</span>':'not yet'}</p><p><strong>Stage:</strong> ${orStage}/5</p>`
   updateBadge('or-completed', isComplete('optrace'))
 }
 function initOptRace(){orUpdateSummary()}
@@ -8295,7 +8140,7 @@ function initOptRace(){orUpdateSummary()}
 // ══════════════════════════════════════════════════
 //  ACTIVITY 8.7.1 — BATCH NORMALIZATION
 // ══════════════════════════════════════════════════
-let bnStage=0, bnMeansOk=false, bnWpOk=false, bnBetaOk=false, bnWhyOk=false, bnRef=''
+let bnStage=0, bnMeansOk=false, bnWpOk=false, bnBetaOk=false, bnWhyOk=false
 const BN_X=[[1,0],[3,1],[2,1]]
 const BN_WHY=[
   {t:'β directly equals μ(H′) always (since μ(H̃)=0 by construction), so no linear system to solve',c:true},
@@ -8372,7 +8217,6 @@ function bnCheckBN(){
     if(bv&&!ok2) m.push('β = [3, 5] matches the two column targets')
     if(hint){hint.className='guidance-box warm';hint.innerHTML='<strong>Hint:</strong> '+m.join('; ')}
   }
-  const btn4=$('bn-btn4'); if(btn4) btn4.disabled=!(bnBetaOk&&bnWhyOk)
   bnUpdateSummary()
 }
 function bnRenderWhy(){
@@ -8392,13 +8236,11 @@ function bnWhyAns(i){
     if(hint){hint.className='guidance-box warm';hint.innerHTML='<strong>Not quite.</strong> '+(fails[i]||'Think about what β controls in H′=γH̃+β.')}
     document.querySelectorAll('.cg-mcq-opt[id^="bn-wy"]').forEach((e,j)=>{if(j!==i)e.onclick=()=>bnWhyAns(j)})
   }
-  const btn4=$('bn-btn4'); if(btn4) btn4.disabled=!(bnBetaOk&&bnWhyOk)
   bnUpdateSummary()
 }
 function bnUpdateSummary(){
-  bnRef=($('bn-ref')||{value:''}).value
   const el=$('bn-summary'); if(!el) return
-  el.innerHTML=`<p><strong>Column means:</strong> ${bnMeansOk?'<span style="color:var(--green)">✓</span>':'not yet'}</p><p><strong>W′ found:</strong> ${bnWpOk?'<span style="color:var(--green)">✓</span>':'not yet'}</p><p><strong>BN fill-in:</strong> ${bnBetaOk?'<span style="color:var(--green)">✓</span>':'not yet'}</p><p><strong>Why easier:</strong> ${bnWhyOk?'<span style="color:var(--green)">✓</span>':'not yet'}</p><p><strong>Stage:</strong> ${bnStage}/5</p><p><strong>Reflection:</strong> ${bnRef.length>10?'<span style="color:var(--green)">✓</span>':'not yet'}</p>`
+  el.innerHTML=`<p><strong>Column means:</strong> ${bnMeansOk?'<span style="color:var(--green)">✓</span>':'not yet'}</p><p><strong>W′ found:</strong> ${bnWpOk?'<span style="color:var(--green)">✓</span>':'not yet'}</p><p><strong>BN fill-in:</strong> ${bnBetaOk?'<span style="color:var(--green)">✓</span>':'not yet'}</p><p><strong>Why easier:</strong> ${bnWhyOk?'<span style="color:var(--green)">✓</span>':'not yet'}</p><p><strong>Stage:</strong> ${bnStage}/4</p>`
   updateBadge('bn-completed', isComplete('batchnorm'))
 }
 function initBatchNorm(){bnLiveH();bnUpdateSummary()}
@@ -8517,7 +8359,7 @@ function cvRenderMCQs(){
 
 function cvMCQ(q,i){
   const data=q===1?CV_Q1:CV_Q2,pfx=`cv-q${q}-`,hid=`cv-q${q}-hint`
-  document.querySelectorAll(`[id^="${pfx}"]`).forEach(e=>e.onclick=null)
+  document.querySelectorAll(`.cg-mcq-opt[id^="${pfx}"]`).forEach(e=>e.onclick=null)
   $(`${pfx}${i}`).classList.add(data[i].c?'sel-ok':'sel-bad')
   const hint=$(hid)
   if(data[i].c){
@@ -8525,7 +8367,7 @@ function cvMCQ(q,i){
     const msgs={1:'<strong>✓ Correct!</strong> ⌊(5−3)/2+1⌋ = ⌊1+1⌋ = 2 → output is 2×2.',2:'<strong>✓ Correct!</strong> Because the same kernel is slid across every position, a feature detector fires wherever the pattern appears — regardless of location.'}
     if(hint){hint.className='guidance-box done';hint.innerHTML=msgs[q].replace('<strong>✓ Correct!</strong>','<strong>'+String.fromCharCode(65+i)+'. ✓ Correct!</strong>')}
   } else {
-    document.querySelectorAll(`[id^="${pfx}"]`).forEach((e,j)=>{if(j!==i)e.onclick=()=>cvMCQ(q,j)})
+    document.querySelectorAll(`.cg-mcq-opt[id^="${pfx}"]`).forEach((e,j)=>{if(j!==i)e.onclick=()=>cvMCQ(q,j)})
     const wrong1={0:'Check the formula: ⌊(5−3)/2+1⌋ = ?',2:'Larger kernel → smaller output.',3:'No padding was specified; use the formula directly.'}
     const wrong2={1:'Rotation invariance comes from data augmentation or special architectures, not the sliding kernel.',2:'Scale invariance is a separate property; pooling gives partial invariance.',3:'Each output pixel only sees its k×k patch — not the whole image.'}
     if(hint){hint.className='guidance-box warm';hint.innerHTML='<strong>Not quite.</strong> '+(q===1?(wrong1[i]||'Apply ⌊(H−k)/s+1⌋.'):(wrong2[i]||'Think about what "sliding" achieves.'))}
@@ -8534,9 +8376,8 @@ function cvMCQ(q,i){
 }
 
 function cvUpdateSummary(){
-  const ref=($('cv-ref')||{value:''}).value
   const el=$('cv-summary'); if(!el) return
-  el.innerHTML=`<p><strong>Output grid:</strong> ${cvOutputOk?'<span style="color:var(--green)">✓</span>':'not yet'}</p><p><strong>Size Q:</strong> ${cvQ1===true?'<span style="color:var(--green)">✓</span>':'not yet'}</p><p><strong>Property Q:</strong> ${cvQ2===true?'<span style="color:var(--green)">✓</span>':'not yet'}</p><p><strong>Reflection:</strong> ${ref.length>10?'<span style="color:var(--green)">✓</span>':'not yet'}</p>`
+  el.innerHTML=`<p><strong>Output grid:</strong> ${cvOutputOk?'<span style="color:var(--green)">✓</span>':'not yet'}</p><p><strong>Size Q:</strong> ${cvQ1===true?'<span style="color:var(--green)">✓</span>':'not yet'}</p><p><strong>Property Q:</strong> ${cvQ2===true?'<span style="color:var(--green)">✓</span>':'not yet'}</p>`
   updateBadge('cv-completed', isComplete('conv91'))
 }
 
@@ -8662,7 +8503,7 @@ function plRenderS3MCQs(){
 function plMCQ(q,i){
   const data=[null,PL_Q1,PL_Q2,PL_Q3,PL_Q4][q]
   const pfx=`pl-q${q}-`,hid=`pl-q${q}-hint`
-  document.querySelectorAll(`[id^="${pfx}"]`).forEach(e=>e.onclick=null)
+  document.querySelectorAll(`.cg-mcq-opt[id^="${pfx}"]`).forEach(e=>e.onclick=null)
   $(`${pfx}${i}`).classList.add(data[i].c?'sel-ok':'sel-bad')
   const hint=$(hid)
   if(data[i].c){
@@ -8671,7 +8512,7 @@ function plMCQ(q,i){
     else if(q===3){plQ3=true; if(hint){hint.className='guidance-box done';hint.innerHTML='<strong>'+String.fromCharCode(65+i)+'. ✓ Correct!</strong> AdaptiveAvgPool2d(4) sets T=4 and computes p,s per image.'}}
     else if(q===4){plQ4=true; if(hint){hint.className='guidance-box done';hint.innerHTML='<strong>'+String.fromCharCode(65+i)+'. ✓ Correct!</strong> GAP collapses spatial dimensions entirely, making the FC head size-independent.'}}
   } else {
-    document.querySelectorAll(`[id^="${pfx}"]`).forEach((e,j)=>{if(j!==i)e.onclick=()=>plMCQ(q,j)})
+    document.querySelectorAll(`.cg-mcq-opt[id^="${pfx}"]`).forEach((e,j)=>{if(j!==i)e.onclick=()=>plMCQ(q,j)})
     if(hint){hint.className='guidance-box warm';hint.innerHTML='<strong>Not quite.</strong> Try again.'}
     if(q===1) plQ1=false; else if(q===2) plQ2=false; else if(q===3) plQ3=false; else plQ4=false
   }
@@ -8679,27 +8520,10 @@ function plMCQ(q,i){
 }
 
 function plUpdateSummary(){
-  const ref=($('pl-ref')||{value:''}).value
   const el=$('pl-summary'); if(!el) return
-  el.innerHTML=`<p><strong>Formula fill-in:</strong> ${plFillOk?'<span style="color:var(--green)">✓</span>':'not yet'}</p><p><strong>MCQs correct:</strong> ${[plQ1,plQ2,plQ3,plQ4].filter(v=>v===true).length}/4</p><p><strong>Stage:</strong> ${plStage}/3</p><p><strong>Reflection:</strong> ${ref.length>10?'<span style="color:var(--green)">✓</span>':'not yet'}</p>`
+  el.innerHTML=`<p><strong>Formula fill-in:</strong> ${plFillOk?'<span style="color:var(--green)">✓</span>':'not yet'}</p><p><strong>MCQs correct:</strong> ${[plQ1,plQ2,plQ3,plQ4].filter(v=>v===true).length}/4</p><p><strong>Stage:</strong> ${plStage}/3</p>`
   updateBadge('pl-completed', isComplete('pool93'))
 }
-
-function gmUpdateSummary(){
-  const ref=($('gm-ref')||{value:''}).value
-  const el=$('gm-summary'); if(!el) return
-  el.innerHTML=`<p><strong>Reflection:</strong> ${ref.length>10?'<span style="color:var(--green)">✓</span>':'not yet'}</p>`
-  updateBadge('gm-completed', ref.length>10)
-}
-function initGCMech(){ gmUpdateSummary() }
-
-function geUpdateSummary(){
-  const ref=($('ge-ref')||{value:''}).value
-  const el=$('ge-summary'); if(!el) return
-  el.innerHTML=`<p><strong>Reflection:</strong> ${ref.length>10?'<span style="color:var(--green)">✓</span>':'not yet'}</p>`
-  updateBadge('ge-completed', ref.length>10)
-}
-function initGCEq(){ geUpdateSummary() }
 
 function initPool93(){
   const eq=$('pl-prob-eq')
@@ -8720,6 +8544,315 @@ function initPool93(){
     typeset(eq)
   }
   plUnlock(1); plRenderQ1(); plUpdate(); plAdaptUpdate(); plUpdateSummary()
+}
+
+// ══════════════════════════════════════════════════
+//  ACTIVITY 9.GC.1 — GRAPH CONVOLUTION MECHANICS
+// ══════════════════════════════════════════════════
+let gmStage=0, gmFillOk=false, gmQ1=null, gmQ2=null, gmQ3=null
+let gmHL=-1, gmDone=new Set(), gmAnimTimer=null
+const GM_H=[4,1,3,0,2]
+const GM_POS=[[60,55],[180,55],[120,125],[185,190],[55,190]]
+const GM_EDGES=[[0,1],[0,2],[0,4],[1,2],[2,3],[3,4]]
+// A* = A + I: edges plus a self-loop on every node
+const GM_A=GM_H.map((_,i)=>GM_H.map((_,j)=>i===j||GM_EDGES.some(([a,b])=>(a===i&&b===j)||(a===j&&b===i))?1:0))
+const GM_NBR=GM_A.map(row=>row.map((v,j)=>v?j:-1).filter(j=>j>=0))
+const GM_NEW=GM_NBR.map(js=>js.reduce((s,j)=>s+GM_H[j],0)/js.length)
+const GM_Q1=[
+  {t:'2',h:'Count the 1s in row 2 of A* again.'},
+  {t:'3',c:true},
+  {t:'4',h:'That count includes the self-loop A*[2][2]. Leave it out.'},
+  {t:'5',h:'There are only 5 nodes in total, and one of them is node 2 itself.'}
+]
+const GM_Q2=[
+  {t:'Yes — A records the direction of every edge',h:'A only records whether an edge exists (1) or not (0), and it is symmetric: A[i][j] = A[j][i].'},
+  {t:'Yes — W has a separate weight for each neighbour',h:'There is one shared W. Every neighbour\'s feature is multiplied by the same W.'},
+  {t:'No — neighbour features are averaged, so the result is the same whichever neighbour sent which value',c:true},
+  {t:'Only for nodes that have a self-loop',h:'Every node has a self-loop in A*. It adds the node\'s own feature but carries no direction.'}
+]
+const GM_Q3=[
+  {t:'Yes — each node learns its own W',h:'A separate W per node would grow with the graph, and the model could not run on a new graph.'},
+  {t:'Yes — nodes with a larger h get a larger W',h:'W does not depend on the input. The same W multiplies every aggregated feature.'},
+  {t:'Only if the two nodes have a different number of neighbours',h:'Degree changes the averaging (divide by 3 or 4), not the weight W.'},
+  {t:'No — one W is shared by every node; their outputs differ only because their own features and neighbours differ',c:true}
+]
+const GM_OK={
+  1:'Row 2 of A* is [1, 1, 1, 1, 0]: four 1s, one of which is the self-loop A*[2][2]. So node 2 has 3 neighbours — nodes 0, 1 and 3.',
+  2:'Averaging is order-independent: node 0 gets (h[0]+h[1]+h[2]+h[4])/4 no matter where each neighbour sits. 9.GC.2 shows why this matters for images.',
+  3:'This is weight sharing — the GCN version of sliding one kernel across every pixel. It is why a trained GCN works on graphs of any size.'
+}
+const gmFmt=v=>String(+v.toFixed(2))
+
+function gmUnlock(s){
+  gmStage=Math.max(gmStage,s)
+  for(let i=1;i<=s;i++){const e=$(`gm-s${i}`);if(e)e.classList.add('unlocked')}
+}
+
+function gmDrawGraph(id){
+  const svg=$(id); if(!svg) return
+  const after=id==='gm-svg2', nbr=gmHL>=0?GM_NBR[gmHL]:[]
+  let h=''
+  GM_EDGES.forEach(([a,b])=>{
+    const on=a===gmHL||b===gmHL
+    const [x1,y1]=GM_POS[a],[x2,y2]=GM_POS[b]
+    h+=`<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="${on?'#f59e0b':'#9ca3af'}" stroke-width="${on?3:2}"/>`
+  })
+  GM_POS.forEach(([x,y],i)=>{
+    const on=i===gmHL, nb=!on&&nbr.includes(i)
+    h+=`<circle cx="${x}" cy="${y}" r="18" fill="${on?'#fef9c3':nb?'#fff7ed':'#fff'}" stroke="${on?'#f59e0b':'#3b82f6'}" stroke-width="${on?3:2}"/>`
+    h+=`<text x="${x}" y="${y+5}" text-anchor="middle" font-size="14" font-weight="700" fill="#1a1210">${i}</text>`
+    let lbl=`h=${GM_H[i]}`
+    if(after){
+      if(gmDone.has(i)||(gmFillOk&&(i===0||i===2))) lbl+=` <tspan fill="#15803d" font-weight="700">→ ${gmFmt(GM_NEW[i])}</tspan>`
+      else if(gmDone.size===3) lbl+=` <tspan fill="#c2610c" font-weight="700">→ ?</tspan>`
+    }
+    const ly=i===2?y+36:y<100?y-26:y+34
+    h+=`<text x="${x}" y="${ly}" text-anchor="middle" font-size="12" font-family="monospace" fill="#5c4a3a">${lbl}</text>`
+  })
+  svg.innerHTML=h
+}
+
+function gmRenderAdj(){
+  const g=$('gm-adj-grid'); if(!g) return
+  g.style.gridTemplateColumns='repeat(6,36px)'
+  const cell=(t,bg,col,extra='')=>`<div style="height:36px;display:flex;align-items:center;justify-content:center;border-radius:5px;font-family:monospace;font-weight:700;font-size:14.5px;background:${bg};color:${col};${extra}">${t}</div>`
+  let h=cell('','transparent','var(--muted)')
+  for(let j=0;j<5;j++) h+=cell(j,'transparent','var(--muted)','font-size:12.5px')
+  GM_A.forEach((row,i)=>{
+    h+=cell(i,'transparent','var(--muted)','font-size:12.5px')
+    row.forEach((v,j)=>{h+=i===j?cell(1,'#ede9fe','#6d28d9'):v?cell(1,'#dbeafe','#1d4ed8'):cell(0,'var(--surface)','#9ca3af','border:1px solid var(--border)')})
+  })
+  g.innerHTML=h
+  const d=$('gm-degree-disp')
+  if(d) d.innerHTML=`<span style="color:#6d28d9;font-weight:700">purple</span> = self-loop, <span style="color:#1d4ed8;font-weight:700">blue</span> = edge<br>row sums d = [${GM_A.map(r=>r.reduce((s,v)=>s+v,0)).join(', ')}]`
+}
+
+function gmAnimate(){
+  if(gmAnimTimer) return
+  const disp=$('gm-step-disp'); if(!disp) return
+  const order=[1,3,4]; let k=0
+  gmDone=new Set(); disp.innerHTML=''
+  const step=()=>{
+    if(k===order.length){
+      gmAnimTimer=null; gmHL=-1; gmDrawGraph('gm-svg2')
+      disp.innerHTML+='<div style="color:var(--blue);font-weight:700">Your turn: compute nodes 0 and 2 below.</div>'
+      return
+    }
+    const i=order[k++], js=GM_NBR[i], v=GM_NEW[i]
+    gmHL=i; gmDone.add(i); gmDrawGraph('gm-svg2')
+    disp.innerHTML+=`<div>h_new[${i}] = (${js.map(j=>`h[${j}]`).join('+')}) / ${js.length} = (${js.map(j=>GM_H[j]).join('+')}) / ${js.length} ${Number.isInteger(v*100)?'=':'≈'} <strong>${gmFmt(v)}</strong></div>`
+    gmAnimTimer=setTimeout(step,900)
+  }
+  step()
+}
+
+function gmParse(s){
+  s=s.trim(); if(s==='') return null
+  const m=s.match(/^(-?\d+(?:\.\d+)?)\s*\/\s*(\d+(?:\.\d+)?)$/)
+  return m?parseFloat(m[1])/parseFloat(m[2]):Number(s)
+}
+
+function gmCheckFill(){
+  let all=true, wrong=false
+  ;[['gm-f0',0],['gm-f2',2]].forEach(([id,i])=>{
+    const el=$(id); if(!el) return
+    const v=gmParse(el.value)
+    if(v===null){el.className='rr-inp';all=false;return}
+    const ok=Math.abs(v-GM_NEW[i])<0.01
+    el.className='rr-inp'+(ok?' ok':' bad')
+    if(!ok){all=false;wrong=true}
+  })
+  gmFillOk=all
+  const btn=$('gm-s2-btn'); if(btn) btn.disabled=!all
+  const hint=$('gm-fill-hint')
+  if(all){
+    if(hint){hint.className='guidance-box done';hint.innerHTML='<strong>✓ Correct!</strong> h_new[0] = (4+1+3+2)/4 = 2.5 and h_new[2] = (4+1+3+0)/4 = 2. Every node follows the same rule: average itself with its neighbours.'}
+  } else if(wrong&&hint){
+    hint.className='guidance-box warm';hint.innerHTML='<strong>Hint:</strong> Replace each h[j] with its value from h = [4, 1, 3, 0, 2], add them, then divide by the number of terms.'
+  }
+  gmDrawGraph('gm-svg2')
+  gmCheckDone()
+}
+
+function gmRenderMCQs(){
+  ;[GM_Q1,GM_Q2,GM_Q3].forEach((data,k)=>{
+    const q=k+1, c=$(`gm-q${q}-opts`)
+    if(c&&!c.children.length) c.innerHTML=data.map((o,i)=>`<div class="cg-mcq-opt" id="gm-q${q}-${i}" onclick="gmMCQ(${q},${i})">${o.t}</div>`).join('')
+  })
+}
+
+function gmMCQ(q,i){
+  const data=[null,GM_Q1,GM_Q2,GM_Q3][q], sel=`.cg-mcq-opt[id^="gm-q${q}-"]`, hint=$(`gm-q${q}-hint`)
+  document.querySelectorAll(sel).forEach(e=>e.onclick=null)
+  $(`gm-q${q}-${i}`).classList.add(data[i].c?'sel-ok':'sel-bad')
+  if(data[i].c){
+    if(q===1){gmQ1=true; gmUnlock(2)} else if(q===2) gmQ2=true; else gmQ3=true
+    if(hint){hint.className='guidance-box done';hint.innerHTML='<strong>'+String.fromCharCode(65+i)+'. ✓ Correct!</strong> '+GM_OK[q]}
+  } else {
+    document.querySelectorAll(sel).forEach((e,j)=>{if(j!==i)e.onclick=()=>gmMCQ(q,j)})
+    if(hint){hint.className='guidance-box warm';hint.innerHTML='<strong>Not quite.</strong> '+data[i].h}
+  }
+  gmCheckDone()
+}
+
+function gmCheckDone(){ updateBadge('gm-completed', isComplete('gcmech')) }
+
+function initGCMech(){
+  const eq=$('gm-prob-eq')
+  if(eq){
+    eq.innerHTML=`<div style="background:var(--surf2);border:1px solid var(--border);border-radius:10px;overflow:hidden">
+      <div style="padding:14px 20px;border-bottom:1px solid var(--border);text-align:center">
+        <div style="color:#b45309">$h_i'=W\\cdot\\frac{1}{d_i}\\sum_{j\\,:\\,A^*_{ij}=1}h_j$</div>
+        <div style="font-size:14.5px;color:var(--muted);margin-top:6px">Each node averages its own feature with its neighbours', then multiplies by the shared weight W.</div>
+      </div>
+      <div style="padding:14px 20px;border-bottom:1px solid var(--border);text-align:center">
+        <div style="color:#6d28d9">$A^*=A+I\\qquad d_i=\\sum_j A^*_{ij}$</div>
+        <div style="font-size:14.5px;color:var(--muted);margin-top:6px">A* adds a self-loop so a node keeps its own feature; d<sub>i</sub> counts how many terms are averaged.</div>
+      </div>
+      <div style="padding:14px 20px;text-align:center">
+        <div style="color:#15803d">Written for all nodes at once, one GCN layer is H′ = f(D⁻¹A*HW + b) — the same A* and W serve every node.</div>
+      </div>
+    </div>`
+    typeset(eq)
+  }
+  gmDrawGraph('gm-svg'); gmDrawGraph('gm-svg2'); gmRenderAdj(); gmRenderMCQs()
+}
+
+// ══════════════════════════════════════════════════
+//  ACTIVITY 9.GC.2 — CAN GRAPH CONV REPLACE IMAGE CONV?
+// ══════════════════════════════════════════════════
+let geStage=0, geQ1=null, geQ2=null, geQ3=null, geQ4=null, geQ5=null
+let geWTried=new Set()
+const GE_K=[[1,2,3],[4,5,6],[7,8,9]]
+// 3×3 image as a graph: pixel r*3+c, edges = 8-neighbourhood (king moves)
+const GE_EDGES=[]
+for(let a=0;a<9;a++) for(let b=a+1;b<9;b++) if(Math.abs(Math.floor(a/3)-Math.floor(b/3))<=1&&Math.abs(a%3-b%3)<=1) GE_EDGES.push([a,b])
+const GE_Q1=[
+  {t:'2',h:'Don\'t forget the diagonal neighbour — the 8-neighbourhood includes diagonals.'},
+  {t:'3',c:true},
+  {t:'5',h:'5 is the count for an edge pixel such as node 1. A corner has fewer.'},
+  {t:'8',h:'Only the centre pixel has all 8 neighbours.'}
+]
+const GE_Q2=[
+  {t:'Yes — W = 5, the average of K',h:'W = 5 matches K only at the centre. Move the W slider above: no single value matches all 9 cells.'},
+  {t:'Yes — W = 45, the sum of K',h:'Summing the kernel loses which weight goes with which position.'},
+  {t:'Only for the corner pixels',h:'A corner pixel\'s neighbours still sit in different relative positions, and K gives each position a different weight.'},
+  {t:'No — K has 9 different weights, one per relative position, but GCN multiplies every neighbour by the same W',c:true}
+]
+const GE_Q3=[
+  {t:'A vertical-edge detector [[−1,0,1],[−1,0,1],[−1,0,1]]',h:'That kernel weights left neighbours −1 and right neighbours +1. GCN cannot tell left from right.'},
+  {t:'K = [[1,2,3],[4,5,6],[7,8,9]]',h:'K has nine different entries; a single W gives only one.'},
+  {t:'A kernel whose 9 entries are all equal, such as [[1,1,1],[1,1,1],[1,1,1]] (a box blur)',c:true},
+  {t:'Any kernel, if W is large enough',h:'Scaling W scales every coefficient together; it never makes them differ.'}
+]
+const GE_Q4=[
+  {t:'Yes — set W = 5',h:'W = 5 matches only the centre entry of K.'},
+  {t:'No — standard GCN gives every neighbour the same weight, so it can only produce kernels whose entries are all equal',c:true},
+  {t:'Yes — stack several GCN layers',h:'Each layer still treats all neighbours the same, so the stack cannot tell top-left from bottom-right either.'},
+  {t:'Yes — but only with zero padding',h:'Padding changes what happens at the border, not how neighbours are weighted.'}
+]
+const GE_Q5=[
+  {t:'Use a larger W',h:'One W, however large, is still one number for every neighbour.'},
+  {t:'Remove the self-loops from A*',h:'Without self-loops the pixel loses its own feature; the neighbours are still weighted equally.'},
+  {t:'Normalise A* by node degree',h:'Normalising rescales the neighbours, but all by the same factor.'},
+  {t:'Give each relative position its own adjacency matrix and weight — one A_k and W_k for each of the 9 offsets, summed together',c:true}
+]
+const GE_OK={
+  1:'Node 0 touches node 1 (right), node 3 (below) and node 4 (diagonal). Edge pixels have 5 neighbours and the centre has 8.',
+  2:'A says who is connected, but not where the neighbour sits (left, up-right, …). Convolution needs that position to pick K[a,b].',
+  3:'With one W, every neighbour gets the same coefficient, so GCN can only reproduce a kernel whose entries are all equal — a box blur scaled by W.',
+  4:'Standard GCN cannot tell where a neighbour sits, so position-specific weights like K are out of reach.',
+  5:'With one matrix per offset, h′ = Σ<sub>k</sub> A<sub>k</sub>hW<sub>k</sub> gives each position its own weight. Over the 9 offsets of a 3×3 window this reproduces any 3×3 convolution — the same idea relational GCNs use for edge types.'
+}
+
+function geUnlock(s){
+  geStage=Math.max(geStage,s)
+  for(let i=1;i<=s;i++){const e=$(`ge-s${i}`);if(e)e.classList.add('unlocked')}
+}
+
+function geCell(t,bg,col,bd){
+  return `<div style="height:52px;display:flex;align-items:center;justify-content:center;border-radius:6px;font-family:monospace;font-weight:700;font-size:17px;background:${bg};color:${col};border:1.5px solid ${bd}">${t}</div>`
+}
+
+function geUpdateW(){
+  const w=parseInt(($('ge-W-sl')||{value:5}).value)
+  const v=$('ge-W-val'); if(v) v.textContent=w
+  geWTried.add(w)
+  const g=$('ge-gcn-grid')
+  if(g) g.innerHTML=GE_K.flat().map(k=>k===w?geCell(w,'#dcfce7','#15803d','#15803d'):geCell(w,'#fff7ed','#c2610c','#fed7aa')).join('')
+  const m=GE_K.flat().filter(k=>k===w).length
+  const d=$('ge-mismatch-disp')
+  if(d) d.innerHTML=`GCN uses W = ${w} in all 9 cells<br>Matches K: <strong style="color:var(--green)">${m}/9</strong> &nbsp; Mismatches: <strong style="color:var(--orange)">${9-m}/9</strong><br>`
+    +(geWTried.size>=3?`<span style="color:var(--blue)">${geWTried.size} values of W tried — each matches at most one cell.</span>`:'<span style="color:var(--muted)">Drag W to try other values.</span>')
+}
+
+function geDrawGraph(){
+  const svg=$('ge-svg'); if(!svg) return
+  const P=i=>[40+(i%3)*70,40+Math.floor(i/3)*70]
+  const hl=geQ1===true?0:-1
+  let h=''
+  GE_EDGES.forEach(([a,b])=>{
+    const on=a===hl||b===hl, [x1,y1]=P(a), [x2,y2]=P(b)
+    h+=`<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="${on?'#f59e0b':'#9ca3af'}" stroke-width="${on?3:1.5}"/>`
+  })
+  for(let i=0;i<9;i++){
+    const [x,y]=P(i), on=i===hl, nb=hl>=0&&GE_EDGES.some(([a,b])=>(a===hl&&b===i)||(b===hl&&a===i))
+    h+=`<rect x="${x-17}" y="${y-17}" width="34" height="34" rx="5" fill="${on?'#fef9c3':nb?'#fff7ed':'#fff'}" stroke="${on?'#f59e0b':'#3b82f6'}" stroke-width="${on?3:2}"/>`
+    h+=`<text x="${x}" y="${y+5}" text-anchor="middle" font-size="14" font-weight="700" fill="#1a1210">${i}</text>`
+  }
+  svg.innerHTML=h
+}
+
+function geRenderMCQs(){
+  ;[GE_Q1,GE_Q2,GE_Q3,GE_Q4,GE_Q5].forEach((data,k)=>{
+    const q=k+1, c=$(`ge-q${q}-opts`)
+    if(c&&!c.children.length) c.innerHTML=data.map((o,i)=>`<div class="cg-mcq-opt" id="ge-q${q}-${i}" onclick="geMCQ(${q},${i})">${o.t}</div>`).join('')
+  })
+}
+
+function geMCQ(q,i){
+  const data=[null,GE_Q1,GE_Q2,GE_Q3,GE_Q4,GE_Q5][q], sel=`.cg-mcq-opt[id^="ge-q${q}-"]`, hint=$(`ge-q${q}-hint`)
+  document.querySelectorAll(sel).forEach(e=>e.onclick=null)
+  $(`ge-q${q}-${i}`).classList.add(data[i].c?'sel-ok':'sel-bad')
+  if(data[i].c){
+    if(q===1){geQ1=true; geDrawGraph()} else if(q===2) geQ2=true; else if(q===3){geQ3=true; geUnlock(3)} else if(q===4) geQ4=true; else geQ5=true
+    if(hint){hint.className='guidance-box done';hint.innerHTML='<strong>'+String.fromCharCode(65+i)+'. ✓ Correct!</strong> '+GE_OK[q]}
+  } else {
+    document.querySelectorAll(sel).forEach((e,j)=>{if(j!==i)e.onclick=()=>geMCQ(q,j)})
+    if(hint){hint.className='guidance-box warm';hint.innerHTML='<strong>Not quite.</strong> '+data[i].h}
+  }
+  const btn=$('ge-s1-btn'); if(btn) btn.disabled=!(geQ1===true&&geQ2===true)
+  geCheckDone()
+}
+
+function geCheckDone(){ updateBadge('ge-completed', isComplete('gceq')) }
+
+function initGCEq(){
+  const eq=$('ge-prob-eq')
+  if(eq){
+    eq.innerHTML=`<div style="background:var(--surf2);border:1px solid var(--border);border-radius:10px;overflow:hidden">
+      <div style="padding:14px 20px;border-bottom:1px solid var(--border);text-align:center">
+        <div style="color:#b45309">$y_{r,c}=\\sum_{a=-1}^{1}\\sum_{b=-1}^{1}K[a,b]\\;x_{r+a,\\,c+b}$</div>
+        <div style="font-size:14.5px;color:var(--muted);margin-top:6px">Convolution: each of the 9 relative positions (a, b) has its own weight K[a, b].</div>
+      </div>
+      <div style="padding:14px 20px;border-bottom:1px solid var(--border);text-align:center">
+        <div style="color:#6d28d9">$h_i'=W\\sum_{j\\,:\\,A^*_{ij}=1}h_j$</div>
+        <div style="font-size:14.5px;color:var(--muted);margin-top:6px">GCN (sum aggregation): every neighbour j is multiplied by the same W, wherever it sits.</div>
+      </div>
+      <div style="padding:14px 20px;text-align:center">
+        <div style="color:#15803d">Can some choice of A* and W make the GCN line equal the convolution line?</div>
+      </div>
+    </div>`
+    typeset(eq)
+  }
+  const kg=$('ge-kernel-grid')
+  if(kg) kg.innerHTML=GE_K.flat().map(k=>geCell(k,'#eff6ff','#1d4ed8','#bfdbfe')).join('')
+  const terms=f=>[0,3,6].map(r=>[0,1,2].map(c=>`${f(r+c)}·h[${r+c}]`).join(' + ')).join('<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ ')
+  const cs=$('ge-conv-show')
+  if(cs) cs.innerHTML=`out[4] = ${terms(i=>GE_K.flat()[i])}<br><strong>→ 9 different weights</strong>`
+  const gs=$('ge-gcn-show')
+  if(gs) gs.innerHTML=`out[4] = ${terms(()=>'W')}<br><strong>→ 1 weight, shared by all 9</strong>`
+  geUpdateW(); geDrawGraph(); geRenderMCQs()
 }
 
 // ══════════════════════════════════════════════════
@@ -8752,8 +8885,8 @@ function tcUnlock(s){ tcStage=Math.max(tcStage,s); for(let i=1;i<=s;i++){const e
 function tcSentence(i){ tcSel=i; ['tc-btn0','tc-btn1','tc-btn2'].forEach((id,j)=>{const b=$(id);if(b)b.className='btn '+(j===i?'btn-p':'btn-g')}); tcUpdate() }
 function tcUpdate(){ const k=parseInt($('tc-k').value); $('tc-k-val').textContent=k; $('tc-k-echo').textContent=k; const {words}=TC_SENTS[tcSel]; const wd=$('tc-words'); if(!wd) return; wd.innerHTML=words.map(w=>`<span style="padding:5px 10px;background:var(--surf2);border:1px solid var(--border);border-radius:5px;font-family:'Courier New',monospace;font-size:14.5px;font-weight:600">${w}</span>`).join(''); const ng=$('tc-ngrams'); if(!ng) return; const grams=[]; for(let i=0;i<=words.length-k;i++) grams.push(words.slice(i,i+k).join(' ')); ng.innerHTML=grams.map(g=>`<span style="padding:3px 10px;background:#eff6ff;border:1px solid #bfdbfe;border-radius:20px;font-size:13.5px;font-family:'Courier New',monospace;color:var(--blue)">${g}</span>`).join('') }
 function tcRenderMCQs(){ const q1=$('tc-q1-opts'),q2=$('tc-q2-opts'),q3=$('tc-q3-opts'); if(q1&&!q1.children.length) q1.innerHTML=TC_Q1.map((o,i)=>`<div class="cg-mcq-opt" id="tc-q1-${i}" onclick="tcMCQ(1,${i})">${o.t}</div>`).join(''); if(q2&&!q2.children.length) q2.innerHTML=TC_Q2.map((o,i)=>`<div class="cg-mcq-opt" id="tc-q2-${i}" onclick="tcMCQ(2,${i})">${o.t}</div>`).join(''); if(q3&&!q3.children.length) q3.innerHTML=TC_Q3.map((o,i)=>`<div class="cg-mcq-opt" id="tc-q3-${i}" onclick="tcMCQ(3,${i})">${o.t}</div>`).join('') }
-function tcMCQ(q,i){ const data=[null,TC_Q1,TC_Q2,TC_Q3][q]; const pfx=`tc-q${q}-`,hid=`tc-q${q}-hint`; document.querySelectorAll(`[id^="${pfx}"]`).forEach(e=>e.onclick=null); $(`${pfx}${i}`).classList.add(data[i].c?'sel-ok':'sel-bad'); const hint=$(hid); if(data[i].c){ if(q===1){tcQ1=true;tcUnlock(3);if(hint){hint.className='guidance-box done';hint.innerHTML='<strong>'+String.fromCharCode(65+i)+'. ✓ Correct!</strong> k=2 captures "being bad" and "being good" as single bigrams. k=1 sees both words in both sentences and cannot tell them apart.'}} else if(q===2){tcQ2=true;tcUnlock(4);if(hint){hint.className='guidance-box done';hint.innerHTML='<strong>'+String.fromCharCode(65+i)+'. ✓ Correct!</strong> Span = 8−2+1 = 7. Any k&lt;7 cannot contain both "wasn\'t" and "unhappy" in one window.'}} else if(q===3){tcQ3=true;if(hint){hint.className='guidance-box done';hint.innerHTML='<strong>'+String.fromCharCode(65+i)+'. ✓ Correct!</strong> Max-pooling selects "was unhappy" as the top bigram — a strong negative signal. The negation "wasn\'t" seven words earlier is invisible to a k=2 filter.'}} } else { document.querySelectorAll(`[id^="${pfx}"]`).forEach((e,j)=>{if(j!==i)e.onclick=()=>tcMCQ(q,j)}); if(hint){hint.className='guidance-box warm';hint.innerHTML='<strong>Not quite.</strong> Try again.'} if(q===1)tcQ1=false;else if(q===2)tcQ2=false;else tcQ3=false } tcUpdateSummary() }
-function tcUpdateSummary(){ const ref=($('tc-ref')||{value:''}).value; const el=$('tc-summary');if(!el)return; el.innerHTML=`<p><strong>MCQs correct:</strong> ${[tcQ1,tcQ2,tcQ3].filter(v=>v===true).length}/3</p><p><strong>Reflection:</strong> ${ref.length>10?'<span style="color:var(--green)">&#10003;</span>':'not yet'}</p>`; updateBadge('tcnn-completed',isComplete('textcnn')) }
+function tcMCQ(q,i){ const data=[null,TC_Q1,TC_Q2,TC_Q3][q]; const pfx=`tc-q${q}-`,hid=`tc-q${q}-hint`; document.querySelectorAll(`.cg-mcq-opt[id^="${pfx}"]`).forEach(e=>e.onclick=null); $(`${pfx}${i}`).classList.add(data[i].c?'sel-ok':'sel-bad'); const hint=$(hid); if(data[i].c){ if(q===1){tcQ1=true;tcUnlock(3);if(hint){hint.className='guidance-box done';hint.innerHTML='<strong>'+String.fromCharCode(65+i)+'. ✓ Correct!</strong> k=2 captures "being bad" and "being good" as single bigrams. k=1 sees both words in both sentences and cannot tell them apart.'}} else if(q===2){tcQ2=true;tcUnlock(4);if(hint){hint.className='guidance-box done';hint.innerHTML='<strong>'+String.fromCharCode(65+i)+'. ✓ Correct!</strong> Span = 8−2+1 = 7. Any k&lt;7 cannot contain both "wasn\'t" and "unhappy" in one window.'}} else if(q===3){tcQ3=true;if(hint){hint.className='guidance-box done';hint.innerHTML='<strong>'+String.fromCharCode(65+i)+'. ✓ Correct!</strong> Max-pooling selects "was unhappy" as the top bigram — a strong negative signal. The negation "wasn\'t" seven words earlier is invisible to a k=2 filter.'}} } else { document.querySelectorAll(`.cg-mcq-opt[id^="${pfx}"]`).forEach((e,j)=>{if(j!==i)e.onclick=()=>tcMCQ(q,j)}); if(hint){hint.className='guidance-box warm';hint.innerHTML='<strong>Not quite.</strong> Try again.'} if(q===1)tcQ1=false;else if(q===2)tcQ2=false;else tcQ3=false } tcUpdateSummary() }
+function tcUpdateSummary(){ const el=$('tc-summary');if(!el)return; el.innerHTML=`<p><strong>MCQs correct:</strong> ${[tcQ1,tcQ2,tcQ3].filter(v=>v===true).length}/3</p>`; updateBadge('tcnn-completed',isComplete('textcnn')) }
 function initTextCNN(){ const eq=$('tc-eq'); if(eq){ eq.innerHTML=`<div style="background:var(--surf2);border:1px solid var(--border);border-radius:10px;overflow:hidden"><div style="padding:14px 20px;border-bottom:1px solid var(--border);text-align:center"><div style="color:#b45309">$\\text{n-gram}_i = (w_i,\\,w_{i+1},\\,\\ldots,\\,w_{i+k-1})$</div><div style="font-size:14.5px;color:var(--muted);margin-top:6px">Filter scores each n-gram; max-pooling picks the best: $y = \\max_i\\; \\text{score}(\\text{n-gram}_i)$</div></div><div style="padding:14px 20px;text-align:center"><div style="color:#15803d;font-size:14.5px">Long-range negation requires large k — or a recurrent architecture.</div></div></div>`; typeset(eq) } tcSentence(0); tcUpdateSummary() }
 
 // ══════════════════════════════════════════════════
@@ -8793,7 +8926,7 @@ function rfCheck(){
 }
 function rfRenderMCQ(){ const el=$('rf-q1-opts');if(!el||el.children.length)return; el.innerHTML=RF_Q1.map((o,i)=>`<div class="cg-mcq-opt" id="rf-q1-${i}" onclick="rfMCQClick(${i})">${o.t}</div>`).join('') }
 function rfMCQClick(i){ document.querySelectorAll('[id^="rf-q1-"]').forEach(e=>e.onclick=null); $(`rf-q1-${i}`).classList.add(RF_Q1[i].c?'sel-ok':'sel-bad'); const hint=$('rf-q1-hint'); if(RF_Q1[i].c){ rfMCQ=true; if(hint){hint.className='guidance-box done';hint.innerHTML='<strong>'+String.fromCharCode(65+i)+'. &#10003; Correct!</strong> ReLU zeros the component for this timestep &#8212; it carries no positive signal now. It is not permanently dead; a future input could reactivate it.'} } else { document.querySelectorAll('[id^="rf-q1-"]').forEach((e,j)=>{if(j!==i)e.onclick=()=>rfMCQClick(j)}); rfMCQ=false; if(hint){hint.className='guidance-box warm';hint.innerHTML='<strong>Not quite.</strong> Think about what ReLU(v) means for a single timestep &#8212; not permanently, just for now.'} } rfUpdateSummary() }
-function rfUpdateSummary(){ const ref=($('rf-ref')||{value:''}).value; const el=$('rf-summary');if(!el)return; el.innerHTML=`<p><strong>Fill-in complete:</strong> ${rfFillOk?'<span style="color:var(--green)">&#10003;</span>':'not yet'}</p><p><strong>MCQ:</strong> ${rfMCQ===true?'<span style="color:var(--green)">&#10003;</span>':'not yet'}</p><p><strong>Reflection:</strong> ${ref.length>10?'<span style="color:var(--green)">&#10003;</span>':'not yet'}</p>`; updateBadge('rfwd-completed',isComplete('rnnfwd')) }
+function rfUpdateSummary(){ const el=$('rf-summary');if(!el)return; el.innerHTML=`<p><strong>Fill-in complete:</strong> ${rfFillOk?'<span style="color:var(--green)">&#10003;</span>':'not yet'}</p><p><strong>MCQ:</strong> ${rfMCQ===true?'<span style="color:var(--green)">&#10003;</span>':'not yet'}</p>`; updateBadge('rfwd-completed',isComplete('rnnfwd')) }
 function initRNNFwd(){ const eq=$('rf-eq'); if(eq){ eq.innerHTML=`<div style="background:var(--surf2);border:1px solid var(--border);border-radius:10px;overflow:hidden"><div style="padding:14px 20px;border-bottom:1px solid var(--border);text-align:center"><div style="color:#b45309">$\\mathbf{h}^{(t)} = \\mathrm{ReLU}\\bigl(W_1\\,\\mathbf{h}^{(t-1)} + W_2\\,\\mathbf{x}^{(t)}\\bigr)$</div><div style="font-size:14.5px;color:var(--muted);margin-top:6px">Each step mixes prior memory (W&#8321;) with new input (W&#8322;), then applies ReLU.</div></div><div style="padding:14px 20px;text-align:center"><div style="color:#6d28d9;font-family:'Courier New',monospace;font-size:14.5px">$W_1=\\begin{pmatrix}1&2\\\\0&-1\\end{pmatrix}$ &nbsp; $W_2=\\begin{pmatrix}0&1\\\\2&-5\\end{pmatrix}$ &nbsp; $\\mathbf{h}^{(0)}=[0,0]^\\top,\\;\\mathbf{x}^{(1)}=[1,0]^\\top,\\;\\mathbf{x}^{(2)}=[0,1]^\\top$</div></div></div>`; typeset(eq) } rfUpdateSummary() }
 
 // ══════════════════════════════════════════════════
@@ -8832,9 +8965,9 @@ const RD_Q5=[
 ]
 function rdUnlock(s){ rdStage=Math.max(rdStage,s); for(let i=1;i<=s;i++){const e=$(`rd-s${i}`);if(e)e.classList.add('unlocked')} if(s>=1) rdRenderMCQs(); if(s>=6) rdShowArch() }
 function rdRenderMCQs(){ const defs=[null,RD_Q1,RD_Q2,RD_Q3,RD_Q4,RD_Q5]; for(let q=1;q<=5;q++){ const el=$(`rd-q${q}-opts`);if(!el||el.children.length)continue; el.innerHTML=defs[q].map((o,i)=>`<div class="cg-mcq-opt" id="rd-q${q}-${i}" onclick="rdMCQ(${q},${i})">${o.t}</div>`).join('') } }
-function rdMCQ(q,i){ const defs=[null,RD_Q1,RD_Q2,RD_Q3,RD_Q4,RD_Q5]; const data=defs[q],pfx=`rd-q${q}-`,hid=`rd-q${q}-hint`; document.querySelectorAll(`[id^="${pfx}"]`).forEach(e=>e.onclick=null); $(`${pfx}${i}`).classList.add(data[i].c?'sel-ok':'sel-bad'); const hint=$(hid); const msgs=[null,'Correct! A learned embedding E maps the one-hot to a dense vector where similar words can be nearby.','Correct! tanh(W_enc&#183;e+b_enc) applies a learned nonlinear transformation to compress the input word into the hidden state dimension.','Correct! tanh bounds the hidden state to (&#8722;1,1), preventing unbounded growth. Linear collapses depth; ReLU can explode; sigmoid drops the negative half.','Correct! softmax converts raw scores to a proper probability distribution (positive, sums to 1).','Correct! Adding [END] to the vocabulary lets the model learn when to stop. Training sequences are terminated with [END].']; if(data[i].c){ if(q===1)rdQ1=true;else if(q===2)rdQ2=true;else if(q===3)rdQ3=true;else if(q===4)rdQ4=true;else rdQ5=true; rdUnlock(q+1); if(hint){hint.className='guidance-box done';hint.innerHTML='<strong>'+String.fromCharCode(65+i)+'. &#10003; </strong>'+msgs[q]} } else { document.querySelectorAll(`[id^="${pfx}"]`).forEach((e,j)=>{if(j!==i)e.onclick=()=>rdMCQ(q,j)}); if(q===1)rdQ1=false;else if(q===2)rdQ2=false;else if(q===3)rdQ3=false;else if(q===4)rdQ4=false;else rdQ5=false; if(hint){hint.className='guidance-box warm';hint.innerHTML='<strong>Not quite.</strong> Try again.'} } rdUpdateSummary() }
+function rdMCQ(q,i){ const defs=[null,RD_Q1,RD_Q2,RD_Q3,RD_Q4,RD_Q5]; const data=defs[q],pfx=`rd-q${q}-`,hid=`rd-q${q}-hint`; document.querySelectorAll(`.cg-mcq-opt[id^="${pfx}"]`).forEach(e=>e.onclick=null); $(`${pfx}${i}`).classList.add(data[i].c?'sel-ok':'sel-bad'); const hint=$(hid); const msgs=[null,'Correct! A learned embedding E maps the one-hot to a dense vector where similar words can be nearby.','Correct! tanh(W_enc&#183;e+b_enc) applies a learned nonlinear transformation to compress the input word into the hidden state dimension.','Correct! tanh bounds the hidden state to (&#8722;1,1), preventing unbounded growth. Linear collapses depth; ReLU can explode; sigmoid drops the negative half.','Correct! softmax converts raw scores to a proper probability distribution (positive, sums to 1).','Correct! Adding [END] to the vocabulary lets the model learn when to stop. Training sequences are terminated with [END].']; if(data[i].c){ if(q===1)rdQ1=true;else if(q===2)rdQ2=true;else if(q===3)rdQ3=true;else if(q===4)rdQ4=true;else rdQ5=true; rdUnlock(q+1); if(hint){hint.className='guidance-box done';hint.innerHTML='<strong>'+String.fromCharCode(65+i)+'. &#10003; </strong>'+msgs[q]} } else { document.querySelectorAll(`.cg-mcq-opt[id^="${pfx}"]`).forEach((e,j)=>{if(j!==i)e.onclick=()=>rdMCQ(q,j)}); if(q===1)rdQ1=false;else if(q===2)rdQ2=false;else if(q===3)rdQ3=false;else if(q===4)rdQ4=false;else rdQ5=false; if(hint){hint.className='guidance-box warm';hint.innerHTML='<strong>Not quite.</strong> Try again.'} } rdUpdateSummary() }
 function rdShowArch(){ const el=$('rd-arch-eqs');if(!el)return; el.innerHTML='e = E &middot; x_in<br>h&#8317;&#8304;&#8318; = tanh(W_enc&middot;e + b)<br>h&#8317;&#7511;&#8318; = tanh(W&middot;h&#8317;&#7511;&#8331;&#185;&#8318; + b)<br>y&#8317;&#7511;&#8318; = softmax(V&middot;h&#8317;&#7511;&#8318; + c)<br>stop when argmax(y&#8317;&#7511;&#8318;) = [END]' }
-function rdUpdateSummary(){ const ref=($('rd-ref')||{value:''}).value;const el=$('rd-summary');if(!el)return; const n=[rdQ1,rdQ2,rdQ3,rdQ4,rdQ5].filter(v=>v===true).length; el.innerHTML=`<p><strong>Design choices:</strong> ${n}/5</p><p><strong>Reflection:</strong> ${ref.length>10?'<span style="color:var(--green)">&#10003;</span>':'not yet'}</p>`; updateBadge('rdes-completed',isComplete('rnndesign')) }
+function rdUpdateSummary(){ const el=$('rd-summary');if(!el)return; const n=[rdQ1,rdQ2,rdQ3,rdQ4,rdQ5].filter(v=>v===true).length; el.innerHTML=`<p><strong>Design choices:</strong> ${n}/5</p>`; updateBadge('rdes-completed',isComplete('rnndesign')) }
 function initRNNDesign(){ const eq=$('rd-eq'); if(eq){ eq.innerHTML=`<div style="background:var(--surf2);border:1px solid var(--border);border-radius:10px;overflow:hidden"><div style="padding:14px 20px;border-bottom:1px solid var(--border);text-align:center"><div style="color:#b45309;font-size:14.5px">encoder: $\\mathbf{e}=E\\mathbf{x}_{\\text{in}}$ &#8594; $\\mathbf{h}^{(0)}=\\tanh(W_{\\text{enc}}\\,\\mathbf{e}+\\mathbf{b}_{\\text{enc}})$</div></div><div style="padding:14px 20px;border-bottom:1px solid var(--border);text-align:center"><div style="color:#6d28d9">decoder: $\\mathbf{h}^{(t)}=\\tanh(W\\,\\mathbf{h}^{(t-1)}+\\mathbf{b})$ &#8594; $\\mathbf{y}^{(t)}=\\mathrm{softmax}(V\\mathbf{h}^{(t)}+\\mathbf{c})$</div></div><div style="padding:14px 20px;text-align:center"><div style="color:#15803d;font-size:14.5px">stop when $\\arg\\max(\\mathbf{y}^{(t)})=[\\text{END}]$</div></div></div>`; typeset(eq) } rdUpdateSummary() }
 
 // ══════════════════════════════════════════════════
@@ -8867,11 +9000,11 @@ const RN_Q4=[
 ]
 function rnUnlock(s){ rnStage=Math.max(rnStage,s); for(let i=1;i<=s;i++){const e=$(`rn-s${i}`);if(e)e.classList.add('unlocked')} if(s>=2) rnRenderMCQs() }
 function rnRenderMCQs(){ const defs=[null,RN_Q1,RN_Q2,RN_Q3,RN_Q4]; for(let q=1;q<=4;q++){ const el=$(`rn-q${q}-opts`);if(!el||el.children.length)continue; el.innerHTML=defs[q].map((o,i)=>`<div class="cg-mcq-opt" id="rn-q${q}-${i}" onclick="rnMCQ(${q},${i})">${o.t}</div>`).join('') } }
-function rnMCQ(q,i){ const defs=[null,RN_Q1,RN_Q2,RN_Q3,RN_Q4]; const data=defs[q],pfx=`rn-q${q}-`,hid=`rn-q${q}-hint`; document.querySelectorAll(`[id^="${pfx}"]`).forEach(e=>e.onclick=null); $(`${pfx}${i}`).classList.add(data[i].c?'sel-ok':'sel-bad'); const hint=$(hid); const msgs=[null,'Correct! Each BPTT step multiplies by diag(1&#8722;h&#178;)&middot;W. Saturated hidden states (|h|&#8776;1) give 1&#8722;h&#178;&#8776;0. Multiplying T&#8722;1 of these crushes the gradient exponentially.','Correct! Each step multiplies by 0.2, so after 10 steps: 0.2&#185;&#8304; &#8776; 10&#8315;&#8311;. The network cannot learn which early input caused the error.','Correct! LSTM adds a cell state c&#8317;&#7511;&#8318; updated additively: c&#8317;&#7511;&#8318; = f&#8855;c&#8317;&#7511;&#8331;&#185;&#8318; + i&#8855;&#265;&#8317;&#7511;&#8318;. The additive update creates a gradient highway that bypasses repeated tanh derivatives.','Correct! tanh bounds h&#8317;&#7511;&#8318; to (&#8722;1,1). With ReLU there is no bound, so if &#8214;W&#8214;&gt;1 the hidden state grows each step and gradients explode.']; if(data[i].c){ if(q===1)rnQ1=true;else if(q===2)rnQ2=true;else if(q===3)rnQ3=true;else rnQ4=true; rnUnlock(q+1); if(hint){hint.className='guidance-box done';hint.innerHTML='<strong>'+String.fromCharCode(65+i)+'. &#10003; </strong>'+msgs[q]} } else { document.querySelectorAll(`[id^="${pfx}"]`).forEach((e,j)=>{if(j!==i)e.onclick=()=>rnMCQ(q,j)}); if(q===1)rnQ1=false;else if(q===2)rnQ2=false;else if(q===3)rnQ3=false;else rnQ4=false; if(hint){hint.className='guidance-box warm';hint.innerHTML='<strong>Not quite.</strong> Try again.'} } rnUpdateSummary() }
+function rnMCQ(q,i){ const defs=[null,RN_Q1,RN_Q2,RN_Q3,RN_Q4]; const data=defs[q],pfx=`rn-q${q}-`,hid=`rn-q${q}-hint`; document.querySelectorAll(`.cg-mcq-opt[id^="${pfx}"]`).forEach(e=>e.onclick=null); $(`${pfx}${i}`).classList.add(data[i].c?'sel-ok':'sel-bad'); const hint=$(hid); const msgs=[null,'Correct! Each BPTT step multiplies by diag(1&#8722;h&#178;)&middot;W. Saturated hidden states (|h|&#8776;1) give 1&#8722;h&#178;&#8776;0. Multiplying T&#8722;1 of these crushes the gradient exponentially.','Correct! Each step multiplies by 0.2, so after 10 steps: 0.2&#185;&#8304; &#8776; 10&#8315;&#8311;. The network cannot learn which early input caused the error.','Correct! LSTM adds a cell state c&#8317;&#7511;&#8318; updated additively: c&#8317;&#7511;&#8318; = f&#8855;c&#8317;&#7511;&#8331;&#185;&#8318; + i&#8855;&#265;&#8317;&#7511;&#8318;. The additive update creates a gradient highway that bypasses repeated tanh derivatives.','Correct! tanh bounds h&#8317;&#7511;&#8318; to (&#8722;1,1). With ReLU there is no bound, so if &#8214;W&#8214;&gt;1 the hidden state grows each step and gradients explode.']; if(data[i].c){ if(q===1)rnQ1=true;else if(q===2)rnQ2=true;else if(q===3)rnQ3=true;else rnQ4=true; rnUnlock(q+2); if(hint){hint.className='guidance-box done';hint.innerHTML='<strong>'+String.fromCharCode(65+i)+'. &#10003; </strong>'+msgs[q]} } else { document.querySelectorAll(`.cg-mcq-opt[id^="${pfx}"]`).forEach((e,j)=>{if(j!==i)e.onclick=()=>rnMCQ(q,j)}); if(q===1)rnQ1=false;else if(q===2)rnQ2=false;else if(q===3)rnQ3=false;else rnQ4=false; if(hint){hint.className='guidance-box warm';hint.innerHTML='<strong>Not quite.</strong> Try again.'} } rnUpdateSummary() }
 function rnSlider(){ rnMoves++; const btn=$('rn-s1-btn');if(btn&&rnMoves>=3)btn.disabled=false; const z=parseFloat($('rn-z').value); $('rn-z-val').textContent=z.toFixed(1); const tv=Math.tanh(z),dv=1-tv*tv; $('rn-tanh-v').textContent=tv.toFixed(3);$('rn-dt-v').textContent=dv.toFixed(3); const msg=$('rn-sat-msg'); if(msg)msg.innerHTML=dv<0.1?'<span style="color:var(--red)">&#9888; Saturated &#8212; tanh&#8242; near 0, gradient nearly eliminated</span>':dv<0.5?'<span style="color:var(--orange)">tanh&#8242; getting small &#8212; moderate saturation</span>':'<span style="color:var(--green)">Near z=0 &#8212; gradient healthy (tanh&#8242; &#8776; 1)</span>'; rnDrawCurve(z) }
 function rnDrawCurve(z0){ const svg=$('rn-svg');if(!svg)return; const W=280,H=170,lm=28,bm=20,pw=W-lm-8,ph=H-bm-15; const zMin=-4,zMax=4,toX=z=>lm+(z-zMin)/(zMax-zMin)*pw,toY=v=>bm+ph/2-v*ph/2.2; let pt='',pd=''; for(let i=0;i<=100;i++){const z=zMin+(zMax-zMin)*i/100,t=Math.tanh(z),d=1-t*t;pt+=(i?'L':'M')+toX(z).toFixed(1)+','+toY(t).toFixed(1);pd+=(i?'L':'M')+toX(z).toFixed(1)+','+toY(d).toFixed(1)} const lx=toX(z0),tv=Math.tanh(z0),dv=1-tv*tv; let h=`<line x1="${lm}" y1="${bm}" x2="${lm}" y2="${bm+ph}" stroke="var(--border)" stroke-width="1"/><line x1="${lm}" y1="${bm+ph/2}" x2="${W-8}" y2="${bm+ph/2}" stroke="var(--border)" stroke-width="1"/>`; for(let z=-3;z<=3;z++) h+=`<text x="${toX(z).toFixed(1)}" y="${bm+ph/2+13}" text-anchor="middle" font-size="9" fill="var(--muted)">${z}</text>`;[-1,-0.5,0.5,1].forEach(v=>{const y=toY(v);h+=`<text x="${lm-3}" y="${y+3}" text-anchor="end" font-size="9" fill="var(--muted)">${v}</text>`}); h+=`<path d="${pt}" fill="none" stroke="#1d4ed8" stroke-width="2"/><path d="${pd}" fill="none" stroke="#b91c1c" stroke-width="2" stroke-dasharray="5,3"/><line x1="${lx}" y1="${bm}" x2="${lx}" y2="${bm+ph}" stroke="#f59e0b" stroke-width="1.5" stroke-dasharray="3,2"/><circle cx="${lx}" cy="${toY(tv)}" r="4" fill="#1d4ed8"/><circle cx="${lx}" cy="${toY(dv)}" r="4" fill="#b91c1c"/><text x="${W-10}" y="${bm+12}" text-anchor="end" font-size="10" fill="#1d4ed8">tanh</text><text x="${W-10}" y="${bm+24}" text-anchor="end" font-size="10" fill="#b91c1c">tanh&#8242;</text>`; svg.innerHTML=h }
 function rnDrawFlow(){ const svg=$('rn-flow-svg');if(!svg)return; const tp=parseFloat(($('rn-tp')||{value:'0.2'}).value),wr=parseFloat(($('rn-wr')||{value:'1.0'}).value); $('rn-tp-val').textContent=tp.toFixed(2);$('rn-wr-val').textContent=wr.toFixed(2); const T=10,W=260,H=130,lm=24,bm=22,pw=W-lm-8,ph=H-bm-14,factor=tp*wr; const mags=[];for(let t=0;t<T;t++)mags.push(Math.pow(factor,t)); const maxM=Math.max(...mags,0.001); let h=`<line x1="${lm}" y1="${bm}" x2="${lm}" y2="${bm+ph}" stroke="var(--border)" stroke-width="1"/><line x1="${lm}" y1="${bm+ph}" x2="${W-8}" y2="${bm+ph}" stroke="var(--border)" stroke-width="1"/>`; mags.forEach((m,i)=>{const x=lm+(i+0.5)*pw/T,barH=Math.max(2,(m/maxM)*ph*0.92),col=m<0.01?'#b91c1c':m>5?'#c2410c':'#3b82f6';h+=`<rect x="${(x-pw/T*0.35).toFixed(1)}" y="${(bm+ph-barH).toFixed(1)}" width="${(pw/T*0.7).toFixed(1)}" height="${barH.toFixed(1)}" fill="${col}" rx="2"/><text x="${x.toFixed(1)}" y="${bm+ph+12}" text-anchor="middle" font-size="9" fill="var(--muted)">${i+1}</text>`}); svg.innerHTML=h; const msg=$('rn-flow-msg');if(msg)msg.innerHTML=factor<0.7?'<span style="color:var(--red)">Vanishing &#8212; gradient disappears over long sequences.</span>':factor>1.2?'<span style="color:var(--orange)">Exploding &#8212; gradient grows over long sequences.</span>':'<span style="color:var(--green)">Balanced &#8212; gradient stays roughly constant.</span>' }
-function rnUpdateSummary(){ const ref=($('rn-ref')||{value:''}).value;const el=$('rn-summary');if(!el)return; const n=[rnQ1,rnQ2,rnQ3,rnQ4].filter(v=>v===true).length; el.innerHTML=`<p><strong>Slider explored:</strong> ${rnMoves>=3?'<span style="color:var(--green)">&#10003;</span>':'move slider &#8805;3 times'}</p><p><strong>MCQs correct:</strong> ${n}/4</p><p><strong>Reflection:</strong> ${ref.length>10?'<span style="color:var(--green)">&#10003;</span>':'not yet'}</p>`; updateBadge('rtnh-completed',isComplete('rnntanh')) }
+function rnUpdateSummary(){ const el=$('rn-summary');if(!el)return; const n=[rnQ1,rnQ2,rnQ3,rnQ4].filter(v=>v===true).length; el.innerHTML=`<p><strong>Slider explored:</strong> ${rnMoves>=3?'<span style="color:var(--green)">&#10003;</span>':'move slider &#8805;3 times'}</p><p><strong>MCQs correct:</strong> ${n}/4</p>`; updateBadge('rtnh-completed',isComplete('rnntanh')) }
 function initRNNTanh(){ const eq=$('rn-eq');if(eq){eq.innerHTML=`<div style="background:var(--surf2);border:1px solid var(--border);border-radius:10px;overflow:hidden"><div style="padding:14px 20px;border-bottom:1px solid var(--border);text-align:center"><div style="color:#b45309">$\\mathbf{o}^{(t)} = \\mathbf{c} + V\\mathbf{h}^{(t)}$</div><div style="color:#6d28d9;margin-top:4px">$\\mathbf{h}^{(t)} = \\tanh\\bigl(\\mathbf{b} + W\\mathbf{h}^{(t-1)} + U\\mathbf{x}^{(t)}\\bigr)$</div><div style="font-size:14.5px;color:var(--muted);margin-top:6px">When |Wh+Ux+b| is large, tanh saturates &#8212; derivative collapses toward zero.</div></div><div style="padding:14px 20px;text-align:center"><div style="color:#15803d;font-size:14.5px">BPTT: $\\frac{\\partial L}{\\partial \\mathbf{h}^{(1)}} = \\prod_{t=2}^{T} \\mathrm{diag}(1-{\\mathbf{h}^{(t)}}^2)\\cdot W \\cdot \\frac{\\partial L}{\\partial \\mathbf{h}^{(T)}}$</div></div></div>`; typeset(eq) } rnDrawCurve(0); rnDrawFlow(); rnUpdateSummary() }
 
 // ══════════════════════════════════════════════════
@@ -8916,18 +9049,18 @@ function brRenderSlots(){
 }
 function brSlot(slot,i){
   const opts=BR_SLOTS[slot],correct=BR_CORRECT[slot],pfx=`br-${slot}-`
-  document.querySelectorAll(`[id^="${pfx}"]`).forEach(e=>e.onclick=null)
+  document.querySelectorAll(`.cg-mcq-opt[id^="${pfx}"]`).forEach(e=>e.onclick=null)
   $(`${pfx}${i}`).classList.add(opts[i]===correct?'sel-ok':'sel-bad')
   const ok=opts[i]===correct
   if(slot==='eq1a')brEq1aOk=ok; else if(slot==='eq1b')brEq1bOk=ok
   else if(slot==='eq2c')brEq2cOk=ok; else if(slot==='eq2d')brEq2dOk=ok
   else if(slot==='eq3e')brEq3eOk=ok; else brEq3fOk=ok
-  if(!ok){ document.querySelectorAll(`[id^="${pfx}"]`).forEach((e,j)=>{if(j!==i)e.onclick=()=>brSlot(slot,j)}) }
+  if(!ok){ document.querySelectorAll(`.cg-mcq-opt[id^="${pfx}"]`).forEach((e,j)=>{if(j!==i)e.onclick=()=>brSlot(slot,j)}) }
   const hintMap={eq1a:'br-eq1-hint',eq1b:'br-eq1-hint',eq2c:'br-eq2-hint',eq2d:'br-eq2-hint',eq3e:'br-eq3-hint',eq3f:'br-eq3-hint'}
   const h=$(hintMap[slot])
-  if(brEq1aOk&&brEq1bOk){ brEq1ok=true; if(h){h.className='guidance-box done';h.innerHTML='<strong>&#10003; h_f correct!</strong> W_f is recurrent (connects forward states); U_f reads the input.'} const b=$('br-eq2-block');if(b){b.style.opacity='1';b.style.pointerEvents=''} }
-  else if(brEq2cOk&&brEq2dOk){ brEq2ok=true; if(h){h.className='guidance-box done';h.innerHTML='<strong>&#10003; h_b correct!</strong> W_b recurs right-to-left (into h_b^(t+1)); U_b reads the same input.'} const b=$('br-eq3-block');if(b){b.style.opacity='1';b.style.pointerEvents=''} }
-  else if(brEq3eOk&&brEq3fOk){ brEq3ok=true; if(h){h.className='guidance-box done';h.innerHTML='<strong>&#10003; o correct!</strong> V_f projects the forward stream; V_b projects the backward stream — both added together.'} brUnlock(5) }
+  if(slot.startsWith('eq1')&&brEq1aOk&&brEq1bOk){ brEq1ok=true; if(h){h.className='guidance-box done';h.innerHTML='<strong>&#10003; h_f correct!</strong> W_f is recurrent (connects forward states); U_f reads the input.'} const b=$('br-eq2-block');if(b){b.style.opacity='1';b.style.pointerEvents=''} }
+  else if(slot.startsWith('eq2')&&brEq2cOk&&brEq2dOk){ brEq2ok=true; if(h){h.className='guidance-box done';h.innerHTML='<strong>&#10003; h_b correct!</strong> W_b recurs right-to-left (into h_b^(t+1)); U_b reads the same input.'} const b=$('br-eq3-block');if(b){b.style.opacity='1';b.style.pointerEvents=''} }
+  else if(slot.startsWith('eq3')&&brEq3eOk&&brEq3fOk){ brEq3ok=true; if(h){h.className='guidance-box done';h.innerHTML='<strong>&#10003; o correct!</strong> V_f projects the forward stream; V_b projects the backward stream — both added together.'} brUnlock(5) }
   else if(!ok&&h){ h.className='guidance-box warm';h.innerHTML='<strong>Not quite.</strong> Try again.' }
   brUpdateSummary()
 }
@@ -8976,9 +9109,9 @@ function brDrawDiagram(highlight){
   const defs=`<defs><marker id="arr" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="var(--muted)"/></marker></defs>`
   svg.innerHTML=defs+h
 }
-function brMCQ(q,i){ const defs=[null,BR_Q1,BR_Q2,BR_Q3]; const data=defs[q],pfx=`br-q${q}-`,hid=`br-q${q}-hint`; document.querySelectorAll(`[id^="${pfx}"]`).forEach(e=>e.onclick=null); $(`${pfx}${i}`).classList.add(data[i].c?'sel-ok':'sel-bad'); const hint=$(hid); const msgs=[null,'Correct! W_f is the recurrent weight — it connects one forward hidden state to the next. U_f is the input weight; V_f goes to the output.','Correct! The backward RNN scans right-to-left, so after computing h_b^(t+1) it moves left to compute h_b^(t). The "previous" state in scan order is t+1.','Correct! In NER the type of an entity like "Washington" (person vs city) depends on surrounding words — both before AND after. BiRNN sees both sides simultaneously.']; if(data[i].c){ if(q===1){brQ1=true;brUnlock(3)} else if(q===2){brQ2=true;brUnlock(4)} else brQ3=true; if(hint){hint.className='guidance-box done';hint.innerHTML='<strong>'+String.fromCharCode(65+i)+'. &#10003;</strong> '+msgs[q]} } else { document.querySelectorAll(`[id^="${pfx}"]`).forEach((e,j)=>{if(j!==i)e.onclick=()=>brMCQ(q,j)}); if(q===1)brQ1=false;else if(q===2)brQ2=false;else brQ3=false; if(hint){hint.className='guidance-box warm';hint.innerHTML='<strong>Not quite.</strong> Try again.'} } brUpdateSummary() }
+function brMCQ(q,i){ const defs=[null,BR_Q1,BR_Q2,BR_Q3]; const data=defs[q],pfx=`br-q${q}-`,hid=`br-q${q}-hint`; document.querySelectorAll(`.cg-mcq-opt[id^="${pfx}"]`).forEach(e=>e.onclick=null); $(`${pfx}${i}`).classList.add(data[i].c?'sel-ok':'sel-bad'); const hint=$(hid); const msgs=[null,'Correct! W_f is the recurrent weight — it connects one forward hidden state to the next. U_f is the input weight; V_f goes to the output.','Correct! The backward RNN scans right-to-left, so after computing h_b^(t+1) it moves left to compute h_b^(t). The "previous" state in scan order is t+1.','Correct! In NER the type of an entity like "Washington" (person vs city) depends on surrounding words — both before AND after. BiRNN sees both sides simultaneously.']; if(data[i].c){ if(q===1){brQ1=true;brUnlock(3)} else if(q===2){brQ2=true;brUnlock(4)} else brQ3=true; if(hint){hint.className='guidance-box done';hint.innerHTML='<strong>'+String.fromCharCode(65+i)+'. &#10003;</strong> '+msgs[q]} } else { document.querySelectorAll(`.cg-mcq-opt[id^="${pfx}"]`).forEach((e,j)=>{if(j!==i)e.onclick=()=>brMCQ(q,j)}); if(q===1)brQ1=false;else if(q===2)brQ2=false;else brQ3=false; if(hint){hint.className='guidance-box warm';hint.innerHTML='<strong>Not quite.</strong> Try again.'} } brUpdateSummary() }
 function brRenderMCQs(){ [[1,BR_Q1,'br-q1-opts'],[2,BR_Q2,'br-q2-opts'],[3,BR_Q3,'br-q3-opts']].forEach(([q,data,id])=>{ const el=$(id);if(!el||el.children.length)return; el.innerHTML=data.map((o,i)=>`<div class="cg-mcq-opt" id="br-q${q}-${i}" onclick="brMCQ(${q},${i})">${o.t}</div>`).join('') }) }
-function brUpdateSummary(){ const ref=($('br-ref')||{value:''}).value;const el=$('br-summary');if(!el)return; el.innerHTML=`<p><strong>Weight MCQ:</strong> ${brQ1===true?'&#10003;':'not yet'}</p><p><strong>Backward index MCQ:</strong> ${brQ2===true?'&#10003;':'not yet'}</p><p><strong>Equations:</strong> ${[brEq1ok,brEq2ok,brEq3ok].filter(Boolean).length}/3</p><p><strong>Context MCQ:</strong> ${brQ3===true?'&#10003;':'not yet'}</p><p><strong>Reflection:</strong> ${ref.length>10?'<span style="color:var(--green)">&#10003;</span>':'not yet'}</p>`; updateBadge('birnn-completed',isComplete('birnn')) }
+function brUpdateSummary(){ const el=$('br-summary');if(!el)return; el.innerHTML=`<p><strong>Weight MCQ:</strong> ${brQ1===true?'&#10003;':'not yet'}</p><p><strong>Backward index MCQ:</strong> ${brQ2===true?'&#10003;':'not yet'}</p><p><strong>Equations:</strong> ${[brEq1ok,brEq2ok,brEq3ok].filter(Boolean).length}/3</p><p><strong>Context MCQ:</strong> ${brQ3===true?'&#10003;':'not yet'}</p>`; updateBadge('birnn-completed',isComplete('birnn')) }
 function initBiRNN(){ const eq=$('br-eq');if(eq){eq.innerHTML=`<div style="background:var(--surf2);border:1px solid var(--border);border-radius:10px;overflow:hidden"><div style="padding:14px 20px;border-bottom:1px solid var(--border);text-align:center"><div style="color:#1d4ed8;font-size:14.5px">Forward: $\\mathbf{h}_f^{(t)} = \\tanh(W_f\\mathbf{h}_f^{(t-1)} + U_f\\mathbf{x}^{(t)})$</div><div style="color:#b91c1c;margin-top:4px;font-size:14.5px">Backward: $\\mathbf{h}_b^{(t)} = \\tanh(W_b\\mathbf{h}_b^{(t+1)} + U_b\\mathbf{x}^{(t)})$</div><div style="color:#15803d;margin-top:4px;font-size:14.5px">Output: $\\mathbf{o}^{(t)} = V_f\\mathbf{h}_f^{(t)} + V_b\\mathbf{h}_b^{(t)}$</div></div><div style="padding:10px 20px;text-align:center;font-size:13.5px;color:var(--muted)">Same input x&#8317;&#7511;&#8318;, two independent RNNs, outputs combined at each step.</div></div>`; typeset(eq) } brDrawDiagram('none'); brRenderMCQs(); brUpdateSummary() }
 
 // ══════════════════════════════════════════════════
@@ -9020,8 +9153,8 @@ const NS_Q4=[
 ]
 function nsUnlock(s){ nsStage=Math.max(nsStage,s); for(let i=1;i<=s;i++){const e=$(`ns-s${i}`);if(e)e.classList.add('unlocked')} if(s>=2) nsRenderMCQs() }
 function nsRenderMCQs(){ [[1,NS_Q1,'ns-q1-opts'],[2,NS_Q2,'ns-q2-opts'],[3,NS_Q3,'ns-q3-opts'],[4,NS_Q4,'ns-q4-opts']].forEach(([q,data,id])=>{ const el=$(id);if(!el||el.children.length)return; el.innerHTML=data.map((o,i)=>`<div class="cg-mcq-opt" id="ns-q${q}-${i}" onclick="nsMCQ(${q},${i})">${o.t}</div>`).join('') }) }
-function nsMCQ(q,i){ const defs=[null,NS_Q1,NS_Q2,NS_Q3,NS_Q4]; const data=defs[q],pfx=`ns-q${q}-`,hid=`ns-q${q}-hint`; document.querySelectorAll(`[id^="${pfx}"]`).forEach(e=>e.onclick=null); $(`${pfx}${i}`).classList.add(data[i].c?'sel-ok':'sel-bad'); const hint=$(hid); const msgs=[null,'Correct! Each input token gets exactly one BIO label — the output sequence is the same length as the input.','Correct! The markup output can be any length: shorter if only entities are tagged, longer if extra tokens like &lt;/PER&gt; are added. This flexibility is the key structural difference.','Correct! Because the seq2seq decoder can generate any symbol at any step, it naturally handles nested spans and variable-length entity groups — no per-token alignment required.','Correct! The XML-markup format specifies which words belong to which entity type with opening and closing tags. The output length differs from the input length — a hallmark of seq2seq.']; if(data[i].c){ if(q===1){nsQ1=true;nsUnlock(3)} else if(q===2){nsQ2=true;nsUnlock(4)} else if(q===3){nsQ3=true;nsUnlock(5)} else nsQ4=true; if(hint){hint.className='guidance-box done';hint.innerHTML='<strong>'+String.fromCharCode(65+i)+'. &#10003;</strong> '+msgs[q]} } else { document.querySelectorAll(`[id^="${pfx}"]`).forEach((e,j)=>{if(j!==i)e.onclick=()=>nsMCQ(q,j)}); if(q===1)nsQ1=false;else if(q===2)nsQ2=false;else if(q===3)nsQ3=false;else nsQ4=false; if(hint){hint.className='guidance-box warm';hint.innerHTML='<strong>Not quite.</strong> Try again.'} } nsUpdateSummary() }
-function nsUpdateSummary(){ const ref=($('ns-ref')||{value:''}).value;const el=$('ns-summary');if(!el)return; const n=[nsQ1,nsQ2,nsQ3,nsQ4].filter(v=>v===true).length; el.innerHTML=`<p><strong>MCQs:</strong> ${n}/4</p><p><strong>Reflection:</strong> ${ref.length>10?'<span style="color:var(--green)">&#10003;</span>':'not yet'}</p>`; updateBadge('nerseq-completed',isComplete('nerseq')) }
+function nsMCQ(q,i){ const defs=[null,NS_Q1,NS_Q2,NS_Q3,NS_Q4]; const data=defs[q],pfx=`ns-q${q}-`,hid=`ns-q${q}-hint`; document.querySelectorAll(`.cg-mcq-opt[id^="${pfx}"]`).forEach(e=>e.onclick=null); $(`${pfx}${i}`).classList.add(data[i].c?'sel-ok':'sel-bad'); const hint=$(hid); const msgs=[null,'Correct! Each input token gets exactly one BIO label — the output sequence is the same length as the input.','Correct! The markup output can be any length: shorter if only entities are tagged, longer if extra tokens like &lt;/PER&gt; are added. This flexibility is the key structural difference.','Correct! Because the seq2seq decoder can generate any symbol at any step, it naturally handles nested spans and variable-length entity groups — no per-token alignment required.','Correct! The XML-markup format specifies which words belong to which entity type with opening and closing tags. The output length differs from the input length — a hallmark of seq2seq.']; if(data[i].c){ if(q===1){nsQ1=true;nsUnlock(3)} else if(q===2){nsQ2=true;nsUnlock(4)} else if(q===3){nsQ3=true;nsUnlock(5)} else nsQ4=true; if(hint){hint.className='guidance-box done';hint.innerHTML='<strong>'+String.fromCharCode(65+i)+'. &#10003;</strong> '+msgs[q]} } else { document.querySelectorAll(`.cg-mcq-opt[id^="${pfx}"]`).forEach((e,j)=>{if(j!==i)e.onclick=()=>nsMCQ(q,j)}); if(q===1)nsQ1=false;else if(q===2)nsQ2=false;else if(q===3)nsQ3=false;else nsQ4=false; if(hint){hint.className='guidance-box warm';hint.innerHTML='<strong>Not quite.</strong> Try again.'} } nsUpdateSummary() }
+function nsUpdateSummary(){ const el=$('ns-summary');if(!el)return; const n=[nsQ1,nsQ2,nsQ3,nsQ4].filter(v=>v===true).length; el.innerHTML=`<p><strong>MCQs:</strong> ${n}/4</p>`; updateBadge('nerseq-completed',isComplete('nerseq')) }
 function initNERSeq(){ const eq=$('ns-eq');if(eq){eq.innerHTML=`<div style="background:var(--surf2);border:1px solid var(--border);border-radius:10px;overflow:hidden"><div style="padding:12px 20px;border-bottom:1px solid var(--border);display:flex;gap:24px;flex-wrap:wrap;justify-content:center;font-size:14.5px"><div style="text-align:center"><div style="font-weight:700;color:#1d4ed8;margin-bottom:2px">Token Classification</div><div style="color:var(--muted)">output length = input length</div><div style="font-family:'Courier New',monospace;margin-top:4px">Óscar &#8594; B-PER &nbsp; El &#8594; B-LOC</div></div><div style="text-align:center"><div style="font-weight:700;color:#15803d;margin-bottom:2px">Seq2Seq</div><div style="color:var(--muted)">output length varies</div><div style="font-family:'Courier New',monospace;margin-top:4px">&lt;PER&gt;Óscar Romero&lt;/PER&gt; … &lt;LOC&gt;El Salvador&lt;/LOC&gt;</div></div></div></div>`} const tc=$('ns-tokens');if(tc)tc.innerHTML=NS_TOKENS.map((t,i)=>`<div onclick="nsClickToken(${i})" style="cursor:pointer;padding:8px 12px;background:${t.color};border:2px solid ${t.border};border-radius:8px;text-align:center;min-width:60px;transition:transform .15s" onmouseover="this.style.transform='scale(1.08)'" onmouseout="this.style.transform=''"><div style="font-weight:700;font-size:15.5px">${t.w}</div><div style="font-size:12.5px;margin-top:4px;color:var(--muted)">${t.bio}</div></div>`).join(''); $('ns-len').textContent=NS_TOKENS.length; nsUpdateSummary() }
 function nsClickToken(i){ const t=NS_TOKENS[i];const m=$('ns-label-msg');if(!m)return; m.innerHTML=`<strong>${t.w}</strong> &#8594; label <strong style="color:${t.bio==='O'?'var(--muted)':t.bio.includes('PER')?'#1d4ed8':'#15803d'}">${t.bio}</strong>${t.type!=='—'?` &nbsp; (entity type: <strong>${t.type}</strong>)`:' &nbsp; (not an entity)'}`}
 
@@ -9055,10 +9188,10 @@ const RC_Q4=[
 ]
 function rcUnlock(s){ rcStage=Math.max(rcStage,s); for(let i=1;i<=s;i++){const e=$(`rc-s${i}`);if(e)e.classList.add('unlocked')} if(s>=2) rcRenderMCQs() }
 function rcRenderMCQs(){ [[1,RC_Q1,'rc-q1-opts'],[2,RC_Q2,'rc-q2-opts'],[3,RC_Q3,'rc-q3-opts'],[4,RC_Q4,'rc-q4-opts']].forEach(([q,data,id])=>{ const el=$(id);if(!el||el.children.length)return; el.innerHTML=data.map((o,i)=>`<div class="cg-mcq-opt" id="rc-q${q}-${i}" onclick="rcMCQ(${q},${i})">${o.t}</div>`).join('') }) }
-function rcMCQ(q,i){ const defs=[null,RC_Q1,RC_Q2,RC_Q3,RC_Q4]; const data=defs[q],pfx=`rc-q${q}-`,hid=`rc-q${q}-hint`; document.querySelectorAll(`[id^="${pfx}"]`).forEach(e=>e.onclick=null); $(`${pfx}${i}`).classList.add(data[i].c?'sel-ok':'sel-bad'); const hint=$(hid); const msgs=[null,'Correct! Recursive NNs compose representations bottom-up over a tree. Without a tree structure the model has no recursion pattern to follow.','Correct! The structure must be meaningful, not arbitrary. Sector hierarchies or portfolio trees give interpretable internal nodes. Random binary splits give nothing useful.','Correct! ASTs are the canonical non-NLP application. Every expression, statement and block is a subtree — the recursive NN naturally composes sub-expression embeddings into full-program representations.','Correct! A scalar temperature time series is flat — there is no natural way to form a tree from it. Recursive NNs add no value here; a plain RNN is the right tool.']; if(data[i].c){ if(q===1){rcQ1=true;rcUnlock(3)} else if(q===2){rcQ2=true;rcUnlock(4)} else if(q===3){rcQ3=true;rcUnlock(5)} else rcQ4=true; if(hint){hint.className='guidance-box done';hint.innerHTML='<strong>'+String.fromCharCode(65+i)+'. &#10003;</strong> '+msgs[q]} } else { document.querySelectorAll(`[id^="${pfx}"]`).forEach((e,j)=>{if(j!==i)e.onclick=()=>rcMCQ(q,j)}); if(q===1)rcQ1=false;else if(q===2)rcQ2=false;else if(q===3)rcQ3=false;else rcQ4=false; if(hint){hint.className='guidance-box warm';hint.innerHTML='<strong>Not quite.</strong> Try again.'} } rcUpdateSummary() }
+function rcMCQ(q,i){ const defs=[null,RC_Q1,RC_Q2,RC_Q3,RC_Q4]; const data=defs[q],pfx=`rc-q${q}-`,hid=`rc-q${q}-hint`; document.querySelectorAll(`.cg-mcq-opt[id^="${pfx}"]`).forEach(e=>e.onclick=null); $(`${pfx}${i}`).classList.add(data[i].c?'sel-ok':'sel-bad'); const hint=$(hid); const msgs=[null,'Correct! Recursive NNs compose representations bottom-up over a tree. Without a tree structure the model has no recursion pattern to follow.','Correct! The structure must be meaningful, not arbitrary. Sector hierarchies or portfolio trees give interpretable internal nodes. Random binary splits give nothing useful.','Correct! ASTs are the canonical non-NLP application. Every expression, statement and block is a subtree — the recursive NN naturally composes sub-expression embeddings into full-program representations.','Correct! A scalar temperature time series is flat — there is no natural way to form a tree from it. Recursive NNs add no value here; a plain RNN is the right tool.']; if(data[i].c){ if(q===1){rcQ1=true;rcUnlock(3)} else if(q===2){rcQ2=true;rcUnlock(4)} else if(q===3){rcQ3=true;rcUnlock(5)} else rcQ4=true; if(hint){hint.className='guidance-box done';hint.innerHTML='<strong>'+String.fromCharCode(65+i)+'. &#10003;</strong> '+msgs[q]} } else { document.querySelectorAll(`.cg-mcq-opt[id^="${pfx}"]`).forEach((e,j)=>{if(j!==i)e.onclick=()=>rcMCQ(q,j)}); if(q===1)rcQ1=false;else if(q===2)rcQ2=false;else if(q===3)rcQ3=false;else rcQ4=false; if(hint){hint.className='guidance-box warm';hint.innerHTML='<strong>Not quite.</strong> Try again.'} } rcUpdateSummary() }
 function rcShow(mode){ rcMode=mode; ['rc-seq-btn','rc-tree-btn'].forEach(id=>{const b=$(id);if(b)b.className='btn btn-g'}); const ab=$(mode==='seq'?'rc-seq-btn':'rc-tree-btn');if(ab)ab.className='btn btn-p'; rcDrawDiagram(mode) }
 function rcDrawDiagram(mode){ const svg=$('rc-svg');if(!svg)return; const words=['The','cat','sat'],W=480,H=200; let h=''; const cols=['#1d4ed8','#7c3aed','#b91c1c']; if(mode==='seq'){ const xs=[80,240,400],y=140; words.forEach((w,i)=>{ h+=`<rect x="${xs[i]-36}" y="${y-18}" width="72" height="36" rx="7" fill="#eff6ff" stroke="#93c5fd" stroke-width="1.5"/><text x="${xs[i]}" y="${y+6}" text-anchor="middle" font-size="13" font-weight="600" fill="#1d4ed8">${w}</text>`; if(i<2)h+=`<line x1="${xs[i]+36}" y1="${y}" x2="${xs[i+1]-36}" y2="${y}" stroke="#1d4ed8" stroke-width="2" marker-end="url(#arr2)"/><text x="${(xs[i]+xs[i+1])/2}" y="${y-10}" text-anchor="middle" font-size="11" fill="#1d4ed8">h&#8317;${i+1}&#8318;</text>`; const hy=70; h+=`<line x1="${xs[i]}" y1="${y-18}" x2="${xs[i]}" y2="${hy+18}" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="5,3" marker-end="url(#arr2)"/>`; h+=`<rect x="${xs[i]-28}" y="${hy-18}" width="56" height="36" rx="7" fill="var(--surf2)" stroke="var(--border)" stroke-width="1.5"/><text x="${xs[i]}" y="${hy+6}" text-anchor="middle" font-size="12" fill="var(--muted)">h&#8317;${i+1}&#8318;</text>`; }); const m=$('rc-mode-msg');if(m)m.innerHTML='<strong>RNN:</strong> Processes tokens left-to-right. Each hidden state h&#8317;&#7511;&#8318; depends only on the previous state and current input — linear chain, no tree.' } else { const lx=240,ly=60,ml=120,mr=360,ml2=60,mr2=180,ml3=300,mr3=420,leaf_y=160; h+=`<rect x="${lx-40}" y="${ly-18}" width="80" height="36" rx="8" fill="#dcfce7" stroke="#86efac" stroke-width="2"/><text x="${lx}" y="${ly+6}" text-anchor="middle" font-size="12" fill="#15803d">f(&#8901;,&#8901;)</text>`; [[ml,110],[mr,110]].forEach(([x,y])=>{ h+=`<rect x="${x-36}" y="${y-18}" width="72" height="36" rx="7" fill="#fef9c3" stroke="#fde047" stroke-width="1.5"/><text x="${x}" y="${y+6}" text-anchor="middle" font-size="12" fill="#a16207">f(&#8901;,&#8901;)</text>`; h+=`<line x1="${x}" y1="${y-18}" x2="${lx+(x<lx?-40:40)}" y2="${ly+18}" stroke="#86efac" stroke-width="2" marker-end="url(#arr2)"/>` }); [[ml2,leaf_y,'The'],[mr2,leaf_y,'cat'],[ml3,leaf_y,'sat'],[mr3,leaf_y,'']].forEach(([x,y,w],idx)=>{ if(!w)return; const c=cols[idx]||'#6b7280'; h+=`<rect x="${x-28}" y="${y-16}" width="56" height="32" rx="6" fill="#eff6ff" stroke="#93c5fd" stroke-width="1.5"/><text x="${x}" y="${y+5}" text-anchor="middle" font-size="13" font-weight="600" fill="${c}">${w}</text>`; const parent=idx<2?ml:mr; h+=`<line x1="${x}" y1="${y-16}" x2="${parent}" y2="${idx===0?128:idx===1?128:128}" stroke="#fde047" stroke-width="1.5" marker-end="url(#arr2)"/>` }); const m=$('rc-mode-msg');if(m)m.innerHTML='<strong>Recursive NN:</strong> Processes a parse tree bottom-up. Internal nodes combine child representations via f(h_left, h_right). Requires a tree — not applicable to flat sequences.' } const defs=`<defs><marker id="arr2" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="var(--muted)"/></marker></defs>`; svg.innerHTML=defs+h }
-function rcUpdateSummary(){ const ref=($('rc-ref')||{value:''}).value;const el=$('rc-summary');if(!el)return; const n=[rcQ1,rcQ2,rcQ3,rcQ4].filter(v=>v===true).length; el.innerHTML=`<p><strong>MCQs:</strong> ${n}/4</p><p><strong>Reflection:</strong> ${ref.length>10?'<span style="color:var(--green)">&#10003;</span>':'not yet'}</p>`; updateBadge('recnets-completed',isComplete('recnets')) }
+function rcUpdateSummary(){ const el=$('rc-summary');if(!el)return; const n=[rcQ1,rcQ2,rcQ3,rcQ4].filter(v=>v===true).length; el.innerHTML=`<p><strong>MCQs:</strong> ${n}/4</p>`; updateBadge('recnets-completed',isComplete('recnets')) }
 function initRecNets(){ const eq=$('rc-eq');if(eq){eq.innerHTML=`<div style="background:var(--surf2);border:1px solid var(--border);border-radius:10px;overflow:hidden"><div style="padding:12px 20px;text-align:center"><div style="color:#b45309">$\\mathbf{h}_{\\text{node}} = f(\\mathbf{h}_{\\text{left child}},\\;\\mathbf{h}_{\\text{right child}})$</div><div style="font-size:14.5px;color:var(--muted);margin-top:6px">f is a learned function (e.g. tanh of a linear combination). Leaves = word embeddings; internal nodes = composed phrase representations.</div></div></div>`; typeset(eq) } rcShow('tree'); rcUpdateSummary() }
 
 // ══════════════════════════════════════════════════
@@ -9073,9 +9206,9 @@ const LR_Q5=[{t:'Hidden state decays to zero — |w|<1 guarantees forgetting reg
 const LR_Q6=[{t:'w sets the decay rate of past inputs (memory span); u only scales the amplitude of each input contribution without affecting stability',c:true},{t:'u controls forgetting; w controls the input amplitude',c:false},{t:'They have identical effects — only their product wu matters',c:false},{t:'w only affects the first timestep; u controls all later steps',c:false}]
 function lrUnlock(s){ lrStage=Math.max(lrStage,s); for(let i=1;i<=s;i++){const e=$(`lr-s${i}`);if(e)e.classList.add('unlocked')} if(s>=1) lrRenderMCQs() }
 function lrRenderMCQs(){ [[1,LR_Q1,'lr-q1-opts'],[2,LR_Q2,'lr-q2-opts'],[3,LR_Q3,'lr-q3-opts'],[4,LR_Q4,'lr-q4-opts'],[5,LR_Q5,'lr-q5-opts'],[6,LR_Q6,'lr-q6-opts']].forEach(([q,data,id])=>{ const el=$(id);if(!el||el.children.length)return; el.innerHTML=data.map((o,i)=>`<div class="cg-mcq-opt" id="lr-q${q}-${i}" onclick="lrMCQ(${q},${i})">${o.t}</div>`).join('') }) }
-function lrMCQ(q,i){ const defs=[null,LR_Q1,LR_Q2,LR_Q3,LR_Q4,LR_Q5,LR_Q6]; const data=defs[q],pfx=`lr-q${q}-`,hid=`lr-q${q}-hint`; document.querySelectorAll(`[id^="${pfx}"]`).forEach(e=>e.onclick=null); $(`${pfx}${i}`).classList.add(data[i].c?'sel-ok':'sel-bad'); const hint=$(hid); const msgs=[null,'Correct! h&#8317;&#185;&#8318; = w&#183;0 + u&#183;x&#8317;&#185;&#8318; = u&#183;x&#8317;&#185;&#8318;. The h&#8317;&#8304;&#8318;=0 term vanishes.','Correct! h&#8317;&#178;&#8318; = w&#183;(ux&#8317;&#185;&#8318;) + ux&#8317;&#178;&#8318; = wux&#8317;&#185;&#8318; + ux&#8317;&#178;&#8318;.','Correct! h&#8317;&#179;&#8318; = w&#183;(wux&#8317;&#185;&#8318;+ux&#8317;&#178;&#8318;) + ux&#8317;&#179;&#8318; = w&#178;ux&#8317;&#185;&#8318; + wux&#8317;&#178;&#8318; + ux&#8317;&#179;&#8318;. The pattern: x&#8317;ᵏ&#8318; gets weight u&#183;w^(T&#8722;k).','Correct! w appears as w^(T&#8722;k) on past input x&#8317;ᵏ&#8318;. If |w|&lt;1 that exponent decays to 0; if |w|&gt;1 it explodes. u just uniformly scales all bars — it cannot change the pattern.','Correct! With |w|=1.4&gt;1, the factor w^(T&#8722;k) grows without bound as T increases. u=0.1 just makes every bar 10&#215; shorter — but they still grow exponentially with T.','Correct! w is the memory-decay parameter: it determines whether the past is forgotten (|w|&lt;1), preserved (|w|=1), or amplified (|w|&gt;1). u is just a gain on each new input and does not affect stability.']; if(data[i].c){ if(q===1){lrQ1=true;const s=$('lr-step2');if(s){s.style.opacity='1';s.style.pointerEvents=''}} else if(q===2){lrQ2=true;const s=$('lr-step3');if(s){s.style.opacity='1';s.style.pointerEvents=''}} else if(q===3){lrQ3=true;lrUnlock(2)} else if(q===4){lrQ4=true;lrUnlock(4)} else if(q===5){lrQ5=true;lrUnlock(5)} else lrQ6=true; if(hint){hint.className='guidance-box done';hint.innerHTML='<strong>'+String.fromCharCode(65+i)+'. &#10003;</strong> '+msgs[q]} } else { document.querySelectorAll(`[id^="${pfx}"]`).forEach((e,j)=>{if(j!==i)e.onclick=()=>lrMCQ(q,j)}); if(hint){hint.className='guidance-box warm';hint.innerHTML='<strong>Not quite.</strong> Try again.'} } lrUpdateSummary() }
+function lrMCQ(q,i){ const defs=[null,LR_Q1,LR_Q2,LR_Q3,LR_Q4,LR_Q5,LR_Q6]; const data=defs[q],pfx=`lr-q${q}-`,hid=`lr-q${q}-hint`; document.querySelectorAll(`.cg-mcq-opt[id^="${pfx}"]`).forEach(e=>e.onclick=null); $(`${pfx}${i}`).classList.add(data[i].c?'sel-ok':'sel-bad'); const hint=$(hid); const msgs=[null,'Correct! h&#8317;&#185;&#8318; = w&#183;0 + u&#183;x&#8317;&#185;&#8318; = u&#183;x&#8317;&#185;&#8318;. The h&#8317;&#8304;&#8318;=0 term vanishes.','Correct! h&#8317;&#178;&#8318; = w&#183;(ux&#8317;&#185;&#8318;) + ux&#8317;&#178;&#8318; = wux&#8317;&#185;&#8318; + ux&#8317;&#178;&#8318;.','Correct! h&#8317;&#179;&#8318; = w&#183;(wux&#8317;&#185;&#8318;+ux&#8317;&#178;&#8318;) + ux&#8317;&#179;&#8318; = w&#178;ux&#8317;&#185;&#8318; + wux&#8317;&#178;&#8318; + ux&#8317;&#179;&#8318;. The pattern: x&#8317;ᵏ&#8318; gets weight u&#183;w^(T&#8722;k).','Correct! w appears as w^(T&#8722;k) on past input x&#8317;ᵏ&#8318;. If |w|&lt;1 that exponent decays to 0; if |w|&gt;1 it explodes. u just uniformly scales all bars — it cannot change the pattern.','Correct! With |w|=1.4&gt;1, the factor w^(T&#8722;k) grows without bound as T increases. u=0.1 just makes every bar 10&#215; shorter — but they still grow exponentially with T.','Correct! w is the memory-decay parameter: it determines whether the past is forgotten (|w|&lt;1), preserved (|w|=1), or amplified (|w|&gt;1). u is just a gain on each new input and does not affect stability.']; if(data[i].c){ if(q===1){lrQ1=true;const s=$('lr-step2');if(s){s.style.opacity='1';s.style.pointerEvents=''}} else if(q===2){lrQ2=true;const s=$('lr-step3');if(s){s.style.opacity='1';s.style.pointerEvents=''}} else if(q===3){lrQ3=true;lrUnlock(2)} else if(q===4){lrQ4=true;lrUnlock(4)} else if(q===5){lrQ5=true;lrUnlock(5)} else lrQ6=true; if(hint){hint.className='guidance-box done';hint.innerHTML='<strong>'+String.fromCharCode(65+i)+'. &#10003;</strong> '+msgs[q]} } else { document.querySelectorAll(`.cg-mcq-opt[id^="${pfx}"]`).forEach((e,j)=>{if(j!==i)e.onclick=()=>lrMCQ(q,j)}); if(hint){hint.className='guidance-box warm';hint.innerHTML='<strong>Not quite.</strong> Try again.'} } lrUpdateSummary() }
 function lrDrawMemory(){ lrSliderMoves++; const btn=$('lr-s2-btn');if(btn&&lrSliderMoves>=3)btn.disabled=false; const w=parseFloat($('lr-w').value),u=parseFloat($('lr-u').value); $('lr-w-val').textContent=w.toFixed(2);$('lr-u-val').textContent=u.toFixed(2); const svg=$('lr-svg');if(!svg)return; const T=10,W=280,H=150,lm=20,bm=20,pw=W-lm-8,ph=H-bm-10; const weights=[];for(let k=0;k<T;k++)weights.push(u*Math.pow(w,T-1-k)); const maxA=Math.max(...weights.map(Math.abs),0.001); let h=`<line x1="${lm}" y1="${bm}" x2="${lm}" y2="${bm+ph}" stroke="var(--border)" stroke-width="1"/><line x1="${lm}" y1="${bm+ph/2}" x2="${W-8}" y2="${bm+ph/2}" stroke="var(--border)" stroke-width="1"/>`; weights.forEach((v,i)=>{ const x=lm+(i+0.5)*pw/T,norm=v/maxA,barH=Math.abs(norm)*ph*0.45; const positive=v>=0; const col=Math.abs(w)<0.99?'#3b82f6':Math.abs(w)>1.01?'#b91c1c':'#15803d'; const y=positive?bm+ph/2-barH:bm+ph/2; h+=`<rect x="${(x-pw/T*0.35).toFixed(1)}" y="${y.toFixed(1)}" width="${(pw/T*0.7).toFixed(1)}" height="${barH.toFixed(1)}" fill="${col}" rx="2"/><text x="${x.toFixed(1)}" y="${bm+ph+12}" text-anchor="middle" font-size="9" fill="var(--muted)">${T-i}</text>` }); svg.innerHTML=h; const msg=$('lr-mem-msg'); if(msg){const aw=Math.abs(w);msg.innerHTML=aw<0.99?`<span style="color:var(--blue)">|w|&lt;1 — Decaying memory: older inputs (left bars) fade exponentially.</span>`:aw>1.01?`<span style="color:var(--red)">|w|&gt;1 — Exploding memory: older inputs are amplified, hidden state diverges.</span>`:`<span style="color:var(--green)">|w|=1 — Perfect memory: all past inputs contribute equally regardless of distance.</span>`} }
-function lrUpdateSummary(){ const ref=($('lr-ref')||{value:''}).value;const el=$('lr-summary');if(!el)return; const n=[lrQ1,lrQ2,lrQ3,lrQ4,lrQ5,lrQ6].filter(v=>v===true).length; el.innerHTML=`<p><strong>Unroll MCQs:</strong> ${[lrQ1,lrQ2,lrQ3].filter(v=>v===true).length}/3</p><p><strong>Stability MCQs:</strong> ${[lrQ4,lrQ5,lrQ6].filter(v=>v===true).length}/3</p><p><strong>Slider explored:</strong> ${lrSliderMoves>=3?'<span style="color:var(--green)">&#10003;</span>':'move slider &#8805;3 times'}</p><p><strong>Reflection:</strong> ${ref.length>10?'<span style="color:var(--green)">&#10003;</span>':'not yet'}</p>`; updateBadge('linrnn-completed',isComplete('linrnn')) }
+function lrUpdateSummary(){ const el=$('lr-summary');if(!el)return; const n=[lrQ1,lrQ2,lrQ3,lrQ4,lrQ5,lrQ6].filter(v=>v===true).length; el.innerHTML=`<p><strong>Unroll MCQs:</strong> ${[lrQ1,lrQ2,lrQ3].filter(v=>v===true).length}/3</p><p><strong>Stability MCQs:</strong> ${[lrQ4,lrQ5,lrQ6].filter(v=>v===true).length}/3</p><p><strong>Slider explored:</strong> ${lrSliderMoves>=3?'<span style="color:var(--green)">&#10003;</span>':'move slider &#8805;3 times'}</p>`; updateBadge('linrnn-completed',isComplete('linrnn')) }
 function initLinRNN(){ const eq=$('lr7-eq');if(eq){eq.innerHTML=`<div style="background:var(--surf2);border:1px solid var(--border);border-radius:10px;overflow:hidden"><div style="padding:14px 20px;border-bottom:1px solid var(--border);text-align:center"><div style="color:#b45309">$h^{(t)} = w\\,h^{(t-1)} + u\\,x^{(t)}, \\quad h^{(0)}=0$</div><div style="font-size:14.5px;color:var(--muted);margin-top:6px">Scalar inputs and weights; no nonlinearity. Unrolling reveals the closed form.</div></div><div style="padding:12px 20px;text-align:center;font-size:14.5px;color:#15803d">After unrolling: $h^{(T)} = u\\sum_{k=1}^{T} w^{T-k}\\,x^{(k)}$ &mdash; each past input x&#8317;ᵏ&#8318; is weighted by $u\\cdot w^{T-k}$.</div></div>`; typeset(eq) } lrDrawMemory(); lrUpdateSummary() }
 
 // ══════════════════════════════════════════════════
@@ -9127,7 +9260,7 @@ function ggRenderMCQs(){
 function ggMCQ(q,i){
   const data=q===1?GG_Q1:q===2?GG_Q2:q===3?GG_Q3:GG_Q4
   const cur=q===1?ggQ1:q===2?ggQ2:q===3?ggQ3:ggQ4
-  if(cur!==null)return
+  if(cur===true)return
   const opt=data[i]; const correct=opt.c
   const el=$(`gg-q${q}-${i}`); if(!el)return
   el.className='cg-mcq-opt '+(correct?'sel-ok':'sel-bad')
@@ -9198,9 +9331,8 @@ function ggDrawCell(){
 }
 
 function ggUpdateSummary(){
-  const ref=($('gg-ref')||{value:''}).value
   const el=$('gg-summary'); if(!el)return
-  el.innerHTML=`<p><strong>MCQs correct:</strong> ${[ggQ1,ggQ2,ggQ3,ggQ4].filter(v=>v===true).length}/4</p><p><strong>Dimensions explored:</strong> ${ggToggleSeen.size}/4</p><p><strong>Reflection:</strong> ${ref.length>10?'<span style="color:var(--green)">✓</span>':'not yet'}</p>`
+  el.innerHTML=`<p><strong>MCQs correct:</strong> ${[ggQ1,ggQ2,ggQ3,ggQ4].filter(v=>v===true).length}/4</p><p><strong>Dimensions explored:</strong> ${ggToggleSeen.size}/4</p>`
   updateBadge('grucomp-completed',isComplete('grucomp'))
 }
 
@@ -9287,7 +9419,7 @@ function tpRenderMCQs(){
 function tpMCQ(q,i){
   const data=q===1?TP_Q1:q===2?TP_Q2:q===3?TP_Q3:TP_Q4
   const cur=q===1?tpQ1:q===2?tpQ2:q===3?tpQ3:tpQ4
-  if(cur!==null)return
+  if(cur===true)return
   const opt=data[i]; const correct=opt.c
   const el=$(`tp-q${q}-${i}`); if(!el)return
   el.className='cg-mcq-opt '+(correct?'sel-ok':'sel-bad')
@@ -9314,9 +9446,8 @@ function tpMCQ(q,i){
 }
 
 function tpUpdateSummary(){
-  const ref=($('tp-ref')||{value:''}).value
   const el=$('tp-summary'); if(!el)return
-  el.innerHTML=`<p><strong>MCQs correct:</strong> ${[tpQ1,tpQ2,tpQ3,tpQ4].filter(v=>v===true).length}/4</p><p><strong>Demo explored:</strong> ${tpOrdersSeen.size>=2?'<span style="color:var(--green)">✓</span>':'see both orderings'}</p><p><strong>Reflection:</strong> ${ref.length>10?'<span style="color:var(--green)">✓</span>':'not yet'}</p>`
+  el.innerHTML=`<p><strong>MCQs correct:</strong> ${[tpQ1,tpQ2,tpQ3,tpQ4].filter(v=>v===true).length}/4</p><p><strong>Demo explored:</strong> ${tpOrdersSeen.size>=2?'<span style="color:var(--green)">✓</span>':'see both orderings'}</p>`
   updateBadge('trfpos-completed',isComplete('trfpos'))
 }
 
@@ -9419,7 +9550,7 @@ function cnRenderMCQs(){
 function cnMCQ(q,i){
   const data=q===1?CN_Q1:q===2?CN_Q2:q===3?CN_Q3:CN_Q4
   const cur=q===1?cnQ1:q===2?cnQ2:q===3?cnQ3:cnQ4
-  if(cur!==null)return
+  if(cur===true)return
   const opt=data[i]; const correct=opt.c
   const el=$(`cn-q${q}-${i}`); if(!el)return
   el.className='cg-mcq-opt '+(correct?'sel-ok':'sel-bad')
@@ -9446,9 +9577,8 @@ function cnMCQ(q,i){
 }
 
 function cnUpdateSummary(){
-  const ref=($('cn-ref')||{value:''}).value
   const el=$('cn-summary'); if(!el)return
-  el.innerHTML=`<p><strong>MCQs correct:</strong> ${[cnQ1,cnQ2,cnQ3,cnQ4].filter(v=>v===true).length}/4</p><p><strong>Threshold explored:</strong> ${cnSliderMoves>=3?'<span style="color:var(--green)">✓</span>':'move slider ≥3 times'}</p><p><strong>Reflection:</strong> ${ref.length>10?'<span style="color:var(--green)">✓</span>':'not yet'}</p>`
+  el.innerHTML=`<p><strong>MCQs correct:</strong> ${[cnQ1,cnQ2,cnQ3,cnQ4].filter(v=>v===true).length}/4</p><p><strong>Threshold explored:</strong> ${cnSliderMoves>=3?'<span style="color:var(--green)">✓</span>':'move slider ≥3 times'}</p>`
   updateBadge('cancernlp-completed',isComplete('cancernlp'))
 }
 
@@ -9565,7 +9695,7 @@ function lcRenderMCQs(){
 function lcMCQ(q,i){
   const data=q===1?LC_Q1:q===2?LC_Q2:q===3?LC_Q3:LC_Q4
   const cur=q===1?lcQ1:q===2?lcQ2:q===3?lcQ3:lcQ4
-  if(cur!==null)return
+  if(cur===true)return
   const opt=data[i]; const correct=opt.c
   const el=$(`lc-q${q}-${i}`); if(!el)return
   el.className='cg-mcq-opt '+(correct?'sel-ok':'sel-bad')
@@ -9592,9 +9722,8 @@ function lcMCQ(q,i){
 }
 
 function lcUpdateSummary(){
-  const ref=($('lc-ref')||{value:''}).value
   const el=$('lc-summary'); if(!el)return
-  el.innerHTML=`<p><strong>MCQs correct:</strong> ${[lcQ1,lcQ2,lcQ3,lcQ4].filter(v=>v===true).length}/4</p><p><strong>Patterns explored:</strong> ${lcPatternsSeen.size}/4</p><p><strong>Reflection:</strong> ${ref.length>10?'<span style="color:var(--green)">✓</span>':'not yet'}</p>`
+  el.innerHTML=`<p><strong>MCQs correct:</strong> ${[lcQ1,lcQ2,lcQ3,lcQ4].filter(v=>v===true).length}/4</p><p><strong>Patterns explored:</strong> ${lcPatternsSeen.size}/4</p>`
   updateBadge('learncurve-completed',isComplete('learncurve'))
 }
 
@@ -9685,7 +9814,7 @@ function hbRenderMCQs(){
 function hbMCQ(q,i){
   const data=q===1?HB_Q1:q===2?HB_Q2:q===3?HB_Q3:HB_Q4
   const cur=q===1?hbQ1:q===2?hbQ2:q===3?hbQ3:hbQ4
-  if(cur!==null)return
+  if(cur===true)return
   const opt=data[i],correct=opt.c
   const el=$('hb-q'+q+'-'+i); if(!el)return
   el.className='cg-mcq-opt '+(correct?'sel-ok':'sel-bad')
@@ -9712,9 +9841,8 @@ function hbMCQ(q,i){
 }
 
 function hbUpdateSummary(){
-  const ref=($('hb-ref')||{value:''}).value
   const el=$('hb-summary'); if(!el)return
-  el.innerHTML='<p><strong>MCQs correct:</strong> '+[hbQ1,hbQ2,hbQ3,hbQ4].filter(function(v){return v===true}).length+'/4</p><p><strong>Brackets explored:</strong> '+hbBracketsSeen.size+'/4</p><p><strong>Reflection:</strong> '+(ref.length>10?'<span style="color:var(--green)">✓</span>':'not yet')+'</p>'
+  el.innerHTML='<p><strong>MCQs correct:</strong> '+[hbQ1,hbQ2,hbQ3,hbQ4].filter(function(v){return v===true}).length+'/4</p><p><strong>Brackets explored:</strong> '+hbBracketsSeen.size+'/4</p>'
   updateBadge('hypband-completed',isComplete('hypband'))
 }
 
@@ -9806,7 +9934,7 @@ function leRenderMCQs(){
 function leMCQ(q,i){
   const data=q===1?LE_Q1:q===2?LE_Q2:q===3?LE_Q3:LE_Q4
   const cur=q===1?leQ1:q===2?leQ2:q===3?leQ3:leQ4
-  if(cur!==null)return
+  if(cur===true)return
   const opt=data[i],correct=opt.c
   const el=$('le-q'+q+'-'+i); if(!el)return
   el.className='cg-mcq-opt '+(correct?'sel-ok':'sel-bad')
@@ -9833,9 +9961,8 @@ function leMCQ(q,i){
 }
 
 function leUpdateSummary(){
-  const ref=($('le-ref')||{value:''}).value
   const el=$('le-summary'); if(!el)return
-  el.innerHTML='<p><strong>MCQs correct:</strong> '+[leQ1,leQ2,leQ3,leQ4].filter(function(v){return v===true}).length+'/4</p><p><strong>Domains explored:</strong> '+leDomainsSeen.size+'/3</p><p><strong>Reflection:</strong> '+(ref.length>10?'<span style="color:var(--green)">✓</span>':'not yet')+'</p>'
+  el.innerHTML='<p><strong>MCQs correct:</strong> '+[leQ1,leQ2,leQ3,leQ4].filter(function(v){return v===true}).length+'/4</p><p><strong>Domains explored:</strong> '+leDomainsSeen.size+'/3</p>'
   updateBadge('limeeeg-completed',isComplete('limeeeg'))
 }
 
@@ -9937,7 +10064,7 @@ function gaRenderMCQs(){
 function gaMCQ(q,i){
   const data=q===1?GA_Q1:q===2?GA_Q2:q===3?GA_Q3:GA_Q4
   const cur=q===1?gaQ1:q===2?gaQ2:q===3?gaQ3:gaQ4
-  if(cur!==null)return
+  if(cur===true)return
   const opt=data[i],correct=opt.c
   const el=$('ga-q'+q+'-'+i); if(!el)return
   el.className='cg-mcq-opt '+(correct?'sel-ok':'sel-bad')
@@ -9964,9 +10091,8 @@ function gaMCQ(q,i){
 }
 
 function gaUpdateSummary(){
-  const ref=($('ga-ref')||{value:''}).value
   const el=$('ga-summary'); if(!el)return
-  el.innerHTML='<p><strong>MCQs correct:</strong> '+[gaQ1,gaQ2,gaQ3,gaQ4].filter(function(v){return v===true}).length+'/4</p><p><strong>Methods explored:</strong> '+gaMethodsSeen.size+'/3</p><p><strong>Reflection:</strong> '+(ref.length>10?'<span style="color:var(--green)">✓</span>':'not yet')+'</p>'
+  el.innerHTML='<p><strong>MCQs correct:</strong> '+[gaQ1,gaQ2,gaQ3,gaQ4].filter(function(v){return v===true}).length+'/4</p><p><strong>Methods explored:</strong> '+gaMethodsSeen.size+'/3</p>'
   updateBadge('gradattr-completed',isComplete('gradattr'))
 }
 

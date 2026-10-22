@@ -98,20 +98,13 @@
   </div>
 
   <div id="rf-s3" class="ba-locked-section" style="margin-top:16px">
-    <div class="two-col">
-      <div class="card">
-        <div class="card-title">Stage 3 — Key Insight</div>
-        <p style="font-size:14.5px;color:var(--muted);margin-bottom:10px">You found h⁽²⁾ = [5, 0]. Before ReLU the sum was [5, −7]; component 1 was clipped to 0. h⁽²⁾ depends on <em>both</em> x⁽¹⁾ (via h⁽¹⁾) and x⁽²⁾.</p>
-        <div style="font-weight:600;font-size:14.5px;margin-bottom:8px">What does it mean when ReLU zeros a hidden-state component?</div>
-        <div id="rf-q1-opts" style="display:flex;flex-direction:column;gap:5px;max-width:360px"></div>
-        <div id="rf-q1-hint" class="guidance-box cold" style="margin-top:8px;max-width:360px"></div>
-      </div>
-      <div class="card">
-        <div class="card-title">Reflect</div>
-        <p style="font-size:14.5px;color:var(--muted);margin-bottom:8px">h⁽²⁾ carries information from x⁽¹⁾ forward through h⁽¹⁾. How does this differ from a feedforward network that processes each input independently?</p>
-        <textarea id="rf-ref" rows="4" style="width:100%;box-sizing:border-box;background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:8px;color:var(--text);font-family:inherit;resize:vertical;margin-bottom:8px" placeholder="In an RNN the hidden state is a running summary of all past inputs — a feedforward network has no memory across positions…" oninput="rfUpdateSummary()"></textarea>
-        <div id="rf-summary" style="font-size:.88em;color:var(--muted)"></div>
-      </div>
+    <div class="card">
+      <div class="card-title">Stage 3 — Key Insight</div>
+      <p style="font-size:14.5px;color:var(--muted);margin-bottom:10px">You found h⁽²⁾ = [5, 0]. Before ReLU the sum was [5, −7]; component 1 was clipped to 0. h⁽²⁾ depends on <em>both</em> x⁽¹⁾ (via h⁽¹⁾) and x⁽²⁾.</p>
+      <div style="font-weight:600;font-size:14.5px;margin-bottom:8px">What does it mean when ReLU zeros a hidden-state component?</div>
+      <div id="rf-q1-opts" style="display:flex;flex-direction:column;gap:5px;max-width:360px"></div>
+      <div id="rf-q1-hint" class="guidance-box cold" style="margin-top:8px;max-width:360px"></div>
+      <div id="rf-summary" style="font-size:.88em;color:var(--muted);margin-top:12px"></div>
     </div>
   </div>
 </div>

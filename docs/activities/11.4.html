@@ -73,19 +73,12 @@
     </div>
   </div>
   <div id="hb-s5" class="ba-locked-section">
-    <div class="two-col">
-      <div class="card">
-        <div class="card-title">Stage 5 · Bracket Intuition</div>
-        <p style="font-size:14.5px;color:var(--muted);margin-bottom:8px">Bracket s=3 starts <strong>1000 configurations</strong> but runs each for only <strong>1 iteration</strong>. What is the key assumption that makes this useful?</p>
-        <div id="hb-q4-opts" style="display:flex;flex-direction:column;gap:5px"></div>
-        <div id="hb-q4-hint" class="guidance-box cold" style="margin-top:8px"></div>
-      </div>
-      <div class="card">
-        <div class="card-title">Reflect</div>
-        <p style="font-size:14.5px;color:var(--muted);margin-bottom:8px">Hyperband assumes a config that looks bad after 1 iteration will likely stay bad. Describe a hyperparameter scenario (e.g., learning rate warmup, batch normalization) where this early-performance assumption could fail and Hyperband might discard the eventual best config.</p>
-        <textarea id="hb-ref" rows="4" style="width:100%;box-sizing:border-box;background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:8px;color:var(--text);font-family:inherit;resize:vertical;margin-bottom:8px" placeholder="A config that needs warmup steps might look terrible early but..." oninput="hbUpdateSummary()"></textarea>
-        <div id="hb-summary" style="font-size:.88em;color:var(--muted)"></div>
-      </div>
+    <div class="card">
+      <div class="card-title">Stage 5 · Bracket Intuition</div>
+      <p style="font-size:14.5px;color:var(--muted);margin-bottom:8px">Bracket s=3 starts <strong>1000 configurations</strong> but runs each for only <strong>1 iteration</strong>. What is the key assumption that makes this useful?</p>
+      <div id="hb-q4-opts" style="display:flex;flex-direction:column;gap:5px;max-width:380px"></div>
+      <div id="hb-q4-hint" class="guidance-box cold" style="margin-top:8px;max-width:380px"></div>
+      <div id="hb-summary" style="font-size:.88em;color:var(--muted);margin-top:12px"></div>
     </div>
   </div>
 </div>

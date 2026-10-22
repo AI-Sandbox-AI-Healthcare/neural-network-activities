@@ -68,19 +68,12 @@
     </div>
   </div>
   <div id="ga-s5" class="ba-locked-section">
-    <div class="two-col">
-      <div class="card">
-        <div class="card-title">Stage 5 · Deciding to Trust</div>
-        <p style="font-size:14.5px;color:var(--muted);margin-bottom:8px">Which sanity check provides the strongest evidence that an interpretability method is actually examining the model's learned behavior rather than just the input structure?</p>
-        <div id="ga-q4-opts" style="display:flex;flex-direction:column;gap:5px"></div>
-        <div id="ga-q4-hint" class="guidance-box cold" style="margin-top:8px"></div>
-      </div>
-      <div class="card">
-        <div class="card-title">Reflect</div>
-        <p style="font-size:14.5px;color:var(--muted);margin-bottom:8px">Imagine a seizure-detection model where saliency highlights electrode channels that are noisy and often malfunctioning, but the model still predicts correctly (for other reasons). Why is "right prediction, wrong reason" especially dangerous here compared to a movie sentiment classifier?</p>
-        <textarea id="ga-ref" rows="4" style="width:100%;box-sizing:border-box;background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:8px;color:var(--text);font-family:inherit;resize:vertical;margin-bottom:8px" placeholder="In movie reviews a wrong-reason prediction is low-stakes because..." oninput="gaUpdateSummary()"></textarea>
-        <div id="ga-summary" style="font-size:.88em;color:var(--muted)"></div>
-      </div>
+    <div class="card">
+      <div class="card-title">Stage 5 · Deciding to Trust</div>
+      <p style="font-size:14.5px;color:var(--muted);margin-bottom:8px">Which sanity check provides the strongest evidence that an interpretability method is actually examining the model's learned behavior rather than just the input structure?</p>
+      <div id="ga-q4-opts" style="display:flex;flex-direction:column;gap:5px;max-width:400px"></div>
+      <div id="ga-q4-hint" class="guidance-box cold" style="margin-top:8px;max-width:400px"></div>
+      <div id="ga-summary" style="font-size:.88em;color:var(--muted);margin-top:12px"></div>
     </div>
   </div>
 </div>

@@ -114,7 +114,7 @@ function initNeuron() {
       <!-- Weighted sum formula -->
       <div style="padding:16px 20px;border-bottom:1px solid var(--border);text-align:center">
         <div style="color:#b45309">$$a_j = \\sum_{i=1}^{N} x_i \\cdot w_i$$</div>
-        <div style="font-size:13px;color:var(--muted);margin-top:6px;line-height:1.8;font-weight:500">
+        <div style="font-size:14.5px;color:var(--muted);margin-top:6px;line-height:1.8;font-weight:500">
           <strong style="color:var(--text)">aⱼ is the sum of xᵢ · wᵢ from i = 1 to N.</strong><br>
           Multiply each input by its matching weight, then add all N products together.
         </div>
@@ -123,7 +123,7 @@ function initNeuron() {
       <!-- ReLU activation formula -->
       <div style="padding:16px 20px;text-align:center">
         <div style="color:#16a34a">$$o_j = \\text{ReLU}(a_j) = \\max(0,\\; a_j)$$</div>
-        <div style="font-size:13px;color:var(--muted);margin-top:6px;line-height:1.8;font-weight:500">
+        <div style="font-size:14.5px;color:var(--muted);margin-top:6px;line-height:1.8;font-weight:500">
           If aⱼ is <strong style="color:var(--text)">zero or negative → oⱼ = 0</strong> (neuron is silent).
           If aⱼ is <strong style="color:var(--text)">positive → oⱼ = aⱼ</strong> (neuron fires).
         </div>
@@ -218,7 +218,7 @@ function renderNeuronAlgebra(a_j, o_j) {
   <div class="algebra" style="margin-top:10px">
     <div class="alg-step" style="text-align:center;margin-bottom:4px">$$o_j = \\text{ReLU}(a_j) = \\max(0,\\; a_j)$$</div>
     <div class="alg-step" style="margin-left:10px">max(0, <span style="color:${aC}">${a_j.toFixed(4)}</span>) = ${o_j.toFixed(4)}</div>
-    <div class="alg-res" style="color:${oC}">oⱼ = ${o_j.toFixed(4)}${a_j<0?' <span style="color:var(--muted);font-size:12px;font-weight:500">(negative → ReLU clamps to 0)</span>':''}</div>
+    <div class="alg-res" style="color:${oC}">oⱼ = ${o_j.toFixed(4)}${a_j<0?' <span style="color:var(--muted);font-size:13.5px;font-weight:500">(negative → ReLU clamps to 0)</span>':''}</div>
   </div>`
   typeset(el)
 }
@@ -253,7 +253,7 @@ function renderNeuronContributions(a_j, o_j) {
       <thead><tr><th>#</th><th>xᵢ (locked)</th><th>wᵢ (yours)</th><th>xᵢ × wᵢ</th><th>What changing wᵢ does to aⱼ</th></tr></thead>
       <tbody>${rows}</tbody>
     </table>
-    <div style="margin-top:10px;font-size:13px;font-weight:600;color:var(--muted);font-family:'Courier New',monospace">
+    <div style="margin-top:10px;font-size:14.5px;font-weight:600;color:var(--muted);font-family:'Courier New',monospace">
       Running total → aⱼ = <strong style="color:${a_j>=0?'#1d4ed8':'#b91c1c'}">${a_j.toFixed(4)}</strong>
       &nbsp;·&nbsp; oⱼ = max(0, ${a_j.toFixed(4)}) = <strong style="color:${o_j>0?'#15803d':'#5c4a3a'}">${o_j.toFixed(4)}</strong>
     </div>`
@@ -309,7 +309,7 @@ function renderNeuronLog() {
   const el = $('n-log')
   if (!el) return
   if (!nLog.length) {
-    el.innerHTML = '<p style="font-size:13px;color:var(--muted);font-weight:500;padding:8px 0">No interactions yet — adjust a weight slider to start.</p>'
+    el.innerHTML = '<p style="font-size:14.5px;color:var(--muted);font-weight:500;padding:8px 0">No interactions yet — adjust a weight slider to start.</p>'
     return
   }
   const rows = nLog.map((e, idx) => `
@@ -481,7 +481,7 @@ function baRenderXGrid() {
   const hdr = ['col 1','col 2','new col ↓']
   hdr.forEach((h,i) => {
     const d=document.createElement('div')
-    d.style.cssText=`font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;text-align:center;padding:3px 4px;color:${i===2?'#15803d':'var(--muted)'}`
+    d.style.cssText=`font-size:12.5px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;text-align:center;padding:3px 4px;color:${i===2?'#15803d':'var(--muted)'}`
     d.textContent=h; grid.appendChild(d)
   })
   BA_X.forEach((row,ri) => {
@@ -523,7 +523,7 @@ function baRenderWGrid() {
   const grid=$('ba-wnew-grid'); if(!grid) return
   grid.innerHTML=''
   const hdr=['col 1','col 2']
-  hdr.forEach(h=>{const d=document.createElement('div');d.style.cssText='font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;text-align:center;padding:3px 4px;color:var(--muted)';d.textContent=h;grid.appendChild(d)})
+  hdr.forEach(h=>{const d=document.createElement('div');d.style.cssText='font-size:12.5px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;text-align:center;padding:3px 4px;color:var(--muted)';d.textContent=h;grid.appendChild(d)})
   BA_W.forEach(row=>{
     row.forEach(v=>{const c=document.createElement('div');c.className='ba-cell-locked';c.textContent=v;grid.appendChild(c)})
   })
@@ -608,7 +608,7 @@ function baUpdateSteps() {
     ${XnWn?`<div class="ba-step-block" style="border-color:#7c3aed">
       <div class="ba-step-label" style="color:#7c3aed">Your X_new W_new (before ReLU)</div>
       ${baMatHtml(XnWn,'#7c3aed')}
-    </div>`:'<div style="font-size:13px;color:var(--muted);font-weight:500;padding:8px 0">Fill both matrices above to see X_new W_new here.</div>'}`
+    </div>`:'<div style="font-size:14.5px;color:var(--muted);font-weight:500;padding:8px 0">Fill both matrices above to see X_new W_new here.</div>'}`
 }
 
 function baUpdateVerification() {
@@ -627,15 +627,15 @@ function baUpdateVerification() {
     ).join('')
     pB.innerHTML=`<div class="ba-matrix" style="color:#8a7a6e"><div class="ba-matrix-bracket-l"></div><div class="ba-matrix-body">${bodyRows}</div><div class="ba-matrix-bracket-r"></div></div>`
   }else{
-    pB.innerHTML='<div style="color:var(--muted);font-size:13px;font-weight:500">Fill both matrices to see result…</div>'
+    pB.innerHTML='<div style="color:var(--muted);font-size:14.5px;font-weight:500">Fill both matrices to see result…</div>'
   }
   badge.textContent=Yn?`${matches}/${total} cells match`:'—'
   badge.className=`badge ${matches===total?'gg':matches>0?'og':'rg'}`
   if(matches===total){
-    res.innerHTML=`<div style="background:#dcfce7;border:2px solid #16a34a;border-radius:8px;padding:12px 16px;font-size:13px;color:#166534;font-weight:600">✅ ${total}/${total} cells match — max(0, XW + c) = max(0, X_new W_new)</div>`
+    res.innerHTML=`<div style="background:#dcfce7;border:2px solid #16a34a;border-radius:8px;padding:12px 16px;font-size:14.5px;color:#166534;font-weight:600">✅ ${total}/${total} cells match — max(0, XW + c) = max(0, X_new W_new)</div>`
     $('ba-s1-badge').textContent='Activity Complete ✓'; $('ba-s1-badge').className='badge gg'
   }else if(Yn){
-    res.innerHTML=`<div style="background:#fee2e2;border:1px solid var(--red);border-radius:8px;padding:12px 16px;font-size:13px;font-weight:600;color:#7f1d1d">${matches}/${total} cells match — check your matrix values above.</div>`
+    res.innerHTML=`<div style="background:#fee2e2;border:1px solid var(--red);border-radius:8px;padding:12px 16px;font-size:14.5px;font-weight:600;color:#7f1d1d">${matches}/${total} cells match — check your matrix values above.</div>`
   }else{ res.innerHTML='' }
 }
 
@@ -695,9 +695,9 @@ function ceRenderLogPGrid(){
   const grid=$('ce-logp-grid');if(!grid)return
   grid.innerHTML=''
   const colHdrs=['','class 0','class 1']
-  colHdrs.forEach(h=>{const d=document.createElement('div');d.style.cssText='font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;text-align:center;padding:3px 6px;color:var(--muted)';d.textContent=h;grid.appendChild(d)})
+  colHdrs.forEach(h=>{const d=document.createElement('div');d.style.cssText='font-size:12.5px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;text-align:center;padding:3px 6px;color:var(--muted)';d.textContent=h;grid.appendChild(d)})
   CE_P.forEach((prow,ri)=>{
-    const lbl=document.createElement('div');lbl.style.cssText='font-size:12px;font-weight:600;color:var(--muted);font-family:Courier New,monospace;padding-right:8px;display:flex;align-items:center';lbl.textContent=`row ${ri+1}`;grid.appendChild(lbl)
+    const lbl=document.createElement('div');lbl.style.cssText='font-size:13.5px;font-weight:600;color:var(--muted);font-family:Courier New,monospace;padding-right:8px;display:flex;align-items:center';lbl.textContent=`row ${ri+1}`;grid.appendChild(lbl)
     prow.forEach((_,ci)=>{
       const inp=document.createElement('input');inp.type='number';inp.id=`ce-logp-${ri}-${ci}`;inp.className='ba-cell-input';inp.placeholder='?';inp.step=0.001;inp.style.width='80px'
       inp.addEventListener('input',()=>{const v=parseFloat(inp.value);ceLogP[ri][ci]=isNaN(v)?null:v;ceCheckLogP();ceUpdateSteps();ceUpdateSubmitSummary()})
@@ -725,9 +725,9 @@ function ceRenderYlogPGrid(){
   const grid=$('ce-ylogp-grid');if(!grid)return
   grid.innerHTML=''
   const colHdrs=['','class 0','class 1']
-  colHdrs.forEach(h=>{const d=document.createElement('div');d.style.cssText='font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;text-align:center;padding:3px 6px;color:var(--muted)';d.textContent=h;grid.appendChild(d)})
+  colHdrs.forEach(h=>{const d=document.createElement('div');d.style.cssText='font-size:12.5px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;text-align:center;padding:3px 6px;color:var(--muted)';d.textContent=h;grid.appendChild(d)})
   CE_Y.forEach((_,ri)=>{
-    const lbl=document.createElement('div');lbl.style.cssText='font-size:12px;font-weight:600;color:var(--muted);font-family:Courier New,monospace;padding-right:8px;display:flex;align-items:center';lbl.textContent=`row ${ri+1}`;grid.appendChild(lbl)
+    const lbl=document.createElement('div');lbl.style.cssText='font-size:13.5px;font-weight:600;color:var(--muted);font-family:Courier New,monospace;padding-right:8px;display:flex;align-items:center';lbl.textContent=`row ${ri+1}`;grid.appendChild(lbl)
     ;[0,1].forEach(ci=>{
       const inp=document.createElement('input');inp.type='number';inp.id=`ce-ylogp-${ri}-${ci}`;inp.className='ba-cell-input bias-col';inp.placeholder='?';inp.step=0.001;inp.style.width='80px'
       inp.addEventListener('input',()=>{const v=parseFloat(inp.value);ceYlogP[ri][ci]=isNaN(v)?null:v;ceCheckYlogP();ceUpdateSteps();ceUpdateSubmitSummary()})
@@ -753,11 +753,11 @@ function ceCheckYlogP(){
 function ceRenderJWInputs(){
   const c=$('ce-jw-inputs');if(!c)return
   c.innerHTML=`
-    <span style="font-family:'Courier New',monospace;font-size:13px;font-weight:600;color:var(--muted)">J(W) = (</span>
-    <div style="display:flex;flex-direction:column;align-items:center;gap:4px"><span style="font-size:11px;font-weight:700;color:var(--muted)">class 0</span><input type="number" id="ce-jw-0" class="ba-cell-input" placeholder="?" step="0.01" style="width:80px"></div>
-    <span style="font-family:'Courier New',monospace;font-size:13px;font-weight:600;color:var(--muted)">,</span>
-    <div style="display:flex;flex-direction:column;align-items:center;gap:4px"><span style="font-size:11px;font-weight:700;color:var(--muted)">class 1</span><input type="number" id="ce-jw-1" class="ba-cell-input" placeholder="?" step="0.01" style="width:80px"></div>
-    <span style="font-family:'Courier New',monospace;font-size:13px;font-weight:600;color:var(--muted)">)</span>`
+    <span style="font-family:'Courier New',monospace;font-size:14.5px;font-weight:600;color:var(--muted)">J(W) = (</span>
+    <div style="display:flex;flex-direction:column;align-items:center;gap:4px"><span style="font-size:12.5px;font-weight:700;color:var(--muted)">class 0</span><input type="number" id="ce-jw-0" class="ba-cell-input" placeholder="?" step="0.01" style="width:80px"></div>
+    <span style="font-family:'Courier New',monospace;font-size:14.5px;font-weight:600;color:var(--muted)">,</span>
+    <div style="display:flex;flex-direction:column;align-items:center;gap:4px"><span style="font-size:12.5px;font-weight:700;color:var(--muted)">class 1</span><input type="number" id="ce-jw-1" class="ba-cell-input" placeholder="?" step="0.01" style="width:80px"></div>
+    <span style="font-family:'Courier New',monospace;font-size:14.5px;font-weight:600;color:var(--muted)">)</span>`
   ;[0,1].forEach(ci=>{$(`ce-jw-${ci}`).addEventListener('input',()=>{const v=parseFloat($(`ce-jw-${ci}`).value);ceJW[ci]=isNaN(v)?null:v;ceCheckJW();ceUpdateSteps();ceUpdateSubmitSummary()})})
 }
 
@@ -789,7 +789,7 @@ function ceUpdateSteps(){
     </div>
     <div class="ba-step-block">
       <div class="ba-step-label" style="color:#b45309">Step C — J(W) = −(1/3) × col sums</div>
-      <div style="font-family:'Courier New',monospace;font-size:13px;font-weight:500;color:var(--muted)">
+      <div style="font-family:'Courier New',monospace;font-size:14.5px;font-weight:500;color:var(--muted)">
         col 0 sum: (0+(−0.152)+0) = −0.152<br>
         col 1 sum: ((−1)+0+(−3.322)) = −4.322<br>
         <span style="color:#c2610c;font-weight:700">J(W) = −(1/3)×(−0.152,−4.322) ≈ (0.05, 1.44)</span>
@@ -841,21 +841,23 @@ function isComplete(module) {
     if (module === 'batchnorm') return bnMeansOk && bnWpOk && bnBetaOk && bnWhyOk
     if (module === 'conv91') return cvOutputOk && cvQ1 === true && cvQ2 === true
     if (module === 'pool93') return plFillOk && [plQ1,plQ2,plQ3,plQ4].every(v=>v===true)
-    if (module === 'textcnn') return tcQ1===true && tcQ2===true && tcQ3===true && ($('tc-ref')||{value:''}).value.trim().length > 10
-    if (module === 'rnnfwd') return rfFillOk && rfMCQ===true && ($('rf-ref')||{value:''}).value.trim().length > 10
-    if (module === 'rnndesign') return rdQ1===true && rdQ2===true && rdQ3===true && rdQ4===true && rdQ5===true && ($('rd-ref')||{value:''}).value.trim().length > 10
-    if (module === 'rnntanh') return rnMoves>=3 && rnQ1===true && rnQ2===true && rnQ3===true && rnQ4===true && ($('rn-ref')||{value:''}).value.trim().length > 10
-    if (module === 'birnn') return brEq1ok && brEq2ok && brEq3ok && brQ1===true && brQ2===true && brQ3===true && ($('br-ref')||{value:''}).value.trim().length > 10
-    if (module === 'nerseq') return nsQ1===true && nsQ2===true && nsQ3===true && nsQ4===true && ($('ns-ref')||{value:''}).value.trim().length > 10
-    if (module === 'recnets') return rcQ1===true && rcQ2===true && rcQ3===true && rcQ4===true && ($('rc-ref')||{value:''}).value.trim().length > 10
-    if (module === 'linrnn') return lrQ1===true && lrQ2===true && lrQ3===true && lrQ4===true && lrQ5===true && lrQ6===true && lrSliderMoves>=3 && ($('lr-ref')||{value:''}).value.trim().length > 10
-    if (module === 'grucomp') return ggQ1===true && ggQ2===true && ggQ3===true && ggQ4===true && ggToggleSeen.size>=4 && ($('gg-ref')||{value:''}).value.trim().length > 10
-    if (module === 'trfpos') return tpQ1===true && tpQ2===true && tpQ3===true && tpQ4===true && tpOrdersSeen.size>=2 && ($('tp-ref')||{value:''}).value.trim().length > 10
-    if (module === 'cancernlp') return cnQ1===true && cnQ2===true && cnQ3===true && cnQ4===true && cnSliderMoves>=3 && ($('cn-ref')||{value:''}).value.trim().length > 10
-    if (module === 'learncurve') return lcQ1===true && lcQ2===true && lcQ3===true && lcQ4===true && lcPatternsSeen.size>=4 && ($('lc-ref')||{value:''}).value.trim().length > 10
-    if (module === 'hypband') return hbQ1===true && hbQ2===true && hbQ3===true && hbQ4===true && hbBracketsSeen.size>=4 && ($('hb-ref')||{value:''}).value.trim().length > 10
-    if (module === 'limeeeg') return leQ1===true && leQ2===true && leQ3===true && leQ4===true && leDomainsSeen.size>=3 && ($('le-ref')||{value:''}).value.trim().length > 10
-    if (module === 'gradattr') return gaQ1===true && gaQ2===true && gaQ3===true && gaQ4===true && gaMethodsSeen.size>=3 && ($('ga-ref')||{value:''}).value.trim().length > 10
+    if (module === 'gcmech') return gmQ1===true && gmFillOk && gmQ2===true && gmQ3===true
+    if (module === 'gceq') return [geQ1,geQ2,geQ3,geQ4,geQ5].every(v=>v===true)
+    if (module === 'textcnn') return tcQ1===true && tcQ2===true && tcQ3===true
+    if (module === 'rnnfwd') return rfFillOk && rfMCQ===true
+    if (module === 'rnndesign') return rdQ1===true && rdQ2===true && rdQ3===true && rdQ4===true && rdQ5===true
+    if (module === 'rnntanh') return rnMoves>=3 && rnQ1===true && rnQ2===true && rnQ3===true && rnQ4===true
+    if (module === 'birnn') return brEq1ok && brEq2ok && brEq3ok && brQ1===true && brQ2===true && brQ3===true
+    if (module === 'nerseq') return nsQ1===true && nsQ2===true && nsQ3===true && nsQ4===true
+    if (module === 'recnets') return rcQ1===true && rcQ2===true && rcQ3===true && rcQ4===true
+    if (module === 'linrnn') return lrQ1===true && lrQ2===true && lrQ3===true && lrQ4===true && lrQ5===true && lrQ6===true && lrSliderMoves>=3
+    if (module === 'grucomp') return ggQ1===true && ggQ2===true && ggQ3===true && ggQ4===true && ggToggleSeen.size>=4
+    if (module === 'trfpos') return tpQ1===true && tpQ2===true && tpQ3===true && tpQ4===true && tpOrdersSeen.size>=2
+    if (module === 'cancernlp') return cnQ1===true && cnQ2===true && cnQ3===true && cnQ4===true && cnSliderMoves>=3
+    if (module === 'learncurve') return lcQ1===true && lcQ2===true && lcQ3===true && lcQ4===true && lcPatternsSeen.size>=4
+    if (module === 'hypband') return hbQ1===true && hbQ2===true && hbQ3===true && hbQ4===true && hbBracketsSeen.size>=4
+    if (module === 'limeeeg') return leQ1===true && leQ2===true && leQ3===true && leQ4===true && leDomainsSeen.size>=3
+    if (module === 'gradattr') return gaQ1===true && gaQ2===true && gaQ3===true && gaQ4===true && gaMethodsSeen.size>=3
   } catch(e) {}
   return false
 }
@@ -966,7 +968,7 @@ function a4MarkScenario(i) {
   el.classList.add('done')
   el.querySelector('.a4-sc-icon').textContent='✓'
   const ins=document.createElement('div')
-  ins.style.cssText='font-size:12px;color:#14532d;margin-top:5px;font-weight:500;line-height:1.6'
+  ins.style.cssText='font-size:13.5px;color:#14532d;margin-top:5px;font-weight:500;line-height:1.6'
   ins.textContent=a4ScInsights[i]
   el.appendChild(ins)
 }
@@ -1064,7 +1066,7 @@ function a4RenderScoreSliders() {
     const row=document.createElement('div'); row.className='slider-row'
     row.innerHTML=`
       <div class="slider-label" style="width:120px">
-        <span style="font-size:15px;font-weight:700;font-family:'Courier New',monospace;color:${a4Colors[i]}">${a4Labels[i]}</span>
+        <span style="font-size:17px;font-weight:700;font-family:'Courier New',monospace;color:${a4Colors[i]}">${a4Labels[i]}</span>
         <span id="a4-score-val-${i}" style="font-family:'Courier New',monospace;font-weight:700;color:${a4Colors[i]}">${val.toFixed(1)}</span>
       </div>
       <input type="range" id="a4-score-${i}" min="-6" max="6" step="0.1" value="${val}" style="flex:1" oninput="a4ScoreChange(${i},this.value)">`
@@ -1091,13 +1093,13 @@ function a4BarHTML(label,val,color,formula) {
   const pct=(val*100).toFixed(1)
   return `<div>
     <div class="a4-bar-row">
-      <div class="a4-bar-label" style="color:${color};font-size:17px;width:38px">${label}</div>
+      <div class="a4-bar-label" style="color:${color};font-size:19px;width:38px">${label}</div>
       <div class="a4-bar-track">
         <div class="a4-bar-fill" style="width:${pct}%;background:${color}25;border-right:3px solid ${color}"></div>
       </div>
       <span class="a4-bar-val" style="color:${color}">${val.toFixed(4)}</span>
     </div>
-    <div style="font-family:'Courier New',monospace;font-size:13px;color:var(--muted);padding-left:40px;margin-top:2px">${formula}</div>
+    <div style="font-family:'Courier New',monospace;font-size:14.5px;color:var(--muted);padding-left:40px;margin-top:2px">${formula}</div>
   </div>`
 }
 
@@ -1136,8 +1138,8 @@ function a4UpdateComparison() {
   const dp=$('a4-diff-panel')
   if(dp) dp.innerHTML=`
     <div>
-      <div style="font-size:12px;font-weight:800;color:#1d4ed8;text-transform:uppercase;letter-spacing:.07em;margin-bottom:10px">Sigmoid — Independent</div>
-      <div style="font-size:14px;color:var(--muted);font-weight:500;line-height:2">
+      <div style="font-size:13.5px;font-weight:800;color:#1d4ed8;text-transform:uppercase;letter-spacing:.07em;margin-bottom:10px">Sigmoid — Independent</div>
+      <div style="font-size:15.5px;color:var(--muted);font-weight:500;line-height:2">
         Changing <strong style="color:${a4Colors[0]}">a<sub>1</sub></strong> only changes <strong style="color:${a4Colors[0]}">p<sub>1</sub></strong>.<br>
         p<sub>2</sub> = σ(a<sub>2</sub>) = <strong style="color:${a4Colors[1]}">${sigs[1].toFixed(4)}</strong> — unaffected by a<sub>1</sub>.<br>
         p<sub>3</sub> = σ(a<sub>3</sub>) = <strong style="color:${a4Colors[2]}">${sigs[2].toFixed(4)}</strong> — unaffected by a<sub>1</sub>.<br>
@@ -1145,8 +1147,8 @@ function a4UpdateComparison() {
       </div>
     </div>
     <div>
-      <div style="font-size:12px;font-weight:800;color:#15803d;text-transform:uppercase;letter-spacing:.07em;margin-bottom:10px">Softmax — Competitive</div>
-      <div style="font-size:14px;color:var(--muted);font-weight:500;line-height:2">
+      <div style="font-size:13.5px;font-weight:800;color:#15803d;text-transform:uppercase;letter-spacing:.07em;margin-bottom:10px">Softmax — Competitive</div>
+      <div style="font-size:15.5px;color:var(--muted);font-weight:500;line-height:2">
         Boosting <strong style="color:${a4Colors[0]}">a<sub>1</sub></strong> forces p<sub>2</sub> and p<sub>3</sub> to shrink.<br>
         All three share a common normaliser Z = ${Z.toFixed(3)}.<br>
         p<sub>1</sub> = ${smxs[0].toFixed(4)}, p<sub>2</sub> = ${smxs[1].toFixed(4)}, p<sub>3</sub> = ${smxs[2].toFixed(4)}.<br>
@@ -1171,12 +1173,12 @@ function a4RenderQuiz() {
   const c=$('a4-quiz-items'); if(!c)return
   c.innerHTML=a4QuizData.map((item,i)=>`
     <div style="background:var(--surf2);border:1px solid var(--border);border-radius:8px;padding:14px 16px" id="a4-qi-${i}">
-      <div style="font-size:14px;font-weight:600;color:var(--text);margin-bottom:10px">${i+1}. ${item.q}</div>
+      <div style="font-size:15.5px;font-weight:600;color:var(--text);margin-bottom:10px">${i+1}. ${item.q}</div>
       <div style="display:flex;gap:10px">
         <button class="btn btn-g" id="a4-qb-${i}-sigmoid" onclick="a4Answer(${i},'sigmoid')">Sigmoid</button>
         <button class="btn btn-g" id="a4-qb-${i}-softmax" onclick="a4Answer(${i},'softmax')">Softmax</button>
       </div>
-      <div id="a4-qr-${i}" style="font-size:13px;margin-top:8px;min-height:18px;font-weight:500"></div>
+      <div id="a4-qr-${i}" style="font-size:14.5px;margin-top:8px;min-height:18px;font-weight:500"></div>
     </div>`).join('')
 }
 
@@ -1276,7 +1278,7 @@ function mxRenderPieces(){
     const wrap=document.createElement('div')
     wrap.style.cssText=`margin-bottom:14px;padding-bottom:10px${i<active-1?';border-bottom:1px solid var(--border)':''}`
     const title=document.createElement('div')
-    title.style.cssText=`font-family:"Courier New",monospace;font-size:13px;font-weight:700;margin-bottom:8px;color:${MX_COLORS[i]}`
+    title.style.cssText=`font-family:"Courier New",monospace;font-size:14.5px;font-weight:700;margin-bottom:8px;color:${MX_COLORS[i]}`
     title.textContent=`Piece ${i+1}: z${i+1} = w${i+1}·x + b${i+1}`
     wrap.appendChild(title)
     c.appendChild(wrap)
@@ -1330,7 +1332,7 @@ function mxRenderAlgebra(){
   $('mx-algebra').innerHTML = `
     ${rows}
     <div class="alg-res" style="color:${MX_COLORS[win]}">h(x) = max(${zs.map(z=>z.toFixed(2)).join(', ')}) = ${h.toFixed(3)}</div>
-    <div style="margin-top:8px;font-size:13px;font-weight:600;color:${match?'#15803d':'#b91c1c'}">target(x) = ${t.toFixed(3)} ${match?'✓ match':'✗ no match'}</div>`
+    <div style="margin-top:8px;font-size:14.5px;font-weight:600;color:${match?'#15803d':'#b91c1c'}">target(x) = ${t.toFixed(3)} ${match?'✓ match':'✗ no match'}</div>`
 }
 
 function mxRenderVerification(){
@@ -1369,7 +1371,7 @@ function mxRenderGuidance(){
 function mxRenderLog(){
   const el=$('mx-log')
   if(!el) return
-  if(!mxLog.length){ el.innerHTML='<p style="font-size:13px;color:var(--muted);font-weight:500;padding:8px 0">No interactions yet — adjust a piece slider to start.</p>'; return }
+  if(!mxLog.length){ el.innerHTML='<p style="font-size:14.5px;color:var(--muted);font-weight:500;padding:8px 0">No interactions yet — adjust a piece slider to start.</p>'; return }
   const rows=mxLog.map(e=>`<tr><td>${e.time}</td><td style="color:#b45309">${e.field}</td><td style="color:var(--muted)">${e.from}</td><td style="color:var(--text)">${e.to}</td></tr>`).join('')
   el.innerHTML=`<table class="log-table"><thead><tr><th>Time</th><th>Field</th><th>From</th><th>To</th></tr></thead><tbody>${rows}</tbody></table>`
 }
@@ -1620,7 +1622,7 @@ function lrDrawPlot(){
   const readout=$('lr-region-readout')
   readout.innerHTML = `<strong>Actual regions found:</strong> ${actual} &nbsp;·&nbsp; <strong>Bound O(n,l):</strong> ${bound}
     ${actual<bound ? `<br><span style="color:var(--muted);font-weight:500">Fewer than the bound — typical for random weights; the bound is the maximum achievable.</span>` : `<br><span style="color:#15803d;font-weight:500">At the bound — this random network achieves the maximum!</span>`}
-    ${actualRaw>bound ? `<br><span style="color:var(--muted);font-weight:500;font-size:12px">(capped at the theoretical bound — dense sampling can slightly overcount near-flat kinks)</span>` : ''}`
+    ${actualRaw>bound ? `<br><span style="color:var(--muted);font-weight:500;font-size:13.5px">(capped at the theoretical bound — dense sampling can slightly overcount near-flat kinks)</span>` : ''}`
 }
 
 function lrRenderSteps(){
@@ -1634,7 +1636,7 @@ function lrRenderSteps(){
   ]
   c.innerHTML = rows.map(r=>`
     <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:8px">
-      <span style="font-family:'Courier New',monospace;font-size:13px;color:var(--text)">${r.label}</span>
+      <span style="font-family:'Courier New',monospace;font-size:14.5px;color:var(--text)">${r.label}</span>
       <input type="number" id="lr-step${r.id}" class="ba-cell-input" style="width:84px" placeholder="?" oninput="lrCheckStep('${r.id}')">
     </div>`).join('')
 }
@@ -1686,12 +1688,12 @@ function lrRecordHistory(){
 
 function lrRenderHistory(){
   const el=$('lr-history')
-  if(!lrHistory.length){ el.innerHTML='<p style="font-size:13px;color:var(--muted);font-weight:500">No completed runs yet.</p>'; return }
+  if(!lrHistory.length){ el.innerHTML='<p style="font-size:14.5px;color:var(--muted);font-weight:500">No completed runs yet.</p>'; return }
   const maxO=Math.max(...lrHistory.map(h=>h.O),1)
   const rows=lrHistory.map(h=>{
     const pct=Math.max(6, Math.log2(h.O+1)/Math.log2(maxO+1)*100)
     return `<div class="a4-bar-row" style="margin-bottom:8px">
-      <span class="a4-bar-label" style="width:auto;font-size:12px">l=${h.l},n=${h.n}</span>
+      <span class="a4-bar-label" style="width:auto;font-size:13.5px">l=${h.l},n=${h.n}</span>
       <div class="a4-bar-track"><div class="a4-bar-fill" style="width:${pct.toFixed(0)}%;background:#1d4ed8"></div></div>
       <span class="a4-bar-val">${h.O}</span>
     </div>`
@@ -1700,7 +1702,7 @@ function lrRenderHistory(){
   if(lrHistory.length>=2){
     const prev=lrHistory[lrHistory.length-2], cur=lrHistory[lrHistory.length-1]
     const factor=cur.O/prev.O
-    compare=`<p style="font-size:13px;margin-top:10px;color:var(--text);font-weight:500">O went from <strong>${prev.O}</strong> (l=${prev.l}) to <strong>${cur.O}</strong> (l=${cur.l}) — a <strong>${factor.toFixed(1)}×</strong> increase${cur.l===prev.l*2?' from only doubling the depth':''}.</p>`
+    compare=`<p style="font-size:14.5px;margin-top:10px;color:var(--text);font-weight:500">O went from <strong>${prev.O}</strong> (l=${prev.l}) to <strong>${cur.O}</strong> (l=${cur.l}) — a <strong>${factor.toFixed(1)}×</strong> increase${cur.l===prev.l*2?' from only doubling the depth':''}.</p>`
   }
   el.innerHTML = rows + compare
 }
@@ -1762,7 +1764,7 @@ function lrRefreshLeft(){
 function lrRenderLog(){
   const el=$('lr-log')
   if(!el) return
-  if(!lrLog.length){ el.innerHTML='<p style="font-size:13px;color:var(--muted);font-weight:500;padding:8px 0">No interactions yet — adjust l, n, or fill a step to start.</p>'; return }
+  if(!lrLog.length){ el.innerHTML='<p style="font-size:14.5px;color:var(--muted);font-weight:500;padding:8px 0">No interactions yet — adjust l, n, or fill a step to start.</p>'; return }
   const rows=lrLog.map(e=>`<tr><td>${e.time}</td><td style="color:#b45309">${e.field}</td><td style="color:var(--muted)">${e.from}</td><td style="color:var(--text)">${e.to}</td></tr>`).join('')
   el.innerHTML=`<table class="log-table"><thead><tr><th>Time</th><th>Field</th><th>From</th><th>To</th></tr></thead><tbody>${rows}</tbody></table>`
 }
@@ -1891,7 +1893,7 @@ function cgRenderClassify(){
     const chip=document.createElement('div')
     chip.className='cg-var-chip'
     chip.id=`cg-chip-${key}`
-    chip.innerHTML=`<span style="font-size:15px">${name.replace('_z','<sub>z</sub>').replace('_r','<sub>r</sub>').replace('_n','<sub>n</sub>')}</span><span id="cg-lbl-${key}" style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)">click</span>`
+    chip.innerHTML=`<span style="font-size:17px">${name.replace('_z','<sub>z</sub>').replace('_r','<sub>r</sub>').replace('_n','<sub>n</sub>')}</span><span id="cg-lbl-${key}" style="font-size:12.5px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)">click</span>`
     chip.onclick=()=>cgToggleChip(name)
     c.appendChild(chip)
   })
@@ -1957,7 +1959,7 @@ function cgRenderWireQ(){
     block.id=`cg-wq-${q.node}`
     block.style.cssText='padding-bottom:14px;border-bottom:1px solid var(--border)'
     block.innerHTML=`
-      <div style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:8px">
+      <div style="font-size:14.5px;font-weight:700;color:var(--text);margin-bottom:8px">
         <span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:${q.color};margin-right:6px;vertical-align:middle"></span>
         What feeds into <strong style="color:${q.color}">${q.label}</strong>?
       </div>
@@ -1968,7 +1970,7 @@ function cgRenderWireQ(){
             <span>${o.text}</span>
           </div>`).join('')}
       </div>
-      <div id="cg-wfb-${q.node}" style="font-size:13px;margin-top:8px;min-height:14px;font-weight:500"></div>`
+      <div id="cg-wfb-${q.node}" style="font-size:14.5px;margin-top:8px;min-height:14px;font-weight:500"></div>`
     if(qi===CG_WIRE_Q.length-1) block.style.borderBottom='none'
     c.appendChild(block)
   })
@@ -2178,7 +2180,7 @@ function bpRenderTable(){
 
     tr.appendChild(td(row.V))
     tr.appendChild(td(row.C))
-    tr.appendChild(td(`<span style="font-size:11px">${row.op}</span>`))
+    tr.appendChild(td(`<span style="font-size:12.5px">${row.op}</span>`))
 
     if(row.given){
       tr.appendChild(td(row.dcdv))
@@ -2199,7 +2201,7 @@ function bpRenderTable(){
 
     // note cell
     const nt=document.createElement('td')
-    nt.style.cssText='font-size:11px;color:var(--muted);text-align:left;padding-left:8px'
+    nt.style.cssText='font-size:12.5px;color:var(--muted);text-align:left;padding-left:8px'
     nt.textContent=row.note||''
     tr.appendChild(nt)
 
@@ -2547,15 +2549,15 @@ function initRegRace(){
       <div style="background:var(--surf2);border:1px solid var(--border);border-radius:10px;overflow:hidden">
         <div style="padding:16px 20px;border-bottom:1px solid var(--border);text-align:center">
           <div style="color:#b45309">$J(\\mathbf{w})=\\dfrac{1}{|X|}\\sum_{i}(y_i - \\mathbf{x}_i\\mathbf{w}^\\top)^2$</div>
-          <div style="font-size:13px;color:var(--muted);margin-top:6px;line-height:1.8"><strong style="color:var(--text)">Data loss</strong> — mean squared error over all samples. Lower means better fit to training data.</div>
+          <div style="font-size:14.5px;color:var(--muted);margin-top:6px;line-height:1.8"><strong style="color:var(--text)">Data loss</strong> — mean squared error over all samples. Lower means better fit to training data.</div>
         </div>
         <div style="padding:16px 20px;border-bottom:1px solid var(--border);text-align:center">
           <div style="color:#6d28d9">$\\Omega_1=\\sum_i|w_i| \\qquad \\Omega_2=\\sum_i w_i^2$</div>
-          <div style="font-size:13px;color:var(--muted);margin-top:6px;line-height:1.8"><strong style="color:var(--text)">L1</strong> penalises absolute size — drives small weights to exactly 0 (sparse). &nbsp;<strong style="color:var(--text)">L2</strong> penalises squared size — shrinks all weights but rarely zeros them.</div>
+          <div style="font-size:14.5px;color:var(--muted);margin-top:6px;line-height:1.8"><strong style="color:var(--text)">L1</strong> penalises absolute size — drives small weights to exactly 0 (sparse). &nbsp;<strong style="color:var(--text)">L2</strong> penalises squared size — shrinks all weights but rarely zeros them.</div>
         </div>
         <div style="padding:16px 20px;text-align:center">
           <div style="color:#15803d">$\\tilde{J}(\\mathbf{w})=J(\\mathbf{w})+\\alpha\\,\\Omega(\\mathbf{w})$</div>
-          <div style="font-size:13px;color:var(--muted);margin-top:6px;line-height:1.8">α trades off fit vs. simplicity. A large α can flip the winner — <strong style="color:var(--text)">for which weight does the choice of L1 vs L2 matter most?</strong></div>
+          <div style="font-size:14.5px;color:var(--muted);margin-top:6px;line-height:1.8">α trades off fit vs. simplicity. A large α can flip the winner — <strong style="color:var(--text)">for which weight does the choice of L1 vs L2 matter most?</strong></div>
         </div>
       </div>`
     typeset(eq)
@@ -2605,9 +2607,9 @@ function esUpdateSplit(source){
   const n2=$('es-n-train2'); if(n2) n2.textContent=t*10
   const bar=$('es-split-bar')
   if(bar) bar.innerHTML=`
-    <div style="flex:${t};background:#60a5fa;height:32px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:#fff;overflow:hidden;min-width:0">${t>12?t+'%':''}</div>
-    <div style="flex:${v};background:#fb923c;height:32px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:#fff;overflow:hidden;min-width:0">${v>6?v+'%':''}</div>
-    <div style="flex:${te};background:#86efac;height:32px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:#14532d;overflow:hidden;min-width:0">${te>6?te+'%':''}</div>`
+    <div style="flex:${t};background:#60a5fa;height:32px;display:flex;align-items:center;justify-content:center;font-size:13.5px;font-weight:700;color:#fff;overflow:hidden;min-width:0">${t>12?t+'%':''}</div>
+    <div style="flex:${v};background:#fb923c;height:32px;display:flex;align-items:center;justify-content:center;font-size:13.5px;font-weight:700;color:#fff;overflow:hidden;min-width:0">${v>6?v+'%':''}</div>
+    <div style="flex:${te};background:#86efac;height:32px;display:flex;align-items:center;justify-content:center;font-size:13.5px;font-weight:700;color:#14532d;overflow:hidden;min-width:0">${te>6?te+'%':''}</div>`
   const warn=$('es-val-warn')
   if(warn){warn.style.display=v<5?'block':'none';warn.textContent='⚠ You need validation data to know when to stop — increase the validation %!'}
   const btn=$('es-to-s3-btn'); if(btn) btn.disabled=v<5
@@ -2784,7 +2786,7 @@ function dpRenderImage(){
     }
     html+='</div>'
   }
-  html+='</div><p style="font-size:12px;color:var(--muted);margin-top:8px">'+Math.round(dpRate*100)+'% of pixels are zeroed (blacked out) each forward pass.</p>'
+  html+='</div><p style="font-size:13.5px;color:var(--muted);margin-top:8px">'+Math.round(dpRate*100)+'% of pixels are zeroed (blacked out) each forward pass.</p>'
   c.innerHTML=html
 }
 const DP_WORDS=['the','cat','sat','on','mat','chases','runs','fast','never','stops']
@@ -2793,7 +2795,7 @@ function dpRenderWords(){
   const seed=Math.round(dpRate*100)
   let html='<div style="padding:6px 0">'
   DP_WORDS.forEach((w,i)=>{html+=`<span class="dp-word-chip${dpRng(seed,i)<dpRate?' masked':''}">${w}</span>`})
-  html+='</div><p style="font-size:12px;color:var(--muted);margin-top:8px">Dropped words (<span style="text-decoration:line-through;color:#94a3b8">dummy-word</span>) are treated as absent from this example.</p>'
+  html+='</div><p style="font-size:13.5px;color:var(--muted);margin-top:8px">Dropped words (<span style="text-decoration:line-through;color:#94a3b8">dummy-word</span>) are treated as absent from this example.</p>'
   c.innerHTML=html
 }
 const DP_CHARS=[...'Hello World!']
@@ -2807,7 +2809,7 @@ function dpRenderChars(){
     if(ch===' '){html+='<span style="display:inline-block;width:8px"></span>';return}
     html+=`<span class="dp-char-chip${masked.has(ch)?' masked':''}">${masked.has(ch)?'_':ch}</span>`
   })
-  html+='</div><p style="font-size:12px;color:var(--muted);margin-top:8px">Dropped character types are replaced with "_" wherever they appear.</p>'
+  html+='</div><p style="font-size:13.5px;color:var(--muted);margin-top:8px">Dropped character types are replaced with "_" wherever they appear.</p>'
   c.innerHTML=html
 }
 function dpRenderDomainMCQs(){
@@ -3172,7 +3174,7 @@ function slDrawScene(){
         h+=`<div class="sl-box pred-loose show" style="left:${o.dupBox.x}px;top:${o.dupBox.y}px;width:${o.dupBox.w}px;height:${o.dupBox.h}px;border-style:dashed"><span class="sl-box-label" style="background:#6d28d9;color:#fff">duplicate</span></div>`
       }
       if(o.predStatus==='missing'){
-        h+=`<span style="position:absolute;left:${o.gt.x}px;top:${o.gt.y+o.gt.h+2}px;font-size:11px;font-weight:800;color:#b91c1c">missed!</span>`
+        h+=`<span style="position:absolute;left:${o.gt.x}px;top:${o.gt.y+o.gt.h+2}px;font-size:12.5px;font-weight:800;color:#b91c1c">missed!</span>`
       }
     }
   })
@@ -3214,9 +3216,9 @@ function slRenderFlashFace(){
   const f=SL_FLASH[SL.flashIdx]
   const card=$('sl-flash-card')
   if(SL.flashFlip){
-    card.innerHTML=`<div class="sl-flash-kicker">${f.kicker} · Card ${SL.flashIdx+1}/${SL_FLASH.length}</div><div class="sl-flash-a">${f.a}</div><div style="font-size:11px;color:var(--muted);margin-top:14px;text-align:center">Click to see the question again</div>`
+    card.innerHTML=`<div class="sl-flash-kicker">${f.kicker} · Card ${SL.flashIdx+1}/${SL_FLASH.length}</div><div class="sl-flash-a">${f.a}</div><div style="font-size:12.5px;color:var(--muted);margin-top:14px;text-align:center">Click to see the question again</div>`
   } else {
-    card.innerHTML=`<div class="sl-flash-kicker">${f.kicker} · Card ${SL.flashIdx+1}/${SL_FLASH.length}</div><div class="sl-flash-q">${f.q}</div><div style="font-size:11px;color:var(--muted);margin-top:14px">Click to reveal the answer</div>`
+    card.innerHTML=`<div class="sl-flash-kicker">${f.kicker} · Card ${SL.flashIdx+1}/${SL_FLASH.length}</div><div class="sl-flash-q">${f.q}</div><div style="font-size:12.5px;color:var(--muted);margin-top:14px">Click to reveal the answer</div>`
   }
   $('sl-flash-dots').innerHTML=SL_FLASH.map((_,i)=>`<span class="sl-flash-dot ${SL.flashSeen.has(i)?'seen':''} ${i===SL.flashIdx?'cur':''}"></span>`).join('')
   $('sl-flash-counter').textContent=`${SL.flashSeen.size}/${SL_FLASH.length} viewed`
@@ -3277,7 +3279,7 @@ function slRenderObjList(sim){
     if(s==='fn') return '<span class="sl-chip fn">missed (FN)</span>'
     return '<span class="sl-chip off">not raised</span>'
   }
-  const iouTxt=k => objIouLookup[k]!==undefined ? ` <span style="color:var(--muted);font-size:11px">IoU ${objIouLookup[k].toFixed(2)}</span>` : ''
+  const iouTxt=k => objIouLookup[k]!==undefined ? ` <span style="color:var(--muted);font-size:12.5px">IoU ${objIouLookup[k].toFixed(2)}</span>` : ''
   const objIouLookup=sim.objIoU
   $('sl-obj-list').innerHTML=rows.map(r=>`<div class="sl-obj-status"><span>${r.label}</span><span>${chip(sim.objStatus[r.k])}${r.k!=='P'?iouTxt(r.k):''}</span></div>`).join('')
 }
@@ -3394,7 +3396,6 @@ function initSurrogateLoss(){
 let gnStage=0
 let gnMcq={illcond:null,localmin:null,saddle:null,cliff:null}
 let gnMcqClip=null
-let gnReflection=''
 let gnMcqIdx=0
 const GN_SCENARIOS=[
   {key:'illcond',
@@ -3467,8 +3468,8 @@ function gnRenderNextMCQ(){
   const div=document.createElement('div')
   div.id=`gn-mcq-block-${gnMcqIdx}`
   div.style.cssText='margin-bottom:18px;padding:14px;background:var(--surf2);border:1px solid var(--border);border-radius:9px'
-  div.innerHTML=`<p style="font-size:12px;font-weight:700;color:var(--muted);margin-bottom:6px">Question ${qnum} of ${GN_SCENARIOS.length}</p>
-    <p style="font-size:13px;font-weight:600;margin-bottom:10px">${sc.q}</p>
+  div.innerHTML=`<p style="font-size:13.5px;font-weight:700;color:var(--muted);margin-bottom:6px">Question ${qnum} of ${GN_SCENARIOS.length}</p>
+    <p style="font-size:14.5px;font-weight:600;margin-bottom:10px">${sc.q}</p>
     <svg id="${svgId}" width="340" height="80" style="display:block;margin-bottom:10px;border-radius:5px;border:1px solid var(--border)"></svg>
     <div id="gn-mcq-opts-${gnMcqIdx}">${sc.opts.map((o,i)=>`<div class="cg-mcq-opt" id="gn-qopt-${gnMcqIdx}-${i}" onclick="gnScenarioAnswer(${gnMcqIdx},${i})"><span style="font-weight:700;color:var(--muted);flex-shrink:0">${String.fromCharCode(65+i)}.</span><span>${o}</span></div>`).join('')}</div>
     <div id="gn-mcq-hint-${gnMcqIdx}" class="guidance-box cold" style="margin-top:8px"></div>`
@@ -3523,13 +3524,11 @@ function gnClipAnswer(i){
   gnUpdateSubmitSummary()
 }
 function gnUpdateSubmitSummary(){
-  gnReflection=($('gn-reflection')||{value:''}).value
   const el=$('gn-submit-summary')
   const n=Object.values(gnMcq).filter(v=>v===true).length
   if(el) el.innerHTML=`<p><strong>Scenario MCQs:</strong> ${n}/4 ${n===4?'<span style="color:var(--green)">✓</span>':''}</p>
     <p><strong>Gradient clipping MCQ:</strong> ${gnMcqClip===true?'<span style="color:var(--green)">✓</span>':'not yet'}</p>
-    <p><strong>Stage reached:</strong> ${gnStage}/2</p>
-    <p><strong>Reflection:</strong> ${gnReflection.length>10?'<span style="color:var(--green)">✓</span>':'not yet'}</p>`
+    <p><strong>Stage reached:</strong> ${gnStage}/2</p>`
   updateBadge('gn-completed', isComplete('gradnorm'))
 }
 function initGradNorm(){ gnUpdateSubmitSummary() }
@@ -3539,7 +3538,6 @@ function initGradNorm(){ gnUpdateSubmitSummary() }
 // ══════════════════════════════════════════════════
 let mmStage=0
 let mmMcq={accum:null,carry:null}
-let mmReflection=''
 const MM_NO=[{W0:0,W1:-0.5},{W0:-0.5,W1:-0.5},{W0:-0.5,W1:-1.0}]
 const MM_MOM=[
   {v0:0,v1:-0.5,W0:0,W1:-0.5},
@@ -3713,14 +3711,12 @@ function mmAnswer(q,i){
   mmUpdateSubmitSummary()
 }
 function mmUpdateSubmitSummary(){
-  mmReflection=($('mm-reflection')||{value:''}).value
   const el=$('mm-submit-summary')
   if(el) el.innerHTML=`<p><strong>No-momentum table:</strong> ${mmCountNoMomOk()}/3 steps correct</p>
     <p><strong>Momentum table:</strong> ${mmCountMomOk()}/3 steps correct</p>
     <p><strong>Accumulation MCQ:</strong> ${mmMcq.accum===true?'<span style="color:var(--green)">✓</span>':'not yet'}</p>
     <p><strong>Step-size MCQ:</strong> ${mmMcq.carry===true?'<span style="color:var(--green)">✓</span>':'not yet'}</p>
-    <p><strong>Stage reached:</strong> ${mmStage}/3</p>
-    <p><strong>Reflection:</strong> ${mmReflection.length>10?'<span style="color:var(--green)">✓</span>':'not yet'}</p>`
+    <p><strong>Stage reached:</strong> ${mmStage}/3</p>`
   updateBadge('mm-completed', isComplete('momentum'))
 }
 function initMomentum(){
@@ -3732,7 +3728,7 @@ function initMomentum(){
 // ══════════════════════════════════════════════════
 //  ACTIVITY 8.4 — TRANSFER LEARNING
 // ══════════════════════════════════════════════════
-let tlStage=0, tlMcq={a:null,b:null,c:null,d:null}, tlPxOk=false, tlRef=''
+let tlStage=0, tlMcq={a:null,b:null,c:null,d:null}, tlPxOk=false
 const TL_Q1=[
   {t:'Maps backbone features to task-specific outputs (class scores or pixel labels)',c:true},
   {t:'Stores the model weights before fine-tuning begins',c:false},
@@ -3819,8 +3815,6 @@ function tlAns(q,i){
   }
   const s2ok=tlMcq.a&&tlMcq.b&&tlMcq.c
   const btn2=$('tl-btn2'); if(btn2) btn2.disabled=!s2ok
-  const s3ok=tlMcq.d&&tlPxOk
-  const btn3=$('tl-btn3'); if(btn3) btn3.disabled=!s3ok
   tlUpdateSummary()
 }
 function tlCheckPixel(){
@@ -3835,15 +3829,12 @@ function tlCheckPixel(){
     if(hint){hint.className='guidance-box warm';hint.innerHTML='Try 3000 × 512 × 512.'}
     tlPxOk=false
   }
-  const s3ok=tlMcq.d&&tlPxOk
-  const btn3=$('tl-btn3'); if(btn3) btn3.disabled=!s3ok
   tlUpdateSummary()
 }
 function tlUpdateSummary(){
-  tlRef=($('tl-ref')||{value:''}).value
   const el=$('tl-summary'); if(!el) return
   const n=Object.values(tlMcq).filter(v=>v===true).length
-  el.innerHTML=`<p><strong>MCQs:</strong> ${n}/4</p><p><strong>Pixel count:</strong> ${tlPxOk?'<span style="color:var(--green)">✓</span>':'not yet'}</p><p><strong>Stage:</strong> ${tlStage}/4</p><p><strong>Reflection:</strong> ${tlRef.length>10?'<span style="color:var(--green)">✓</span>':'not yet'}</p>`
+  el.innerHTML=`<p><strong>MCQs:</strong> ${n}/4</p><p><strong>Pixel count:</strong> ${tlPxOk?'<span style="color:var(--green)">✓</span>':'not yet'}</p><p><strong>Stage:</strong> ${tlStage}/3</p>`
   updateBadge('tl-completed', isComplete('transferlearn'))
 }
 function initTransferLearn(){tlUpdateSummary()}
@@ -3851,7 +3842,7 @@ function initTransferLearn(){tlUpdateSummary()}
 // ══════════════════════════════════════════════════
 //  ACTIVITY 8.5 — OPTIMIZER RACE
 // ══════════════════════════════════════════════════
-let orStage=0, orMcq={sgd:null,ada:null,rms:null,adam:null}, orFinal=null, orRan=false, orRef=''
+let orStage=0, orMcq={sgd:null,ada:null,rms:null,adam:null}, orFinal=null, orRan=false
 const OR_F=(x,y)=>(x-3)**2+8*(y-2)**2
 const OR_GX=(x,_)=>2*(x-3)
 const OR_GY=(_,y)=>16*(y-2)
@@ -3996,10 +3987,9 @@ function orFinalAns(i){
   orUpdateSummary()
 }
 function orUpdateSummary(){
-  orRef=($('or-ref')||{value:''}).value
   const el=$('or-summary'); if(!el) return
   const n=Object.values(orMcq).filter(v=>v===true).length
-  el.innerHTML=`<p><strong>Matching MCQs:</strong> ${n}/4</p><p><strong>Simulation run:</strong> ${orRan?'<span style="color:var(--green)">✓</span>':'not yet'}</p><p><strong>Final MCQ:</strong> ${orFinal===true?'<span style="color:var(--green)">✓</span>':'not yet'}</p><p><strong>Stage:</strong> ${orStage}/5</p><p><strong>Reflection:</strong> ${orRef.length>10?'<span style="color:var(--green)">✓</span>':'not yet'}</p>`
+  el.innerHTML=`<p><strong>Matching MCQs:</strong> ${n}/4</p><p><strong>Simulation run:</strong> ${orRan?'<span style="color:var(--green)">✓</span>':'not yet'}</p><p><strong>Final MCQ:</strong> ${orFinal===true?'<span style="color:var(--green)">✓</span>':'not yet'}</p><p><strong>Stage:</strong> ${orStage}/5</p>`
   updateBadge('or-completed', isComplete('optrace'))
 }
 function initOptRace(){orUpdateSummary()}
@@ -4007,7 +3997,7 @@ function initOptRace(){orUpdateSummary()}
 // ══════════════════════════════════════════════════
 //  ACTIVITY 8.7.1 — BATCH NORMALIZATION
 // ══════════════════════════════════════════════════
-let bnStage=0, bnMeansOk=false, bnWpOk=false, bnBetaOk=false, bnWhyOk=false, bnRef=''
+let bnStage=0, bnMeansOk=false, bnWpOk=false, bnBetaOk=false, bnWhyOk=false
 const BN_X=[[1,0],[3,1],[2,1]]
 const BN_WHY=[
   {t:'β directly equals μ(H′) always (since μ(H̃)=0 by construction), so no linear system to solve',c:true},
@@ -4084,7 +4074,6 @@ function bnCheckBN(){
     if(bv&&!ok2) m.push('β = [3, 5] matches the two column targets')
     if(hint){hint.className='guidance-box warm';hint.innerHTML='<strong>Hint:</strong> '+m.join('; ')}
   }
-  const btn4=$('bn-btn4'); if(btn4) btn4.disabled=!(bnBetaOk&&bnWhyOk)
   bnUpdateSummary()
 }
 function bnRenderWhy(){
@@ -4104,13 +4093,11 @@ function bnWhyAns(i){
     if(hint){hint.className='guidance-box warm';hint.innerHTML='<strong>Not quite.</strong> '+(fails[i]||'Think about what β controls in H′=γH̃+β.')}
     document.querySelectorAll('.cg-mcq-opt[id^="bn-wy"]').forEach((e,j)=>{if(j!==i)e.onclick=()=>bnWhyAns(j)})
   }
-  const btn4=$('bn-btn4'); if(btn4) btn4.disabled=!(bnBetaOk&&bnWhyOk)
   bnUpdateSummary()
 }
 function bnUpdateSummary(){
-  bnRef=($('bn-ref')||{value:''}).value
   const el=$('bn-summary'); if(!el) return
-  el.innerHTML=`<p><strong>Column means:</strong> ${bnMeansOk?'<span style="color:var(--green)">✓</span>':'not yet'}</p><p><strong>W′ found:</strong> ${bnWpOk?'<span style="color:var(--green)">✓</span>':'not yet'}</p><p><strong>BN fill-in:</strong> ${bnBetaOk?'<span style="color:var(--green)">✓</span>':'not yet'}</p><p><strong>Why easier:</strong> ${bnWhyOk?'<span style="color:var(--green)">✓</span>':'not yet'}</p><p><strong>Stage:</strong> ${bnStage}/5</p><p><strong>Reflection:</strong> ${bnRef.length>10?'<span style="color:var(--green)">✓</span>':'not yet'}</p>`
+  el.innerHTML=`<p><strong>Column means:</strong> ${bnMeansOk?'<span style="color:var(--green)">✓</span>':'not yet'}</p><p><strong>W′ found:</strong> ${bnWpOk?'<span style="color:var(--green)">✓</span>':'not yet'}</p><p><strong>BN fill-in:</strong> ${bnBetaOk?'<span style="color:var(--green)">✓</span>':'not yet'}</p><p><strong>Why easier:</strong> ${bnWhyOk?'<span style="color:var(--green)">✓</span>':'not yet'}</p><p><strong>Stage:</strong> ${bnStage}/4</p>`
   updateBadge('bn-completed', isComplete('batchnorm'))
 }
 function initBatchNorm(){bnLiveH();bnUpdateSummary()}
@@ -4229,7 +4216,7 @@ function cvRenderMCQs(){
 
 function cvMCQ(q,i){
   const data=q===1?CV_Q1:CV_Q2,pfx=`cv-q${q}-`,hid=`cv-q${q}-hint`
-  document.querySelectorAll(`[id^="${pfx}"]`).forEach(e=>e.onclick=null)
+  document.querySelectorAll(`.cg-mcq-opt[id^="${pfx}"]`).forEach(e=>e.onclick=null)
   $(`${pfx}${i}`).classList.add(data[i].c?'sel-ok':'sel-bad')
   const hint=$(hid)
   if(data[i].c){
@@ -4237,7 +4224,7 @@ function cvMCQ(q,i){
     const msgs={1:'<strong>✓ Correct!</strong> ⌊(5−3)/2+1⌋ = ⌊1+1⌋ = 2 → output is 2×2.',2:'<strong>✓ Correct!</strong> Because the same kernel is slid across every position, a feature detector fires wherever the pattern appears — regardless of location.'}
     if(hint){hint.className='guidance-box done';hint.innerHTML=msgs[q].replace('<strong>✓ Correct!</strong>','<strong>'+String.fromCharCode(65+i)+'. ✓ Correct!</strong>')}
   } else {
-    document.querySelectorAll(`[id^="${pfx}"]`).forEach((e,j)=>{if(j!==i)e.onclick=()=>cvMCQ(q,j)})
+    document.querySelectorAll(`.cg-mcq-opt[id^="${pfx}"]`).forEach((e,j)=>{if(j!==i)e.onclick=()=>cvMCQ(q,j)})
     const wrong1={0:'Check the formula: ⌊(5−3)/2+1⌋ = ?',2:'Larger kernel → smaller output.',3:'No padding was specified; use the formula directly.'}
     const wrong2={1:'Rotation invariance comes from data augmentation or special architectures, not the sliding kernel.',2:'Scale invariance is a separate property; pooling gives partial invariance.',3:'Each output pixel only sees its k×k patch — not the whole image.'}
     if(hint){hint.className='guidance-box warm';hint.innerHTML='<strong>Not quite.</strong> '+(q===1?(wrong1[i]||'Apply ⌊(H−k)/s+1⌋.'):(wrong2[i]||'Think about what "sliding" achieves.'))}
@@ -4246,9 +4233,8 @@ function cvMCQ(q,i){
 }
 
 function cvUpdateSummary(){
-  const ref=($('cv-ref')||{value:''}).value
   const el=$('cv-summary'); if(!el) return
-  el.innerHTML=`<p><strong>Output grid:</strong> ${cvOutputOk?'<span style="color:var(--green)">✓</span>':'not yet'}</p><p><strong>Size Q:</strong> ${cvQ1===true?'<span style="color:var(--green)">✓</span>':'not yet'}</p><p><strong>Property Q:</strong> ${cvQ2===true?'<span style="color:var(--green)">✓</span>':'not yet'}</p><p><strong>Reflection:</strong> ${ref.length>10?'<span style="color:var(--green)">✓</span>':'not yet'}</p>`
+  el.innerHTML=`<p><strong>Output grid:</strong> ${cvOutputOk?'<span style="color:var(--green)">✓</span>':'not yet'}</p><p><strong>Size Q:</strong> ${cvQ1===true?'<span style="color:var(--green)">✓</span>':'not yet'}</p><p><strong>Property Q:</strong> ${cvQ2===true?'<span style="color:var(--green)">✓</span>':'not yet'}</p>`
   updateBadge('cv-completed', isComplete('conv91'))
 }
 
@@ -4262,11 +4248,11 @@ function initConv91(){
     eq.innerHTML=`<div style="background:var(--surf2);border:1px solid var(--border);border-radius:10px;overflow:hidden">
       <div style="padding:14px 20px;border-bottom:1px solid var(--border);text-align:center">
         <div style="color:#b45309">$(I\\star K)[r,c]=\\sum_{i=0}^{k_h-1}\\sum_{j=0}^{k_w-1}I[r+i,\\;c+j]\\cdot K[i,j]$</div>
-        <div style="font-size:13px;color:var(--muted);margin-top:6px">Slide the kernel across the input — element-wise multiply and sum at every position.</div>
+        <div style="font-size:14.5px;color:var(--muted);margin-top:6px">Slide the kernel across the input — element-wise multiply and sum at every position.</div>
       </div>
       <div style="padding:14px 20px;border-bottom:1px solid var(--border);text-align:center">
         <div style="color:#6d28d9">$\\text{output size}=\\left\\lfloor\\frac{H-k}{s}+1\\right\\rfloor\\times\\left\\lfloor\\frac{W-k}{s}+1\\right\\rfloor$</div>
-        <div style="font-size:13px;color:var(--muted);margin-top:6px">3×3 input, 2×2 kernel, stride 1 → <strong style="color:var(--text)">2×2 output</strong> (4 dot products)</div>
+        <div style="font-size:14.5px;color:var(--muted);margin-top:6px">3×3 input, 2×2 kernel, stride 1 → <strong style="color:var(--text)">2×2 output</strong> (4 dot products)</div>
       </div>
       <div style="padding:14px 20px;text-align:center">
         <div style="color:#15803d">Cross-correlation ★ uses the kernel <em>as-is</em>; true convolution would flip it first. Deep learning frameworks (PyTorch, TensorFlow) compute cross-correlation but call it convolution.</div>
@@ -4302,7 +4288,7 @@ function plDrawBar(H,p,s,wrapId){
     if(l+w>100) break
     segs+=`<div style="position:absolute;top:0;left:${l.toFixed(2)}%;width:${Math.min(w,100-l).toFixed(2)}%;height:100%;background:${i%2===0?'#3b82f6':'#93c5fd'};border-right:1px solid white;opacity:.7"></div>`
   }
-  el.innerHTML=`<div style="position:relative;height:${bH}px;background:#e5e7eb;border-radius:5px;overflow:hidden;width:${W}px">${segs}</div><div style="font-size:12px;color:var(--muted);margin-top:4px;width:${W}px">H=${H} &nbsp;|&nbsp; p=${p} &nbsp;|&nbsp; s=${s} &nbsp;→&nbsp; output: <strong style="color:${out>0?'var(--green)':'var(--red)'};font-size:15px">${out}</strong></div>`
+  el.innerHTML=`<div style="position:relative;height:${bH}px;background:#e5e7eb;border-radius:5px;overflow:hidden;width:${W}px">${segs}</div><div style="font-size:13.5px;color:var(--muted);margin-top:4px;width:${W}px">H=${H} &nbsp;|&nbsp; p=${p} &nbsp;|&nbsp; s=${s} &nbsp;→&nbsp; output: <strong style="color:${out>0?'var(--green)':'var(--red)'};font-size:17px">${out}</strong></div>`
 }
 
 function plDrawAdaptBar(H,T,wrapId){
@@ -4314,7 +4300,7 @@ function plDrawAdaptBar(H,T,wrapId){
     segs+=`<div style="position:absolute;top:0;left:${l.toFixed(2)}%;width:${w.toFixed(2)}%;height:100%;background:${i%2===0?'#22c55e':'#86efac'};border-right:1px solid white;opacity:.8"></div>`
   }
   const p=Math.ceil(H/T),s=Math.floor(H/T)
-  el.innerHTML=`<div style="position:relative;height:${bH}px;background:#e5e7eb;border-radius:5px;overflow:hidden;width:${W}px">${segs}</div><div style="font-size:12px;color:var(--muted);margin-top:4px;width:${W}px">H=${H} divided into ${T} equal segments → always <strong style="color:var(--green)">${T}</strong> output cells</div>`
+  el.innerHTML=`<div style="position:relative;height:${bH}px;background:#e5e7eb;border-radius:5px;overflow:hidden;width:${W}px">${segs}</div><div style="font-size:13.5px;color:var(--muted);margin-top:4px;width:${W}px">H=${H} divided into ${T} equal segments → always <strong style="color:var(--green)">${T}</strong> output cells</div>`
   const ad=$('pl-adapt-disp')
   if(ad) ad.innerHTML=`p = ⌈${H}/${T}⌉ = ${p}<br>s = ⌊${H}/${T}⌋ = ${s}<br>⌊(${H}−${p})/${s}+1⌋ = ${Math.floor((H-p)/s)+1} ✓`
 }
@@ -4325,7 +4311,7 @@ function plUpdate(){
   plDrawBar(H,p,s,'pl-bar-wrap')
   const out=Math.max(0,Math.floor((H-p)/s)+1)
   const od=$('pl-out-disp')
-  if(od) od.innerHTML=`Output = <span style="font-size:26px;font-weight:800;color:${out>1?'var(--orange)':'var(--green)'}">${out}</span>`
+  if(od) od.innerHTML=`Output = <span style="font-size:29px;font-weight:800;color:${out>1?'var(--orange)':'var(--green)'}">${out}</span>`
 }
 
 function plAdaptUpdate(){
@@ -4374,7 +4360,7 @@ function plRenderS3MCQs(){
 function plMCQ(q,i){
   const data=[null,PL_Q1,PL_Q2,PL_Q3,PL_Q4][q]
   const pfx=`pl-q${q}-`,hid=`pl-q${q}-hint`
-  document.querySelectorAll(`[id^="${pfx}"]`).forEach(e=>e.onclick=null)
+  document.querySelectorAll(`.cg-mcq-opt[id^="${pfx}"]`).forEach(e=>e.onclick=null)
   $(`${pfx}${i}`).classList.add(data[i].c?'sel-ok':'sel-bad')
   const hint=$(hid)
   if(data[i].c){
@@ -4383,7 +4369,7 @@ function plMCQ(q,i){
     else if(q===3){plQ3=true; if(hint){hint.className='guidance-box done';hint.innerHTML='<strong>'+String.fromCharCode(65+i)+'. ✓ Correct!</strong> AdaptiveAvgPool2d(4) sets T=4 and computes p,s per image.'}}
     else if(q===4){plQ4=true; if(hint){hint.className='guidance-box done';hint.innerHTML='<strong>'+String.fromCharCode(65+i)+'. ✓ Correct!</strong> GAP collapses spatial dimensions entirely, making the FC head size-independent.'}}
   } else {
-    document.querySelectorAll(`[id^="${pfx}"]`).forEach((e,j)=>{if(j!==i)e.onclick=()=>plMCQ(q,j)})
+    document.querySelectorAll(`.cg-mcq-opt[id^="${pfx}"]`).forEach((e,j)=>{if(j!==i)e.onclick=()=>plMCQ(q,j)})
     if(hint){hint.className='guidance-box warm';hint.innerHTML='<strong>Not quite.</strong> Try again.'}
     if(q===1) plQ1=false; else if(q===2) plQ2=false; else if(q===3) plQ3=false; else plQ4=false
   }
@@ -4391,27 +4377,10 @@ function plMCQ(q,i){
 }
 
 function plUpdateSummary(){
-  const ref=($('pl-ref')||{value:''}).value
   const el=$('pl-summary'); if(!el) return
-  el.innerHTML=`<p><strong>Formula fill-in:</strong> ${plFillOk?'<span style="color:var(--green)">✓</span>':'not yet'}</p><p><strong>MCQs correct:</strong> ${[plQ1,plQ2,plQ3,plQ4].filter(v=>v===true).length}/4</p><p><strong>Stage:</strong> ${plStage}/3</p><p><strong>Reflection:</strong> ${ref.length>10?'<span style="color:var(--green)">✓</span>':'not yet'}</p>`
+  el.innerHTML=`<p><strong>Formula fill-in:</strong> ${plFillOk?'<span style="color:var(--green)">✓</span>':'not yet'}</p><p><strong>MCQs correct:</strong> ${[plQ1,plQ2,plQ3,plQ4].filter(v=>v===true).length}/4</p><p><strong>Stage:</strong> ${plStage}/3</p>`
   updateBadge('pl-completed', isComplete('pool93'))
 }
-
-function gmUpdateSummary(){
-  const ref=($('gm-ref')||{value:''}).value
-  const el=$('gm-summary'); if(!el) return
-  el.innerHTML=`<p><strong>Reflection:</strong> ${ref.length>10?'<span style="color:var(--green)">✓</span>':'not yet'}</p>`
-  updateBadge('gm-completed', ref.length>10)
-}
-function initGCMech(){ gmUpdateSummary() }
-
-function geUpdateSummary(){
-  const ref=($('ge-ref')||{value:''}).value
-  const el=$('ge-summary'); if(!el) return
-  el.innerHTML=`<p><strong>Reflection:</strong> ${ref.length>10?'<span style="color:var(--green)">✓</span>':'not yet'}</p>`
-  updateBadge('ge-completed', ref.length>10)
-}
-function initGCEq(){ geUpdateSummary() }
 
 function initPool93(){
   const eq=$('pl-prob-eq')
@@ -4419,11 +4388,11 @@ function initPool93(){
     eq.innerHTML=`<div style="background:var(--surf2);border:1px solid var(--border);border-radius:10px;overflow:hidden">
       <div style="padding:14px 20px;border-bottom:1px solid var(--border);text-align:center">
         <div style="color:#b45309">$\\text{output size}=\\left\\lfloor\\frac{H-p}{s}\\right\\rfloor+1$</div>
-        <div style="font-size:13px;color:var(--muted);margin-top:6px">For fixed p and s this <em>changes</em> with H — different image sizes produce different output sizes.</div>
+        <div style="font-size:14.5px;color:var(--muted);margin-top:6px">For fixed p and s this <em>changes</em> with H — different image sizes produce different output sizes.</div>
       </div>
       <div style="padding:14px 20px;border-bottom:1px solid var(--border);text-align:center">
         <div style="color:#6d28d9">$p=\\left\\lceil H/T\\right\\rceil,\\quad s=\\left\\lfloor H/T\\right\\rfloor$</div>
-        <div style="font-size:13px;color:var(--muted);margin-top:6px"><strong style="color:var(--text)">Adaptive pooling:</strong> fix the target output T and compute p,s per image → output is always T.</div>
+        <div style="font-size:14.5px;color:var(--muted);margin-top:6px"><strong style="color:var(--text)">Adaptive pooling:</strong> fix the target output T and compute p,s per image → output is always T.</div>
       </div>
       <div style="padding:14px 20px;text-align:center">
         <div style="color:#15803d">Special case T = 1: p = H, s = H → <strong style="color:var(--text)">Global Average Pooling</strong> → always 1×1.</div>
@@ -4432,6 +4401,315 @@ function initPool93(){
     typeset(eq)
   }
   plUnlock(1); plRenderQ1(); plUpdate(); plAdaptUpdate(); plUpdateSummary()
+}
+
+// ══════════════════════════════════════════════════
+//  ACTIVITY 9.GC.1 — GRAPH CONVOLUTION MECHANICS
+// ══════════════════════════════════════════════════
+let gmStage=0, gmFillOk=false, gmQ1=null, gmQ2=null, gmQ3=null
+let gmHL=-1, gmDone=new Set(), gmAnimTimer=null
+const GM_H=[4,1,3,0,2]
+const GM_POS=[[60,55],[180,55],[120,125],[185,190],[55,190]]
+const GM_EDGES=[[0,1],[0,2],[0,4],[1,2],[2,3],[3,4]]
+// A* = A + I: edges plus a self-loop on every node
+const GM_A=GM_H.map((_,i)=>GM_H.map((_,j)=>i===j||GM_EDGES.some(([a,b])=>(a===i&&b===j)||(a===j&&b===i))?1:0))
+const GM_NBR=GM_A.map(row=>row.map((v,j)=>v?j:-1).filter(j=>j>=0))
+const GM_NEW=GM_NBR.map(js=>js.reduce((s,j)=>s+GM_H[j],0)/js.length)
+const GM_Q1=[
+  {t:'2',h:'Count the 1s in row 2 of A* again.'},
+  {t:'3',c:true},
+  {t:'4',h:'That count includes the self-loop A*[2][2]. Leave it out.'},
+  {t:'5',h:'There are only 5 nodes in total, and one of them is node 2 itself.'}
+]
+const GM_Q2=[
+  {t:'Yes — A records the direction of every edge',h:'A only records whether an edge exists (1) or not (0), and it is symmetric: A[i][j] = A[j][i].'},
+  {t:'Yes — W has a separate weight for each neighbour',h:'There is one shared W. Every neighbour\'s feature is multiplied by the same W.'},
+  {t:'No — neighbour features are averaged, so the result is the same whichever neighbour sent which value',c:true},
+  {t:'Only for nodes that have a self-loop',h:'Every node has a self-loop in A*. It adds the node\'s own feature but carries no direction.'}
+]
+const GM_Q3=[
+  {t:'Yes — each node learns its own W',h:'A separate W per node would grow with the graph, and the model could not run on a new graph.'},
+  {t:'Yes — nodes with a larger h get a larger W',h:'W does not depend on the input. The same W multiplies every aggregated feature.'},
+  {t:'Only if the two nodes have a different number of neighbours',h:'Degree changes the averaging (divide by 3 or 4), not the weight W.'},
+  {t:'No — one W is shared by every node; their outputs differ only because their own features and neighbours differ',c:true}
+]
+const GM_OK={
+  1:'Row 2 of A* is [1, 1, 1, 1, 0]: four 1s, one of which is the self-loop A*[2][2]. So node 2 has 3 neighbours — nodes 0, 1 and 3.',
+  2:'Averaging is order-independent: node 0 gets (h[0]+h[1]+h[2]+h[4])/4 no matter where each neighbour sits. 9.GC.2 shows why this matters for images.',
+  3:'This is weight sharing — the GCN version of sliding one kernel across every pixel. It is why a trained GCN works on graphs of any size.'
+}
+const gmFmt=v=>String(+v.toFixed(2))
+
+function gmUnlock(s){
+  gmStage=Math.max(gmStage,s)
+  for(let i=1;i<=s;i++){const e=$(`gm-s${i}`);if(e)e.classList.add('unlocked')}
+}
+
+function gmDrawGraph(id){
+  const svg=$(id); if(!svg) return
+  const after=id==='gm-svg2', nbr=gmHL>=0?GM_NBR[gmHL]:[]
+  let h=''
+  GM_EDGES.forEach(([a,b])=>{
+    const on=a===gmHL||b===gmHL
+    const [x1,y1]=GM_POS[a],[x2,y2]=GM_POS[b]
+    h+=`<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="${on?'#f59e0b':'#9ca3af'}" stroke-width="${on?3:2}"/>`
+  })
+  GM_POS.forEach(([x,y],i)=>{
+    const on=i===gmHL, nb=!on&&nbr.includes(i)
+    h+=`<circle cx="${x}" cy="${y}" r="18" fill="${on?'#fef9c3':nb?'#fff7ed':'#fff'}" stroke="${on?'#f59e0b':'#3b82f6'}" stroke-width="${on?3:2}"/>`
+    h+=`<text x="${x}" y="${y+5}" text-anchor="middle" font-size="14" font-weight="700" fill="#1a1210">${i}</text>`
+    let lbl=`h=${GM_H[i]}`
+    if(after){
+      if(gmDone.has(i)||(gmFillOk&&(i===0||i===2))) lbl+=` <tspan fill="#15803d" font-weight="700">→ ${gmFmt(GM_NEW[i])}</tspan>`
+      else if(gmDone.size===3) lbl+=` <tspan fill="#c2610c" font-weight="700">→ ?</tspan>`
+    }
+    const ly=i===2?y+36:y<100?y-26:y+34
+    h+=`<text x="${x}" y="${ly}" text-anchor="middle" font-size="12" font-family="monospace" fill="#5c4a3a">${lbl}</text>`
+  })
+  svg.innerHTML=h
+}
+
+function gmRenderAdj(){
+  const g=$('gm-adj-grid'); if(!g) return
+  g.style.gridTemplateColumns='repeat(6,36px)'
+  const cell=(t,bg,col,extra='')=>`<div style="height:36px;display:flex;align-items:center;justify-content:center;border-radius:5px;font-family:monospace;font-weight:700;font-size:14.5px;background:${bg};color:${col};${extra}">${t}</div>`
+  let h=cell('','transparent','var(--muted)')
+  for(let j=0;j<5;j++) h+=cell(j,'transparent','var(--muted)','font-size:12.5px')
+  GM_A.forEach((row,i)=>{
+    h+=cell(i,'transparent','var(--muted)','font-size:12.5px')
+    row.forEach((v,j)=>{h+=i===j?cell(1,'#ede9fe','#6d28d9'):v?cell(1,'#dbeafe','#1d4ed8'):cell(0,'var(--surface)','#9ca3af','border:1px solid var(--border)')})
+  })
+  g.innerHTML=h
+  const d=$('gm-degree-disp')
+  if(d) d.innerHTML=`<span style="color:#6d28d9;font-weight:700">purple</span> = self-loop, <span style="color:#1d4ed8;font-weight:700">blue</span> = edge<br>row sums d = [${GM_A.map(r=>r.reduce((s,v)=>s+v,0)).join(', ')}]`
+}
+
+function gmAnimate(){
+  if(gmAnimTimer) return
+  const disp=$('gm-step-disp'); if(!disp) return
+  const order=[1,3,4]; let k=0
+  gmDone=new Set(); disp.innerHTML=''
+  const step=()=>{
+    if(k===order.length){
+      gmAnimTimer=null; gmHL=-1; gmDrawGraph('gm-svg2')
+      disp.innerHTML+='<div style="color:var(--blue);font-weight:700">Your turn: compute nodes 0 and 2 below.</div>'
+      return
+    }
+    const i=order[k++], js=GM_NBR[i], v=GM_NEW[i]
+    gmHL=i; gmDone.add(i); gmDrawGraph('gm-svg2')
+    disp.innerHTML+=`<div>h_new[${i}] = (${js.map(j=>`h[${j}]`).join('+')}) / ${js.length} = (${js.map(j=>GM_H[j]).join('+')}) / ${js.length} ${Number.isInteger(v*100)?'=':'≈'} <strong>${gmFmt(v)}</strong></div>`
+    gmAnimTimer=setTimeout(step,900)
+  }
+  step()
+}
+
+function gmParse(s){
+  s=s.trim(); if(s==='') return null
+  const m=s.match(/^(-?\d+(?:\.\d+)?)\s*\/\s*(\d+(?:\.\d+)?)$/)
+  return m?parseFloat(m[1])/parseFloat(m[2]):Number(s)
+}
+
+function gmCheckFill(){
+  let all=true, wrong=false
+  ;[['gm-f0',0],['gm-f2',2]].forEach(([id,i])=>{
+    const el=$(id); if(!el) return
+    const v=gmParse(el.value)
+    if(v===null){el.className='rr-inp';all=false;return}
+    const ok=Math.abs(v-GM_NEW[i])<0.01
+    el.className='rr-inp'+(ok?' ok':' bad')
+    if(!ok){all=false;wrong=true}
+  })
+  gmFillOk=all
+  const btn=$('gm-s2-btn'); if(btn) btn.disabled=!all
+  const hint=$('gm-fill-hint')
+  if(all){
+    if(hint){hint.className='guidance-box done';hint.innerHTML='<strong>✓ Correct!</strong> h_new[0] = (4+1+3+2)/4 = 2.5 and h_new[2] = (4+1+3+0)/4 = 2. Every node follows the same rule: average itself with its neighbours.'}
+  } else if(wrong&&hint){
+    hint.className='guidance-box warm';hint.innerHTML='<strong>Hint:</strong> Replace each h[j] with its value from h = [4, 1, 3, 0, 2], add them, then divide by the number of terms.'
+  }
+  gmDrawGraph('gm-svg2')
+  gmCheckDone()
+}
+
+function gmRenderMCQs(){
+  ;[GM_Q1,GM_Q2,GM_Q3].forEach((data,k)=>{
+    const q=k+1, c=$(`gm-q${q}-opts`)
+    if(c&&!c.children.length) c.innerHTML=data.map((o,i)=>`<div class="cg-mcq-opt" id="gm-q${q}-${i}" onclick="gmMCQ(${q},${i})">${o.t}</div>`).join('')
+  })
+}
+
+function gmMCQ(q,i){
+  const data=[null,GM_Q1,GM_Q2,GM_Q3][q], sel=`.cg-mcq-opt[id^="gm-q${q}-"]`, hint=$(`gm-q${q}-hint`)
+  document.querySelectorAll(sel).forEach(e=>e.onclick=null)
+  $(`gm-q${q}-${i}`).classList.add(data[i].c?'sel-ok':'sel-bad')
+  if(data[i].c){
+    if(q===1){gmQ1=true; gmUnlock(2)} else if(q===2) gmQ2=true; else gmQ3=true
+    if(hint){hint.className='guidance-box done';hint.innerHTML='<strong>'+String.fromCharCode(65+i)+'. ✓ Correct!</strong> '+GM_OK[q]}
+  } else {
+    document.querySelectorAll(sel).forEach((e,j)=>{if(j!==i)e.onclick=()=>gmMCQ(q,j)})
+    if(hint){hint.className='guidance-box warm';hint.innerHTML='<strong>Not quite.</strong> '+data[i].h}
+  }
+  gmCheckDone()
+}
+
+function gmCheckDone(){ updateBadge('gm-completed', isComplete('gcmech')) }
+
+function initGCMech(){
+  const eq=$('gm-prob-eq')
+  if(eq){
+    eq.innerHTML=`<div style="background:var(--surf2);border:1px solid var(--border);border-radius:10px;overflow:hidden">
+      <div style="padding:14px 20px;border-bottom:1px solid var(--border);text-align:center">
+        <div style="color:#b45309">$h_i'=W\\cdot\\frac{1}{d_i}\\sum_{j\\,:\\,A^*_{ij}=1}h_j$</div>
+        <div style="font-size:14.5px;color:var(--muted);margin-top:6px">Each node averages its own feature with its neighbours', then multiplies by the shared weight W.</div>
+      </div>
+      <div style="padding:14px 20px;border-bottom:1px solid var(--border);text-align:center">
+        <div style="color:#6d28d9">$A^*=A+I\\qquad d_i=\\sum_j A^*_{ij}$</div>
+        <div style="font-size:14.5px;color:var(--muted);margin-top:6px">A* adds a self-loop so a node keeps its own feature; d<sub>i</sub> counts how many terms are averaged.</div>
+      </div>
+      <div style="padding:14px 20px;text-align:center">
+        <div style="color:#15803d">Written for all nodes at once, one GCN layer is H′ = f(D⁻¹A*HW + b) — the same A* and W serve every node.</div>
+      </div>
+    </div>`
+    typeset(eq)
+  }
+  gmDrawGraph('gm-svg'); gmDrawGraph('gm-svg2'); gmRenderAdj(); gmRenderMCQs()
+}
+
+// ══════════════════════════════════════════════════
+//  ACTIVITY 9.GC.2 — CAN GRAPH CONV REPLACE IMAGE CONV?
+// ══════════════════════════════════════════════════
+let geStage=0, geQ1=null, geQ2=null, geQ3=null, geQ4=null, geQ5=null
+let geWTried=new Set()
+const GE_K=[[1,2,3],[4,5,6],[7,8,9]]
+// 3×3 image as a graph: pixel r*3+c, edges = 8-neighbourhood (king moves)
+const GE_EDGES=[]
+for(let a=0;a<9;a++) for(let b=a+1;b<9;b++) if(Math.abs(Math.floor(a/3)-Math.floor(b/3))<=1&&Math.abs(a%3-b%3)<=1) GE_EDGES.push([a,b])
+const GE_Q1=[
+  {t:'2',h:'Don\'t forget the diagonal neighbour — the 8-neighbourhood includes diagonals.'},
+  {t:'3',c:true},
+  {t:'5',h:'5 is the count for an edge pixel such as node 1. A corner has fewer.'},
+  {t:'8',h:'Only the centre pixel has all 8 neighbours.'}
+]
+const GE_Q2=[
+  {t:'Yes — W = 5, the average of K',h:'W = 5 matches K only at the centre. Move the W slider above: no single value matches all 9 cells.'},
+  {t:'Yes — W = 45, the sum of K',h:'Summing the kernel loses which weight goes with which position.'},
+  {t:'Only for the corner pixels',h:'A corner pixel\'s neighbours still sit in different relative positions, and K gives each position a different weight.'},
+  {t:'No — K has 9 different weights, one per relative position, but GCN multiplies every neighbour by the same W',c:true}
+]
+const GE_Q3=[
+  {t:'A vertical-edge detector [[−1,0,1],[−1,0,1],[−1,0,1]]',h:'That kernel weights left neighbours −1 and right neighbours +1. GCN cannot tell left from right.'},
+  {t:'K = [[1,2,3],[4,5,6],[7,8,9]]',h:'K has nine different entries; a single W gives only one.'},
+  {t:'A kernel whose 9 entries are all equal, such as [[1,1,1],[1,1,1],[1,1,1]] (a box blur)',c:true},
+  {t:'Any kernel, if W is large enough',h:'Scaling W scales every coefficient together; it never makes them differ.'}
+]
+const GE_Q4=[
+  {t:'Yes — set W = 5',h:'W = 5 matches only the centre entry of K.'},
+  {t:'No — standard GCN gives every neighbour the same weight, so it can only produce kernels whose entries are all equal',c:true},
+  {t:'Yes — stack several GCN layers',h:'Each layer still treats all neighbours the same, so the stack cannot tell top-left from bottom-right either.'},
+  {t:'Yes — but only with zero padding',h:'Padding changes what happens at the border, not how neighbours are weighted.'}
+]
+const GE_Q5=[
+  {t:'Use a larger W',h:'One W, however large, is still one number for every neighbour.'},
+  {t:'Remove the self-loops from A*',h:'Without self-loops the pixel loses its own feature; the neighbours are still weighted equally.'},
+  {t:'Normalise A* by node degree',h:'Normalising rescales the neighbours, but all by the same factor.'},
+  {t:'Give each relative position its own adjacency matrix and weight — one A_k and W_k for each of the 9 offsets, summed together',c:true}
+]
+const GE_OK={
+  1:'Node 0 touches node 1 (right), node 3 (below) and node 4 (diagonal). Edge pixels have 5 neighbours and the centre has 8.',
+  2:'A says who is connected, but not where the neighbour sits (left, up-right, …). Convolution needs that position to pick K[a,b].',
+  3:'With one W, every neighbour gets the same coefficient, so GCN can only reproduce a kernel whose entries are all equal — a box blur scaled by W.',
+  4:'Standard GCN cannot tell where a neighbour sits, so position-specific weights like K are out of reach.',
+  5:'With one matrix per offset, h′ = Σ<sub>k</sub> A<sub>k</sub>hW<sub>k</sub> gives each position its own weight. Over the 9 offsets of a 3×3 window this reproduces any 3×3 convolution — the same idea relational GCNs use for edge types.'
+}
+
+function geUnlock(s){
+  geStage=Math.max(geStage,s)
+  for(let i=1;i<=s;i++){const e=$(`ge-s${i}`);if(e)e.classList.add('unlocked')}
+}
+
+function geCell(t,bg,col,bd){
+  return `<div style="height:52px;display:flex;align-items:center;justify-content:center;border-radius:6px;font-family:monospace;font-weight:700;font-size:17px;background:${bg};color:${col};border:1.5px solid ${bd}">${t}</div>`
+}
+
+function geUpdateW(){
+  const w=parseInt(($('ge-W-sl')||{value:5}).value)
+  const v=$('ge-W-val'); if(v) v.textContent=w
+  geWTried.add(w)
+  const g=$('ge-gcn-grid')
+  if(g) g.innerHTML=GE_K.flat().map(k=>k===w?geCell(w,'#dcfce7','#15803d','#15803d'):geCell(w,'#fff7ed','#c2610c','#fed7aa')).join('')
+  const m=GE_K.flat().filter(k=>k===w).length
+  const d=$('ge-mismatch-disp')
+  if(d) d.innerHTML=`GCN uses W = ${w} in all 9 cells<br>Matches K: <strong style="color:var(--green)">${m}/9</strong> &nbsp; Mismatches: <strong style="color:var(--orange)">${9-m}/9</strong><br>`
+    +(geWTried.size>=3?`<span style="color:var(--blue)">${geWTried.size} values of W tried — each matches at most one cell.</span>`:'<span style="color:var(--muted)">Drag W to try other values.</span>')
+}
+
+function geDrawGraph(){
+  const svg=$('ge-svg'); if(!svg) return
+  const P=i=>[40+(i%3)*70,40+Math.floor(i/3)*70]
+  const hl=geQ1===true?0:-1
+  let h=''
+  GE_EDGES.forEach(([a,b])=>{
+    const on=a===hl||b===hl, [x1,y1]=P(a), [x2,y2]=P(b)
+    h+=`<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="${on?'#f59e0b':'#9ca3af'}" stroke-width="${on?3:1.5}"/>`
+  })
+  for(let i=0;i<9;i++){
+    const [x,y]=P(i), on=i===hl, nb=hl>=0&&GE_EDGES.some(([a,b])=>(a===hl&&b===i)||(b===hl&&a===i))
+    h+=`<rect x="${x-17}" y="${y-17}" width="34" height="34" rx="5" fill="${on?'#fef9c3':nb?'#fff7ed':'#fff'}" stroke="${on?'#f59e0b':'#3b82f6'}" stroke-width="${on?3:2}"/>`
+    h+=`<text x="${x}" y="${y+5}" text-anchor="middle" font-size="14" font-weight="700" fill="#1a1210">${i}</text>`
+  }
+  svg.innerHTML=h
+}
+
+function geRenderMCQs(){
+  ;[GE_Q1,GE_Q2,GE_Q3,GE_Q4,GE_Q5].forEach((data,k)=>{
+    const q=k+1, c=$(`ge-q${q}-opts`)
+    if(c&&!c.children.length) c.innerHTML=data.map((o,i)=>`<div class="cg-mcq-opt" id="ge-q${q}-${i}" onclick="geMCQ(${q},${i})">${o.t}</div>`).join('')
+  })
+}
+
+function geMCQ(q,i){
+  const data=[null,GE_Q1,GE_Q2,GE_Q3,GE_Q4,GE_Q5][q], sel=`.cg-mcq-opt[id^="ge-q${q}-"]`, hint=$(`ge-q${q}-hint`)
+  document.querySelectorAll(sel).forEach(e=>e.onclick=null)
+  $(`ge-q${q}-${i}`).classList.add(data[i].c?'sel-ok':'sel-bad')
+  if(data[i].c){
+    if(q===1){geQ1=true; geDrawGraph()} else if(q===2) geQ2=true; else if(q===3){geQ3=true; geUnlock(3)} else if(q===4) geQ4=true; else geQ5=true
+    if(hint){hint.className='guidance-box done';hint.innerHTML='<strong>'+String.fromCharCode(65+i)+'. ✓ Correct!</strong> '+GE_OK[q]}
+  } else {
+    document.querySelectorAll(sel).forEach((e,j)=>{if(j!==i)e.onclick=()=>geMCQ(q,j)})
+    if(hint){hint.className='guidance-box warm';hint.innerHTML='<strong>Not quite.</strong> '+data[i].h}
+  }
+  const btn=$('ge-s1-btn'); if(btn) btn.disabled=!(geQ1===true&&geQ2===true)
+  geCheckDone()
+}
+
+function geCheckDone(){ updateBadge('ge-completed', isComplete('gceq')) }
+
+function initGCEq(){
+  const eq=$('ge-prob-eq')
+  if(eq){
+    eq.innerHTML=`<div style="background:var(--surf2);border:1px solid var(--border);border-radius:10px;overflow:hidden">
+      <div style="padding:14px 20px;border-bottom:1px solid var(--border);text-align:center">
+        <div style="color:#b45309">$y_{r,c}=\\sum_{a=-1}^{1}\\sum_{b=-1}^{1}K[a,b]\\;x_{r+a,\\,c+b}$</div>
+        <div style="font-size:14.5px;color:var(--muted);margin-top:6px">Convolution: each of the 9 relative positions (a, b) has its own weight K[a, b].</div>
+      </div>
+      <div style="padding:14px 20px;border-bottom:1px solid var(--border);text-align:center">
+        <div style="color:#6d28d9">$h_i'=W\\sum_{j\\,:\\,A^*_{ij}=1}h_j$</div>
+        <div style="font-size:14.5px;color:var(--muted);margin-top:6px">GCN (sum aggregation): every neighbour j is multiplied by the same W, wherever it sits.</div>
+      </div>
+      <div style="padding:14px 20px;text-align:center">
+        <div style="color:#15803d">Can some choice of A* and W make the GCN line equal the convolution line?</div>
+      </div>
+    </div>`
+    typeset(eq)
+  }
+  const kg=$('ge-kernel-grid')
+  if(kg) kg.innerHTML=GE_K.flat().map(k=>geCell(k,'#eff6ff','#1d4ed8','#bfdbfe')).join('')
+  const terms=f=>[0,3,6].map(r=>[0,1,2].map(c=>`${f(r+c)}·h[${r+c}]`).join(' + ')).join('<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ ')
+  const cs=$('ge-conv-show')
+  if(cs) cs.innerHTML=`out[4] = ${terms(i=>GE_K.flat()[i])}<br><strong>→ 9 different weights</strong>`
+  const gs=$('ge-gcn-show')
+  if(gs) gs.innerHTML=`out[4] = ${terms(()=>'W')}<br><strong>→ 1 weight, shared by all 9</strong>`
+  geUpdateW(); geDrawGraph(); geRenderMCQs()
 }
 
 // ══════════════════════════════════════════════════
@@ -4462,11 +4740,11 @@ const TC_Q3=[
 ]
 function tcUnlock(s){ tcStage=Math.max(tcStage,s); for(let i=1;i<=s;i++){const e=$('tc-s'+i);if(e)e.classList.add('unlocked')} if(s>=2) tcRenderMCQs() }
 function tcSentence(i){ tcSel=i; ['tc-btn0','tc-btn1','tc-btn2'].forEach((id,j)=>{const b=$(id);if(b)b.className='btn '+(j===i?'btn-p':'btn-g')}); tcUpdate() }
-function tcUpdate(){ const k=parseInt($('tc-k').value); $('tc-k-val').textContent=k; $('tc-k-echo').textContent=k; const {words}=TC_SENTS[tcSel]; const wd=$('tc-words'); if(!wd) return; wd.innerHTML=words.map(w=>`<span style="padding:5px 10px;background:var(--surf2);border:1px solid var(--border);border-radius:5px;font-family:'Courier New',monospace;font-size:13px;font-weight:600">${w}</span>`).join(''); const ng=$('tc-ngrams'); if(!ng) return; const grams=[]; for(let i=0;i<=words.length-k;i++) grams.push(words.slice(i,i+k).join(' ')); ng.innerHTML=grams.map(g=>`<span style="padding:3px 10px;background:#eff6ff;border:1px solid #bfdbfe;border-radius:20px;font-size:12px;font-family:'Courier New',monospace;color:var(--blue)">${g}</span>`).join('') }
+function tcUpdate(){ const k=parseInt($('tc-k').value); $('tc-k-val').textContent=k; $('tc-k-echo').textContent=k; const {words}=TC_SENTS[tcSel]; const wd=$('tc-words'); if(!wd) return; wd.innerHTML=words.map(w=>`<span style="padding:5px 10px;background:var(--surf2);border:1px solid var(--border);border-radius:5px;font-family:'Courier New',monospace;font-size:14.5px;font-weight:600">${w}</span>`).join(''); const ng=$('tc-ngrams'); if(!ng) return; const grams=[]; for(let i=0;i<=words.length-k;i++) grams.push(words.slice(i,i+k).join(' ')); ng.innerHTML=grams.map(g=>`<span style="padding:3px 10px;background:#eff6ff;border:1px solid #bfdbfe;border-radius:20px;font-size:13.5px;font-family:'Courier New',monospace;color:var(--blue)">${g}</span>`).join('') }
 function tcRenderMCQs(){ const q1=$('tc-q1-opts'),q2=$('tc-q2-opts'),q3=$('tc-q3-opts'); if(q1&&!q1.children.length) q1.innerHTML=TC_Q1.map((o,i)=>`<div class="cg-mcq-opt" id="tc-q1-${i}" onclick="tcMCQ(1,${i})">${o.t}</div>`).join(''); if(q2&&!q2.children.length) q2.innerHTML=TC_Q2.map((o,i)=>`<div class="cg-mcq-opt" id="tc-q2-${i}" onclick="tcMCQ(2,${i})">${o.t}</div>`).join(''); if(q3&&!q3.children.length) q3.innerHTML=TC_Q3.map((o,i)=>`<div class="cg-mcq-opt" id="tc-q3-${i}" onclick="tcMCQ(3,${i})">${o.t}</div>`).join('') }
-function tcMCQ(q,i){ const data=[null,TC_Q1,TC_Q2,TC_Q3][q]; const pfx=`tc-q${q}-`,hid=`tc-q${q}-hint`; document.querySelectorAll(`[id^="${pfx}"]`).forEach(e=>e.onclick=null); $(`${pfx}${i}`).classList.add(data[i].c?'sel-ok':'sel-bad'); const hint=$(hid); if(data[i].c){ if(q===1){tcQ1=true;tcUnlock(3);if(hint){hint.className='guidance-box done';hint.innerHTML='<strong>'+String.fromCharCode(65+i)+'. ✓ Correct!</strong> k=2 captures "being bad" and "being good" as single bigrams. k=1 sees both words in both sentences and cannot tell them apart.'}} else if(q===2){tcQ2=true;tcUnlock(4);if(hint){hint.className='guidance-box done';hint.innerHTML='<strong>'+String.fromCharCode(65+i)+'. ✓ Correct!</strong> Span = 8−2+1 = 7. Any k&lt;7 cannot contain both "wasn\'t" and "unhappy" in one window.'}} else if(q===3){tcQ3=true;if(hint){hint.className='guidance-box done';hint.innerHTML='<strong>'+String.fromCharCode(65+i)+'. ✓ Correct!</strong> Max-pooling selects "was unhappy" as the top bigram — a strong negative signal. The negation "wasn\'t" seven words earlier is invisible to a k=2 filter.'}} } else { document.querySelectorAll(`[id^="${pfx}"]`).forEach((e,j)=>{if(j!==i)e.onclick=()=>tcMCQ(q,j)}); if(hint){hint.className='guidance-box warm';hint.innerHTML='<strong>Not quite.</strong> Try again.'} if(q===1)tcQ1=false;else if(q===2)tcQ2=false;else tcQ3=false } tcUpdateSummary() }
-function tcUpdateSummary(){ const ref=($('tc-ref')||{value:''}).value; const el=$('tc-summary');if(!el)return; el.innerHTML=`<p><strong>MCQs correct:</strong> ${[tcQ1,tcQ2,tcQ3].filter(v=>v===true).length}/3</p><p><strong>Reflection:</strong> ${ref.length>10?'<span style="color:var(--green)">&#10003;</span>':'not yet'}</p>`; updateBadge('tcnn-completed',isComplete('textcnn')) }
-function initTextCNN(){ const eq=$('tc-eq'); if(eq){ eq.innerHTML=`<div style="background:var(--surf2);border:1px solid var(--border);border-radius:10px;overflow:hidden"><div style="padding:14px 20px;border-bottom:1px solid var(--border);text-align:center"><div style="color:#b45309">$\\text{n-gram}_i = (w_i,\\,w_{i+1},\\,\\ldots,\\,w_{i+k-1})$</div><div style="font-size:13px;color:var(--muted);margin-top:6px">Filter scores each n-gram; max-pooling picks the best: $y = \\max_i\\; \\text{score}(\\text{n-gram}_i)$</div></div><div style="padding:14px 20px;text-align:center"><div style="color:#15803d;font-size:13px">Long-range negation requires large k — or a recurrent architecture.</div></div></div>`; typeset(eq) } tcSentence(0); tcUpdateSummary() }
+function tcMCQ(q,i){ const data=[null,TC_Q1,TC_Q2,TC_Q3][q]; const pfx=`tc-q${q}-`,hid=`tc-q${q}-hint`; document.querySelectorAll(`.cg-mcq-opt[id^="${pfx}"]`).forEach(e=>e.onclick=null); $(`${pfx}${i}`).classList.add(data[i].c?'sel-ok':'sel-bad'); const hint=$(hid); if(data[i].c){ if(q===1){tcQ1=true;tcUnlock(3);if(hint){hint.className='guidance-box done';hint.innerHTML='<strong>'+String.fromCharCode(65+i)+'. ✓ Correct!</strong> k=2 captures "being bad" and "being good" as single bigrams. k=1 sees both words in both sentences and cannot tell them apart.'}} else if(q===2){tcQ2=true;tcUnlock(4);if(hint){hint.className='guidance-box done';hint.innerHTML='<strong>'+String.fromCharCode(65+i)+'. ✓ Correct!</strong> Span = 8−2+1 = 7. Any k&lt;7 cannot contain both "wasn\'t" and "unhappy" in one window.'}} else if(q===3){tcQ3=true;if(hint){hint.className='guidance-box done';hint.innerHTML='<strong>'+String.fromCharCode(65+i)+'. ✓ Correct!</strong> Max-pooling selects "was unhappy" as the top bigram — a strong negative signal. The negation "wasn\'t" seven words earlier is invisible to a k=2 filter.'}} } else { document.querySelectorAll(`.cg-mcq-opt[id^="${pfx}"]`).forEach((e,j)=>{if(j!==i)e.onclick=()=>tcMCQ(q,j)}); if(hint){hint.className='guidance-box warm';hint.innerHTML='<strong>Not quite.</strong> Try again.'} if(q===1)tcQ1=false;else if(q===2)tcQ2=false;else tcQ3=false } tcUpdateSummary() }
+function tcUpdateSummary(){ const el=$('tc-summary');if(!el)return; el.innerHTML=`<p><strong>MCQs correct:</strong> ${[tcQ1,tcQ2,tcQ3].filter(v=>v===true).length}/3</p>`; updateBadge('tcnn-completed',isComplete('textcnn')) }
+function initTextCNN(){ const eq=$('tc-eq'); if(eq){ eq.innerHTML=`<div style="background:var(--surf2);border:1px solid var(--border);border-radius:10px;overflow:hidden"><div style="padding:14px 20px;border-bottom:1px solid var(--border);text-align:center"><div style="color:#b45309">$\\text{n-gram}_i = (w_i,\\,w_{i+1},\\,\\ldots,\\,w_{i+k-1})$</div><div style="font-size:14.5px;color:var(--muted);margin-top:6px">Filter scores each n-gram; max-pooling picks the best: $y = \\max_i\\; \\text{score}(\\text{n-gram}_i)$</div></div><div style="padding:14px 20px;text-align:center"><div style="color:#15803d;font-size:14.5px">Long-range negation requires large k — or a recurrent architecture.</div></div></div>`; typeset(eq) } tcSentence(0); tcUpdateSummary() }
 
 // ══════════════════════════════════════════════════
 //  10.1.2  RNN FORWARD PASS
@@ -4505,8 +4783,8 @@ function rfCheck(){
 }
 function rfRenderMCQ(){ const el=$('rf-q1-opts');if(!el||el.children.length)return; el.innerHTML=RF_Q1.map((o,i)=>`<div class="cg-mcq-opt" id="rf-q1-${i}" onclick="rfMCQClick(${i})">${o.t}</div>`).join('') }
 function rfMCQClick(i){ document.querySelectorAll('[id^="rf-q1-"]').forEach(e=>e.onclick=null); $(`rf-q1-${i}`).classList.add(RF_Q1[i].c?'sel-ok':'sel-bad'); const hint=$('rf-q1-hint'); if(RF_Q1[i].c){ rfMCQ=true; if(hint){hint.className='guidance-box done';hint.innerHTML='<strong>'+String.fromCharCode(65+i)+'. &#10003; Correct!</strong> ReLU zeros the component for this timestep &#8212; it carries no positive signal now. It is not permanently dead; a future input could reactivate it.'} } else { document.querySelectorAll('[id^="rf-q1-"]').forEach((e,j)=>{if(j!==i)e.onclick=()=>rfMCQClick(j)}); rfMCQ=false; if(hint){hint.className='guidance-box warm';hint.innerHTML='<strong>Not quite.</strong> Think about what ReLU(v) means for a single timestep &#8212; not permanently, just for now.'} } rfUpdateSummary() }
-function rfUpdateSummary(){ const ref=($('rf-ref')||{value:''}).value; const el=$('rf-summary');if(!el)return; el.innerHTML=`<p><strong>Fill-in complete:</strong> ${rfFillOk?'<span style="color:var(--green)">&#10003;</span>':'not yet'}</p><p><strong>MCQ:</strong> ${rfMCQ===true?'<span style="color:var(--green)">&#10003;</span>':'not yet'}</p><p><strong>Reflection:</strong> ${ref.length>10?'<span style="color:var(--green)">&#10003;</span>':'not yet'}</p>`; updateBadge('rfwd-completed',isComplete('rnnfwd')) }
-function initRNNFwd(){ const eq=$('rf-eq'); if(eq){ eq.innerHTML=`<div style="background:var(--surf2);border:1px solid var(--border);border-radius:10px;overflow:hidden"><div style="padding:14px 20px;border-bottom:1px solid var(--border);text-align:center"><div style="color:#b45309">$\\mathbf{h}^{(t)} = \\mathrm{ReLU}\\bigl(W_1\\,\\mathbf{h}^{(t-1)} + W_2\\,\\mathbf{x}^{(t)}\\bigr)$</div><div style="font-size:13px;color:var(--muted);margin-top:6px">Each step mixes prior memory (W&#8321;) with new input (W&#8322;), then applies ReLU.</div></div><div style="padding:14px 20px;text-align:center"><div style="color:#6d28d9;font-family:'Courier New',monospace;font-size:13px">$W_1=\\begin{pmatrix}1&2\\\\0&-1\\end{pmatrix}$ &nbsp; $W_2=\\begin{pmatrix}0&1\\\\2&-5\\end{pmatrix}$ &nbsp; $\\mathbf{h}^{(0)}=[0,0]^\\top,\\;\\mathbf{x}^{(1)}=[1,0]^\\top,\\;\\mathbf{x}^{(2)}=[0,1]^\\top$</div></div></div>`; typeset(eq) } rfUpdateSummary() }
+function rfUpdateSummary(){ const el=$('rf-summary');if(!el)return; el.innerHTML=`<p><strong>Fill-in complete:</strong> ${rfFillOk?'<span style="color:var(--green)">&#10003;</span>':'not yet'}</p><p><strong>MCQ:</strong> ${rfMCQ===true?'<span style="color:var(--green)">&#10003;</span>':'not yet'}</p>`; updateBadge('rfwd-completed',isComplete('rnnfwd')) }
+function initRNNFwd(){ const eq=$('rf-eq'); if(eq){ eq.innerHTML=`<div style="background:var(--surf2);border:1px solid var(--border);border-radius:10px;overflow:hidden"><div style="padding:14px 20px;border-bottom:1px solid var(--border);text-align:center"><div style="color:#b45309">$\\mathbf{h}^{(t)} = \\mathrm{ReLU}\\bigl(W_1\\,\\mathbf{h}^{(t-1)} + W_2\\,\\mathbf{x}^{(t)}\\bigr)$</div><div style="font-size:14.5px;color:var(--muted);margin-top:6px">Each step mixes prior memory (W&#8321;) with new input (W&#8322;), then applies ReLU.</div></div><div style="padding:14px 20px;text-align:center"><div style="color:#6d28d9;font-family:'Courier New',monospace;font-size:14.5px">$W_1=\\begin{pmatrix}1&2\\\\0&-1\\end{pmatrix}$ &nbsp; $W_2=\\begin{pmatrix}0&1\\\\2&-5\\end{pmatrix}$ &nbsp; $\\mathbf{h}^{(0)}=[0,0]^\\top,\\;\\mathbf{x}^{(1)}=[1,0]^\\top,\\;\\mathbf{x}^{(2)}=[0,1]^\\top$</div></div></div>`; typeset(eq) } rfUpdateSummary() }
 
 // ══════════════════════════════════════════════════
 //  10.2.1  RNN DESIGNER
@@ -4544,10 +4822,10 @@ const RD_Q5=[
 ]
 function rdUnlock(s){ rdStage=Math.max(rdStage,s); for(let i=1;i<=s;i++){const e=$(`rd-s${i}`);if(e)e.classList.add('unlocked')} if(s>=1) rdRenderMCQs(); if(s>=6) rdShowArch() }
 function rdRenderMCQs(){ const defs=[null,RD_Q1,RD_Q2,RD_Q3,RD_Q4,RD_Q5]; for(let q=1;q<=5;q++){ const el=$(`rd-q${q}-opts`);if(!el||el.children.length)continue; el.innerHTML=defs[q].map((o,i)=>`<div class="cg-mcq-opt" id="rd-q${q}-${i}" onclick="rdMCQ(${q},${i})">${o.t}</div>`).join('') } }
-function rdMCQ(q,i){ const defs=[null,RD_Q1,RD_Q2,RD_Q3,RD_Q4,RD_Q5]; const data=defs[q],pfx=`rd-q${q}-`,hid=`rd-q${q}-hint`; document.querySelectorAll(`[id^="${pfx}"]`).forEach(e=>e.onclick=null); $(`${pfx}${i}`).classList.add(data[i].c?'sel-ok':'sel-bad'); const hint=$(hid); const msgs=[null,'Correct! A learned embedding E maps the one-hot to a dense vector where similar words can be nearby.','Correct! tanh(W_enc&#183;e+b_enc) applies a learned nonlinear transformation to compress the input word into the hidden state dimension.','Correct! tanh bounds the hidden state to (&#8722;1,1), preventing unbounded growth. Linear collapses depth; ReLU can explode; sigmoid drops the negative half.','Correct! softmax converts raw scores to a proper probability distribution (positive, sums to 1).','Correct! Adding [END] to the vocabulary lets the model learn when to stop. Training sequences are terminated with [END].']; if(data[i].c){ if(q===1)rdQ1=true;else if(q===2)rdQ2=true;else if(q===3)rdQ3=true;else if(q===4)rdQ4=true;else rdQ5=true; rdUnlock(q+1); if(hint){hint.className='guidance-box done';hint.innerHTML='<strong>'+String.fromCharCode(65+i)+'. &#10003; </strong>'+msgs[q]} } else { document.querySelectorAll(`[id^="${pfx}"]`).forEach((e,j)=>{if(j!==i)e.onclick=()=>rdMCQ(q,j)}); if(q===1)rdQ1=false;else if(q===2)rdQ2=false;else if(q===3)rdQ3=false;else if(q===4)rdQ4=false;else rdQ5=false; if(hint){hint.className='guidance-box warm';hint.innerHTML='<strong>Not quite.</strong> Try again.'} } rdUpdateSummary() }
+function rdMCQ(q,i){ const defs=[null,RD_Q1,RD_Q2,RD_Q3,RD_Q4,RD_Q5]; const data=defs[q],pfx=`rd-q${q}-`,hid=`rd-q${q}-hint`; document.querySelectorAll(`.cg-mcq-opt[id^="${pfx}"]`).forEach(e=>e.onclick=null); $(`${pfx}${i}`).classList.add(data[i].c?'sel-ok':'sel-bad'); const hint=$(hid); const msgs=[null,'Correct! A learned embedding E maps the one-hot to a dense vector where similar words can be nearby.','Correct! tanh(W_enc&#183;e+b_enc) applies a learned nonlinear transformation to compress the input word into the hidden state dimension.','Correct! tanh bounds the hidden state to (&#8722;1,1), preventing unbounded growth. Linear collapses depth; ReLU can explode; sigmoid drops the negative half.','Correct! softmax converts raw scores to a proper probability distribution (positive, sums to 1).','Correct! Adding [END] to the vocabulary lets the model learn when to stop. Training sequences are terminated with [END].']; if(data[i].c){ if(q===1)rdQ1=true;else if(q===2)rdQ2=true;else if(q===3)rdQ3=true;else if(q===4)rdQ4=true;else rdQ5=true; rdUnlock(q+1); if(hint){hint.className='guidance-box done';hint.innerHTML='<strong>'+String.fromCharCode(65+i)+'. &#10003; </strong>'+msgs[q]} } else { document.querySelectorAll(`.cg-mcq-opt[id^="${pfx}"]`).forEach((e,j)=>{if(j!==i)e.onclick=()=>rdMCQ(q,j)}); if(q===1)rdQ1=false;else if(q===2)rdQ2=false;else if(q===3)rdQ3=false;else if(q===4)rdQ4=false;else rdQ5=false; if(hint){hint.className='guidance-box warm';hint.innerHTML='<strong>Not quite.</strong> Try again.'} } rdUpdateSummary() }
 function rdShowArch(){ const el=$('rd-arch-eqs');if(!el)return; el.innerHTML='e = E &middot; x_in<br>h&#8317;&#8304;&#8318; = tanh(W_enc&middot;e + b)<br>h&#8317;&#7511;&#8318; = tanh(W&middot;h&#8317;&#7511;&#8331;&#185;&#8318; + b)<br>y&#8317;&#7511;&#8318; = softmax(V&middot;h&#8317;&#7511;&#8318; + c)<br>stop when argmax(y&#8317;&#7511;&#8318;) = [END]' }
-function rdUpdateSummary(){ const ref=($('rd-ref')||{value:''}).value;const el=$('rd-summary');if(!el)return; const n=[rdQ1,rdQ2,rdQ3,rdQ4,rdQ5].filter(v=>v===true).length; el.innerHTML=`<p><strong>Design choices:</strong> ${n}/5</p><p><strong>Reflection:</strong> ${ref.length>10?'<span style="color:var(--green)">&#10003;</span>':'not yet'}</p>`; updateBadge('rdes-completed',isComplete('rnndesign')) }
-function initRNNDesign(){ const eq=$('rd-eq'); if(eq){ eq.innerHTML=`<div style="background:var(--surf2);border:1px solid var(--border);border-radius:10px;overflow:hidden"><div style="padding:14px 20px;border-bottom:1px solid var(--border);text-align:center"><div style="color:#b45309;font-size:13px">encoder: $\\mathbf{e}=E\\mathbf{x}_{\\text{in}}$ &#8594; $\\mathbf{h}^{(0)}=\\tanh(W_{\\text{enc}}\\,\\mathbf{e}+\\mathbf{b}_{\\text{enc}})$</div></div><div style="padding:14px 20px;border-bottom:1px solid var(--border);text-align:center"><div style="color:#6d28d9">decoder: $\\mathbf{h}^{(t)}=\\tanh(W\\,\\mathbf{h}^{(t-1)}+\\mathbf{b})$ &#8594; $\\mathbf{y}^{(t)}=\\mathrm{softmax}(V\\mathbf{h}^{(t)}+\\mathbf{c})$</div></div><div style="padding:14px 20px;text-align:center"><div style="color:#15803d;font-size:13px">stop when $\\arg\\max(\\mathbf{y}^{(t)})=[\\text{END}]$</div></div></div>`; typeset(eq) } rdUpdateSummary() }
+function rdUpdateSummary(){ const el=$('rd-summary');if(!el)return; const n=[rdQ1,rdQ2,rdQ3,rdQ4,rdQ5].filter(v=>v===true).length; el.innerHTML=`<p><strong>Design choices:</strong> ${n}/5</p>`; updateBadge('rdes-completed',isComplete('rnndesign')) }
+function initRNNDesign(){ const eq=$('rd-eq'); if(eq){ eq.innerHTML=`<div style="background:var(--surf2);border:1px solid var(--border);border-radius:10px;overflow:hidden"><div style="padding:14px 20px;border-bottom:1px solid var(--border);text-align:center"><div style="color:#b45309;font-size:14.5px">encoder: $\\mathbf{e}=E\\mathbf{x}_{\\text{in}}$ &#8594; $\\mathbf{h}^{(0)}=\\tanh(W_{\\text{enc}}\\,\\mathbf{e}+\\mathbf{b}_{\\text{enc}})$</div></div><div style="padding:14px 20px;border-bottom:1px solid var(--border);text-align:center"><div style="color:#6d28d9">decoder: $\\mathbf{h}^{(t)}=\\tanh(W\\,\\mathbf{h}^{(t-1)}+\\mathbf{b})$ &#8594; $\\mathbf{y}^{(t)}=\\mathrm{softmax}(V\\mathbf{h}^{(t)}+\\mathbf{c})$</div></div><div style="padding:14px 20px;text-align:center"><div style="color:#15803d;font-size:14.5px">stop when $\\arg\\max(\\mathbf{y}^{(t)})=[\\text{END}]$</div></div></div>`; typeset(eq) } rdUpdateSummary() }
 
 // ══════════════════════════════════════════════════
 //  10.2.2  RNN TANH SATURATION
@@ -4579,12 +4857,12 @@ const RN_Q4=[
 ]
 function rnUnlock(s){ rnStage=Math.max(rnStage,s); for(let i=1;i<=s;i++){const e=$(`rn-s${i}`);if(e)e.classList.add('unlocked')} if(s>=2) rnRenderMCQs() }
 function rnRenderMCQs(){ const defs=[null,RN_Q1,RN_Q2,RN_Q3,RN_Q4]; for(let q=1;q<=4;q++){ const el=$(`rn-q${q}-opts`);if(!el||el.children.length)continue; el.innerHTML=defs[q].map((o,i)=>`<div class="cg-mcq-opt" id="rn-q${q}-${i}" onclick="rnMCQ(${q},${i})">${o.t}</div>`).join('') } }
-function rnMCQ(q,i){ const defs=[null,RN_Q1,RN_Q2,RN_Q3,RN_Q4]; const data=defs[q],pfx=`rn-q${q}-`,hid=`rn-q${q}-hint`; document.querySelectorAll(`[id^="${pfx}"]`).forEach(e=>e.onclick=null); $(`${pfx}${i}`).classList.add(data[i].c?'sel-ok':'sel-bad'); const hint=$(hid); const msgs=[null,'Correct! Each BPTT step multiplies by diag(1&#8722;h&#178;)&middot;W. Saturated hidden states (|h|&#8776;1) give 1&#8722;h&#178;&#8776;0. Multiplying T&#8722;1 of these crushes the gradient exponentially.','Correct! Each step multiplies by 0.2, so after 10 steps: 0.2&#185;&#8304; &#8776; 10&#8315;&#8311;. The network cannot learn which early input caused the error.','Correct! LSTM adds a cell state c&#8317;&#7511;&#8318; updated additively: c&#8317;&#7511;&#8318; = f&#8855;c&#8317;&#7511;&#8331;&#185;&#8318; + i&#8855;&#265;&#8317;&#7511;&#8318;. The additive update creates a gradient highway that bypasses repeated tanh derivatives.','Correct! tanh bounds h&#8317;&#7511;&#8318; to (&#8722;1,1). With ReLU there is no bound, so if &#8214;W&#8214;&gt;1 the hidden state grows each step and gradients explode.']; if(data[i].c){ if(q===1)rnQ1=true;else if(q===2)rnQ2=true;else if(q===3)rnQ3=true;else rnQ4=true; rnUnlock(q+1); if(hint){hint.className='guidance-box done';hint.innerHTML='<strong>'+String.fromCharCode(65+i)+'. &#10003; </strong>'+msgs[q]} } else { document.querySelectorAll(`[id^="${pfx}"]`).forEach((e,j)=>{if(j!==i)e.onclick=()=>rnMCQ(q,j)}); if(q===1)rnQ1=false;else if(q===2)rnQ2=false;else if(q===3)rnQ3=false;else rnQ4=false; if(hint){hint.className='guidance-box warm';hint.innerHTML='<strong>Not quite.</strong> Try again.'} } rnUpdateSummary() }
+function rnMCQ(q,i){ const defs=[null,RN_Q1,RN_Q2,RN_Q3,RN_Q4]; const data=defs[q],pfx=`rn-q${q}-`,hid=`rn-q${q}-hint`; document.querySelectorAll(`.cg-mcq-opt[id^="${pfx}"]`).forEach(e=>e.onclick=null); $(`${pfx}${i}`).classList.add(data[i].c?'sel-ok':'sel-bad'); const hint=$(hid); const msgs=[null,'Correct! Each BPTT step multiplies by diag(1&#8722;h&#178;)&middot;W. Saturated hidden states (|h|&#8776;1) give 1&#8722;h&#178;&#8776;0. Multiplying T&#8722;1 of these crushes the gradient exponentially.','Correct! Each step multiplies by 0.2, so after 10 steps: 0.2&#185;&#8304; &#8776; 10&#8315;&#8311;. The network cannot learn which early input caused the error.','Correct! LSTM adds a cell state c&#8317;&#7511;&#8318; updated additively: c&#8317;&#7511;&#8318; = f&#8855;c&#8317;&#7511;&#8331;&#185;&#8318; + i&#8855;&#265;&#8317;&#7511;&#8318;. The additive update creates a gradient highway that bypasses repeated tanh derivatives.','Correct! tanh bounds h&#8317;&#7511;&#8318; to (&#8722;1,1). With ReLU there is no bound, so if &#8214;W&#8214;&gt;1 the hidden state grows each step and gradients explode.']; if(data[i].c){ if(q===1)rnQ1=true;else if(q===2)rnQ2=true;else if(q===3)rnQ3=true;else rnQ4=true; rnUnlock(q+2); if(hint){hint.className='guidance-box done';hint.innerHTML='<strong>'+String.fromCharCode(65+i)+'. &#10003; </strong>'+msgs[q]} } else { document.querySelectorAll(`.cg-mcq-opt[id^="${pfx}"]`).forEach((e,j)=>{if(j!==i)e.onclick=()=>rnMCQ(q,j)}); if(q===1)rnQ1=false;else if(q===2)rnQ2=false;else if(q===3)rnQ3=false;else rnQ4=false; if(hint){hint.className='guidance-box warm';hint.innerHTML='<strong>Not quite.</strong> Try again.'} } rnUpdateSummary() }
 function rnSlider(){ rnMoves++; const btn=$('rn-s1-btn');if(btn&&rnMoves>=3)btn.disabled=false; const z=parseFloat($('rn-z').value); $('rn-z-val').textContent=z.toFixed(1); const tv=Math.tanh(z),dv=1-tv*tv; $('rn-tanh-v').textContent=tv.toFixed(3);$('rn-dt-v').textContent=dv.toFixed(3); const msg=$('rn-sat-msg'); if(msg)msg.innerHTML=dv<0.1?'<span style="color:var(--red)">&#9888; Saturated &#8212; tanh&#8242; near 0, gradient nearly eliminated</span>':dv<0.5?'<span style="color:var(--orange)">tanh&#8242; getting small &#8212; moderate saturation</span>':'<span style="color:var(--green)">Near z=0 &#8212; gradient healthy (tanh&#8242; &#8776; 1)</span>'; rnDrawCurve(z) }
 function rnDrawCurve(z0){ const svg=$('rn-svg');if(!svg)return; const W=280,H=170,lm=28,bm=20,pw=W-lm-8,ph=H-bm-15; const zMin=-4,zMax=4,toX=z=>lm+(z-zMin)/(zMax-zMin)*pw,toY=v=>bm+ph/2-v*ph/2.2; let pt='',pd=''; for(let i=0;i<=100;i++){const z=zMin+(zMax-zMin)*i/100,t=Math.tanh(z),d=1-t*t;pt+=(i?'L':'M')+toX(z).toFixed(1)+','+toY(t).toFixed(1);pd+=(i?'L':'M')+toX(z).toFixed(1)+','+toY(d).toFixed(1)} const lx=toX(z0),tv=Math.tanh(z0),dv=1-tv*tv; let h=`<line x1="${lm}" y1="${bm}" x2="${lm}" y2="${bm+ph}" stroke="var(--border)" stroke-width="1"/><line x1="${lm}" y1="${bm+ph/2}" x2="${W-8}" y2="${bm+ph/2}" stroke="var(--border)" stroke-width="1"/>`; for(let z=-3;z<=3;z++) h+=`<text x="${toX(z).toFixed(1)}" y="${bm+ph/2+13}" text-anchor="middle" font-size="9" fill="var(--muted)">${z}</text>`;[-1,-0.5,0.5,1].forEach(v=>{const y=toY(v);h+=`<text x="${lm-3}" y="${y+3}" text-anchor="end" font-size="9" fill="var(--muted)">${v}</text>`}); h+=`<path d="${pt}" fill="none" stroke="#1d4ed8" stroke-width="2"/><path d="${pd}" fill="none" stroke="#b91c1c" stroke-width="2" stroke-dasharray="5,3"/><line x1="${lx}" y1="${bm}" x2="${lx}" y2="${bm+ph}" stroke="#f59e0b" stroke-width="1.5" stroke-dasharray="3,2"/><circle cx="${lx}" cy="${toY(tv)}" r="4" fill="#1d4ed8"/><circle cx="${lx}" cy="${toY(dv)}" r="4" fill="#b91c1c"/><text x="${W-10}" y="${bm+12}" text-anchor="end" font-size="10" fill="#1d4ed8">tanh</text><text x="${W-10}" y="${bm+24}" text-anchor="end" font-size="10" fill="#b91c1c">tanh&#8242;</text>`; svg.innerHTML=h }
 function rnDrawFlow(){ const svg=$('rn-flow-svg');if(!svg)return; const tp=parseFloat(($('rn-tp')||{value:'0.2'}).value),wr=parseFloat(($('rn-wr')||{value:'1.0'}).value); $('rn-tp-val').textContent=tp.toFixed(2);$('rn-wr-val').textContent=wr.toFixed(2); const T=10,W=260,H=130,lm=24,bm=22,pw=W-lm-8,ph=H-bm-14,factor=tp*wr; const mags=[];for(let t=0;t<T;t++)mags.push(Math.pow(factor,t)); const maxM=Math.max(...mags,0.001); let h=`<line x1="${lm}" y1="${bm}" x2="${lm}" y2="${bm+ph}" stroke="var(--border)" stroke-width="1"/><line x1="${lm}" y1="${bm+ph}" x2="${W-8}" y2="${bm+ph}" stroke="var(--border)" stroke-width="1"/>`; mags.forEach((m,i)=>{const x=lm+(i+0.5)*pw/T,barH=Math.max(2,(m/maxM)*ph*0.92),col=m<0.01?'#b91c1c':m>5?'#c2410c':'#3b82f6';h+=`<rect x="${(x-pw/T*0.35).toFixed(1)}" y="${(bm+ph-barH).toFixed(1)}" width="${(pw/T*0.7).toFixed(1)}" height="${barH.toFixed(1)}" fill="${col}" rx="2"/><text x="${x.toFixed(1)}" y="${bm+ph+12}" text-anchor="middle" font-size="9" fill="var(--muted)">${i+1}</text>`}); svg.innerHTML=h; const msg=$('rn-flow-msg');if(msg)msg.innerHTML=factor<0.7?'<span style="color:var(--red)">Vanishing &#8212; gradient disappears over long sequences.</span>':factor>1.2?'<span style="color:var(--orange)">Exploding &#8212; gradient grows over long sequences.</span>':'<span style="color:var(--green)">Balanced &#8212; gradient stays roughly constant.</span>' }
-function rnUpdateSummary(){ const ref=($('rn-ref')||{value:''}).value;const el=$('rn-summary');if(!el)return; const n=[rnQ1,rnQ2,rnQ3,rnQ4].filter(v=>v===true).length; el.innerHTML=`<p><strong>Slider explored:</strong> ${rnMoves>=3?'<span style="color:var(--green)">&#10003;</span>':'move slider &#8805;3 times'}</p><p><strong>MCQs correct:</strong> ${n}/4</p><p><strong>Reflection:</strong> ${ref.length>10?'<span style="color:var(--green)">&#10003;</span>':'not yet'}</p>`; updateBadge('rtnh-completed',isComplete('rnntanh')) }
-function initRNNTanh(){ const eq=$('rn-eq');if(eq){eq.innerHTML=`<div style="background:var(--surf2);border:1px solid var(--border);border-radius:10px;overflow:hidden"><div style="padding:14px 20px;border-bottom:1px solid var(--border);text-align:center"><div style="color:#b45309">$\\mathbf{o}^{(t)} = \\mathbf{c} + V\\mathbf{h}^{(t)}$</div><div style="color:#6d28d9;margin-top:4px">$\\mathbf{h}^{(t)} = \\tanh\\bigl(\\mathbf{b} + W\\mathbf{h}^{(t-1)} + U\\mathbf{x}^{(t)}\\bigr)$</div><div style="font-size:13px;color:var(--muted);margin-top:6px">When |Wh+Ux+b| is large, tanh saturates &#8212; derivative collapses toward zero.</div></div><div style="padding:14px 20px;text-align:center"><div style="color:#15803d;font-size:13px">BPTT: $\\frac{\\partial L}{\\partial \\mathbf{h}^{(1)}} = \\prod_{t=2}^{T} \\mathrm{diag}(1-{\\mathbf{h}^{(t)}}^2)\\cdot W \\cdot \\frac{\\partial L}{\\partial \\mathbf{h}^{(T)}}$</div></div></div>`; typeset(eq) } rnDrawCurve(0); rnDrawFlow(); rnUpdateSummary() }
+function rnUpdateSummary(){ const el=$('rn-summary');if(!el)return; const n=[rnQ1,rnQ2,rnQ3,rnQ4].filter(v=>v===true).length; el.innerHTML=`<p><strong>Slider explored:</strong> ${rnMoves>=3?'<span style="color:var(--green)">&#10003;</span>':'move slider &#8805;3 times'}</p><p><strong>MCQs correct:</strong> ${n}/4</p>`; updateBadge('rtnh-completed',isComplete('rnntanh')) }
+function initRNNTanh(){ const eq=$('rn-eq');if(eq){eq.innerHTML=`<div style="background:var(--surf2);border:1px solid var(--border);border-radius:10px;overflow:hidden"><div style="padding:14px 20px;border-bottom:1px solid var(--border);text-align:center"><div style="color:#b45309">$\\mathbf{o}^{(t)} = \\mathbf{c} + V\\mathbf{h}^{(t)}$</div><div style="color:#6d28d9;margin-top:4px">$\\mathbf{h}^{(t)} = \\tanh\\bigl(\\mathbf{b} + W\\mathbf{h}^{(t-1)} + U\\mathbf{x}^{(t)}\\bigr)$</div><div style="font-size:14.5px;color:var(--muted);margin-top:6px">When |Wh+Ux+b| is large, tanh saturates &#8212; derivative collapses toward zero.</div></div><div style="padding:14px 20px;text-align:center"><div style="color:#15803d;font-size:14.5px">BPTT: $\\frac{\\partial L}{\\partial \\mathbf{h}^{(1)}} = \\prod_{t=2}^{T} \\mathrm{diag}(1-{\\mathbf{h}^{(t)}}^2)\\cdot W \\cdot \\frac{\\partial L}{\\partial \\mathbf{h}^{(T)}}$</div></div></div>`; typeset(eq) } rnDrawCurve(0); rnDrawFlow(); rnUpdateSummary() }
 
 // ══════════════════════════════════════════════════
 //  10.3  BI-DIRECTIONAL RNN
@@ -4628,18 +4906,18 @@ function brRenderSlots(){
 }
 function brSlot(slot,i){
   const opts=BR_SLOTS[slot],correct=BR_CORRECT[slot],pfx=`br-${slot}-`
-  document.querySelectorAll(`[id^="${pfx}"]`).forEach(e=>e.onclick=null)
+  document.querySelectorAll(`.cg-mcq-opt[id^="${pfx}"]`).forEach(e=>e.onclick=null)
   $(`${pfx}${i}`).classList.add(opts[i]===correct?'sel-ok':'sel-bad')
   const ok=opts[i]===correct
   if(slot==='eq1a')brEq1aOk=ok; else if(slot==='eq1b')brEq1bOk=ok
   else if(slot==='eq2c')brEq2cOk=ok; else if(slot==='eq2d')brEq2dOk=ok
   else if(slot==='eq3e')brEq3eOk=ok; else brEq3fOk=ok
-  if(!ok){ document.querySelectorAll(`[id^="${pfx}"]`).forEach((e,j)=>{if(j!==i)e.onclick=()=>brSlot(slot,j)}) }
+  if(!ok){ document.querySelectorAll(`.cg-mcq-opt[id^="${pfx}"]`).forEach((e,j)=>{if(j!==i)e.onclick=()=>brSlot(slot,j)}) }
   const hintMap={eq1a:'br-eq1-hint',eq1b:'br-eq1-hint',eq2c:'br-eq2-hint',eq2d:'br-eq2-hint',eq3e:'br-eq3-hint',eq3f:'br-eq3-hint'}
   const h=$(hintMap[slot])
-  if(brEq1aOk&&brEq1bOk){ brEq1ok=true; if(h){h.className='guidance-box done';h.innerHTML='<strong>&#10003; h_f correct!</strong> W_f is recurrent (connects forward states); U_f reads the input.'} const b=$('br-eq2-block');if(b){b.style.opacity='1';b.style.pointerEvents=''} }
-  else if(brEq2cOk&&brEq2dOk){ brEq2ok=true; if(h){h.className='guidance-box done';h.innerHTML='<strong>&#10003; h_b correct!</strong> W_b recurs right-to-left (into h_b^(t+1)); U_b reads the same input.'} const b=$('br-eq3-block');if(b){b.style.opacity='1';b.style.pointerEvents=''} }
-  else if(brEq3eOk&&brEq3fOk){ brEq3ok=true; if(h){h.className='guidance-box done';h.innerHTML='<strong>&#10003; o correct!</strong> V_f projects the forward stream; V_b projects the backward stream — both added together.'} brUnlock(5) }
+  if(slot.startsWith('eq1')&&brEq1aOk&&brEq1bOk){ brEq1ok=true; if(h){h.className='guidance-box done';h.innerHTML='<strong>&#10003; h_f correct!</strong> W_f is recurrent (connects forward states); U_f reads the input.'} const b=$('br-eq2-block');if(b){b.style.opacity='1';b.style.pointerEvents=''} }
+  else if(slot.startsWith('eq2')&&brEq2cOk&&brEq2dOk){ brEq2ok=true; if(h){h.className='guidance-box done';h.innerHTML='<strong>&#10003; h_b correct!</strong> W_b recurs right-to-left (into h_b^(t+1)); U_b reads the same input.'} const b=$('br-eq3-block');if(b){b.style.opacity='1';b.style.pointerEvents=''} }
+  else if(slot.startsWith('eq3')&&brEq3eOk&&brEq3fOk){ brEq3ok=true; if(h){h.className='guidance-box done';h.innerHTML='<strong>&#10003; o correct!</strong> V_f projects the forward stream; V_b projects the backward stream — both added together.'} brUnlock(5) }
   else if(!ok&&h){ h.className='guidance-box warm';h.innerHTML='<strong>Not quite.</strong> Try again.' }
   brUpdateSummary()
 }
@@ -4688,10 +4966,10 @@ function brDrawDiagram(highlight){
   const defs=`<defs><marker id="arr" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="var(--muted)"/></marker></defs>`
   svg.innerHTML=defs+h
 }
-function brMCQ(q,i){ const defs=[null,BR_Q1,BR_Q2,BR_Q3]; const data=defs[q],pfx=`br-q${q}-`,hid=`br-q${q}-hint`; document.querySelectorAll(`[id^="${pfx}"]`).forEach(e=>e.onclick=null); $(`${pfx}${i}`).classList.add(data[i].c?'sel-ok':'sel-bad'); const hint=$(hid); const msgs=[null,'Correct! W_f is the recurrent weight — it connects one forward hidden state to the next. U_f is the input weight; V_f goes to the output.','Correct! The backward RNN scans right-to-left, so after computing h_b^(t+1) it moves left to compute h_b^(t). The "previous" state in scan order is t+1.','Correct! In NER the type of an entity like "Washington" (person vs city) depends on surrounding words — both before AND after. BiRNN sees both sides simultaneously.']; if(data[i].c){ if(q===1){brQ1=true;brUnlock(3)} else if(q===2){brQ2=true;brUnlock(4)} else brQ3=true; if(hint){hint.className='guidance-box done';hint.innerHTML='<strong>'+String.fromCharCode(65+i)+'. &#10003;</strong> '+msgs[q]} } else { document.querySelectorAll(`[id^="${pfx}"]`).forEach((e,j)=>{if(j!==i)e.onclick=()=>brMCQ(q,j)}); if(q===1)brQ1=false;else if(q===2)brQ2=false;else brQ3=false; if(hint){hint.className='guidance-box warm';hint.innerHTML='<strong>Not quite.</strong> Try again.'} } brUpdateSummary() }
+function brMCQ(q,i){ const defs=[null,BR_Q1,BR_Q2,BR_Q3]; const data=defs[q],pfx=`br-q${q}-`,hid=`br-q${q}-hint`; document.querySelectorAll(`.cg-mcq-opt[id^="${pfx}"]`).forEach(e=>e.onclick=null); $(`${pfx}${i}`).classList.add(data[i].c?'sel-ok':'sel-bad'); const hint=$(hid); const msgs=[null,'Correct! W_f is the recurrent weight — it connects one forward hidden state to the next. U_f is the input weight; V_f goes to the output.','Correct! The backward RNN scans right-to-left, so after computing h_b^(t+1) it moves left to compute h_b^(t). The "previous" state in scan order is t+1.','Correct! In NER the type of an entity like "Washington" (person vs city) depends on surrounding words — both before AND after. BiRNN sees both sides simultaneously.']; if(data[i].c){ if(q===1){brQ1=true;brUnlock(3)} else if(q===2){brQ2=true;brUnlock(4)} else brQ3=true; if(hint){hint.className='guidance-box done';hint.innerHTML='<strong>'+String.fromCharCode(65+i)+'. &#10003;</strong> '+msgs[q]} } else { document.querySelectorAll(`.cg-mcq-opt[id^="${pfx}"]`).forEach((e,j)=>{if(j!==i)e.onclick=()=>brMCQ(q,j)}); if(q===1)brQ1=false;else if(q===2)brQ2=false;else brQ3=false; if(hint){hint.className='guidance-box warm';hint.innerHTML='<strong>Not quite.</strong> Try again.'} } brUpdateSummary() }
 function brRenderMCQs(){ [[1,BR_Q1,'br-q1-opts'],[2,BR_Q2,'br-q2-opts'],[3,BR_Q3,'br-q3-opts']].forEach(([q,data,id])=>{ const el=$(id);if(!el||el.children.length)return; el.innerHTML=data.map((o,i)=>`<div class="cg-mcq-opt" id="br-q${q}-${i}" onclick="brMCQ(${q},${i})">${o.t}</div>`).join('') }) }
-function brUpdateSummary(){ const ref=($('br-ref')||{value:''}).value;const el=$('br-summary');if(!el)return; el.innerHTML=`<p><strong>Weight MCQ:</strong> ${brQ1===true?'&#10003;':'not yet'}</p><p><strong>Backward index MCQ:</strong> ${brQ2===true?'&#10003;':'not yet'}</p><p><strong>Equations:</strong> ${[brEq1ok,brEq2ok,brEq3ok].filter(Boolean).length}/3</p><p><strong>Context MCQ:</strong> ${brQ3===true?'&#10003;':'not yet'}</p><p><strong>Reflection:</strong> ${ref.length>10?'<span style="color:var(--green)">&#10003;</span>':'not yet'}</p>`; updateBadge('birnn-completed',isComplete('birnn')) }
-function initBiRNN(){ const eq=$('br-eq');if(eq){eq.innerHTML=`<div style="background:var(--surf2);border:1px solid var(--border);border-radius:10px;overflow:hidden"><div style="padding:14px 20px;border-bottom:1px solid var(--border);text-align:center"><div style="color:#1d4ed8;font-size:13px">Forward: $\\mathbf{h}_f^{(t)} = \\tanh(W_f\\mathbf{h}_f^{(t-1)} + U_f\\mathbf{x}^{(t)})$</div><div style="color:#b91c1c;margin-top:4px;font-size:13px">Backward: $\\mathbf{h}_b^{(t)} = \\tanh(W_b\\mathbf{h}_b^{(t+1)} + U_b\\mathbf{x}^{(t)})$</div><div style="color:#15803d;margin-top:4px;font-size:13px">Output: $\\mathbf{o}^{(t)} = V_f\\mathbf{h}_f^{(t)} + V_b\\mathbf{h}_b^{(t)}$</div></div><div style="padding:10px 20px;text-align:center;font-size:12px;color:var(--muted)">Same input x&#8317;&#7511;&#8318;, two independent RNNs, outputs combined at each step.</div></div>`; typeset(eq) } brDrawDiagram('none'); brRenderMCQs(); brUpdateSummary() }
+function brUpdateSummary(){ const el=$('br-summary');if(!el)return; el.innerHTML=`<p><strong>Weight MCQ:</strong> ${brQ1===true?'&#10003;':'not yet'}</p><p><strong>Backward index MCQ:</strong> ${brQ2===true?'&#10003;':'not yet'}</p><p><strong>Equations:</strong> ${[brEq1ok,brEq2ok,brEq3ok].filter(Boolean).length}/3</p><p><strong>Context MCQ:</strong> ${brQ3===true?'&#10003;':'not yet'}</p>`; updateBadge('birnn-completed',isComplete('birnn')) }
+function initBiRNN(){ const eq=$('br-eq');if(eq){eq.innerHTML=`<div style="background:var(--surf2);border:1px solid var(--border);border-radius:10px;overflow:hidden"><div style="padding:14px 20px;border-bottom:1px solid var(--border);text-align:center"><div style="color:#1d4ed8;font-size:14.5px">Forward: $\\mathbf{h}_f^{(t)} = \\tanh(W_f\\mathbf{h}_f^{(t-1)} + U_f\\mathbf{x}^{(t)})$</div><div style="color:#b91c1c;margin-top:4px;font-size:14.5px">Backward: $\\mathbf{h}_b^{(t)} = \\tanh(W_b\\mathbf{h}_b^{(t+1)} + U_b\\mathbf{x}^{(t)})$</div><div style="color:#15803d;margin-top:4px;font-size:14.5px">Output: $\\mathbf{o}^{(t)} = V_f\\mathbf{h}_f^{(t)} + V_b\\mathbf{h}_b^{(t)}$</div></div><div style="padding:10px 20px;text-align:center;font-size:13.5px;color:var(--muted)">Same input x&#8317;&#7511;&#8318;, two independent RNNs, outputs combined at each step.</div></div>`; typeset(eq) } brDrawDiagram('none'); brRenderMCQs(); brUpdateSummary() }
 
 // ══════════════════════════════════════════════════
 //  10.4  NER AS SEQ2SEQ
@@ -4732,9 +5010,9 @@ const NS_Q4=[
 ]
 function nsUnlock(s){ nsStage=Math.max(nsStage,s); for(let i=1;i<=s;i++){const e=$(`ns-s${i}`);if(e)e.classList.add('unlocked')} if(s>=2) nsRenderMCQs() }
 function nsRenderMCQs(){ [[1,NS_Q1,'ns-q1-opts'],[2,NS_Q2,'ns-q2-opts'],[3,NS_Q3,'ns-q3-opts'],[4,NS_Q4,'ns-q4-opts']].forEach(([q,data,id])=>{ const el=$(id);if(!el||el.children.length)return; el.innerHTML=data.map((o,i)=>`<div class="cg-mcq-opt" id="ns-q${q}-${i}" onclick="nsMCQ(${q},${i})">${o.t}</div>`).join('') }) }
-function nsMCQ(q,i){ const defs=[null,NS_Q1,NS_Q2,NS_Q3,NS_Q4]; const data=defs[q],pfx=`ns-q${q}-`,hid=`ns-q${q}-hint`; document.querySelectorAll(`[id^="${pfx}"]`).forEach(e=>e.onclick=null); $(`${pfx}${i}`).classList.add(data[i].c?'sel-ok':'sel-bad'); const hint=$(hid); const msgs=[null,'Correct! Each input token gets exactly one BIO label — the output sequence is the same length as the input.','Correct! The markup output can be any length: shorter if only entities are tagged, longer if extra tokens like &lt;/PER&gt; are added. This flexibility is the key structural difference.','Correct! Because the seq2seq decoder can generate any symbol at any step, it naturally handles nested spans and variable-length entity groups — no per-token alignment required.','Correct! The XML-markup format specifies which words belong to which entity type with opening and closing tags. The output length differs from the input length — a hallmark of seq2seq.']; if(data[i].c){ if(q===1){nsQ1=true;nsUnlock(3)} else if(q===2){nsQ2=true;nsUnlock(4)} else if(q===3){nsQ3=true;nsUnlock(5)} else nsQ4=true; if(hint){hint.className='guidance-box done';hint.innerHTML='<strong>'+String.fromCharCode(65+i)+'. &#10003;</strong> '+msgs[q]} } else { document.querySelectorAll(`[id^="${pfx}"]`).forEach((e,j)=>{if(j!==i)e.onclick=()=>nsMCQ(q,j)}); if(q===1)nsQ1=false;else if(q===2)nsQ2=false;else if(q===3)nsQ3=false;else nsQ4=false; if(hint){hint.className='guidance-box warm';hint.innerHTML='<strong>Not quite.</strong> Try again.'} } nsUpdateSummary() }
-function nsUpdateSummary(){ const ref=($('ns-ref')||{value:''}).value;const el=$('ns-summary');if(!el)return; const n=[nsQ1,nsQ2,nsQ3,nsQ4].filter(v=>v===true).length; el.innerHTML=`<p><strong>MCQs:</strong> ${n}/4</p><p><strong>Reflection:</strong> ${ref.length>10?'<span style="color:var(--green)">&#10003;</span>':'not yet'}</p>`; updateBadge('nerseq-completed',isComplete('nerseq')) }
-function initNERSeq(){ const eq=$('ns-eq');if(eq){eq.innerHTML=`<div style="background:var(--surf2);border:1px solid var(--border);border-radius:10px;overflow:hidden"><div style="padding:12px 20px;border-bottom:1px solid var(--border);display:flex;gap:24px;flex-wrap:wrap;justify-content:center;font-size:13px"><div style="text-align:center"><div style="font-weight:700;color:#1d4ed8;margin-bottom:2px">Token Classification</div><div style="color:var(--muted)">output length = input length</div><div style="font-family:'Courier New',monospace;margin-top:4px">Óscar &#8594; B-PER &nbsp; El &#8594; B-LOC</div></div><div style="text-align:center"><div style="font-weight:700;color:#15803d;margin-bottom:2px">Seq2Seq</div><div style="color:var(--muted)">output length varies</div><div style="font-family:'Courier New',monospace;margin-top:4px">&lt;PER&gt;Óscar Romero&lt;/PER&gt; … &lt;LOC&gt;El Salvador&lt;/LOC&gt;</div></div></div></div>`} const tc=$('ns-tokens');if(tc)tc.innerHTML=NS_TOKENS.map((t,i)=>`<div onclick="nsClickToken(${i})" style="cursor:pointer;padding:8px 12px;background:${t.color};border:2px solid ${t.border};border-radius:8px;text-align:center;min-width:60px;transition:transform .15s" onmouseover="this.style.transform='scale(1.08)'" onmouseout="this.style.transform=''"><div style="font-weight:700;font-size:14px">${t.w}</div><div style="font-size:11px;margin-top:4px;color:var(--muted)">${t.bio}</div></div>`).join(''); $('ns-len').textContent=NS_TOKENS.length; nsUpdateSummary() }
+function nsMCQ(q,i){ const defs=[null,NS_Q1,NS_Q2,NS_Q3,NS_Q4]; const data=defs[q],pfx=`ns-q${q}-`,hid=`ns-q${q}-hint`; document.querySelectorAll(`.cg-mcq-opt[id^="${pfx}"]`).forEach(e=>e.onclick=null); $(`${pfx}${i}`).classList.add(data[i].c?'sel-ok':'sel-bad'); const hint=$(hid); const msgs=[null,'Correct! Each input token gets exactly one BIO label — the output sequence is the same length as the input.','Correct! The markup output can be any length: shorter if only entities are tagged, longer if extra tokens like &lt;/PER&gt; are added. This flexibility is the key structural difference.','Correct! Because the seq2seq decoder can generate any symbol at any step, it naturally handles nested spans and variable-length entity groups — no per-token alignment required.','Correct! The XML-markup format specifies which words belong to which entity type with opening and closing tags. The output length differs from the input length — a hallmark of seq2seq.']; if(data[i].c){ if(q===1){nsQ1=true;nsUnlock(3)} else if(q===2){nsQ2=true;nsUnlock(4)} else if(q===3){nsQ3=true;nsUnlock(5)} else nsQ4=true; if(hint){hint.className='guidance-box done';hint.innerHTML='<strong>'+String.fromCharCode(65+i)+'. &#10003;</strong> '+msgs[q]} } else { document.querySelectorAll(`.cg-mcq-opt[id^="${pfx}"]`).forEach((e,j)=>{if(j!==i)e.onclick=()=>nsMCQ(q,j)}); if(q===1)nsQ1=false;else if(q===2)nsQ2=false;else if(q===3)nsQ3=false;else nsQ4=false; if(hint){hint.className='guidance-box warm';hint.innerHTML='<strong>Not quite.</strong> Try again.'} } nsUpdateSummary() }
+function nsUpdateSummary(){ const el=$('ns-summary');if(!el)return; const n=[nsQ1,nsQ2,nsQ3,nsQ4].filter(v=>v===true).length; el.innerHTML=`<p><strong>MCQs:</strong> ${n}/4</p>`; updateBadge('nerseq-completed',isComplete('nerseq')) }
+function initNERSeq(){ const eq=$('ns-eq');if(eq){eq.innerHTML=`<div style="background:var(--surf2);border:1px solid var(--border);border-radius:10px;overflow:hidden"><div style="padding:12px 20px;border-bottom:1px solid var(--border);display:flex;gap:24px;flex-wrap:wrap;justify-content:center;font-size:14.5px"><div style="text-align:center"><div style="font-weight:700;color:#1d4ed8;margin-bottom:2px">Token Classification</div><div style="color:var(--muted)">output length = input length</div><div style="font-family:'Courier New',monospace;margin-top:4px">Óscar &#8594; B-PER &nbsp; El &#8594; B-LOC</div></div><div style="text-align:center"><div style="font-weight:700;color:#15803d;margin-bottom:2px">Seq2Seq</div><div style="color:var(--muted)">output length varies</div><div style="font-family:'Courier New',monospace;margin-top:4px">&lt;PER&gt;Óscar Romero&lt;/PER&gt; … &lt;LOC&gt;El Salvador&lt;/LOC&gt;</div></div></div></div>`} const tc=$('ns-tokens');if(tc)tc.innerHTML=NS_TOKENS.map((t,i)=>`<div onclick="nsClickToken(${i})" style="cursor:pointer;padding:8px 12px;background:${t.color};border:2px solid ${t.border};border-radius:8px;text-align:center;min-width:60px;transition:transform .15s" onmouseover="this.style.transform='scale(1.08)'" onmouseout="this.style.transform=''"><div style="font-weight:700;font-size:15.5px">${t.w}</div><div style="font-size:12.5px;margin-top:4px;color:var(--muted)">${t.bio}</div></div>`).join(''); $('ns-len').textContent=NS_TOKENS.length; nsUpdateSummary() }
 function nsClickToken(i){ const t=NS_TOKENS[i];const m=$('ns-label-msg');if(!m)return; m.innerHTML=`<strong>${t.w}</strong> &#8594; label <strong style="color:${t.bio==='O'?'var(--muted)':t.bio.includes('PER')?'#1d4ed8':'#15803d'}">${t.bio}</strong>${t.type!=='—'?` &nbsp; (entity type: <strong>${t.type}</strong>)`:' &nbsp; (not an entity)'}`}
 
 // ══════════════════════════════════════════════════
@@ -4767,11 +5045,11 @@ const RC_Q4=[
 ]
 function rcUnlock(s){ rcStage=Math.max(rcStage,s); for(let i=1;i<=s;i++){const e=$(`rc-s${i}`);if(e)e.classList.add('unlocked')} if(s>=2) rcRenderMCQs() }
 function rcRenderMCQs(){ [[1,RC_Q1,'rc-q1-opts'],[2,RC_Q2,'rc-q2-opts'],[3,RC_Q3,'rc-q3-opts'],[4,RC_Q4,'rc-q4-opts']].forEach(([q,data,id])=>{ const el=$(id);if(!el||el.children.length)return; el.innerHTML=data.map((o,i)=>`<div class="cg-mcq-opt" id="rc-q${q}-${i}" onclick="rcMCQ(${q},${i})">${o.t}</div>`).join('') }) }
-function rcMCQ(q,i){ const defs=[null,RC_Q1,RC_Q2,RC_Q3,RC_Q4]; const data=defs[q],pfx=`rc-q${q}-`,hid=`rc-q${q}-hint`; document.querySelectorAll(`[id^="${pfx}"]`).forEach(e=>e.onclick=null); $(`${pfx}${i}`).classList.add(data[i].c?'sel-ok':'sel-bad'); const hint=$(hid); const msgs=[null,'Correct! Recursive NNs compose representations bottom-up over a tree. Without a tree structure the model has no recursion pattern to follow.','Correct! The structure must be meaningful, not arbitrary. Sector hierarchies or portfolio trees give interpretable internal nodes. Random binary splits give nothing useful.','Correct! ASTs are the canonical non-NLP application. Every expression, statement and block is a subtree — the recursive NN naturally composes sub-expression embeddings into full-program representations.','Correct! A scalar temperature time series is flat — there is no natural way to form a tree from it. Recursive NNs add no value here; a plain RNN is the right tool.']; if(data[i].c){ if(q===1){rcQ1=true;rcUnlock(3)} else if(q===2){rcQ2=true;rcUnlock(4)} else if(q===3){rcQ3=true;rcUnlock(5)} else rcQ4=true; if(hint){hint.className='guidance-box done';hint.innerHTML='<strong>'+String.fromCharCode(65+i)+'. &#10003;</strong> '+msgs[q]} } else { document.querySelectorAll(`[id^="${pfx}"]`).forEach((e,j)=>{if(j!==i)e.onclick=()=>rcMCQ(q,j)}); if(q===1)rcQ1=false;else if(q===2)rcQ2=false;else if(q===3)rcQ3=false;else rcQ4=false; if(hint){hint.className='guidance-box warm';hint.innerHTML='<strong>Not quite.</strong> Try again.'} } rcUpdateSummary() }
+function rcMCQ(q,i){ const defs=[null,RC_Q1,RC_Q2,RC_Q3,RC_Q4]; const data=defs[q],pfx=`rc-q${q}-`,hid=`rc-q${q}-hint`; document.querySelectorAll(`.cg-mcq-opt[id^="${pfx}"]`).forEach(e=>e.onclick=null); $(`${pfx}${i}`).classList.add(data[i].c?'sel-ok':'sel-bad'); const hint=$(hid); const msgs=[null,'Correct! Recursive NNs compose representations bottom-up over a tree. Without a tree structure the model has no recursion pattern to follow.','Correct! The structure must be meaningful, not arbitrary. Sector hierarchies or portfolio trees give interpretable internal nodes. Random binary splits give nothing useful.','Correct! ASTs are the canonical non-NLP application. Every expression, statement and block is a subtree — the recursive NN naturally composes sub-expression embeddings into full-program representations.','Correct! A scalar temperature time series is flat — there is no natural way to form a tree from it. Recursive NNs add no value here; a plain RNN is the right tool.']; if(data[i].c){ if(q===1){rcQ1=true;rcUnlock(3)} else if(q===2){rcQ2=true;rcUnlock(4)} else if(q===3){rcQ3=true;rcUnlock(5)} else rcQ4=true; if(hint){hint.className='guidance-box done';hint.innerHTML='<strong>'+String.fromCharCode(65+i)+'. &#10003;</strong> '+msgs[q]} } else { document.querySelectorAll(`.cg-mcq-opt[id^="${pfx}"]`).forEach((e,j)=>{if(j!==i)e.onclick=()=>rcMCQ(q,j)}); if(q===1)rcQ1=false;else if(q===2)rcQ2=false;else if(q===3)rcQ3=false;else rcQ4=false; if(hint){hint.className='guidance-box warm';hint.innerHTML='<strong>Not quite.</strong> Try again.'} } rcUpdateSummary() }
 function rcShow(mode){ rcMode=mode; ['rc-seq-btn','rc-tree-btn'].forEach(id=>{const b=$(id);if(b)b.className='btn btn-g'}); const ab=$(mode==='seq'?'rc-seq-btn':'rc-tree-btn');if(ab)ab.className='btn btn-p'; rcDrawDiagram(mode) }
 function rcDrawDiagram(mode){ const svg=$('rc-svg');if(!svg)return; const words=['The','cat','sat'],W=480,H=200; let h=''; const cols=['#1d4ed8','#7c3aed','#b91c1c']; if(mode==='seq'){ const xs=[80,240,400],y=140; words.forEach((w,i)=>{ h+=`<rect x="${xs[i]-36}" y="${y-18}" width="72" height="36" rx="7" fill="#eff6ff" stroke="#93c5fd" stroke-width="1.5"/><text x="${xs[i]}" y="${y+6}" text-anchor="middle" font-size="13" font-weight="600" fill="#1d4ed8">${w}</text>`; if(i<2)h+=`<line x1="${xs[i]+36}" y1="${y}" x2="${xs[i+1]-36}" y2="${y}" stroke="#1d4ed8" stroke-width="2" marker-end="url(#arr2)"/><text x="${(xs[i]+xs[i+1])/2}" y="${y-10}" text-anchor="middle" font-size="11" fill="#1d4ed8">h&#8317;${i+1}&#8318;</text>`; const hy=70; h+=`<line x1="${xs[i]}" y1="${y-18}" x2="${xs[i]}" y2="${hy+18}" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="5,3" marker-end="url(#arr2)"/>`; h+=`<rect x="${xs[i]-28}" y="${hy-18}" width="56" height="36" rx="7" fill="var(--surf2)" stroke="var(--border)" stroke-width="1.5"/><text x="${xs[i]}" y="${hy+6}" text-anchor="middle" font-size="12" fill="var(--muted)">h&#8317;${i+1}&#8318;</text>`; }); const m=$('rc-mode-msg');if(m)m.innerHTML='<strong>RNN:</strong> Processes tokens left-to-right. Each hidden state h&#8317;&#7511;&#8318; depends only on the previous state and current input — linear chain, no tree.' } else { const lx=240,ly=60,ml=120,mr=360,ml2=60,mr2=180,ml3=300,mr3=420,leaf_y=160; h+=`<rect x="${lx-40}" y="${ly-18}" width="80" height="36" rx="8" fill="#dcfce7" stroke="#86efac" stroke-width="2"/><text x="${lx}" y="${ly+6}" text-anchor="middle" font-size="12" fill="#15803d">f(&#8901;,&#8901;)</text>`; [[ml,110],[mr,110]].forEach(([x,y])=>{ h+=`<rect x="${x-36}" y="${y-18}" width="72" height="36" rx="7" fill="#fef9c3" stroke="#fde047" stroke-width="1.5"/><text x="${x}" y="${y+6}" text-anchor="middle" font-size="12" fill="#a16207">f(&#8901;,&#8901;)</text>`; h+=`<line x1="${x}" y1="${y-18}" x2="${lx+(x<lx?-40:40)}" y2="${ly+18}" stroke="#86efac" stroke-width="2" marker-end="url(#arr2)"/>` }); [[ml2,leaf_y,'The'],[mr2,leaf_y,'cat'],[ml3,leaf_y,'sat'],[mr3,leaf_y,'']].forEach(([x,y,w],idx)=>{ if(!w)return; const c=cols[idx]||'#6b7280'; h+=`<rect x="${x-28}" y="${y-16}" width="56" height="32" rx="6" fill="#eff6ff" stroke="#93c5fd" stroke-width="1.5"/><text x="${x}" y="${y+5}" text-anchor="middle" font-size="13" font-weight="600" fill="${c}">${w}</text>`; const parent=idx<2?ml:mr; h+=`<line x1="${x}" y1="${y-16}" x2="${parent}" y2="${idx===0?128:idx===1?128:128}" stroke="#fde047" stroke-width="1.5" marker-end="url(#arr2)"/>` }); const m=$('rc-mode-msg');if(m)m.innerHTML='<strong>Recursive NN:</strong> Processes a parse tree bottom-up. Internal nodes combine child representations via f(h_left, h_right). Requires a tree — not applicable to flat sequences.' } const defs=`<defs><marker id="arr2" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="var(--muted)"/></marker></defs>`; svg.innerHTML=defs+h }
-function rcUpdateSummary(){ const ref=($('rc-ref')||{value:''}).value;const el=$('rc-summary');if(!el)return; const n=[rcQ1,rcQ2,rcQ3,rcQ4].filter(v=>v===true).length; el.innerHTML=`<p><strong>MCQs:</strong> ${n}/4</p><p><strong>Reflection:</strong> ${ref.length>10?'<span style="color:var(--green)">&#10003;</span>':'not yet'}</p>`; updateBadge('recnets-completed',isComplete('recnets')) }
-function initRecNets(){ const eq=$('rc-eq');if(eq){eq.innerHTML=`<div style="background:var(--surf2);border:1px solid var(--border);border-radius:10px;overflow:hidden"><div style="padding:12px 20px;text-align:center"><div style="color:#b45309">$\\mathbf{h}_{\\text{node}} = f(\\mathbf{h}_{\\text{left child}},\\;\\mathbf{h}_{\\text{right child}})$</div><div style="font-size:13px;color:var(--muted);margin-top:6px">f is a learned function (e.g. tanh of a linear combination). Leaves = word embeddings; internal nodes = composed phrase representations.</div></div></div>`; typeset(eq) } rcShow('tree'); rcUpdateSummary() }
+function rcUpdateSummary(){ const el=$('rc-summary');if(!el)return; const n=[rcQ1,rcQ2,rcQ3,rcQ4].filter(v=>v===true).length; el.innerHTML=`<p><strong>MCQs:</strong> ${n}/4</p>`; updateBadge('recnets-completed',isComplete('recnets')) }
+function initRecNets(){ const eq=$('rc-eq');if(eq){eq.innerHTML=`<div style="background:var(--surf2);border:1px solid var(--border);border-radius:10px;overflow:hidden"><div style="padding:12px 20px;text-align:center"><div style="color:#b45309">$\\mathbf{h}_{\\text{node}} = f(\\mathbf{h}_{\\text{left child}},\\;\\mathbf{h}_{\\text{right child}})$</div><div style="font-size:14.5px;color:var(--muted);margin-top:6px">f is a learned function (e.g. tanh of a linear combination). Leaves = word embeddings; internal nodes = composed phrase representations.</div></div></div>`; typeset(eq) } rcShow('tree'); rcUpdateSummary() }
 
 // ══════════════════════════════════════════════════
 //  10.7  LINEAR RNN STABILITY
@@ -4785,10 +5063,10 @@ const LR_Q5=[{t:'Hidden state decays to zero — |w|<1 guarantees forgetting reg
 const LR_Q6=[{t:'w sets the decay rate of past inputs (memory span); u only scales the amplitude of each input contribution without affecting stability',c:true},{t:'u controls forgetting; w controls the input amplitude',c:false},{t:'They have identical effects — only their product wu matters',c:false},{t:'w only affects the first timestep; u controls all later steps',c:false}]
 function lrUnlock(s){ lrStage=Math.max(lrStage,s); for(let i=1;i<=s;i++){const e=$(`lr-s${i}`);if(e)e.classList.add('unlocked')} if(s>=1) lrRenderMCQs() }
 function lrRenderMCQs(){ [[1,LR_Q1,'lr-q1-opts'],[2,LR_Q2,'lr-q2-opts'],[3,LR_Q3,'lr-q3-opts'],[4,LR_Q4,'lr-q4-opts'],[5,LR_Q5,'lr-q5-opts'],[6,LR_Q6,'lr-q6-opts']].forEach(([q,data,id])=>{ const el=$(id);if(!el||el.children.length)return; el.innerHTML=data.map((o,i)=>`<div class="cg-mcq-opt" id="lr-q${q}-${i}" onclick="lrMCQ(${q},${i})">${o.t}</div>`).join('') }) }
-function lrMCQ(q,i){ const defs=[null,LR_Q1,LR_Q2,LR_Q3,LR_Q4,LR_Q5,LR_Q6]; const data=defs[q],pfx=`lr-q${q}-`,hid=`lr-q${q}-hint`; document.querySelectorAll(`[id^="${pfx}"]`).forEach(e=>e.onclick=null); $(`${pfx}${i}`).classList.add(data[i].c?'sel-ok':'sel-bad'); const hint=$(hid); const msgs=[null,'Correct! h&#8317;&#185;&#8318; = w&#183;0 + u&#183;x&#8317;&#185;&#8318; = u&#183;x&#8317;&#185;&#8318;. The h&#8317;&#8304;&#8318;=0 term vanishes.','Correct! h&#8317;&#178;&#8318; = w&#183;(ux&#8317;&#185;&#8318;) + ux&#8317;&#178;&#8318; = wux&#8317;&#185;&#8318; + ux&#8317;&#178;&#8318;.','Correct! h&#8317;&#179;&#8318; = w&#183;(wux&#8317;&#185;&#8318;+ux&#8317;&#178;&#8318;) + ux&#8317;&#179;&#8318; = w&#178;ux&#8317;&#185;&#8318; + wux&#8317;&#178;&#8318; + ux&#8317;&#179;&#8318;. The pattern: x&#8317;ᵏ&#8318; gets weight u&#183;w^(T&#8722;k).','Correct! w appears as w^(T&#8722;k) on past input x&#8317;ᵏ&#8318;. If |w|&lt;1 that exponent decays to 0; if |w|&gt;1 it explodes. u just uniformly scales all bars — it cannot change the pattern.','Correct! With |w|=1.4&gt;1, the factor w^(T&#8722;k) grows without bound as T increases. u=0.1 just makes every bar 10&#215; shorter — but they still grow exponentially with T.','Correct! w is the memory-decay parameter: it determines whether the past is forgotten (|w|&lt;1), preserved (|w|=1), or amplified (|w|&gt;1). u is just a gain on each new input and does not affect stability.']; if(data[i].c){ if(q===1){lrQ1=true;const s=$('lr-step2');if(s){s.style.opacity='1';s.style.pointerEvents=''}} else if(q===2){lrQ2=true;const s=$('lr-step3');if(s){s.style.opacity='1';s.style.pointerEvents=''}} else if(q===3){lrQ3=true;lrUnlock(2)} else if(q===4){lrQ4=true;lrUnlock(4)} else if(q===5){lrQ5=true;lrUnlock(5)} else lrQ6=true; if(hint){hint.className='guidance-box done';hint.innerHTML='<strong>'+String.fromCharCode(65+i)+'. &#10003;</strong> '+msgs[q]} } else { document.querySelectorAll(`[id^="${pfx}"]`).forEach((e,j)=>{if(j!==i)e.onclick=()=>lrMCQ(q,j)}); if(hint){hint.className='guidance-box warm';hint.innerHTML='<strong>Not quite.</strong> Try again.'} } lrUpdateSummary() }
+function lrMCQ(q,i){ const defs=[null,LR_Q1,LR_Q2,LR_Q3,LR_Q4,LR_Q5,LR_Q6]; const data=defs[q],pfx=`lr-q${q}-`,hid=`lr-q${q}-hint`; document.querySelectorAll(`.cg-mcq-opt[id^="${pfx}"]`).forEach(e=>e.onclick=null); $(`${pfx}${i}`).classList.add(data[i].c?'sel-ok':'sel-bad'); const hint=$(hid); const msgs=[null,'Correct! h&#8317;&#185;&#8318; = w&#183;0 + u&#183;x&#8317;&#185;&#8318; = u&#183;x&#8317;&#185;&#8318;. The h&#8317;&#8304;&#8318;=0 term vanishes.','Correct! h&#8317;&#178;&#8318; = w&#183;(ux&#8317;&#185;&#8318;) + ux&#8317;&#178;&#8318; = wux&#8317;&#185;&#8318; + ux&#8317;&#178;&#8318;.','Correct! h&#8317;&#179;&#8318; = w&#183;(wux&#8317;&#185;&#8318;+ux&#8317;&#178;&#8318;) + ux&#8317;&#179;&#8318; = w&#178;ux&#8317;&#185;&#8318; + wux&#8317;&#178;&#8318; + ux&#8317;&#179;&#8318;. The pattern: x&#8317;ᵏ&#8318; gets weight u&#183;w^(T&#8722;k).','Correct! w appears as w^(T&#8722;k) on past input x&#8317;ᵏ&#8318;. If |w|&lt;1 that exponent decays to 0; if |w|&gt;1 it explodes. u just uniformly scales all bars — it cannot change the pattern.','Correct! With |w|=1.4&gt;1, the factor w^(T&#8722;k) grows without bound as T increases. u=0.1 just makes every bar 10&#215; shorter — but they still grow exponentially with T.','Correct! w is the memory-decay parameter: it determines whether the past is forgotten (|w|&lt;1), preserved (|w|=1), or amplified (|w|&gt;1). u is just a gain on each new input and does not affect stability.']; if(data[i].c){ if(q===1){lrQ1=true;const s=$('lr-step2');if(s){s.style.opacity='1';s.style.pointerEvents=''}} else if(q===2){lrQ2=true;const s=$('lr-step3');if(s){s.style.opacity='1';s.style.pointerEvents=''}} else if(q===3){lrQ3=true;lrUnlock(2)} else if(q===4){lrQ4=true;lrUnlock(4)} else if(q===5){lrQ5=true;lrUnlock(5)} else lrQ6=true; if(hint){hint.className='guidance-box done';hint.innerHTML='<strong>'+String.fromCharCode(65+i)+'. &#10003;</strong> '+msgs[q]} } else { document.querySelectorAll(`.cg-mcq-opt[id^="${pfx}"]`).forEach((e,j)=>{if(j!==i)e.onclick=()=>lrMCQ(q,j)}); if(hint){hint.className='guidance-box warm';hint.innerHTML='<strong>Not quite.</strong> Try again.'} } lrUpdateSummary() }
 function lrDrawMemory(){ lrSliderMoves++; const btn=$('lr-s2-btn');if(btn&&lrSliderMoves>=3)btn.disabled=false; const w=parseFloat($('lr-w').value),u=parseFloat($('lr-u').value); $('lr-w-val').textContent=w.toFixed(2);$('lr-u-val').textContent=u.toFixed(2); const svg=$('lr-svg');if(!svg)return; const T=10,W=280,H=150,lm=20,bm=20,pw=W-lm-8,ph=H-bm-10; const weights=[];for(let k=0;k<T;k++)weights.push(u*Math.pow(w,T-1-k)); const maxA=Math.max(...weights.map(Math.abs),0.001); let h=`<line x1="${lm}" y1="${bm}" x2="${lm}" y2="${bm+ph}" stroke="var(--border)" stroke-width="1"/><line x1="${lm}" y1="${bm+ph/2}" x2="${W-8}" y2="${bm+ph/2}" stroke="var(--border)" stroke-width="1"/>`; weights.forEach((v,i)=>{ const x=lm+(i+0.5)*pw/T,norm=v/maxA,barH=Math.abs(norm)*ph*0.45; const positive=v>=0; const col=Math.abs(w)<0.99?'#3b82f6':Math.abs(w)>1.01?'#b91c1c':'#15803d'; const y=positive?bm+ph/2-barH:bm+ph/2; h+=`<rect x="${(x-pw/T*0.35).toFixed(1)}" y="${y.toFixed(1)}" width="${(pw/T*0.7).toFixed(1)}" height="${barH.toFixed(1)}" fill="${col}" rx="2"/><text x="${x.toFixed(1)}" y="${bm+ph+12}" text-anchor="middle" font-size="9" fill="var(--muted)">${T-i}</text>` }); svg.innerHTML=h; const msg=$('lr-mem-msg'); if(msg){const aw=Math.abs(w);msg.innerHTML=aw<0.99?`<span style="color:var(--blue)">|w|&lt;1 — Decaying memory: older inputs (left bars) fade exponentially.</span>`:aw>1.01?`<span style="color:var(--red)">|w|&gt;1 — Exploding memory: older inputs are amplified, hidden state diverges.</span>`:`<span style="color:var(--green)">|w|=1 — Perfect memory: all past inputs contribute equally regardless of distance.</span>`} }
-function lrUpdateSummary(){ const ref=($('lr-ref')||{value:''}).value;const el=$('lr-summary');if(!el)return; const n=[lrQ1,lrQ2,lrQ3,lrQ4,lrQ5,lrQ6].filter(v=>v===true).length; el.innerHTML=`<p><strong>Unroll MCQs:</strong> ${[lrQ1,lrQ2,lrQ3].filter(v=>v===true).length}/3</p><p><strong>Stability MCQs:</strong> ${[lrQ4,lrQ5,lrQ6].filter(v=>v===true).length}/3</p><p><strong>Slider explored:</strong> ${lrSliderMoves>=3?'<span style="color:var(--green)">&#10003;</span>':'move slider &#8805;3 times'}</p><p><strong>Reflection:</strong> ${ref.length>10?'<span style="color:var(--green)">&#10003;</span>':'not yet'}</p>`; updateBadge('linrnn-completed',isComplete('linrnn')) }
-function initLinRNN(){ const eq=$('lr7-eq');if(eq){eq.innerHTML=`<div style="background:var(--surf2);border:1px solid var(--border);border-radius:10px;overflow:hidden"><div style="padding:14px 20px;border-bottom:1px solid var(--border);text-align:center"><div style="color:#b45309">$h^{(t)} = w\\,h^{(t-1)} + u\\,x^{(t)}, \\quad h^{(0)}=0$</div><div style="font-size:13px;color:var(--muted);margin-top:6px">Scalar inputs and weights; no nonlinearity. Unrolling reveals the closed form.</div></div><div style="padding:12px 20px;text-align:center;font-size:13px;color:#15803d">After unrolling: $h^{(T)} = u\\sum_{k=1}^{T} w^{T-k}\\,x^{(k)}$ &mdash; each past input x&#8317;ᵏ&#8318; is weighted by $u\\cdot w^{T-k}$.</div></div>`; typeset(eq) } lrDrawMemory(); lrUpdateSummary() }
+function lrUpdateSummary(){ const el=$('lr-summary');if(!el)return; const n=[lrQ1,lrQ2,lrQ3,lrQ4,lrQ5,lrQ6].filter(v=>v===true).length; el.innerHTML=`<p><strong>Unroll MCQs:</strong> ${[lrQ1,lrQ2,lrQ3].filter(v=>v===true).length}/3</p><p><strong>Stability MCQs:</strong> ${[lrQ4,lrQ5,lrQ6].filter(v=>v===true).length}/3</p><p><strong>Slider explored:</strong> ${lrSliderMoves>=3?'<span style="color:var(--green)">&#10003;</span>':'move slider &#8805;3 times'}</p>`; updateBadge('linrnn-completed',isComplete('linrnn')) }
+function initLinRNN(){ const eq=$('lr7-eq');if(eq){eq.innerHTML=`<div style="background:var(--surf2);border:1px solid var(--border);border-radius:10px;overflow:hidden"><div style="padding:14px 20px;border-bottom:1px solid var(--border);text-align:center"><div style="color:#b45309">$h^{(t)} = w\\,h^{(t-1)} + u\\,x^{(t)}, \\quad h^{(0)}=0$</div><div style="font-size:14.5px;color:var(--muted);margin-top:6px">Scalar inputs and weights; no nonlinearity. Unrolling reveals the closed form.</div></div><div style="padding:12px 20px;text-align:center;font-size:14.5px;color:#15803d">After unrolling: $h^{(T)} = u\\sum_{k=1}^{T} w^{T-k}\\,x^{(k)}$ &mdash; each past input x&#8317;ᵏ&#8318; is weighted by $u\\cdot w^{T-k}$.</div></div>`; typeset(eq) } lrDrawMemory(); lrUpdateSummary() }
 
 // ══════════════════════════════════════════════════
 //  10.10 GRU vs LSTM ARCHITECTURE
@@ -4839,7 +5117,7 @@ function ggRenderMCQs(){
 function ggMCQ(q,i){
   const data=q===1?GG_Q1:q===2?GG_Q2:q===3?GG_Q3:GG_Q4
   const cur=q===1?ggQ1:q===2?ggQ2:q===3?ggQ3:ggQ4
-  if(cur!==null)return
+  if(cur===true)return
   const opt=data[i]; const correct=opt.c
   const el=$(`gg-q${q}-${i}`); if(!el)return
   el.className='cg-mcq-opt '+(correct?'sel-ok':'sel-bad')
@@ -4910,9 +5188,8 @@ function ggDrawCell(){
 }
 
 function ggUpdateSummary(){
-  const ref=($('gg-ref')||{value:''}).value
   const el=$('gg-summary'); if(!el)return
-  el.innerHTML=`<p><strong>MCQs correct:</strong> ${[ggQ1,ggQ2,ggQ3,ggQ4].filter(v=>v===true).length}/4</p><p><strong>Dimensions explored:</strong> ${ggToggleSeen.size}/4</p><p><strong>Reflection:</strong> ${ref.length>10?'<span style="color:var(--green)">✓</span>':'not yet'}</p>`
+  el.innerHTML=`<p><strong>MCQs correct:</strong> ${[ggQ1,ggQ2,ggQ3,ggQ4].filter(v=>v===true).length}/4</p><p><strong>Dimensions explored:</strong> ${ggToggleSeen.size}/4</p>`
   updateBadge('grucomp-completed',isComplete('grucomp'))
 }
 
@@ -4999,7 +5276,7 @@ function tpRenderMCQs(){
 function tpMCQ(q,i){
   const data=q===1?TP_Q1:q===2?TP_Q2:q===3?TP_Q3:TP_Q4
   const cur=q===1?tpQ1:q===2?tpQ2:q===3?tpQ3:tpQ4
-  if(cur!==null)return
+  if(cur===true)return
   const opt=data[i]; const correct=opt.c
   const el=$(`tp-q${q}-${i}`); if(!el)return
   el.className='cg-mcq-opt '+(correct?'sel-ok':'sel-bad')
@@ -5026,9 +5303,8 @@ function tpMCQ(q,i){
 }
 
 function tpUpdateSummary(){
-  const ref=($('tp-ref')||{value:''}).value
   const el=$('tp-summary'); if(!el)return
-  el.innerHTML=`<p><strong>MCQs correct:</strong> ${[tpQ1,tpQ2,tpQ3,tpQ4].filter(v=>v===true).length}/4</p><p><strong>Demo explored:</strong> ${tpOrdersSeen.size>=2?'<span style="color:var(--green)">✓</span>':'see both orderings'}</p><p><strong>Reflection:</strong> ${ref.length>10?'<span style="color:var(--green)">✓</span>':'not yet'}</p>`
+  el.innerHTML=`<p><strong>MCQs correct:</strong> ${[tpQ1,tpQ2,tpQ3,tpQ4].filter(v=>v===true).length}/4</p><p><strong>Demo explored:</strong> ${tpOrdersSeen.size>=2?'<span style="color:var(--green)">✓</span>':'see both orderings'}</p>`
   updateBadge('trfpos-completed',isComplete('trfpos'))
 }
 
@@ -5131,7 +5407,7 @@ function cnRenderMCQs(){
 function cnMCQ(q,i){
   const data=q===1?CN_Q1:q===2?CN_Q2:q===3?CN_Q3:CN_Q4
   const cur=q===1?cnQ1:q===2?cnQ2:q===3?cnQ3:cnQ4
-  if(cur!==null)return
+  if(cur===true)return
   const opt=data[i]; const correct=opt.c
   const el=$(`cn-q${q}-${i}`); if(!el)return
   el.className='cg-mcq-opt '+(correct?'sel-ok':'sel-bad')
@@ -5158,9 +5434,8 @@ function cnMCQ(q,i){
 }
 
 function cnUpdateSummary(){
-  const ref=($('cn-ref')||{value:''}).value
   const el=$('cn-summary'); if(!el)return
-  el.innerHTML=`<p><strong>MCQs correct:</strong> ${[cnQ1,cnQ2,cnQ3,cnQ4].filter(v=>v===true).length}/4</p><p><strong>Threshold explored:</strong> ${cnSliderMoves>=3?'<span style="color:var(--green)">✓</span>':'move slider ≥3 times'}</p><p><strong>Reflection:</strong> ${ref.length>10?'<span style="color:var(--green)">✓</span>':'not yet'}</p>`
+  el.innerHTML=`<p><strong>MCQs correct:</strong> ${[cnQ1,cnQ2,cnQ3,cnQ4].filter(v=>v===true).length}/4</p><p><strong>Threshold explored:</strong> ${cnSliderMoves>=3?'<span style="color:var(--green)">✓</span>':'move slider ≥3 times'}</p>`
   updateBadge('cancernlp-completed',isComplete('cancernlp'))
 }
 
@@ -5277,7 +5552,7 @@ function lcRenderMCQs(){
 function lcMCQ(q,i){
   const data=q===1?LC_Q1:q===2?LC_Q2:q===3?LC_Q3:LC_Q4
   const cur=q===1?lcQ1:q===2?lcQ2:q===3?lcQ3:lcQ4
-  if(cur!==null)return
+  if(cur===true)return
   const opt=data[i]; const correct=opt.c
   const el=$(`lc-q${q}-${i}`); if(!el)return
   el.className='cg-mcq-opt '+(correct?'sel-ok':'sel-bad')
@@ -5304,9 +5579,8 @@ function lcMCQ(q,i){
 }
 
 function lcUpdateSummary(){
-  const ref=($('lc-ref')||{value:''}).value
   const el=$('lc-summary'); if(!el)return
-  el.innerHTML=`<p><strong>MCQs correct:</strong> ${[lcQ1,lcQ2,lcQ3,lcQ4].filter(v=>v===true).length}/4</p><p><strong>Patterns explored:</strong> ${lcPatternsSeen.size}/4</p><p><strong>Reflection:</strong> ${ref.length>10?'<span style="color:var(--green)">✓</span>':'not yet'}</p>`
+  el.innerHTML=`<p><strong>MCQs correct:</strong> ${[lcQ1,lcQ2,lcQ3,lcQ4].filter(v=>v===true).length}/4</p><p><strong>Patterns explored:</strong> ${lcPatternsSeen.size}/4</p>`
   updateBadge('learncurve-completed',isComplete('learncurve'))
 }
 
@@ -5397,7 +5671,7 @@ function hbRenderMCQs(){
 function hbMCQ(q,i){
   const data=q===1?HB_Q1:q===2?HB_Q2:q===3?HB_Q3:HB_Q4
   const cur=q===1?hbQ1:q===2?hbQ2:q===3?hbQ3:hbQ4
-  if(cur!==null)return
+  if(cur===true)return
   const opt=data[i],correct=opt.c
   const el=$('hb-q'+q+'-'+i); if(!el)return
   el.className='cg-mcq-opt '+(correct?'sel-ok':'sel-bad')
@@ -5424,9 +5698,8 @@ function hbMCQ(q,i){
 }
 
 function hbUpdateSummary(){
-  const ref=($('hb-ref')||{value:''}).value
   const el=$('hb-summary'); if(!el)return
-  el.innerHTML='<p><strong>MCQs correct:</strong> '+[hbQ1,hbQ2,hbQ3,hbQ4].filter(function(v){return v===true}).length+'/4</p><p><strong>Brackets explored:</strong> '+hbBracketsSeen.size+'/4</p><p><strong>Reflection:</strong> '+(ref.length>10?'<span style="color:var(--green)">✓</span>':'not yet')+'</p>'
+  el.innerHTML='<p><strong>MCQs correct:</strong> '+[hbQ1,hbQ2,hbQ3,hbQ4].filter(function(v){return v===true}).length+'/4</p><p><strong>Brackets explored:</strong> '+hbBracketsSeen.size+'/4</p>'
   updateBadge('hypband-completed',isComplete('hypband'))
 }
 
@@ -5518,7 +5791,7 @@ function leRenderMCQs(){
 function leMCQ(q,i){
   const data=q===1?LE_Q1:q===2?LE_Q2:q===3?LE_Q3:LE_Q4
   const cur=q===1?leQ1:q===2?leQ2:q===3?leQ3:leQ4
-  if(cur!==null)return
+  if(cur===true)return
   const opt=data[i],correct=opt.c
   const el=$('le-q'+q+'-'+i); if(!el)return
   el.className='cg-mcq-opt '+(correct?'sel-ok':'sel-bad')
@@ -5545,9 +5818,8 @@ function leMCQ(q,i){
 }
 
 function leUpdateSummary(){
-  const ref=($('le-ref')||{value:''}).value
   const el=$('le-summary'); if(!el)return
-  el.innerHTML='<p><strong>MCQs correct:</strong> '+[leQ1,leQ2,leQ3,leQ4].filter(function(v){return v===true}).length+'/4</p><p><strong>Domains explored:</strong> '+leDomainsSeen.size+'/3</p><p><strong>Reflection:</strong> '+(ref.length>10?'<span style="color:var(--green)">✓</span>':'not yet')+'</p>'
+  el.innerHTML='<p><strong>MCQs correct:</strong> '+[leQ1,leQ2,leQ3,leQ4].filter(function(v){return v===true}).length+'/4</p><p><strong>Domains explored:</strong> '+leDomainsSeen.size+'/3</p>'
   updateBadge('limeeeg-completed',isComplete('limeeeg'))
 }
 
@@ -5649,7 +5921,7 @@ function gaRenderMCQs(){
 function gaMCQ(q,i){
   const data=q===1?GA_Q1:q===2?GA_Q2:q===3?GA_Q3:GA_Q4
   const cur=q===1?gaQ1:q===2?gaQ2:q===3?gaQ3:gaQ4
-  if(cur!==null)return
+  if(cur===true)return
   const opt=data[i],correct=opt.c
   const el=$('ga-q'+q+'-'+i); if(!el)return
   el.className='cg-mcq-opt '+(correct?'sel-ok':'sel-bad')
@@ -5676,9 +5948,8 @@ function gaMCQ(q,i){
 }
 
 function gaUpdateSummary(){
-  const ref=($('ga-ref')||{value:''}).value
   const el=$('ga-summary'); if(!el)return
-  el.innerHTML='<p><strong>MCQs correct:</strong> '+[gaQ1,gaQ2,gaQ3,gaQ4].filter(function(v){return v===true}).length+'/4</p><p><strong>Methods explored:</strong> '+gaMethodsSeen.size+'/3</p><p><strong>Reflection:</strong> '+(ref.length>10?'<span style="color:var(--green)">✓</span>':'not yet')+'</p>'
+  el.innerHTML='<p><strong>MCQs correct:</strong> '+[gaQ1,gaQ2,gaQ3,gaQ4].filter(function(v){return v===true}).length+'/4</p><p><strong>Methods explored:</strong> '+gaMethodsSeen.size+'/3</p>'
   updateBadge('gradattr-completed',isComplete('gradattr'))
 }
 

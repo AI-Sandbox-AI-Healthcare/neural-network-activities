@@ -75,30 +75,26 @@
   </div>
 
   <div id="pl-s3" class="ba-locked-section" style="margin-top:16px">
-    <div class="two-col">
-      <div class="card">
-        <div class="card-title">Stage 3 — Apply the Insight</div>
-        <div style="display:flex;flex-direction:column;gap:12px">
-          <div>
-            <div style="font-weight:600;font-size:14.5px;margin-bottom:6px">Q1 — Global Average Pooling (p = H, s = H) gives output size:</div>
-            <div id="pl-q2-opts" style="display:flex;flex-direction:column;gap:5px;max-width:280px"></div>
-            <div id="pl-q2-hint" class="guidance-box cold" style="margin-top:5px;max-width:280px"></div>
-          </div>
-          <div>
-            <div style="font-weight:600;font-size:14.5px;margin-bottom:6px">Q2 — nn.AdaptiveAvgPool2d(4) on any size image gives output:</div>
-            <div id="pl-q3-opts" style="display:flex;flex-direction:column;gap:5px;max-width:280px"></div>
-            <div id="pl-q3-hint" class="guidance-box cold" style="margin-top:5px;max-width:280px"></div>
-          </div>
+    <div class="card">
+      <div class="card-title">Stage 3 — Apply the Insight</div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px;align-items:start">
+        <div>
+          <div style="font-weight:600;font-size:14.5px;margin-bottom:6px">Q1 — Global Average Pooling (p = H, s = H) gives output size:</div>
+          <div id="pl-q2-opts" style="display:flex;flex-direction:column;gap:5px"></div>
+          <div id="pl-q2-hint" class="guidance-box cold" style="margin-top:5px"></div>
+        </div>
+        <div>
+          <div style="font-weight:600;font-size:14.5px;margin-bottom:6px">Q2 — nn.AdaptiveAvgPool2d(4) on any size image gives output:</div>
+          <div id="pl-q3-opts" style="display:flex;flex-direction:column;gap:5px"></div>
+          <div id="pl-q3-hint" class="guidance-box cold" style="margin-top:5px"></div>
+        </div>
+        <div>
+          <div style="font-weight:600;font-size:14.5px;margin-bottom:6px">Q3 — Why is Global Average Pooling (T=1) so popular before a classifier?</div>
+          <div id="pl-q4-opts" style="display:flex;flex-direction:column;gap:5px"></div>
+          <div id="pl-q4-hint" class="guidance-box cold" style="margin-top:5px"></div>
         </div>
       </div>
-      <div class="card">
-        <div class="card-title">Reflect</div>
-        <div style="font-weight:600;font-size:14.5px;margin-bottom:6px">Q3 — Why is Global Average Pooling (T=1) so popular before a classifier?</div>
-        <div id="pl-q4-opts" style="display:flex;flex-direction:column;gap:5px;max-width:360px;margin-bottom:10px"></div>
-        <div id="pl-q4-hint" class="guidance-box cold" style="max-width:360px;margin-bottom:12px"></div>
-        <textarea id="pl-ref" rows="3" style="width:100%;box-sizing:border-box;background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:8px;color:var(--text);font-family:inherit;resize:vertical;margin-bottom:10px" placeholder="Reflection: when would you prefer T=4 over T=1? What is the trade-off?" oninput="plUpdateSummary()"></textarea>
-        <div id="pl-summary" style="font-size:.88em;color:var(--muted);margin-bottom:10px"></div>
-      </div>
+      <div id="pl-summary" style="font-size:.88em;color:var(--muted);margin-top:12px"></div>
     </div>
   </div>
 </div>

@@ -75,20 +75,13 @@
   </div>
 
   <div id="tc-s4" class="ba-locked-section" style="margin-top:16px">
-    <div class="two-col">
-      <div class="card">
-        <div class="card-title">Stage 4 — CNN Limitation</div>
-        <p style="font-size:14.5px;color:var(--muted);margin-bottom:10px">A k=2 filter trained on A &amp; B learns "being bad"→negative and "being good"→positive. Applied to Sentence C, the highest-scoring bigram is "was unhappy" — strongly negative. The negation "wasn't" seven words earlier is invisible.</p>
-        <div style="font-weight:600;font-size:14.5px;margin-bottom:8px">What does the k=2 model incorrectly predict for Sentence C?</div>
-        <div id="tc-q3-opts" style="display:flex;flex-direction:column;gap:5px;max-width:340px"></div>
-        <div id="tc-q3-hint" class="guidance-box cold" style="margin-top:8px;max-width:340px"></div>
-      </div>
-      <div class="card">
-        <div class="card-title">Reflect</div>
-        <p style="font-size:14.5px;color:var(--muted);margin-bottom:8px">An RNN maintains a hidden state h⁽ᵗ⁾ updated at every word. How does this let it correctly classify Sentence C where the k=2 CNN fails?</p>
-        <textarea id="tc-ref" rows="4" style="width:100%;box-sizing:border-box;background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:8px;color:var(--text);font-family:inherit;resize:vertical;margin-bottom:8px" placeholder="When the RNN reads 'unhappy', its hidden state already encodes that 'wasn't' appeared earlier…" oninput="tcUpdateSummary()"></textarea>
-        <div id="tc-summary" style="font-size:.88em;color:var(--muted)"></div>
-      </div>
+    <div class="card">
+      <div class="card-title">Stage 4 — CNN Limitation</div>
+      <p style="font-size:14.5px;color:var(--muted);margin-bottom:10px">A k=2 filter trained on A &amp; B learns "being bad"→negative and "being good"→positive. Applied to Sentence C, the highest-scoring bigram is "was unhappy" — strongly negative. The negation "wasn't" seven words earlier is invisible.</p>
+      <div style="font-weight:600;font-size:14.5px;margin-bottom:8px">What does the k=2 model incorrectly predict for Sentence C?</div>
+      <div id="tc-q3-opts" style="display:flex;flex-direction:column;gap:5px;max-width:340px"></div>
+      <div id="tc-q3-hint" class="guidance-box cold" style="margin-top:8px;max-width:340px"></div>
+      <div id="tc-summary" style="font-size:.88em;color:var(--muted);margin-top:12px"></div>
     </div>
   </div>
 </div>

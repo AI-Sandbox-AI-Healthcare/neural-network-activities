@@ -63,7 +63,7 @@
           <div id="gm-step-disp" style="font-family:monospace;font-size:14.5px;background:var(--surf2);border-radius:6px;padding:12px;line-height:2.2;margin-bottom:14px">Press "Run one step" to see the computation.</div>
           <div style="font-weight:600;font-size:14.5px;margin-bottom:6px">Fill in h_new for two nodes:</div>
           <div style="font-size:14.5px;line-height:2.4;margin-bottom:8px">
-            h_new[0] = (h[0]+h[1]+h[4]) / 3 = <input id="gm-f0" class="rr-inp" style="width:60px;text-align:center" placeholder="?" oninput="gmCheckFill()">
+            h_new[0] = (h[0]+h[1]+h[2]+h[4]) / 4 = <input id="gm-f0" class="rr-inp" style="width:60px;text-align:center" placeholder="?" oninput="gmCheckFill()">
             <br>h_new[2] = (h[0]+h[1]+h[2]+h[3]) / 4 = <input id="gm-f2" class="rr-inp" style="width:60px;text-align:center" placeholder="?" oninput="gmCheckFill()">
           </div>
           <div id="gm-fill-hint" class="guidance-box cold" style="margin-bottom:12px"></div>
@@ -74,26 +74,19 @@
   </div>
 
   <div id="gm-s3" class="ba-locked-section" style="margin-top:16px">
-    <div class="two-col">
-      <div class="card">
-        <div class="card-title">Stage 3 — Key Properties of GCN</div>
-        <div style="display:flex;flex-direction:column;gap:14px">
-          <div>
-            <div style="font-weight:600;font-size:14.5px;margin-bottom:6px">Q1 — Does GCN know which direction a message came from?</div>
-            <div id="gm-q2-opts" style="display:flex;flex-direction:column;gap:5px;max-width:320px"></div>
-            <div id="gm-q2-hint" class="guidance-box cold" style="margin-top:5px;max-width:320px"></div>
-          </div>
-          <div>
-            <div style="font-weight:600;font-size:14.5px;margin-bottom:6px">Q2 — Node 1 and node 3 both have h=1 and h=0. Would GCN treat them identically?</div>
-            <div id="gm-q3-opts" style="display:flex;flex-direction:column;gap:5px;max-width:320px"></div>
-            <div id="gm-q3-hint" class="guidance-box cold" style="margin-top:5px;max-width:320px"></div>
-          </div>
+    <div class="card">
+      <div class="card-title">Stage 3 — Key Properties of GCN</div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px;align-items:start">
+        <div>
+          <div style="font-weight:600;font-size:14.5px;margin-bottom:6px">Q1 — Does GCN know which direction a message came from?</div>
+          <div id="gm-q2-opts" style="display:flex;flex-direction:column;gap:5px"></div>
+          <div id="gm-q2-hint" class="guidance-box cold" style="margin-top:5px"></div>
         </div>
-      </div>
-      <div class="card">
-        <div class="card-title">Reflect</div>
-        <textarea id="gm-ref" rows="4" style="width:100%;box-sizing:border-box;background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:8px;color:var(--text);font-family:inherit;resize:vertical;margin-bottom:10px" placeholder="Reflection: what information does A capture that W cannot, and vice versa?" oninput="gmUpdateSummary()"></textarea>
-        <div id="gm-summary" style="font-size:.88em;color:var(--muted);margin-bottom:10px"></div>
+        <div>
+          <div style="font-weight:600;font-size:14.5px;margin-bottom:6px">Q2 — Node 1 (h=1) and node 3 (h=0) sit in different parts of the graph. Does GCN use a different W for each of them?</div>
+          <div id="gm-q3-opts" style="display:flex;flex-direction:column;gap:5px"></div>
+          <div id="gm-q3-hint" class="guidance-box cold" style="margin-top:5px"></div>
+        </div>
       </div>
     </div>
   </div>

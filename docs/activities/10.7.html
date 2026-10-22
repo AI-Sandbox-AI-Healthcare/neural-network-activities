@@ -33,7 +33,7 @@
     <div class="card">
       <div class="card-title">Stage 1 — Unroll the Recurrence (h⁽⁰⁾ = 0)</div>
       <p style="font-size:14.5px;color:var(--muted);margin-bottom:12px">Substitute h⁽ᵗ⁻¹⁾ repeatedly to eliminate all h terms except h⁽⁰⁾ = 0. Pick the correct unrolled form for each step.</p>
-      <div style="display:flex;flex-direction:column;gap:14px;max-width:500px">
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px;align-items:start">
         <div class="ba-step-block">
           <div class="ba-step-label">h⁽¹⁾ = wh⁽⁰⁾ + ux⁽¹⁾ = ?</div>
           <div id="lr-q1-opts" style="display:flex;flex-direction:column;gap:4px"></div>
@@ -101,19 +101,12 @@
   </div>
 
   <div id="lr-s5" class="ba-locked-section" style="margin-top:16px">
-    <div class="two-col">
-      <div class="card">
-        <div class="card-title">Stage 5 — Roles of w and u</div>
-        <div style="font-weight:600;font-size:14.5px;margin-bottom:8px">What is the key difference between what w and u control?</div>
-        <div id="lr-q6-opts" style="display:flex;flex-direction:column;gap:5px;max-width:340px"></div>
-        <div id="lr-q6-hint" class="guidance-box cold" style="margin-top:8px;max-width:340px"></div>
-      </div>
-      <div class="card">
-        <div class="card-title">Reflect</div>
-        <p style="font-size:14.5px;color:var(--muted);margin-bottom:8px">If you wanted the RNN to still "remember" an input from 10 steps ago with at least 50% weight, what constraint must |w| satisfy? (Hint: the weight on x⁽ᵀ⁻¹⁰⁾ is w¹⁰.)</p>
-        <textarea id="lr-ref" rows="4" style="width:100%;box-sizing:border-box;background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:8px;color:var(--text);font-family:inherit;resize:vertical;margin-bottom:8px" placeholder="We need w¹⁰ ≥ 0.5, so |w| ≥ 0.5^(1/10) ≈ 0.933. Anything smaller and the 10-step-old input has less than half its original weight…" oninput="lrUpdateSummary()"></textarea>
-        <div id="lr-summary" style="font-size:.88em;color:var(--muted)"></div>
-      </div>
+    <div class="card">
+      <div class="card-title">Stage 5 — Roles of w and u</div>
+      <div style="font-weight:600;font-size:14.5px;margin-bottom:8px">What is the key difference between what w and u control?</div>
+      <div id="lr-q6-opts" style="display:flex;flex-direction:column;gap:5px;max-width:340px"></div>
+      <div id="lr-q6-hint" class="guidance-box cold" style="margin-top:8px;max-width:340px"></div>
+      <div id="lr-summary" style="font-size:.88em;color:var(--muted);margin-top:12px"></div>
     </div>
   </div>
 </div>

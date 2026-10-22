@@ -47,7 +47,7 @@ ACTIVITIES = [
     ("7.8",    "Early Stopping",             "When to stop training",               "Chapter 7",     ["initEarlyStop"],     ["7.8"]),
     ("7.12",   "Input Dropout",              "Beyond hidden layers",                "Chapter 7",     ["initDropout"],       ["7.12"]),
     ("7.KD",   "KD Regularizer",             "Taxonomy-aware reg.",                 "Chapter 7",     ["initTaxonomy"],      ["7.KD"]),
-    ("8.1",    "Surrogate Loss",             "When loss isn't trainable",           "Chapter 8",     ["initSurrogateLoss"], ["8.1"]),
+    ("8.1",    "Detector Loss",              "Real metric vs. surrogate loss",      "Chapter 8",     ["initSurrogateLoss"], ["8.1"]),
     ("8.2",    "Grad Norm",                  "Read the landscape",                  "Chapter 8",     ["initGradNorm"],      ["8.2"]),
     ("8.3",    "Momentum SGD",               "Velocity accumulation",               "Chapter 8",     ["initMomentum"],      ["8.3"]),
     ("8.4",    "Transfer Learn",             "Reuse pre-trained features",          "Chapter 8",     ["initTransferLearn"], ["8.4"]),
@@ -75,6 +75,11 @@ ACTIVITIES = [
 ]
 
 assert len(ACTIVITIES) == 38, len(ACTIVITIES)
+
+# Page <title>/<h1> when it should differ from the short landing-card title above.
+PAGE_HEADINGS = {
+    "8.1": "What Loss Do We Actually Care About?",
+}
 
 
 def extract_balanced_div(text: str, start: int) -> str:
@@ -157,12 +162,13 @@ def main():
     for act_id, title, sub, chapter, init_fns, group_ids in ACTIVITIES:
         panel_html = "\n\n".join(panels[t] for t in group_ids)
         init_calls = "\n  ".join(f"{fn}()" for fn in init_fns)
+        heading = PAGE_HEADINGS.get(act_id, title)
         page = f"""<!doctype html>
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>{title} · Neural Networks Activities</title>
+<title>{heading} · Neural Networks Activities</title>
 <link rel="stylesheet" href="../assets/app.css">
 {KATEX_LINKS}
 {ANALYTICS_TAG.format(root='../')}
@@ -170,7 +176,7 @@ def main():
 <body>
 <header class="app-header">
   <div>
-    <h1>{title}</h1>
+    <h1>{heading}</h1>
     <p class="header-sub">ISTA 457 / INFO 557 · {sub}</p>
   </div>
   <a href="../index.html" class="btn btn-g" style="text-decoration:none">&larr; All Activities</a>
@@ -220,18 +226,18 @@ document.addEventListener('DOMContentLoaded', () => {{
   --text:#1a1210; --muted:#5c4a3a; --blue:#1d4ed8; --green:#15803d;
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-body{background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,sans-serif;font-size:15px;line-height:1.6}
+body{background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,sans-serif;font-size:17px;line-height:1.6}
 .app-header{background:linear-gradient(135deg,#ede9e0,#f5f0e8);border-bottom:2px solid var(--border);padding:24px 32px}
-.app-header h1{font-size:24px;font-weight:800;letter-spacing:-.5px;color:var(--text)}
-.header-sub{color:var(--muted);font-size:13px;font-weight:500;margin-top:4px}
+.app-header h1{font-size:27px;font-weight:800;letter-spacing:-.5px;color:var(--text)}
+.header-sub{color:var(--muted);font-size:14.5px;font-weight:500;margin-top:4px}
 .app-main{max-width:1100px;margin:0 auto;padding:28px 24px 60px}
-.chapter-label{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);opacity:.75;margin:26px 0 10px}
+.chapter-label{font-size:12.5px;font-weight:800;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);opacity:.75;margin:26px 0 10px}
 .chapter-label:first-child{margin-top:0}
 .card-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px}
 .act-card{position:relative;display:block;text-decoration:none;background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:16px 18px;transition:box-shadow .15s,border-color .15s}
 .act-card:hover{border-color:var(--blue);box-shadow:0 2px 10px rgba(0,0,0,.06)}
-.act-title{font-weight:700;font-size:14px;color:var(--text);line-height:1.35}
-.act-sub{font-size:12px;color:var(--muted);font-weight:400;margin-top:4px;line-height:1.35}
+.act-title{font-weight:700;font-size:15.5px;color:var(--text);line-height:1.35}
+.act-sub{font-size:13.5px;color:var(--muted);font-weight:400;margin-top:4px;line-height:1.35}
 """
 
     landing = f"""<!doctype html>
