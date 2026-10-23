@@ -23,64 +23,89 @@
 
 <div id="tab-11.3" class="tab-panel">
   <div class="prob-card">
-    <div style="margin-bottom:10px"><span class="prob-badge">Activity 11.3</span><span class="prob-title">Learning Curve Diagnosis — High Bias vs. High Variance</span><span id="learncurve-completed" class="completed-badge">✓ 11.3 Completed</span></div>
-    <p class="prob-desc">Learning curves reveal whether a model is underfitting, overfitting, or needs more data. Diagnose two tasks and prescribe the correct fix for each.</p>
-  </div>
-  <div id="lc-s1" class="card" style="margin-top:12px">
-    <div class="card-title">Stage 1 — Learning Curve Anatomy</div>
-    <p style="font-size:14.5px;color:var(--muted);margin-bottom:10px">Click each pattern to see what it means and what remedy applies. Explore all four to continue.</p>
-    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px">
-      <button id="lc-pat-hb-btn" class="btn btn-g" onclick="lcShowPattern('hb')">High Bias</button>
-      <button id="lc-pat-hv-btn" class="btn btn-g" onclick="lcShowPattern('hv')">High Variance</button>
-      <button id="lc-pat-more-btn" class="btn btn-g" onclick="lcShowPattern('more')">More Data Helps</button>
-      <button id="lc-pat-done-btn" class="btn btn-g" onclick="lcShowPattern('done')">Converged OK</button>
+    <div style="margin-bottom:10px"><span class="prob-badge">Activity 11.3</span><span class="prob-title">Learning Curves — Bias, Variance and When to Get More Data</span><span id="learncurve-completed" class="completed-badge">✓ 11.3 Completed</span></div>
+    <p class="prob-desc">Two text classifiers have two different problems. Human annotators reach about <strong>95%</strong> accuracy on both tasks. <strong>Task A</strong>: training accuracy ≈ 60%, dev accuracy ≈ 45%. <strong>Task B</strong>: training ≈ 100%, dev ≈ 60%. You can spend your effort on a bigger model, on regularization, or on collecting more data. Which helps which task?</p>
+    <div class="eq-block" style="font-family:inherit;font-size:15px;line-height:2">
+      <span class="eq-line">Q1</span> What do the two gaps (human vs. train, train vs. dev) tell you?<br>
+      <span class="eq-line">Q2</span> Would more data help, and how much would you need?<br>
+      <span class="eq-line">Q3</span> What should you try first for each task?
     </div>
-    <div style="display:flex;gap:12px;align-items:flex-start;flex-wrap:wrap">
-      <svg id="lc-anatomy-svg" width="240" height="180" style="border:1px solid var(--border);border-radius:8px;background:var(--surface);flex-shrink:0"></svg>
-      <div id="lc-anatomy-desc" style="flex:1;min-width:150px;background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:12px;font-size:13.5px;color:var(--muted);line-height:1.7">Click a pattern button to see what it looks like and what it means.</div>
-    </div>
-    <div id="lc-pattern-progress" style="font-size:13.5px;color:var(--muted);margin-top:8px">Patterns explored: 0/4</div>
-    <button class="btn btn-p" style="margin-top:8px" id="lc-s1-btn" onclick="lcAdvanceS1()" disabled>Explore all patterns first →</button>
+    <div id="lc-eq" style="margin-bottom:10px"></div>
+    <div style="text-align:right;margin-top:14px"><button class="btn btn-p" onclick="lcUnlock(1)">Start →</button></div>
   </div>
+
+  <div id="lc-s1" class="ba-locked-section" style="margin-top:16px">
+    <div class="card">
+      <div class="card-title">Stage 1 — Measure the Two Gaps</div>
+      <p style="font-size:14.5px;color:var(--muted);margin-bottom:12px">Gaps are in percentage points. Human level stands in for the best accuracy you could hope for.</p>
+      <div style="display:flex;gap:14px;flex-wrap:wrap;align-items:center;font-family:'Courier New',monospace;font-weight:700;font-size:14.5px">
+        <span>A bias gap = <input id="lc-c-ab" class="rr-inp" style="width:56px" placeholder="?"></span>
+        <span>A variance gap = <input id="lc-c-av" class="rr-inp" style="width:56px" placeholder="?"></span>
+        <span>B variance gap = <input id="lc-c-bv" class="rr-inp" style="width:56px" placeholder="?"></span>
+        <button class="btn btn-g" onclick="lcCheckGaps()">Check</button>
+      </div>
+      <div id="lc-gaps-hint" class="guidance-box cold" style="margin-top:10px">Use the formulas above with the numbers from the problem.</div>
+      <div id="lc-s1b" class="ba-locked-section" style="margin-top:14px">
+        <div style="display:flex;gap:12px;flex-wrap:wrap;align-items:center;font-size:14.5px;font-weight:600">
+          <span>Task A's main problem:</span><select id="lc-d-A" class="sl-match-sel" onchange="this.className='sl-match-sel'"></select>
+          <span>Task B's main problem:</span><select id="lc-d-B" class="sl-match-sel" onchange="this.className='sl-match-sel'"></select>
+          <button class="btn btn-p" onclick="lcCheckDiag()">Check</button>
+        </div>
+        <div id="lc-diag-hint" class="guidance-box cold" style="margin-top:10px">Compare the sizes of each task's two gaps.</div>
+      </div>
+      <div id="lc-s1q" class="ba-locked-section" style="margin-top:16px">
+        <div id="lc-q1" style="max-width:560px"></div>
+      </div>
+    </div>
+  </div>
+
   <div id="lc-s2" class="ba-locked-section" style="margin-top:16px">
     <div class="card">
-      <div class="card-title">Stage 2 — Task A Diagnosis</div>
-      <div style="display:flex;gap:12px;align-items:flex-start;flex-wrap:wrap;margin-bottom:12px">
-        <svg id="lc-taskA-svg" width="240" height="170" style="border:1px solid var(--border);border-radius:8px;background:var(--surface);flex-shrink:0"></svg>
-        <div style="flex:1;min-width:140px;font-size:14.5px;color:var(--muted)">Task A: training performance ≈ 60%, dev performance ≈ 45%. Both curves have mostly converged and are flat.</div>
+      <div class="card-title">Stage 2 — Would More Data Help?</div>
+      <p style="font-size:14.5px;color:var(--muted);margin-bottom:12px">A <strong>learning curve</strong> plots accuracy against the size of the training set, here on a log scale where each step doubles the data. Solid lines show what you measured with the 16k examples you have. Drag the slider to see what collecting more would do.</p>
+      <div class="slider-row" style="max-width:520px"><span class="slider-label" style="width:170px"><span class="name">training set</span><span class="val" id="lc-n-val">16k</span></span><input type="range" id="lc-n" min="4" max="8" step="1" value="4" style="flex:1" oninput="lcDrawCurves()"></div>
+      <div style="display:flex;gap:16px;flex-wrap:wrap">
+        <svg id="lc-A-svg" width="300" height="200" style="background:var(--surf2);border:1px solid var(--border);border-radius:8px;display:block"></svg>
+        <svg id="lc-B-svg" width="300" height="200" style="background:var(--surf2);border:1px solid var(--border);border-radius:8px;display:block"></svg>
       </div>
-      <div style="font-weight:600;font-size:14.5px;margin-bottom:8px">What is the primary diagnosis for Task A?</div>
-      <div id="lc-q1-opts" style="display:flex;flex-direction:column;gap:5px;max-width:540px"></div>
-      <div id="lc-q1-hint" class="guidance-box cold" style="margin-top:8px;max-width:540px"></div>
+      <div id="lc-curve-info" class="algebra" style="font-size:13.5px;margin-top:10px"></div>
+      <div class="ba-step-block" style="margin:14px 0 0">
+        <div style="font-size:14.5px;font-weight:600;margin-bottom:10px">So far Task B's dev accuracy has gained about 4 points per doubling of the data. If that continues, how many doublings would take it from 60% to 76%?</div>
+        <div style="display:flex;gap:8px;align-items:center">doublings = <input id="lc-f-dbl" class="rr-inp" placeholder="?" autocomplete="off" onkeydown="if(event.key==='Enter')lcCheckFill('dbl')"><button class="btn btn-g" onclick="lcCheckFill('dbl')">Check</button></div>
+        <div id="lc-f-dbl-hint" class="guidance-box cold" style="margin-top:8px">Then check your answer with the slider.</div>
+      </div>
+      <div id="lc-tasks" style="font-size:14px;line-height:1.9;margin-top:12px"></div>
+      <div id="lc-s2q" class="ba-locked-section" style="margin-top:16px">
+        <div id="lc-q2" style="max-width:560px"></div>
+      </div>
     </div>
   </div>
+
   <div id="lc-s3" class="ba-locked-section" style="margin-top:16px">
     <div class="card">
-      <div class="card-title">Stage 3 — Fixing Task A</div>
-      <div style="font-weight:600;font-size:14.5px;margin-bottom:8px">For Task A (moderate bias + moderate variance), which set of steps is most appropriate?</div>
-      <div id="lc-q2-opts" style="display:flex;flex-direction:column;gap:5px;max-width:540px"></div>
-      <div id="lc-q2-hint" class="guidance-box cold" style="margin-top:8px;max-width:540px"></div>
-    </div>
-  </div>
-  <div id="lc-s4" class="ba-locked-section" style="margin-top:16px">
-    <div class="card">
-      <div class="card-title">Stage 4 — Task B Diagnosis</div>
-      <div style="display:flex;gap:12px;align-items:flex-start;flex-wrap:wrap;margin-bottom:12px">
-        <svg id="lc-taskB-svg" width="240" height="170" style="border:1px solid var(--border);border-radius:8px;background:var(--surface);flex-shrink:0"></svg>
-        <div style="flex:1;min-width:140px;font-size:14.5px;color:var(--muted)">Task B: training performance ≈ 100%, dev performance ≈ 60%. The train-dev gap is large and persistent.</div>
+      <div class="card-title">Stage 3 — Prescribe</div>
+      <p style="font-size:14.5px;color:var(--muted);margin-bottom:12px">For each action, choose the task it would help most, or "Neither".</p>
+      <div id="lc-match" style="display:flex;flex-direction:column;gap:10px"></div>
+      <button class="btn btn-p" style="margin-top:12px" onclick="lcCheckMatch()">Check</button>
+      <div id="lc-match-hint" class="guidance-box cold" style="margin-top:10px">Think about which gap each action closes.</div>
+      <div id="lc-s3q" class="ba-locked-section" style="margin-top:16px">
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px;align-items:start">
+          <div id="lc-q3"></div>
+          <div id="lc-q4"></div>
+        </div>
       </div>
-      <div style="font-weight:600;font-size:14.5px;margin-bottom:8px">What is the primary diagnosis for Task B?</div>
-      <div id="lc-q3-opts" style="display:flex;flex-direction:column;gap:5px;max-width:540px"></div>
-      <div id="lc-q3-hint" class="guidance-box cold" style="margin-top:8px;max-width:540px"></div>
     </div>
   </div>
-  <div id="lc-s5" class="ba-locked-section" style="margin-top:16px">
-    <div class="card">
-      <div class="card-title">Stage 5 — Fixing Task B</div>
-      <div style="font-weight:600;font-size:14.5px;margin-bottom:8px">For Task B (strong overfitting), which action would make things WORSE?</div>
-      <div id="lc-q4-opts" style="display:flex;flex-direction:column;gap:5px;max-width:360px"></div>
-      <div id="lc-q4-hint" class="guidance-box cold" style="margin-top:8px;max-width:360px"></div>
-      <div id="lc-summary" style="font-size:.88em;color:var(--muted);margin-top:12px"></div>
+
+  <div id="lc-s4" class="ba-locked-section" style="margin-top:16px">
+    <div class="card sl-takeaway">
+      <div class="card-title">Takeaway</div>
+      <ul style="padding-left:20px">
+        <li><strong>Two gaps, two problems.</strong> Human − train is the bias you could still remove (Task A: 35 points). Train − dev is variance (Task B: 40 points).</li>
+        <li><strong>Learning curves are plotted against training-set size.</strong> Training accuracy falls and dev accuracy rises until they meet. If they meet far below the target, as Task A's do at about 54%, more data cannot help.</li>
+        <li><strong>Goodfellow §11.3:</strong> first make the model fit its training set (a bigger model, tuned optimization). Gather more data only when it does and dev lags behind (Task B); regularization and augmentation are cheaper alternatives.</li>
+        <li><strong>Data needs grow on a log scale:</strong> Task B needs 16× the data for +16 points. If large, well-tuned models still cannot fit the training set, suspect the data itself (noisy labels or missing information).</li>
+      </ul>
     </div>
   </div>
 </div>

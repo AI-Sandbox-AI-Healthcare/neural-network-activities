@@ -14,7 +14,7 @@
 <header class="app-header">
   <div>
     <h1>Gradient Attribution</h1>
-    <p class="header-sub">ISTA 457 / INFO 557 · Saliency vs LIME vs SHAP</p>
+    <p class="header-sub">ISTA 457 / INFO 557 · Saliency, occlusion & Shapley</p>
   </div>
   <a href="../index.html" class="btn btn-g" style="text-decoration:none">&larr; All Activities</a>
 </header>
@@ -23,57 +23,101 @@
 
 <div id="tab-11.GA" class="tab-panel">
   <div class="prob-card">
-    <div style="margin-bottom:10px">
-      <span class="prob-badge">Activity 11.GA</span>
-      <span class="prob-title">Gradient Attribution vs. LIME vs. SHAP</span>
-      <span id="gradattr-completed" class="completed-badge">✓ 11.GA Completed</span>
+    <div style="margin-bottom:10px"><span class="prob-badge">Activity 11.GA</span><span class="prob-title">Gradient Attribution vs. Occlusion vs. Shapley Values</span><span id="gradattr-completed" class="completed-badge">✓ 11.GA Completed</span></div>
+    <p class="prob-desc">Attribution methods give each input word a share of the credit for a prediction. They often disagree, because each one answers a different question. You will compute four of them by hand on two tiny sentiment models and see where each one breaks.</p>
+    <div class="eq-block" style="font-family:inherit;font-size:15px;line-height:2">
+      <span class="eq-line">Q1</span> What does each method actually measure?<br>
+      <span class="eq-line">Q2</span> When does a word that matters get zero credit?<br>
+      <span class="eq-line">Q3</span> How can you tell whether an explanation reflects the model at all?
     </div>
-    <p class="prob-desc">Three interpretability methods — saliency (gradient attribution), LIME, and SHAP — can give different explanations for the same prediction. Explore when and why they disagree, find "right prediction for wrong reason" cases, and decide when to trust an explanation.</p>
+    <div id="ga-eq" style="margin-bottom:10px"></div>
+    <div style="text-align:right;margin-top:14px"><button class="btn btn-p" onclick="gaUnlock(1)">Start →</button></div>
   </div>
-  <div class="card">
-    <div class="card-title">Stage 1 · Three Methods on One Sentence</div>
-    <p style="font-size:14.5px;color:var(--muted);margin-bottom:12px">A sentiment classifier predicts <strong>POSITIVE</strong> for "I loved this movie!". Click each method to see what it measures and which tokens it highlights.</p>
-    <div style="display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap">
-      <button class="btn btn-g" id="ga-m-sal-btn" onclick="gaShowMethod('sal')">Saliency</button>
-      <button class="btn btn-g" id="ga-m-lime-btn" onclick="gaShowMethod('lime')">LIME</button>
-      <button class="btn btn-g" id="ga-m-shap-btn" onclick="gaShowMethod('shap')">SHAP</button>
-    </div>
-    <svg id="ga-svg" width="520" height="140" style="display:block;border:1px solid var(--border);border-radius:8px;background:var(--surf2);margin-bottom:10px"></svg>
-    <div id="ga-method-desc" style="font-size:14.5px;color:var(--muted);min-height:44px;margin-bottom:10px"></div>
-    <div id="ga-methods-progress" style="font-size:13.5px;color:var(--muted);margin-bottom:10px">Methods explored: 0/3</div>
-    <button class="btn btn-p" id="ga-s1-btn" onclick="gaAdvanceS1()" disabled>Explore all methods to continue →</button>
-  </div>
-  <div id="ga-s2" class="ba-locked-section">
+
+  <div id="ga-s1" class="ba-locked-section" style="margin-top:16px">
     <div class="card">
-      <div class="card-title">Stage 2 · What Saliency Actually Measures</div>
-      <p style="font-size:14.5px;color:var(--muted);margin-bottom:8px">Saliency gives "loved" a score of 0.82 — the gradient of the output with respect to the "loved" token embedding is large. What does a large gradient <em>actually</em> tell you?</p>
-      <div id="ga-q1-opts" style="display:flex;flex-direction:column;gap:5px;max-width:400px"></div>
-      <div id="ga-q1-hint" class="guidance-box cold" style="margin-top:8px;max-width:400px"></div>
+      <div class="card-title">Stage 1 — "a great, wonderful film"</div>
+      <p style="font-size:14.5px;color:var(--muted);margin-bottom:12px">Each word has an indicator x = 1 if it is present and 0 if it is deleted. This model's positive score is clipped at 1, like a saturated sigmoid: <strong>f = min(1, 0.8·x<sub>great</sub> + 0.8·x<sub>wonderful</sub>)</strong>. In the full sentence both indicators are 1.</p>
+      <table class="contrib-table" style="max-width:420px;margin-bottom:12px"><tr><th>words present</th><th>f</th></tr><tr><td>neither</td><td>0</td></tr><tr><td>great only</td><td>0.8</td></tr><tr><td>wonderful only</td><td>0.8</td></tr><tr><td>both (the sentence)</td><td>1</td></tr></table>
+      <div style="display:flex;gap:14px;flex-wrap:wrap;align-items:center;font-size:14.5px">
+        <span>Saliency of "great", ∂f/∂x<sub>great</sub> at the sentence: <input id="ga-f-sal" class="rr-inp" placeholder="?" autocomplete="off" onkeydown="if(event.key==='Enter')gaCheckFill('sal')"></span><button class="btn btn-g" onclick="gaCheckFill('sal')">Check</button>
+      </div>
+      <div id="ga-f-sal-hint" class="guidance-box cold" style="margin-top:8px">What happens to f if x<sub>great</sub> changes a tiny bit?</div>
+      <div style="display:flex;gap:14px;flex-wrap:wrap;align-items:center;font-size:14.5px;margin-top:12px">
+        <span>Occlusion: how much does f drop when only "great" is deleted? <input id="ga-f-occ" class="rr-inp" placeholder="?" autocomplete="off" onkeydown="if(event.key==='Enter')gaCheckFill('occ')"></span><button class="btn btn-g" onclick="gaCheckFill('occ')">Check</button>
+      </div>
+      <div id="ga-f-occ-hint" class="guidance-box cold" style="margin-top:8px">Use the table.</div>
+      <div class="ba-step-block" style="margin:14px 0 0">
+        <div style="font-size:14.5px;font-weight:600;margin-bottom:8px">Integrated gradients walk from a blank input (all x = 0) to the sentence, x(α) = α·(1, 1) for α from 0 to 1, collecting the slope ∂f/∂x<sub>great</sub> along the way. Drag α.</div>
+        <div style="display:flex;gap:20px;flex-wrap:wrap;align-items:flex-start">
+          <svg id="ga-path-svg" width="360" height="190" style="background:var(--surf2);border:1px solid var(--border);border-radius:8px;display:block;max-width:100%"></svg>
+          <div style="flex:1;min-width:220px">
+            <div class="slider-row"><span class="slider-label" style="width:90px"><span class="name">α</span><span class="val" id="ga-alpha-val">0</span></span><input type="range" id="ga-alpha" min="0" max="1" step="0.025" value="0" style="flex:1" oninput="gaDrawPath()"></div>
+            <div id="ga-path-calc" class="algebra" style="font-size:13px"></div>
+          </div>
+        </div>
+        <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:10px">Integrated gradient of "great" at α = 1: <input id="ga-f-ig" class="rr-inp" placeholder="?" autocomplete="off" onkeydown="if(event.key==='Enter')gaCheckFill('ig')"><button class="btn btn-g" onclick="gaCheckFill('ig')">Check</button></div>
+        <div id="ga-f-ig-hint" class="guidance-box cold" style="margin-top:8px">It is the shaded area.</div>
+      </div>
+      <div id="ga-s1q" class="ba-locked-section" style="margin-top:16px">
+        <div id="ga-q1" style="max-width:560px"></div>
+      </div>
     </div>
   </div>
-  <div id="ga-s3" class="ba-locked-section">
+
+  <div id="ga-s2" class="ba-locked-section" style="margin-top:16px">
     <div class="card">
-      <div class="card-title">Stage 3 · Right Prediction, Wrong Reason</div>
-      <p style="font-size:14.5px;color:var(--muted);margin-bottom:8px">The model correctly predicts <strong>POSITIVE</strong> for "This movie was not bad." Saliency highlights <strong>"bad"</strong> with a large positive-class score. What is happening?</p>
-      <div id="ga-q2-opts" style="display:flex;flex-direction:column;gap:5px;max-width:400px"></div>
-      <div id="ga-q2-hint" class="guidance-box cold" style="margin-top:8px;max-width:400px"></div>
+      <div class="card-title">Stage 2 — Shapley Values for "not bad"</div>
+      <p style="font-size:14.5px;color:var(--muted);margin-bottom:12px">A second model has an interaction: "not" flips "bad". Its positive score for each set of words present:</p>
+      <table class="contrib-table" style="max-width:420px;margin-bottom:12px"><tr><th>words present</th><th>f</th></tr><tr><td>neither</td><td>0.5</td></tr><tr><td>not</td><td>0.4</td></tr><tr><td>bad</td><td>0.1</td></tr><tr><td>not bad</td><td>0.8</td></tr></table>
+      <p style="font-size:14.5px;color:var(--muted);margin-bottom:10px">With two words there are two orders of adding them: "not" then "bad", or "bad" then "not". A word's Shapley value is the average of what it adds in the two orders.</p>
+      <div style="display:flex;gap:14px;flex-wrap:wrap;align-items:center;font-size:14.5px">
+        <span>φ<sub>not</sub> = <input id="ga-f-phinot" class="rr-inp" placeholder="?" autocomplete="off" onkeydown="if(event.key==='Enter')gaCheckFill('phinot')"></span><button class="btn btn-g" onclick="gaCheckFill('phinot')">Check</button>
+      </div>
+      <div id="ga-f-phinot-hint" class="guidance-box cold" style="margin-top:8px">What does "not" add when it comes first? And when it comes second?</div>
+      <div style="display:flex;gap:14px;flex-wrap:wrap;align-items:center;font-size:14.5px;margin-top:12px">
+        <span>φ<sub>bad</sub> = <input id="ga-f-phibad" class="rr-inp" placeholder="?" autocomplete="off" onkeydown="if(event.key==='Enter')gaCheckFill('phibad')"></span><button class="btn btn-g" onclick="gaCheckFill('phibad')">Check</button>
+      </div>
+      <div id="ga-f-phibad-hint" class="guidance-box cold" style="margin-top:8px">The same two orders, from the point of view of "bad".</div>
+      <div id="ga-s2q" class="ba-locked-section" style="margin-top:16px">
+        <div id="ga-q2" style="max-width:560px"></div>
+      </div>
     </div>
   </div>
-  <div id="ga-s4" class="ba-locked-section">
+
+  <div id="ga-s3" class="ba-locked-section" style="margin-top:16px">
     <div class="card">
-      <div class="card-title">Stage 4 · When Methods Disagree</div>
-      <p style="font-size:14.5px;color:var(--muted);margin-bottom:8px">For "I loved this movie!": saliency ranks "loved" highest (0.82), but LIME ranks "movie" as most impactful when removed (0.30 vs. saliency's 0.03). What explains this disagreement?</p>
-      <div id="ga-q3-opts" style="display:flex;flex-direction:column;gap:5px;max-width:400px"></div>
-      <div id="ga-q3-hint" class="guidance-box cold" style="margin-top:8px;max-width:400px"></div>
+      <div class="card-title">Stage 3 — Which Question Does Each Method Answer?</div>
+      <p style="font-size:14.5px;color:var(--muted);margin-bottom:12px">Match each question to the method that answers it.</p>
+      <div id="ga-match" style="display:flex;flex-direction:column;gap:10px"></div>
+      <button class="btn btn-p" style="margin-top:12px" onclick="gaCheckMatch()">Check matches</button>
+      <div id="ga-match-hint" class="guidance-box cold" style="margin-top:10px">Each method is used once.</div>
+      <div id="ga-s3q" class="ba-locked-section" style="margin-top:16px">
+        <div id="ga-q3" style="max-width:560px"></div>
+      </div>
     </div>
   </div>
-  <div id="ga-s5" class="ba-locked-section">
+
+  <div id="ga-s4" class="ba-locked-section" style="margin-top:16px">
     <div class="card">
-      <div class="card-title">Stage 5 · Deciding to Trust</div>
-      <p style="font-size:14.5px;color:var(--muted);margin-bottom:8px">Which sanity check provides the strongest evidence that an interpretability method is actually examining the model's learned behavior rather than just the input structure?</p>
-      <div id="ga-q4-opts" style="display:flex;flex-direction:column;gap:5px;max-width:400px"></div>
-      <div id="ga-q4-hint" class="guidance-box cold" style="margin-top:8px;max-width:400px"></div>
-      <div id="ga-summary" style="font-size:.88em;color:var(--muted);margin-top:12px"></div>
+      <div class="card-title">Stage 4 — Can You Trust an Explanation?</div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px;align-items:start">
+        <div id="ga-q4"></div>
+        <div id="ga-q5"></div>
+      </div>
+    </div>
+  </div>
+
+  <div id="ga-s5" class="ba-locked-section" style="margin-top:16px">
+    <div class="card sl-takeaway">
+      <div class="card-title">Takeaway</div>
+      <ul style="padding-left:20px">
+        <li><strong>Saliency</strong> is the slope at the input. When the output is saturated, it gives 0 even to words the prediction depends on.</li>
+        <li><strong>Occlusion</strong> deletes one word at a time. When two words carry redundant evidence, each one looks unimportant on its own (0.2 here).</li>
+        <li><strong>Shapley values</strong> average a word's contribution over every order of adding the words and always add up to f(x) − f(blank). Interactions get split: φ<sub>bad</sub> = 0, although "bad" changes the score by ±0.4. The exact values need 2<sup>n</sup> model evaluations, so KernelSHAP samples them.</li>
+        <li><strong>Integrated gradients</strong> collect the slope along a path from a blank input, so they also add up to the total (0.5 + 0.5 = 1).</li>
+        <li><strong>Trust needs tests:</strong> an explanation that does not change when the weights are randomized ignores the model (Adebayo et al., 2018). The best use of explanations is catching models that are right for the wrong reason, like snow meaning "wolf".</li>
+      </ul>
     </div>
   </div>
 </div>

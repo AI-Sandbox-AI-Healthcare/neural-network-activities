@@ -24,93 +24,136 @@
 <div id="tab-9.GC.2" class="tab-panel">
   <div class="prob-card">
     <div style="margin-bottom:10px"><span class="prob-badge">Activity 9.GC.2</span><span class="prob-title">Can Graph Conv Replace Image Conv?</span><span id="ge-completed" class="completed-badge">✓ 9.GC.2 Completed</span></div>
-    <div id="ge-prob-eq" style="margin-bottom:16px"></div>
-    <p class="prob-desc">You are processing images with a regular 3×3 convolution using kernel K shown below. Can you treat each pixel as a graph node and use <strong>h_i = f(W·h·A* + b)</strong> with some A and W to achieve the <em>same</em> result? If so, define them. If not, explain why not.</p>
-    <div style="display:flex;gap:32px;flex-wrap:wrap;align-items:flex-start;margin-top:14px">
-      <div>
-        <div class="section-label">Kernel K (position-specific weights)</div>
-        <div id="ge-kernel-grid" style="display:grid;grid-template-columns:repeat(3,52px);gap:3px"></div>
-      </div>
-      <div style="font-size:22.5px;color:var(--muted);padding-top:28px">vs</div>
-      <div>
-        <div class="section-label">GCN: same W for every neighbour</div>
-        <div id="ge-gcn-grid" style="display:grid;grid-template-columns:repeat(3,52px);gap:3px"></div>
-        <div style="margin-top:8px;display:flex;align-items:center;gap:8px;font-size:14.5px">
-          W = <input type="range" id="ge-W-sl" min="1" max="9" step="1" value="5" style="width:100px" oninput="geUpdateW()">
-          <span id="ge-W-val" style="font-family:monospace;font-weight:700">5</span>
-        </div>
-      </div>
-      <div style="flex:1;min-width:200px">
-        <div id="ge-mismatch-disp" style="font-size:14.5px;background:var(--surf2);border-radius:8px;padding:12px;line-height:2;font-family:monospace"></div>
-      </div>
+    <p class="prob-desc">You are processing images with a regular 3×3 convolution using a kernel K. Can you treat each pixel as a graph node and use <strong>h = f(W·h·A* + b)</strong> with some A and W to get the <em>same</em> result? If so, define them. If not, explain why not.</p>
+    <div class="eq-block" style="font-family:inherit;font-size:15px;line-height:2">
+      <span class="eq-line">Q1</span> How do we write an image as a graph, i.e. what is A*?<br>
+      <span class="eq-line">Q2</span> Can the usual 0/1 adjacency with one weight W reproduce a 3×3 kernel?<br>
+      <span class="eq-line">Q3</span> What if A may hold any numbers — and what breaks with several channels?
     </div>
-    <div style="text-align:right;margin-top:14px"><button class="btn btn-p" onclick="geUnlock(1)">I see the difference — explore further →</button></div>
+    <div id="ge-prob-eq" style="margin-bottom:10px"></div>
+    <div style="text-align:right;margin-top:14px"><button class="btn btn-p" onclick="geUnlock(1)">Start →</button></div>
   </div>
 
   <div id="ge-s1" class="ba-locked-section" style="margin-top:16px">
     <div class="card">
-      <div class="card-title">Stage 1 — Define A for the Image Graph</div>
+      <div class="card-title">Stage 1 — Write a 3×3 Image as a Graph</div>
+      <p style="font-size:14.5px;color:var(--muted);margin-bottom:14px">Each pixel is a node. A 3×3 convolution lets every pixel see its 3×3 neighbourhood, so connect each pixel to its up-to-8 neighbours (including diagonals), plus itself. Fill in <strong>row 0</strong> of A* — the corner pixel — by clicking cells to toggle 0 / 1.</p>
       <div style="display:flex;gap:24px;flex-wrap:wrap;align-items:flex-start">
         <div>
-          <div class="section-label">Image pixels as graph nodes</div>
+          <div class="section-label">Pixels as nodes</div>
           <svg id="ge-svg" width="220" height="220" style="background:var(--surf2);border:1px solid var(--border);border-radius:8px;display:block"></svg>
-          <div style="margin-top:6px;font-size:13.5px;color:var(--muted);max-width:220px">Each pixel is a node. Edges = 8-neighbourhood (king moves).</div>
         </div>
-        <div style="flex:1;min-width:220px">
-          <p style="font-size:14.5px;color:var(--muted);margin-bottom:12px">For a 3×3 convolution, each output pixel aggregates its 3×3 neighbourhood. Let's model this as a graph where every pixel connects to its 8 neighbours (+ itself via self-loop in A*).</p>
-          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px;align-items:start">
-            <div>
-              <div style="font-weight:600;font-size:14.5px;margin-bottom:6px">Q1 — The corner pixel (node 0) has how many neighbours (excluding itself)?</div>
-              <div id="ge-q1-opts" style="display:flex;flex-direction:column;gap:5px"></div>
-              <div id="ge-q1-hint" class="guidance-box cold" style="margin-top:5px"></div>
-            </div>
-            <div>
-              <div style="font-weight:600;font-size:14.5px;margin-bottom:6px">Q2 — So A is well-defined. Can we also define a single W that replicates K?</div>
-              <div id="ge-q2-opts" style="display:flex;flex-direction:column;gap:5px"></div>
-              <div id="ge-q2-hint" class="guidance-box cold" style="margin-top:5px"></div>
-            </div>
-          </div>
+        <div style="flex:1;min-width:300px">
+          <div class="section-label">A* (9×9) — your row is row 0</div>
+          <div id="ge-adj-grid" style="display:grid;grid-template-columns:repeat(10,30px);gap:2px;margin-bottom:10px"></div>
+          <button class="btn btn-p" onclick="geCheckRow()">Check row 0</button>
+          <div id="ge-row-hint" class="guidance-box cold" style="margin-top:10px">Which pixels touch pixel 0, the top-left corner? Don't forget the self-loop.</div>
         </div>
       </div>
-      <div style="text-align:right;margin-top:14px"><button class="btn btn-p" id="ge-s1-btn" onclick="geUnlock(2)" disabled>Show me why →</button></div>
+      <div id="ge-s1q" class="ba-locked-section" style="margin-top:18px">
+        <div id="ge-q1" style="max-width:560px"></div>
+      </div>
     </div>
   </div>
 
   <div id="ge-s2" class="ba-locked-section" style="margin-top:16px">
     <div class="card">
-      <div class="card-title">Stage 2 — The Position Problem</div>
-      <p style="font-size:14.5px;color:var(--muted);margin-bottom:14px">GCN computes: <strong>h_new[i] = W × (sum of h[j] for j ∈ neighbours(i))</strong>. The same scalar W is applied to every neighbour. Compare this to conv:</p>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:14px">
-        <div style="background:#eff6ff;border:1px solid #bfdbfe;border-radius:8px;padding:14px">
-          <div style="font-weight:700;color:var(--blue);margin-bottom:8px;font-size:14.5px">Image Convolution (for output pixel at centre)</div>
-          <div style="font-family:monospace;font-size:13.5px;line-height:2" id="ge-conv-show"></div>
+      <div class="card-title">Stage 2 — The Usual GCN: 0/1 Adjacency, One W</div>
+      <p style="font-size:14.5px;color:var(--muted);margin-bottom:14px">A 7×7 image with a bright vertical bar. On the left, convolution with a vertical-edge kernel. On the right, the GCN with the 0/1 A* from Stage 1 and one weight W. Each output sits at the centre of its 3×3 patch, and the image is padded with one ring of zeros (p = 1 in 9.1's terms) so the output stays 7×7. Drag W: can the GCN match?</p>
+      <div style="display:flex;gap:22px;flex-wrap:wrap;align-items:flex-start">
+        <div>
+          <div class="section-label">Image</div>
+          <svg id="ge-img-svg" width="190" height="190" style="display:block"></svg>
         </div>
-        <div style="background:#fff7ed;border:1px solid #fed7aa;border-radius:8px;padding:14px">
-          <div style="font-weight:700;color:var(--orange);margin-bottom:8px;font-size:14.5px">GCN (single W, sum aggregation)</div>
-          <div style="font-family:monospace;font-size:13.5px;line-height:2" id="ge-gcn-show"></div>
+        <div>
+          <div class="section-label">Convolution, edge kernel</div>
+          <svg id="ge-conv-svg" width="190" height="190" style="display:block"></svg>
+          <div style="font-size:13px;color:var(--muted);margin-top:6px;font-family:monospace">K = [[1,0,−1],[1,0,−1],[1,0,−1]]</div>
+        </div>
+        <div>
+          <div class="section-label">GCN, 0/1 A*, one W</div>
+          <svg id="ge-gcn-svg" width="190" height="190" style="display:block"></svg>
+          <div style="margin-top:6px;display:flex;align-items:center;gap:8px;font-size:14px">W = <input type="range" id="ge-W2" min="-2" max="2" step="1" value="1" style="width:100px" oninput="geImageUpdate()"><span id="ge-W2-val" style="font-family:monospace;font-weight:700">1</span></div>
+          <div id="ge-gcn-match" style="font-size:13.5px;font-weight:700;margin-top:4px"></div>
         </div>
       </div>
-      <div style="font-weight:600;font-size:14.5px;margin-bottom:6px">Q3 — Which kernel <em>could</em> GCN emulate with a single W and uniform A*?</div>
-      <div id="ge-q3-opts" style="display:flex;flex-direction:column;gap:5px;max-width:400px"></div>
-      <div id="ge-q3-hint" class="guidance-box cold" style="margin-top:6px;max-width:400px"></div>
+      <div id="ge-checklist" style="font-size:14.5px;line-height:2;margin-top:10px"></div>
+      <div id="ge-s2q" class="ba-locked-section" style="margin-top:18px">
+        <div id="ge-q2" style="max-width:560px"></div>
+      </div>
     </div>
   </div>
 
   <div id="ge-s3" class="ba-locked-section" style="margin-top:16px">
     <div class="card">
-      <div class="card-title">Stage 3 — Conclusion</div>
-      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px;align-items:start">
+      <div class="card-title">Stage 3 — What If A May Hold Any Numbers?</div>
+      <p style="font-size:14.5px;color:var(--muted);margin-bottom:14px">The problem says "<em>some</em> A". Let A be weighted: instead of 1, each connection gets a number — the same pattern of numbers around every pixel. Set the weight each pixel gives to each of its 9 neighbourhood positions (click to cycle 0 → 1 → −1), keep W = 1, and try to match the convolution.</p>
+      <div style="display:flex;gap:22px;flex-wrap:wrap;align-items:flex-start">
         <div>
-          <div style="font-weight:600;font-size:14.5px;margin-bottom:6px">Q4 — Is it possible to emulate K = [[1..9]] with standard GCN (single A*, single W)?</div>
-          <div id="ge-q4-opts" style="display:flex;flex-direction:column;gap:5px"></div>
-          <div id="ge-q4-hint" class="guidance-box cold" style="margin-top:5px"></div>
+          <div class="section-label">Weight per neighbour position</div>
+          <div id="ge-stencil" style="display:grid;grid-template-columns:repeat(3,48px);gap:4px"></div>
+          <div style="font-size:13px;color:var(--muted);margin-top:6px;max-width:170px">centre = the pixel itself; up-left = its up-left neighbour, …</div>
         </div>
         <div>
-          <div style="font-weight:600;font-size:14.5px;margin-bottom:6px">Q5 — To support arbitrary kernels in a GCN, what change is needed?</div>
-          <div id="ge-q5-opts" style="display:flex;flex-direction:column;gap:5px"></div>
-          <div id="ge-q5-hint" class="guidance-box cold" style="margin-top:5px"></div>
+          <div class="section-label">Convolution, edge kernel</div>
+          <svg id="ge-conv2-svg" width="190" height="190" style="display:block"></svg>
+        </div>
+        <div>
+          <div class="section-label">GCN with your weighted A</div>
+          <svg id="ge-wa-svg" width="190" height="190" style="display:block"></svg>
+          <div id="ge-wa-match" style="font-size:13.5px;font-weight:700;margin-top:6px"></div>
         </div>
       </div>
+      <div id="ge-s3q" class="ba-locked-section" style="margin-top:18px">
+        <div id="ge-q3" style="max-width:560px"></div>
+      </div>
+    </div>
+  </div>
+
+  <div id="ge-s4" class="ba-locked-section" style="margin-top:16px">
+    <div class="card">
+      <div class="card-title">Stage 4 — Several Channels: Where One A Breaks</div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:24px;align-items:start">
+        <div style="font-size:14.5px;color:var(--muted);line-height:1.8">
+          <p style="margin-bottom:8px">Real conv layers have several input channels c and output channels o. A conv layer has a <strong>separate 3×3 pattern for every pair (o, c)</strong>.</p>
+          <p style="margin-bottom:8px">In h′ = W·h·A, the matrix W only mixes channels and A only mixes pixels, so output channel o gets</p>
+          <div class="algebra" style="font-size:14px;margin-bottom:8px">h′[o] = Σ<sub>c</sub> W[o][c] · (h[c] · A)</div>
+          <p>Every pair (o, c) therefore uses <strong>the same spatial pattern A</strong>, just scaled by the number W[o][c].</p>
+        </div>
+        <div id="ge-q4"></div>
+      </div>
+      <div style="margin-top:20px;display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:24px;align-items:start">
+        <div style="font-size:14.5px;color:var(--muted);line-height:1.8">
+          <div class="section-label">The general fix</div>
+          <p>Use <strong>nine</strong> 0/1 adjacency matrices A<sub>k</sub>, one per neighbour position k ("A<sub>up-left</sub>[j][i] = 1 if j is i's up-left neighbour"), each with its own learned channel-mixing matrix W<sub>k</sub>:</p>
+          <div class="algebra" style="font-size:14px;margin:8px 0">h′ = f( Σ<sub>k</sub> W<sub>k</sub> · h · A<sub>k</sub> + b )</div>
+          <p>Now every (o, c, position) has its own weight W<sub>k</sub>[o][c] — exactly a conv layer. Graph models that give different edge types their own weights (relational GCNs) use the same idea.</p>
+        </div>
+        <div id="ge-q5"></div>
+      </div>
+    </div>
+  </div>
+
+  <div id="ge-s5" class="ba-locked-section" style="margin-top:16px">
+    <div class="card">
+      <div class="card-title">Stage 5 — The Flip Side: Real Graphs</div>
+      <p style="font-size:14.5px;color:var(--muted);margin-bottom:14px">On images, "one W for every neighbour" is a limitation. But molecules and social networks have no "up" or "left", and one node may have 3 neighbours while another has 300.</p>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px;align-items:start">
+        <div id="ge-q6"></div>
+        <div id="ge-q7"></div>
+      </div>
+    </div>
+  </div>
+
+  <div id="ge-s6" class="ba-locked-section" style="margin-top:16px">
+    <div class="card sl-takeaway">
+      <div class="card-title">Takeaway — the full answer</div>
+      <ul style="padding-left:20px">
+        <li><strong>With the usual 0/1 A* and one W: no.</strong> A* says which pixels are neighbours but not where they sit, so every neighbour gets the same weight — only an all-equal kernel (a blur) is possible.</li>
+        <li><strong>With a weighted A: yes, for one channel.</strong> Put the kernel weight for each neighbour position into A and set W = 1. But then A is the kernel copied in by hand, directed (up-left ≠ down-right), and tied to the pixel grid.</li>
+        <li><strong>With several channels, one A is not enough</strong>: every channel pair shares A's pattern. One A<sub>k</sub> and W<sub>k</sub> per position, h′ = f(Σ<sub>k</sub> W<sub>k</sub>·h·A<sub>k</sub> + b), recovers a full conv layer.</li>
+        <li><strong>On real graphs</strong> neighbours have no positions, so GCN's shared, order-free rule is exactly right: reorder the nodes and the outputs are reordered the same way (permutation equivariance).</li>
+      </ul>
     </div>
   </div>
 </div>

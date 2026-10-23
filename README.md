@@ -43,7 +43,7 @@ Lecture and textbook material on things like backprop, regularization, or attent
 - 8.7.1 · Batch Norm — controlling column means
 
 **Chapter 9 — Convolutional Networks**
-- 9.1 · Cross-Correlation — slide the kernel, fill the output
+- 9.1 · Convolution — slide a pattern detector over an image
 - 9.3 · Adaptive Pooling — fixed output size for any input
 - 9.GC.1 · GCN Mechanics — graph, adjacency matrix, message passing
 - 9.GC.2 · Conv vs GCN — can graph convolution replace image convolution?
@@ -57,7 +57,7 @@ Lecture and textbook material on things like backprop, regularization, or attent
 - 10.4 · NER as Seq2Seq — token classification vs. generation
 - 10.6 · Recursive NNs — beyond language trees
 - 10.7 · Linear RNN Stability — unrolling, w vs u
-- 10.10 · GRU vs LSTM — architecture search space
+- 10.10 · GRU vs LSTM — gates as learned memory
 - 10.TF · Transformer Positional Encoding — beyond sinusoids
 
 **Chapter 11 — Evaluation & Interpretability**
@@ -65,7 +65,7 @@ Lecture and textbook material on things like backprop, regularization, or attent
 - 11.3 · Learning Curves — bias vs. variance diagnosis
 - 11.4 · Hyperband — bracket search budget
 - 11.LS · LIME for EEG — neighborhoods in time-series
-- 11.GA · Gradient Attribution — saliency vs LIME vs SHAP
+- 11.GA · Gradient Attribution — saliency, occlusion & Shapley values
 
 On GitHub Pages, each activity is its own page: `docs/activities/<number>.html`, e.g. `docs/activities/6.4.html` opens Linear Regions directly. See [Publishing to GitHub Pages](#publishing-to-github-pages) below.
 

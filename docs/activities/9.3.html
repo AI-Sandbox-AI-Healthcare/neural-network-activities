@@ -23,78 +23,117 @@
 
 <div id="tab-9.3" class="tab-panel">
   <div class="prob-card">
-    <div style="margin-bottom:10px"><span class="prob-badge">Activity 9.3</span><span class="prob-title">Pooling Size Adapter</span><span id="pl-completed" class="completed-badge">✓ 9.3 Completed</span></div>
-    <div id="pl-prob-eq" style="margin-bottom:16px"></div>
-    <p class="prob-desc"><strong>Problem:</strong> You are training a classifier on images that range from 32×32 to 7680×4320. The layers <em>after</em> pooling must have a fixed spatial size so that the same weight matrix works for every image. How do you set up pooling to achieve this?</p>
+    <div style="margin-bottom:10px"><span class="prob-badge">Activity 9.3</span><span class="prob-title">Adaptive Pooling — A Fixed Output Size for Any Input</span><span id="pl-completed" class="completed-badge">✓ 9.3 Completed</span></div>
+    <p class="prob-desc">Your CNN ends in a dense layer that expects exactly <strong>4 numbers per channel</strong>. But photos arrive at many different sizes. Ordinary pooling uses a fixed window, so its output grows and shrinks with the input — and the dense layer no longer fits. <strong>Adaptive pooling</strong> flips the idea: you fix the output size, and the windows adapt to the input.</p>
+    <div class="eq-block" style="font-family:inherit;font-size:15px;line-height:2">
+      <span class="eq-line">Q1</span> What does pooling compute, and what does it ignore?<br>
+      <span class="eq-line">Q2</span> Why does ordinary pooling's output size depend on the input?<br>
+      <span class="eq-line">Q3</span> How does adaptive pooling always produce the same size — and what does it cost?
+    </div>
+    <div id="pl-prob-eq" style="margin-bottom:14px"></div>
+    <div class="given-row">
+      <div class="given-box"><div class="given-lbl">Input length n</div><div class="given-val">varies — any size</div></div>
+      <div class="given-box"><div class="given-lbl">Dense layer expects</div><div class="given-val">4 values per channel</div></div>
+      <div class="given-box"><div class="given-lbl">🎯 Find</div><div class="given-val">a pooling rule whose output is always 4</div></div>
+    </div>
+    <p style="font-size:13.5px;color:var(--muted);margin-top:12px">We use one row (1D) and count positions from 0 (x0, x1, …), as in code. In 2D, the same rule is applied to the height and to the width separately, and to every channel on its own.</p>
+    <div style="text-align:right;margin-top:10px"><button class="btn btn-p" onclick="plUnlock(1)">Start →</button></div>
   </div>
 
   <div id="pl-s1" class="ba-locked-section" style="margin-top:16px">
     <div class="card">
-      <div class="card-title">Stage 1 — Why Fixed Pool + Stride Fails</div>
-      <p style="font-size:14.5px;color:var(--muted);margin-bottom:14px">Drag the sliders. Notice what happens to output size as H changes.</p>
-      <div style="display:flex;gap:24px;flex-wrap:wrap;align-items:flex-start">
-        <div style="flex:1;min-width:200px">
-          <div class="slider-row"><span class="slider-label"><span class="name">p (pool)</span><span class="val" id="pl-p-val">+100</span></span><input type="range" id="pl-p" min="1" max="300" value="100" style="flex:1" oninput="plUpdate()"></div>
-          <div class="slider-row"><span class="slider-label"><span class="name">s (stride)</span><span class="val" id="pl-s-val">+100</span></span><input type="range" id="pl-s" min="1" max="200" value="100" style="flex:1" oninput="plUpdate()"></div>
-          <div class="slider-row"><span class="slider-label"><span class="name">H (input)</span><span class="val" id="pl-H-val">+100</span></span><input type="range" id="pl-H" min="32" max="960" value="100" style="flex:1" oninput="plUpdate()"></div>
+      <div class="card-title">Stage 1 — What Does Pooling Compute?</div>
+      <p style="font-size:14.5px;color:var(--muted);margin-bottom:6px"><strong>Max pooling</strong> slides a window over the input and keeps the <strong>largest</strong> value in each window. Here the window covers k = 2 values and moves s = 2 steps at a time. Fill in the four outputs.</p>
+      <div id="pl-pool-grid" style="display:grid;grid-template-columns:repeat(8,52px);gap:5px;margin:14px 0;max-width:100%;overflow-x:auto;padding-bottom:4px"></div>
+      <div style="display:flex;gap:8px;align-items:center;margin-bottom:10px"><button class="btn btn-p" onclick="plCheckMax()">Check</button></div>
+      <div id="pl-max-hint" class="guidance-box cold">Type the largest value of each coloured window into the box under it.</div>
+      <div id="pl-after-max" style="display:none;margin-top:14px">
+        <p style="font-size:14.5px;color:var(--muted);margin-bottom:10px"><strong>Average pooling</strong> keeps the mean of each window instead (bottom row). Now run two experiments on the 9 and compare the max outputs each time.</p>
+        <div style="display:flex;gap:8px;flex-wrap:wrap">
+          <button class="btn btn-g" id="pl-move-left" onclick="plMove9(-1)">Move the 9 one step left</button>
+          <button class="btn btn-g" id="pl-move-right" onclick="plMove9(1)">Move the 9 one step right</button>
+          <button class="btn btn-g" onclick="plMove9(0)">Reset</button>
         </div>
-        <div style="flex:1;min-width:220px">
-          <div id="pl-bar-wrap" style="margin-bottom:10px"></div>
-          <div id="pl-out-disp" style="font-size:24.5px;font-weight:800;font-family:monospace;margin-bottom:8px"></div>
-          <div style="font-size:13.5px;color:var(--muted)">Output = ⌊(H − p) / s⌋ + 1</div>
-        </div>
+        <div id="pl-move-res" class="algebra" style="margin-top:10px;display:none"></div>
       </div>
-      <div style="margin-top:14px;font-weight:600;font-size:14.5px;margin-bottom:6px">Q — Set p=100, s=100. Drag H from 32 to 960. What happens to output size?</div>
-      <div id="pl-q1-opts" style="display:flex;flex-direction:column;gap:5px;max-width:380px"></div>
-      <div id="pl-q1-hint" class="guidance-box cold" style="margin-top:6px;max-width:380px"></div>
+      <div id="pl-s1q" class="ba-locked-section" style="margin-top:16px">
+        <div id="pl-q1" style="max-width:560px"></div>
+      </div>
     </div>
   </div>
 
   <div id="pl-s2" class="ba-locked-section" style="margin-top:16px">
     <div class="card">
-      <div class="card-title">Stage 2 — Adaptive Pooling: Set the Target, Not the Window</div>
-      <p style="font-size:14.5px;color:var(--muted);margin-bottom:14px">Instead of fixing p and s, fix the <strong>output size T</strong>. The window adapts per image: p = ⌈H/T⌉, s = ⌊H/T⌋.</p>
+      <div class="card-title">Stage 2 — A Fixed Window Gives a Changing Output</div>
+      <p style="font-size:14.5px;color:var(--muted);margin-bottom:14px">Ordinary pooling fixes the window size k and the stride s. It counts windows exactly like convolution in 9.1: outputs = ⌊(n − k) / s⌋ + 1. Change the input length n and watch the outputs — and whether they still fit the dense layer that expects 4.</p>
       <div style="display:flex;gap:24px;flex-wrap:wrap;align-items:flex-start">
-        <div style="flex:1;min-width:200px">
-          <div class="slider-row"><span class="slider-label"><span class="name">T (target)</span><span class="val" id="pl-T-val">+4</span></span><input type="range" id="pl-T" min="1" max="8" value="4" style="flex:1" oninput="plAdaptUpdate()"></div>
-          <div class="slider-row"><span class="slider-label"><span class="name">H (input)</span><span class="val" id="pl-H2-val">+256</span></span><input type="range" id="pl-H2" min="32" max="960" value="256" style="flex:1" oninput="plAdaptUpdate()"></div>
+        <div style="flex:1;min-width:250px;max-width:340px">
+          <div class="slider-row"><span class="slider-label" style="width:150px"><span class="name">n input</span><span class="val" id="pl-n-val">8</span></span><input type="range" id="pl-n" min="4" max="16" value="8" style="flex:1" oninput="plFixedUpdate()"></div>
+          <div class="slider-row"><span class="slider-label" style="width:150px"><span class="name">k window</span><span class="val" id="pl-k-val">2</span></span><input type="range" id="pl-k" min="1" max="4" value="2" style="flex:1" oninput="plFixedUpdate()"></div>
+          <div class="slider-row"><span class="slider-label" style="width:150px"><span class="name">s stride</span><span class="val" id="pl-s-val">2</span></span><input type="range" id="pl-s" min="1" max="4" value="2" style="flex:1" oninput="plFixedUpdate()"></div>
         </div>
-        <div style="flex:1;min-width:220px">
-          <div id="pl-adapt-bar-wrap" style="margin-bottom:10px"></div>
-          <div id="pl-adapt-disp" style="font-size:14.5px;font-family:monospace;line-height:2;background:var(--surf2);border-radius:6px;padding:10px"></div>
+        <div style="flex:2;min-width:300px">
+          <svg id="pl-fixed-svg" width="440" height="120" style="display:block;max-width:100%"></svg>
+          <div id="pl-fixed-calc" class="algebra" style="margin-top:10px"></div>
         </div>
       </div>
-      <div style="margin-top:14px;font-size:14.5px;font-weight:600;margin-bottom:8px">Fill in the blanks (in terms of H and T):</div>
-      <div style="display:flex;gap:12px;flex-wrap:wrap;align-items:center;font-size:14.5px;margin-bottom:10px">
-        <span>p = ⌈H /</span><input id="pl-fill-p" class="rr-inp" style="width:50px;text-align:center" placeholder="?" oninput="plCheckFill()"><span>⌉</span>
-        <span style="margin-left:16px">s = ⌊H /</span><input id="pl-fill-s" class="rr-inp" style="width:50px;text-align:center" placeholder="?" oninput="plCheckFill()"><span>⌋</span>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px;align-items:start;margin-top:18px">
+        <div class="ba-step-block" style="margin:0">
+          <div style="font-size:14.5px;font-weight:600;margin-bottom:8px">Window k = 2, stride s = 2. An input of length 51 gives how many outputs?</div>
+          <div style="display:flex;gap:8px;align-items:center"><input id="pl-fix-ans" class="rr-inp" placeholder="?" autocomplete="off" onkeydown="if(event.key==='Enter')plCheckFixed()"><button class="btn btn-g" onclick="plCheckFixed()">Check</button></div>
+          <div id="pl-fix-hint" class="guidance-box cold" style="margin-top:8px">n = 51 is beyond the slider, so use the rule.</div>
+        </div>
+        <div id="pl-q2"></div>
       </div>
-      <div id="pl-fill-hint" class="guidance-box cold" style="max-width:420px;margin-bottom:12px"></div>
-      <button class="btn btn-p" id="pl-s2-btn" onclick="plUnlock(3)" disabled>Continue →</button>
     </div>
   </div>
 
   <div id="pl-s3" class="ba-locked-section" style="margin-top:16px">
     <div class="card">
-      <div class="card-title">Stage 3 — Apply the Insight</div>
-      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px;align-items:start">
-        <div>
-          <div style="font-weight:600;font-size:14.5px;margin-bottom:6px">Q1 — Global Average Pooling (p = H, s = H) gives output size:</div>
-          <div id="pl-q2-opts" style="display:flex;flex-direction:column;gap:5px"></div>
-          <div id="pl-q2-hint" class="guidance-box cold" style="margin-top:5px"></div>
+      <div class="card-title">Stage 3 — Adaptive Pooling: Fix the Output, Let the Windows Adapt</div>
+      <p style="font-size:14.5px;color:var(--muted);margin-bottom:14px">Now you choose the output length T. The input is split into T regions of about n / T values, and each region is max-pooled. Region t starts at ⌊t·n / T⌋ and stops just before ⌈(t+1)·n / T⌉. Change n: the regions stretch, but the output length stays T.</p>
+      <div style="display:flex;gap:24px;flex-wrap:wrap;align-items:flex-start">
+        <div style="flex:1;min-width:250px;max-width:340px">
+          <div class="slider-row"><span class="slider-label" style="width:150px"><span class="name">T output</span><span class="val" id="pl-T-val">4</span></span><input type="range" id="pl-T" min="1" max="6" value="4" style="flex:1" oninput="plAdaptUpdate()"></div>
+          <div class="slider-row"><span class="slider-label" style="width:150px"><span class="name">n input</span><span class="val" id="pl-n2-val">8</span></span><input type="range" id="pl-n2" min="4" max="16" value="8" style="flex:1" oninput="plAdaptUpdate()"></div>
         </div>
-        <div>
-          <div style="font-weight:600;font-size:14.5px;margin-bottom:6px">Q2 — nn.AdaptiveAvgPool2d(4) on any size image gives output:</div>
-          <div id="pl-q3-opts" style="display:flex;flex-direction:column;gap:5px"></div>
-          <div id="pl-q3-hint" class="guidance-box cold" style="margin-top:5px"></div>
-        </div>
-        <div>
-          <div style="font-weight:600;font-size:14.5px;margin-bottom:6px">Q3 — Why is Global Average Pooling (T=1) so popular before a classifier?</div>
-          <div id="pl-q4-opts" style="display:flex;flex-direction:column;gap:5px"></div>
-          <div id="pl-q4-hint" class="guidance-box cold" style="margin-top:5px"></div>
+        <div style="flex:2;min-width:300px">
+          <svg id="pl-adapt-svg" width="440" height="120" style="display:block;max-width:100%"></svg>
+          <div id="pl-adapt-calc" class="algebra" style="margin-top:10px"></div>
         </div>
       </div>
-      <div id="pl-summary" style="font-size:.88em;color:var(--muted);margin-top:12px"></div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px;align-items:start;margin-top:18px">
+        <div class="ba-step-block" style="margin:0">
+          <div style="font-size:14.5px;font-weight:600;margin-bottom:8px">n = 20, T = 3. Which inputs does region 1 (the middle one) pool?</div>
+          <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;font-size:14.5px">from x<input id="pl-adapt-a" class="rr-inp" style="width:52px" placeholder="?" autocomplete="off" onkeydown="if(event.key==='Enter')plCheckAdapt()"> to x<input id="pl-adapt-b" class="rr-inp" style="width:52px" placeholder="?" autocomplete="off" onkeydown="if(event.key==='Enter')plCheckAdapt()"><button class="btn btn-g" onclick="plCheckAdapt()">Check</button></div>
+          <div id="pl-adapt-hint" class="guidance-box cold" style="margin-top:8px">Both ends included. n = 20 is beyond the slider, so use the rule.</div>
+        </div>
+        <div id="pl-q3"></div>
+      </div>
+    </div>
+  </div>
+
+  <div id="pl-s4" class="ba-locked-section" style="margin-top:16px">
+    <div class="card">
+      <div class="card-title">Stage 4 — Adaptive Pooling in Real CNNs</div>
+      <p style="font-size:14.5px;color:var(--muted);margin-bottom:14px">With T = 1 there is a single region, the whole channel: <strong>global average pooling</strong> turns every channel into one number, its mean. Many CNNs (for example ResNet) use it right before their final dense layer.</p>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px;align-items:start">
+        <div id="pl-q4"></div>
+        <div id="pl-q5"></div>
+        <div id="pl-q6"></div>
+      </div>
+    </div>
+  </div>
+
+  <div id="pl-s5" class="ba-locked-section" style="margin-top:16px">
+    <div class="card sl-takeaway">
+      <div class="card-title">Takeaway</div>
+      <ul style="padding-left:20px">
+        <li><strong>Pooling</strong> summarizes each window by its maximum (or mean). It ignores small shifts that stay inside a window — but a shift across a window boundary still changes the output.</li>
+        <li><strong>With a fixed window</strong> k and stride s, the number of outputs ⌊(n − k) / s⌋ + 1 grows in steps with n, so a fixed-size dense layer cannot follow it.</li>
+        <li><strong>Adaptive pooling</strong> fixes the output length T and splits the input into T regions of about n / T values each (neighbours share a value when n / T isn't whole).</li>
+        <li><strong>Global average pooling</strong> (T = 1) makes the dense layer's size independent of the image size — at the price of throwing away <em>where</em> each feature was.</li>
+      </ul>
     </div>
   </div>
 </div>

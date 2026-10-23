@@ -23,61 +23,96 @@
 
 <div id="tab-10.6" class="tab-panel">
   <div class="prob-card">
-    <div style="margin-bottom:10px"><span class="prob-badge">Activity 10.6</span><span class="prob-title">Recursive Neural Networks — Beyond Language</span><span id="recnets-completed" class="completed-badge">✓ 10.6 Completed</span></div>
-    <div id="rc-eq" style="margin-bottom:16px"></div>
-    <p class="prob-desc">Recursive NNs process <strong>tree-structured</strong> inputs by composing representations bottom-up. They are common in NLP (parse trees), but the structure requirement is the key: any domain with natural hierarchies could in principle use them.</p>
-    <div style="text-align:right;margin-top:12px"><button class="btn btn-p" onclick="rcUnlock(1)">See the structure →</button></div>
+    <div style="margin-bottom:10px"><span class="prob-badge">Activity 10.6</span><span class="prob-title">Recursive Neural Networks — Trees Beyond Language</span><span id="recnets-completed" class="completed-badge">✓ 10.6 Completed</span></div>
+    <p class="prob-desc">A recursive network builds one vector for a whole input by repeatedly <strong>merging two child vectors into a parent</strong>, from the leaves up to the root, always with the <strong>same</strong> rule. In language, the tree comes from grammar (a parse tree). Could a recursive network also handle stock prices or images?</p>
+    <div class="eq-block" style="font-family:inherit;font-size:15px;line-height:2">
+      <span class="eq-line">Q1</span> How does one shared rule build a representation of the whole input?<br>
+      <span class="eq-line">Q2</span> Does the shape of the tree matter?<br>
+      <span class="eq-line">Q3</span> Where would the tree come from for stock prices or images?
+    </div>
+    <div id="rc-eq" style="margin-bottom:10px"></div>
+    <div style="text-align:right;margin-top:14px"><button class="btn btn-p" onclick="rcUnlock(1)">Start →</button></div>
   </div>
 
   <div id="rc-s1" class="ba-locked-section" style="margin-top:16px">
     <div class="card">
-      <div class="card-title">Stage 1 — Sequence vs. Tree</div>
-      <p style="font-size:14.5px;color:var(--muted);margin-bottom:12px">Click the toggle to switch between how an RNN and a Recursive NN would process the same sentence.</p>
-      <div style="display:flex;gap:8px;margin-bottom:14px">
-        <button class="btn btn-g" id="rc-seq-btn" onclick="rcShow('seq')">RNN (sequence)</button>
-        <button class="btn btn-p" id="rc-tree-btn" onclick="rcShow('tree')">Recursive NN (tree)</button>
+      <div class="card-title">Stage 1 — Merge by Hand</div>
+      <p style="font-size:14.5px;color:var(--muted);margin-bottom:12px">Four leaves x = [4, 0, 2, 6], one number each. To keep the arithmetic simple, the merge rule is <strong>p = ½·(left + right)</strong> (W = [½ ½], b = 0, no tanh). Merge the same leaves along two different trees.</p>
+      <svg id="rc-hand-svg" width="560" height="212" style="background:var(--surf2);border:1px solid var(--border);border-radius:10px;display:block;max-width:100%"></svg>
+      <div style="display:flex;gap:14px;flex-wrap:wrap;align-items:center;font-family:'Courier New',monospace;font-weight:700;font-size:14.5px;margin-top:12px">
+        <span>p₁₂ = <input id="rc-c-p12" class="rr-inp" style="width:56px" placeholder="?"></span>
+        <span>p₃₄ = <input id="rc-c-p34" class="rr-inp" style="width:56px" placeholder="?"></span>
+        <span>balanced root = <input id="rc-c-rb" class="rr-inp" style="width:56px" placeholder="?"></span>
+        <span>chain root = <input id="rc-c-rc" class="rr-inp" style="width:56px" placeholder="?"></span>
+        <button class="btn btn-g" onclick="rcCheckCalc()">Check</button>
       </div>
-      <svg id="rc-svg" width="480" height="200" style="background:var(--surf2);border:1px solid var(--border);border-radius:10px;display:block;max-width:100%"></svg>
-      <div id="rc-mode-msg" style="margin-top:10px;font-size:14.5px;color:var(--muted);min-height:36px"></div>
-      <div style="margin-top:12px;text-align:right"><button class="btn btn-p" onclick="rcUnlock(2)">I see the difference →</button></div>
+      <div id="rc-calc-hint" class="guidance-box cold" style="margin-top:10px">Work from the leaves up: a parent needs both children first.</div>
+      <div id="rc-s1b" class="ba-locked-section" style="margin-top:16px">
+        <div class="ba-step-block" style="margin:0">
+          <div style="font-size:14.5px;font-weight:600;margin-bottom:10px">Raise x⁽¹⁾ from 4 to 12 (+8). By how much does each root rise?</div>
+          <div style="display:flex;gap:14px;flex-wrap:wrap;align-items:center;font-family:'Courier New',monospace;font-weight:700;font-size:14.5px">
+            <span>balanced: + <input id="rc-c-ib" class="rr-inp" style="width:56px" placeholder="?"></span>
+            <span>chain: + <input id="rc-c-ic" class="rr-inp" style="width:56px" placeholder="?"></span>
+            <button class="btn btn-g" onclick="rcCheckInfl()">Check</button>
+          </div>
+          <div id="rc-infl-hint" class="guidance-box cold" style="margin-top:8px">Each merge halves whatever comes up from below.</div>
+        </div>
+      </div>
+      <div id="rc-s1q" class="ba-locked-section" style="margin-top:16px">
+        <div id="rc-q1" style="max-width:560px"></div>
+      </div>
     </div>
   </div>
 
   <div id="rc-s2" class="ba-locked-section" style="margin-top:16px">
     <div class="card">
-      <div class="card-title">Stage 2 — What Structure Is Required?</div>
-      <div style="font-weight:600;font-size:14.5px;margin-bottom:8px">A recursive neural network requires the input to have what property?</div>
-      <div id="rc-q1-opts" style="display:flex;flex-direction:column;gap:5px;max-width:420px"></div>
-      <div id="rc-q1-hint" class="guidance-box cold" style="margin-top:8px;max-width:420px"></div>
+      <div class="card-title">Stage 2 — Chain or Balanced Tree?</div>
+      <p style="font-size:14.5px;color:var(--muted);margin-bottom:12px">n leaves can be merged as a <strong>chain</strong> (one new leaf at a time, which is exactly what an RNN does) or as a <strong>balanced tree</strong>. The highlighted path shows every merge between x⁽¹⁾ and the root.</p>
+      <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:10px">
+        <button class="sl-preset-btn rc-mode-btn" data-v="chain" onclick="rcSetMode('chain')">Chain</button>
+        <button class="sl-preset-btn rc-mode-btn" data-v="bal" onclick="rcSetMode('bal')">Balanced</button>
+        <div class="slider-row" style="margin:0 0 0 12px;flex:1;min-width:220px"><span class="slider-label" style="width:90px"><span class="name">n</span><span class="val" id="rc-n-val">8</span></span><input type="range" id="rc-n" min="2" max="16" step="1" value="8" style="flex:1" oninput="rcDrawDepth()"></div>
+      </div>
+      <svg id="rc-depth-svg" width="560" height="250" style="background:var(--surf2);border:1px solid var(--border);border-radius:10px;display:block;max-width:100%"></svg>
+      <div id="rc-depth-info" class="algebra" style="font-size:14px;margin-top:10px"></div>
+      <div class="ba-step-block" style="margin:14px 0 0">
+        <div style="font-size:14.5px;font-weight:600;margin-bottom:10px">With n = 64 leaves (too many to draw), how many merges lie between x⁽¹⁾ and the root?</div>
+        <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">chain: <input id="rc-f-chain" class="rr-inp" placeholder="?" autocomplete="off" onkeydown="if(event.key==='Enter')rcCheckFill('chain')"><button class="btn btn-g" onclick="rcCheckFill('chain')">Check</button></div>
+        <div id="rc-f-chain-hint" class="guidance-box cold" style="margin-top:8px">Find the pattern for small n first.</div>
+        <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:12px">balanced: <input id="rc-f-bal" class="rr-inp" placeholder="?" autocomplete="off" onkeydown="if(event.key==='Enter')rcCheckFill('bal')"><button class="btn btn-g" onclick="rcCheckFill('bal')">Check</button></div>
+        <div id="rc-f-bal-hint" class="guidance-box cold" style="margin-top:8px">Try n = 2, 4, 8 and 16.</div>
+      </div>
+      <div id="rc-s2q" class="ba-locked-section" style="margin-top:16px">
+        <div id="rc-q2" style="max-width:560px"></div>
+      </div>
     </div>
   </div>
 
   <div id="rc-s3" class="ba-locked-section" style="margin-top:16px">
     <div class="card">
-      <div class="card-title">Stage 3 — Stock Prices &amp; Images</div>
-      <p style="font-size:14.5px;color:var(--muted);margin-bottom:10px">The original activity asks what it would mean to apply a recursive NN to stock price prediction or image classification.</p>
-      <div style="font-weight:600;font-size:14.5px;margin-bottom:8px">Applying a recursive NN to stock price prediction would require:</div>
-      <div id="rc-q2-opts" style="display:flex;flex-direction:column;gap:5px;max-width:460px"></div>
-      <div id="rc-q2-hint" class="guidance-box cold" style="margin-top:8px;max-width:460px"></div>
+      <div class="card-title">Stage 3 — Where Does the Tree Come From?</div>
+      <p style="font-size:14.5px;color:var(--muted);margin-bottom:12px">A recursive network must be given a tree for every input. Match each task to the most natural source of its tree.</p>
+      <div id="rc-match" style="display:flex;flex-direction:column;gap:10px"></div>
+      <button class="btn btn-p" style="margin-top:12px" onclick="rcCheckMatch()">Check matches</button>
+      <div id="rc-match-hint" class="guidance-box cold" style="margin-top:10px">Each source is used once.</div>
+      <div id="rc-s3q" class="ba-locked-section" style="margin-top:16px">
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px;align-items:start">
+          <div id="rc-q3"></div>
+          <div id="rc-q4"></div>
+        </div>
+      </div>
     </div>
   </div>
 
   <div id="rc-s4" class="ba-locked-section" style="margin-top:16px">
-    <div class="card">
-      <div class="card-title">Stage 4 — Finding Natural Trees Outside NLP</div>
-      <div style="font-weight:600;font-size:14.5px;margin-bottom:8px">Which domain most naturally provides the tree structure a recursive NN can exploit?</div>
-      <div id="rc-q3-opts" style="display:flex;flex-direction:column;gap:5px;max-width:460px"></div>
-      <div id="rc-q3-hint" class="guidance-box cold" style="margin-top:8px;max-width:460px"></div>
-    </div>
-  </div>
-
-  <div id="rc-s5" class="ba-locked-section" style="margin-top:16px">
-    <div class="card">
-      <div class="card-title">Stage 5 — Good Fit or Not?</div>
-      <div style="font-weight:600;font-size:14.5px;margin-bottom:8px">Which of these is NOT a natural fit for a recursive NN?</div>
-      <div id="rc-q4-opts" style="display:flex;flex-direction:column;gap:5px;max-width:340px"></div>
-      <div id="rc-q4-hint" class="guidance-box cold" style="margin-top:8px;max-width:340px"></div>
-      <div id="rc-summary" style="font-size:.88em;color:var(--muted);margin-top:12px"></div>
+    <div class="card sl-takeaway">
+      <div class="card-title">Takeaway</div>
+      <ul style="padding-left:20px">
+        <li><strong>One rule, shared by every node:</strong> h = tanh(W[h<sub>left</sub>; h<sub>right</sub>] + b) merges two children into a parent, from the leaves up to the root. Like an RNN sharing weights across time, sharing W lets one network handle trees of any size and shape.</li>
+        <li><strong>The shape of the tree matters.</strong> A chain is an RNN: x⁽¹⁾ goes through n − 1 merges. A balanced tree needs only ⌈log₂ n⌉ (6 instead of 63 for 64 leaves), so gradients cross far fewer merges (Goodfellow §10.6).</li>
+        <li><strong>The tree must come from somewhere:</strong> exact for code (the compiler's syntax tree), predicted for sentences (a parser) and images (merging segments), or imposed and fixed (days → weeks → months).</li>
+        <li><strong>Stock prices and images:</strong> both are possible. Images get a real tree from their segments (Socher et al., 2011). Prices only get an imposed one, which shortens paths but adds no knowledge about the data.</li>
+      </ul>
     </div>
   </div>
 </div>

@@ -23,62 +23,79 @@
 
 <div id="tab-10.2.1" class="tab-panel">
   <div class="prob-card">
-    <div style="margin-bottom:10px"><span class="prob-badge">Activity 10.2.1</span><span class="prob-title">Word-to-Sequence RNN — Design It</span><span id="rdes-completed" class="completed-badge">✓ 10.2.1 Completed</span></div>
-    <div id="rd-eq" style="margin-bottom:16px"></div>
-    <p class="prob-desc">Build an RNN that takes a <strong>single word</strong> as input and outputs a <strong>variable-length word sequence</strong>. Work through five design choices — encoding, initialisation, recurrence, output, and stopping — to assemble the complete architecture.</p>
-    <div style="text-align:right;margin-top:12px"><button class="btn btn-p" onclick="rdUnlock(1)">Begin designing →</button></div>
+    <div style="margin-bottom:10px"><span class="prob-badge">Activity 10.2.1</span><span class="prob-title">Word-to-Sequence RNN — Design It, Then Run It</span><span id="rdes-completed" class="completed-badge">✓ 10.2.1 Completed</span></div>
+    <p class="prob-desc">Build an RNN that reads <strong>one word</strong> and writes its <strong>dictionary definition</strong> — a word sequence of any length. Make five design decisions, then run a small trained decoder to see why they matter.</p>
+    <div class="eq-block" style="font-family:inherit;font-size:15px;line-height:2">
+      <span class="eq-line">Q1</span> How does the input word get into the network?<br>
+      <span class="eq-line">Q2</span> How does each step know what has been written so far?<br>
+      <span class="eq-line">Q3</span> How does the network produce words — and stop?
+    </div>
+    <div style="text-align:right;margin-top:14px"><button class="btn btn-p" onclick="rdUnlock(1)">Start designing →</button></div>
   </div>
 
   <div id="rd-s1" class="ba-locked-section" style="margin-top:16px">
     <div class="card">
-      <div class="card-title">Stage 1 — Encoding the Input Word</div>
-      <p style="font-size:14.5px;color:var(--muted);margin-bottom:10px">The input is one word from a vocabulary of size V. How should it be converted into a vector before entering the network?</p>
-      <div id="rd-q1-opts" style="display:flex;flex-direction:column;gap:5px;max-width:500px"></div>
-      <div id="rd-q1-hint" class="guidance-box cold" style="margin-top:8px;max-width:500px"></div>
+      <div class="card-title">Decision 1 — Represent the Input Word</div>
+      <div id="rd-q1" style="max-width:600px"></div>
     </div>
   </div>
-
   <div id="rd-s2" class="ba-locked-section" style="margin-top:16px">
     <div class="card">
-      <div class="card-title">Stage 2 — Seeding the Decoder (h⁽⁰⁾)</div>
-      <p style="font-size:14.5px;color:var(--muted);margin-bottom:10px">The input word is embedded as <strong>e = Ex</strong>. The decoder RNN starts from h⁽⁰⁾. How should it be computed?</p>
-      <div id="rd-q2-opts" style="display:flex;flex-direction:column;gap:5px;max-width:500px"></div>
-      <div id="rd-q2-hint" class="guidance-box cold" style="margin-top:8px;max-width:500px"></div>
+      <div class="card-title">Decision 2 — Where Does the Input Enter?</div>
+      <div id="rd-q2" style="max-width:600px"></div>
     </div>
   </div>
-
   <div id="rd-s3" class="ba-locked-section" style="margin-top:16px">
     <div class="card">
-      <div class="card-title">Stage 3 — Recurrence Rule</div>
-      <p style="font-size:14.5px;color:var(--muted);margin-bottom:10px">At each decoder step the network updates its hidden state using only the previous hidden state (no new input word). Which update rule is most appropriate?</p>
-      <div id="rd-q3-opts" style="display:flex;flex-direction:column;gap:5px;max-width:500px"></div>
-      <div id="rd-q3-hint" class="guidance-box cold" style="margin-top:8px;max-width:500px"></div>
+      <div class="card-title">Decision 3 — Remembering What Was Written</div>
+      <div id="rd-q3" style="max-width:600px"></div>
     </div>
   </div>
-
   <div id="rd-s4" class="ba-locked-section" style="margin-top:16px">
     <div class="card">
-      <div class="card-title">Stage 4 — Output Distribution</div>
-      <p style="font-size:14.5px;color:var(--muted);margin-bottom:10px">At each step the network predicts the next word. Which function turns the hidden state into a valid probability distribution over the vocabulary?</p>
-      <div id="rd-q4-opts" style="display:flex;flex-direction:column;gap:5px;max-width:500px"></div>
-      <div id="rd-q4-hint" class="guidance-box cold" style="margin-top:8px;max-width:500px"></div>
+      <div class="card-title">Decision 4 — Producing a Word</div>
+      <div id="rd-q4" style="max-width:600px"></div>
     </div>
   </div>
-
   <div id="rd-s5" class="ba-locked-section" style="margin-top:16px">
     <div class="card">
-      <div class="card-title">Stage 5 — Stopping Criterion</div>
-      <p style="font-size:14.5px;color:var(--muted);margin-bottom:10px">Different output sequences have different lengths. How does the decoder know when to stop generating?</p>
-      <div id="rd-q5-opts" style="display:flex;flex-direction:column;gap:5px;max-width:500px"></div>
-      <div id="rd-q5-hint" class="guidance-box cold" style="margin-top:8px;max-width:500px"></div>
+      <div class="card-title">Decision 5 — Stopping</div>
+      <div id="rd-q5" style="max-width:600px"></div>
     </div>
   </div>
 
   <div id="rd-s6" class="ba-locked-section" style="margin-top:16px">
     <div class="card">
-      <div class="card-title">Your Complete Architecture</div>
-      <div id="rd-arch-eqs" style="background:var(--surf2);border-radius:7px;padding:14px;font-family:'Courier New',monospace;font-size:14.5px;line-height:2.4"></div>
-      <div id="rd-summary" style="font-size:.88em;color:var(--muted);margin-top:12px"></div>
+      <div class="card-title">Stage 6 — Run Your Decoder</div>
+      <div class="section-label">Your design</div>
+      <div id="rd-arch" class="algebra" style="margin-bottom:14px"></div>
+      <p style="font-size:14.5px;color:var(--muted);margin-bottom:10px">A small trained decoder for the input word <strong>"rain"</strong>. At each step it shows the softmax over the next word; click a word to emit it.</p>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:10px">
+        <span style="font-size:14px;font-weight:700">Feed back y⁽ᵗ⁻¹⁾:</span>
+        <button class="sl-preset-btn rd-fb-btn" data-v="on" onclick="rdSetFeedback(true)">on</button>
+        <button class="sl-preset-btn rd-fb-btn" data-v="off" onclick="rdSetFeedback(false)">off</button>
+        <button class="btn btn-g" onclick="rdRestart()">Restart</button>
+      </div>
+      <div id="rd-gen-out" style="font-family:'Courier New',monospace;font-size:15px;font-weight:700;min-height:28px;margin-bottom:10px"></div>
+      <div id="rd-gen-opts" style="display:flex;flex-direction:column;gap:5px;max-width:420px"></div>
+      <div id="rd-gen-msg" class="guidance-box cold" style="margin-top:10px"></div>
+      <div class="section-label" style="margin-top:14px">Tasks</div>
+      <div id="rd-checklist" style="font-size:14.5px;line-height:2"></div>
+      <div id="rd-s6q" class="ba-locked-section" style="margin-top:16px">
+        <div id="rd-q6" style="max-width:600px"></div>
+      </div>
+    </div>
+  </div>
+
+  <div id="rd-s7" class="ba-locked-section" style="margin-top:16px">
+    <div class="card sl-takeaway">
+      <div class="card-title">Takeaway</div>
+      <ul style="padding-left:20px">
+        <li><strong>Input:</strong> a one-hot word times a learned matrix is an embedding lookup; feeding it (R·x) at every step keeps it fresh however long the output grows.</li>
+        <li><strong>Feedback:</strong> h⁽ᵗ⁾ = tanh(b + W·h⁽ᵗ⁻¹⁾ + U·y⁽ᵗ⁻¹⁾ + R·x) — without the previous word y⁽ᵗ⁻¹⁾, later steps cannot adapt to what was actually written.</li>
+        <li><strong>Output and stopping:</strong> ŷ⁽ᵗ⁾ = softmax(V·h⁽ᵗ⁾ + c) over the vocabulary, with an &lt;END&gt; token that ends the sequence.</li>
+        <li><strong>Training vs. generating:</strong> training feeds back the true previous word (teacher forcing); generation feeds back the model's own choices.</li>
+      </ul>
     </div>
   </div>
 </div>

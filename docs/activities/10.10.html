@@ -14,7 +14,7 @@
 <header class="app-header">
   <div>
     <h1>GRU vs LSTM</h1>
-    <p class="header-sub">ISTA 457 / INFO 557 · Architecture search space</p>
+    <p class="header-sub">ISTA 457 / INFO 557 · Gates as learned memory</p>
   </div>
   <a href="../index.html" class="btn btn-g" style="text-decoration:none">&larr; All Activities</a>
 </header>
@@ -23,85 +23,114 @@
 
 <div id="tab-10.10" class="tab-panel">
   <div class="prob-card">
-    <div style="margin-bottom:10px"><span class="prob-badge">Activity 10.10</span><span class="prob-title">GRU vs LSTM — Architecture Search Space</span><span id="grucomp-completed" class="completed-badge">✓ 10.10 Completed</span></div>
-    <p class="prob-desc">Both GRU and LSTM gate memory — but through different equations. Identify each architectural "dimension" separating them, then explore the 2⁴ variant space.</p>
-  </div>
-  <div id="gg-s1" class="card" style="margin-top:12px">
-    <div class="card-title">Stage 1 — The Two Architectures Side by Side</div>
-    <p style="font-size:14.5px;color:var(--muted);margin-bottom:12px">Review both sets of equations. Notice what each architecture has that the other lacks.</p>
-    <div style="display:flex;gap:16px;flex-wrap:wrap">
-      <div style="flex:1;min-width:220px;background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:12px">
-        <div style="font-weight:700;font-size:14.5px;margin-bottom:8px;color:#1d4ed8">GRU (3 update equations)</div>
-        <div style="font-family:monospace;font-size:13.5px;line-height:2.2">
-          <div style="background:#eff6ff;border-radius:4px;padding:3px 8px;margin-bottom:3px"><strong>r</strong><sup>t</sup> = σ(U<sub>r</sub>h<sup>t−1</sup> + W<sub>r</sub>x<sup>t</sup>) <span style="color:#6b7280;font-size:12.5px">← reset gate</span></div>
-          <div style="background:#eff6ff;border-radius:4px;padding:3px 8px;margin-bottom:3px"><strong>z</strong><sup>t</sup> = σ(U<sub>z</sub>h<sup>t−1</sup> + W<sub>z</sub>x<sup>t</sup>) <span style="color:#6b7280;font-size:12.5px">← update gate</span></div>
-          <div style="background:#eff6ff;border-radius:4px;padding:3px 8px;margin-bottom:3px"><strong>h̃</strong><sup>t</sup> = tanh(U<sub>h</sub>(<strong>r</strong>⊙h<sup>t−1</sup>) + W<sub>h</sub>x<sup>t</sup>) <span style="color:#6b7280;font-size:12.5px">← candidate</span></div>
-          <div style="background:#dbeafe;border-radius:4px;padding:3px 8px"><strong>h</strong><sup>t</sup> = (1−z)⊙h<sup>t−1</sup> + z⊙<strong>h̃</strong><sup>t</sup> <span style="color:#6b7280;font-size:12.5px">← output (no cell state)</span></div>
+    <div style="margin-bottom:10px"><span class="prob-badge">Activity 10.10</span><span class="prob-title">GRU vs LSTM — Gates as Learned Memory</span><span id="grucomp-completed" class="completed-badge">✓ 10.10 Completed</span></div>
+    <p class="prob-desc">In 10.7 a single weight w decided how long a linear RNN remembers, and it is fixed once training ends. Gated RNNs replace it with <strong>gates</strong>: numbers between 0 and 1 that the network computes at every step, so it can decide <em>when</em> to keep, write or clear its memory. The LSTM and the GRU do this with different gates.</p>
+    <div class="eq-block" style="font-family:inherit;font-size:15px;line-height:2">
+      <span class="eq-line">Q1</span> What do the LSTM's gates do to its memory cell?<br>
+      <span class="eq-line">Q2</span> What can the LSTM do that the GRU's single update gate cannot?<br>
+      <span class="eq-line">Q3</span> Which parts of these designs matter in practice?
+    </div>
+    <div style="display:flex;gap:16px;flex-wrap:wrap;margin-top:6px">
+      <div style="flex:1;min-width:260px;background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:12px">
+        <div style="font-weight:700;font-size:14.5px;margin-bottom:6px;color:#15803d">LSTM (Goodfellow §10.10.1)</div>
+        <div style="font-family:'Courier New',monospace;font-size:13.5px;line-height:2">
+          f⁽ᵗ⁾ = σ(b<sub>f</sub> + U<sub>f</sub>x⁽ᵗ⁾ + W<sub>f</sub>h⁽ᵗ⁻¹⁾) <span style="color:var(--muted)">forget gate</span><br>
+          g⁽ᵗ⁾ = σ(b<sub>g</sub> + U<sub>g</sub>x⁽ᵗ⁾ + W<sub>g</sub>h⁽ᵗ⁻¹⁾) <span style="color:var(--muted)">input gate</span><br>
+          q⁽ᵗ⁾ = σ(b<sub>q</sub> + U<sub>q</sub>x⁽ᵗ⁾ + W<sub>q</sub>h⁽ᵗ⁻¹⁾) <span style="color:var(--muted)">output gate</span><br>
+          s̃⁽ᵗ⁾ = tanh(b + Ux⁽ᵗ⁾ + Wh⁽ᵗ⁻¹⁾) <span style="color:var(--muted)">candidate</span><br>
+          <strong>s⁽ᵗ⁾ = f⁽ᵗ⁾⊙s⁽ᵗ⁻¹⁾ + g⁽ᵗ⁾⊙s̃⁽ᵗ⁾</strong> <span style="color:var(--muted)">cell</span><br>
+          h⁽ᵗ⁾ = q⁽ᵗ⁾⊙tanh(s⁽ᵗ⁾) <span style="color:var(--muted)">output</span>
         </div>
       </div>
-      <div style="flex:1;min-width:220px;background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:12px">
-        <div style="font-weight:700;font-size:14.5px;margin-bottom:8px;color:#15803d">LSTM (6 update equations)</div>
-        <div style="font-family:monospace;font-size:13.5px;line-height:2.2">
-          <div style="background:#f0fdf4;border-radius:4px;padding:3px 8px;margin-bottom:3px"><strong>f</strong><sup>t</sup> = σ(U<sub>f</sub>h<sup>t−1</sup> + W<sub>f</sub>x<sup>t</sup>) <span style="color:#6b7280;font-size:12.5px">← forget gate</span></div>
-          <div style="background:#f0fdf4;border-radius:4px;padding:3px 8px;margin-bottom:3px"><strong>i</strong><sup>t</sup> = σ(U<sub>i</sub>h<sup>t−1</sup> + W<sub>i</sub>x<sup>t</sup>) <span style="color:#6b7280;font-size:12.5px">← input gate</span></div>
-          <div style="background:#f0fdf4;border-radius:4px;padding:3px 8px;margin-bottom:3px"><strong>o</strong><sup>t</sup> = σ(U<sub>o</sub>h<sup>t−1</sup> + W<sub>o</sub>x<sup>t</sup>) <span style="color:#6b7280;font-size:12.5px">← output gate</span></div>
-          <div style="background:#f0fdf4;border-radius:4px;padding:3px 8px;margin-bottom:3px"><strong>g</strong><sup>t</sup> = tanh(U<sub>g</sub>h<sup>t−1</sup> + W<sub>g</sub>x<sup>t</sup>) <span style="color:#6b7280;font-size:12.5px">← candidate (no reset!)</span></div>
-          <div style="background:#dcfce7;border-radius:4px;padding:3px 8px;margin-bottom:3px"><strong>c</strong><sup>t</sup> = f⊙c<sup>t−1</sup> + i⊙<strong>g</strong><sup>t</sup> <span style="color:#6b7280;font-size:12.5px">← cell state</span></div>
-          <div style="background:#dcfce7;border-radius:4px;padding:3px 8px"><strong>h</strong><sup>t</sup> = o⊙tanh(<strong>c</strong><sup>t</sup>) <span style="color:#6b7280;font-size:12.5px">← output (uses cell state)</span></div>
+      <div style="flex:1;min-width:260px;background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:12px">
+        <div style="font-weight:700;font-size:14.5px;margin-bottom:6px;color:#1d4ed8">GRU (Goodfellow §10.10.2)</div>
+        <div style="font-family:'Courier New',monospace;font-size:13.5px;line-height:2">
+          u⁽ᵗ⁾ = σ(b<sub>u</sub> + U<sub>u</sub>x⁽ᵗ⁾ + W<sub>u</sub>h⁽ᵗ⁻¹⁾) <span style="color:var(--muted)">update gate</span><br>
+          r⁽ᵗ⁾ = σ(b<sub>r</sub> + U<sub>r</sub>x⁽ᵗ⁾ + W<sub>r</sub>h⁽ᵗ⁻¹⁾) <span style="color:var(--muted)">reset gate</span><br>
+          h̃⁽ᵗ⁾ = tanh(b + Ux⁽ᵗ⁾ + W(r⁽ᵗ⁾⊙h⁽ᵗ⁻¹⁾)) <span style="color:var(--muted)">candidate</span><br>
+          <strong>h⁽ᵗ⁾ = u⁽ᵗ⁾⊙h⁽ᵗ⁻¹⁾ + (1 − u⁽ᵗ⁾)⊙h̃⁽ᵗ⁾</strong>
         </div>
       </div>
     </div>
-    <button class="btn btn-p" style="margin-top:12px" onclick="ggReviewed()">I've compared both architectures →</button>
-    <div id="gg-s1-hint" class="guidance-box cold" style="margin-top:8px;display:none"></div>
+    <p style="font-size:13.5px;color:var(--muted);margin-top:10px">U multiplies the input and W the previous state, as in Goodfellow. Many papers write i, o, c for the input gate g, the output gate q and the cell s. Libraries differ on whether u or 1 − u multiplies the old state.</p>
+    <div style="text-align:right;margin-top:10px"><button class="btn btn-p" onclick="ggUnlock(1)">Start →</button></div>
   </div>
+
+  <div id="gg-s1" class="ba-locked-section" style="margin-top:16px">
+    <div class="card">
+      <div class="card-title">Stage 1 — Drive an LSTM Cell</div>
+      <p style="font-size:14.5px;color:var(--muted);margin-bottom:12px">Six steps of one memory cell, starting from s⁽⁰⁾ = 0. The candidates s̃⁽ᵗ⁾ are fixed; <strong>you set the gates</strong>. Click a gate value to cycle it through 0 → 0.5 → 1. The cell follows s⁽ᵗ⁾ = f⁽ᵗ⁾·s⁽ᵗ⁻¹⁾ + g⁽ᵗ⁾·s̃⁽ᵗ⁾.</p>
+      <div id="gg-tape-lstm" style="overflow-x:auto"></div>
+      <div style="display:flex;gap:16px;align-items:flex-start;flex-wrap:wrap;margin-top:12px">
+        <div id="gg-tasks-lstm" style="flex:1;min-width:260px;font-size:14px;line-height:1.9"></div>
+        <button class="btn btn-g" onclick="ggReset('lstm')">Reset gates</button>
+      </div>
+      <div id="gg-s1q" class="ba-locked-section" style="margin-top:16px">
+        <div id="gg-q1" style="max-width:560px"></div>
+      </div>
+    </div>
+  </div>
+
   <div id="gg-s2" class="ba-locked-section" style="margin-top:16px">
     <div class="card">
-      <div class="card-title">Stage 2 — Shared Intuition</div>
-      <div style="font-weight:600;font-size:14.5px;margin-bottom:8px">What problem do both GRU and LSTM solve that a vanilla RNN cannot?</div>
-      <div id="gg-q1-opts" style="display:flex;flex-direction:column;gap:5px;max-width:520px"></div>
-      <div id="gg-q1-hint" class="guidance-box cold" style="margin-top:8px;max-width:520px"></div>
+      <div class="card-title">Stage 2 — The GRU: One Gate to Keep and Write</div>
+      <p style="font-size:14.5px;color:var(--muted);margin-bottom:12px">The GRU has no separate cell: h⁽ᵗ⁾ = u⁽ᵗ⁾·h⁽ᵗ⁻¹⁾ + (1 − u⁽ᵗ⁾)·h̃⁽ᵗ⁾. A single number u decides how much to keep, and 1 − u is how much gets written. Same candidates; set u.</p>
+      <div id="gg-tape-gru" style="overflow-x:auto"></div>
+      <div style="display:flex;gap:16px;align-items:flex-start;flex-wrap:wrap;margin-top:12px">
+        <div id="gg-tasks-gru" style="flex:1;min-width:260px;font-size:14px;line-height:1.9"></div>
+        <button class="btn btn-g" onclick="ggReset('gru')">Reset gates</button>
+      </div>
+      <div id="gg-s2q" class="ba-locked-section" style="margin-top:16px">
+        <div id="gg-q2" style="max-width:560px"></div>
+      </div>
     </div>
   </div>
+
   <div id="gg-s3" class="ba-locked-section" style="margin-top:16px">
     <div class="card">
-      <div class="card-title">Stage 3 — Identifying a Dimension</div>
-      <div style="font-size:13.5px;color:var(--muted);margin-bottom:8px">GRU: <code>h<sup>t</sup> = (1−z)⊙h<sup>t−1</sup> + z⊙h̃<sup>t</sup></code> &nbsp;|&nbsp; LSTM: <code>c<sup>t</sup> = f⊙c<sup>t−1</sup> + i⊙g<sup>t</sup></code></div>
-      <div style="font-weight:600;font-size:14.5px;margin-bottom:8px">What architectural dimension separates these two memory update rules?</div>
-      <div id="gg-q2-opts" style="display:flex;flex-direction:column;gap:5px;max-width:520px"></div>
-      <div id="gg-q2-hint" class="guidance-box cold" style="margin-top:8px;max-width:520px"></div>
+      <div class="card-title">Stage 3 — Translate LSTM into GRU</div>
+      <p style="font-size:14.5px;color:var(--muted);margin-bottom:12px">For each part of the LSTM, choose what plays its role in the GRU.</p>
+      <div id="gg-map" style="display:flex;flex-direction:column;gap:10px"></div>
+      <button class="btn btn-p" style="margin-top:12px" onclick="ggCheckMap()">Check</button>
+      <div id="gg-map-hint" class="guidance-box cold" style="margin-top:10px">Compare the two update equations above.</div>
+      <div id="gg-s3q" class="ba-locked-section" style="margin-top:16px">
+        <div id="gg-q3" style="max-width:560px"></div>
+      </div>
     </div>
   </div>
+
   <div id="gg-s4" class="ba-locked-section" style="margin-top:16px">
     <div class="card">
-      <div class="card-title">Stage 4 — Architecture Builder</div>
-      <p style="font-size:14.5px;color:var(--muted);margin-bottom:12px">Toggle each architectural dimension on/off to explore the search space. Interact with all four to continue.</p>
-      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px">
-        <button id="gg-t-cell" class="btn btn-g" onclick="ggToggle('cell')">Separate cell state c<sup>t</sup></button>
-        <button id="gg-t-outgate" class="btn btn-g" onclick="ggToggle('outgate')">Output gate o<sup>t</sup></button>
-        <button id="gg-t-decouple" class="btn btn-g" onclick="ggToggle('decouple')">Decouple f and i gates</button>
-        <button id="gg-t-reset" class="btn btn-g" onclick="ggToggle('reset')">Reset gate r<sup>t</sup></button>
+      <div class="card-title">Stage 4 — Count the Parameters</div>
+      <p style="font-size:14.5px;color:var(--muted);margin-bottom:12px">Hidden size <strong>n = 100</strong>, input size <strong>m = 50</strong>. Each gate and each candidate is one <em>block</em>, σ or tanh(b + U x + W h), with its own b (n numbers), U (n × m) and W (n × n).</p>
+      <div style="display:flex;flex-direction:column;gap:12px">
+        <div><div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">one block: <input id="gg-f-block" class="rr-inp" style="width:90px" placeholder="?" autocomplete="off" onkeydown="if(event.key==='Enter')ggCheckFill('block')"><button class="btn btn-g" onclick="ggCheckFill('block')">Check</button></div><div id="gg-f-block-hint" class="guidance-box cold" style="margin-top:8px">Count b, U and W.</div></div>
+        <div><div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">whole LSTM layer: <input id="gg-f-lstm" class="rr-inp" style="width:90px" placeholder="?" autocomplete="off" onkeydown="if(event.key==='Enter')ggCheckFill('lstm')"><button class="btn btn-g" onclick="ggCheckFill('lstm')">Check</button></div><div id="gg-f-lstm-hint" class="guidance-box cold" style="margin-top:8px">How many blocks does the LSTM have?</div></div>
+        <div><div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">whole GRU layer: <input id="gg-f-gru" class="rr-inp" style="width:90px" placeholder="?" autocomplete="off" onkeydown="if(event.key==='Enter')ggCheckFill('gru')"><button class="btn btn-g" onclick="ggCheckFill('gru')">Check</button></div><div id="gg-f-gru-hint" class="guidance-box cold" style="margin-top:8px">And the GRU?</div></div>
       </div>
-      <svg id="gg-svg" width="540" height="160" style="border:1px solid var(--border);border-radius:8px;background:var(--surface);max-width:100%"></svg>
-      <div id="gg-arch-label" style="font-size:14.5px;font-weight:600;margin-top:8px;color:var(--muted)">Current variant: GRU (reset gate on by default)</div>
-      <div id="gg-toggle-progress" style="font-size:13.5px;color:var(--muted);margin-top:4px">Dimensions toggled: 0/4</div>
-      <div id="gg-s4-hint" class="guidance-box cold" style="margin-top:8px"></div>
     </div>
   </div>
+
   <div id="gg-s5" class="ba-locked-section" style="margin-top:16px">
     <div class="card">
-      <div class="card-title">Stage 5 — The Search Space</div>
-      <div style="font-weight:600;font-size:14.5px;margin-bottom:8px">If each of the 4 architectural dimensions is binary (present/absent), how many distinct variants exist in the search space?</div>
-      <div id="gg-q3-opts" style="display:flex;flex-direction:column;gap:5px;max-width:460px"></div>
-      <div id="gg-q3-hint" class="guidance-box cold" style="margin-top:8px;max-width:460px"></div>
+      <div class="card-title">Stage 5 — What Matters in Practice</div>
+      <p style="font-size:14.5px;color:var(--muted);margin-bottom:12px">Many variants of these gates have been tried. Goodfellow §10.10.2 reports two large studies.</p>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px;align-items:start">
+        <div id="gg-q4"></div>
+        <div id="gg-q5"></div>
+      </div>
     </div>
   </div>
+
   <div id="gg-s6" class="ba-locked-section" style="margin-top:16px">
-    <div class="card">
-      <div class="card-title">Stage 6 — Minimal GRU Insight</div>
-      <div style="font-weight:600;font-size:14.5px;margin-bottom:8px">Research shows minimal GRU variants (2 gates, no cell state) match LSTM on many tasks. What does this imply about the search space?</div>
-      <div id="gg-q4-opts" style="display:flex;flex-direction:column;gap:5px;max-width:360px"></div>
-      <div id="gg-q4-hint" class="guidance-box cold" style="margin-top:8px;max-width:360px"></div>
-      <div id="gg-summary" style="font-size:.88em;color:var(--muted);margin-top:12px"></div>
+    <div class="card sl-takeaway">
+      <div class="card-title">Takeaway</div>
+      <ul style="padding-left:20px">
+        <li><strong>Gates are per-step weights between 0 and 1.</strong> The LSTM keeps (f) and writes (g) separately: s⁽ᵗ⁾ = f⊙s⁽ᵗ⁻¹⁾ + g⊙s̃⁽ᵗ⁾, so its cell can hold, overwrite or even add up its inputs. The output gate q decides how much of tanh(s) to show as h.</li>
+        <li><strong>Along the cell, ∂s⁽ᵗ⁾/∂s⁽ᵗ⁻¹⁾ = f⁽ᵗ⁾:</strong> the w from 10.7, now set by the network at every step. Near 1 it remembers and the gradient survives; near 0 it forgets.</li>
+        <li><strong>The GRU ties keep and write together</strong> (u and 1 − u), has no separate cell or output gate, and uses a reset gate r to shape the candidate. That is 3 blocks instead of 4: 45,300 vs 60,400 parameters for n = 100, m = 50.</li>
+        <li><strong>In practice</strong> (Goodfellow §10.10.2), the forget gate and the output activation are critical, coupling the gates costs little, and a forget-gate bias of 1 helps a lot. Neither design wins on every task.</li>
+      </ul>
     </div>
   </div>
 </div>

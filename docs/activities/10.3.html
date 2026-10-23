@@ -23,106 +23,75 @@
 
 <div id="tab-10.3" class="tab-panel">
   <div class="prob-card">
-    <div style="margin-bottom:10px"><span class="prob-badge">Activity 10.3</span><span class="prob-title">Bi-Directional RNN — Deriving the Equations</span><span id="birnn-completed" class="completed-badge">✓ 10.3 Completed</span></div>
-    <div id="br-eq" style="margin-bottom:16px"></div>
-    <p class="prob-desc">A BiRNN runs two independent RNNs over the same sequence: one left→right (forward, subscript <em>f</em>) and one right→left (backward, subscript <em>b</em>). Both hidden states are combined to produce each output. Work through the diagram to derive every equation.</p>
-    <div style="text-align:right;margin-top:12px"><button class="btn btn-p" onclick="brUnlock(1)">Explore the diagram →</button></div>
+    <div style="margin-bottom:10px"><span class="prob-badge">Activity 10.3</span><span class="prob-title">Bidirectional RNNs — Reading Both Ways</span><span id="birnn-completed" class="completed-badge">✓ 10.3 Completed</span></div>
+    <p class="prob-desc">Is "Teddy" a person? In <em>"Teddy Roosevelt was president"</em> yes, in <em>"Teddy bears are on sale"</em> no — and the word that decides comes <strong>after</strong> it. A normal RNN's output at step t has only seen the past. A <strong>bidirectional RNN</strong> adds a second RNN that reads the sentence right to left, so each output can use both sides.</p>
+    <div class="eq-block" style="font-family:inherit;font-size:15px;line-height:2">
+      <span class="eq-line">Q1</span> Which inputs can the output o⁽ᵗ⁾ depend on — one direction vs. two?<br>
+      <span class="eq-line">Q2</span> How is the backward state computed, and in which order?<br>
+      <span class="eq-line">Q3</span> What does reading both ways cost?
+    </div>
+    <p style="font-size:14px;color:var(--muted)">Notation (Goodfellow §10.3): h⁽ᵗ⁾ is the forward state, g⁽ᵗ⁾ the backward state, o⁽ᵗ⁾ the output.</p>
+    <div style="text-align:right;margin-top:10px"><button class="btn btn-p" onclick="brUnlock(1)">Start →</button></div>
   </div>
 
   <div id="br-s1" class="ba-locked-section" style="margin-top:16px">
     <div class="card">
-      <div class="card-title">Stage 1 — Read the Diagram</div>
-      <p style="font-size:14.5px;color:var(--muted);margin-bottom:12px">The BiRNN is unrolled across three timesteps. Blue arrows show the forward stream; red arrows show the backward stream. Click each toggle to trace which weights connect which nodes.</p>
-      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px">
-        <button class="btn btn-g" id="br-fwd-btn" onclick="brHighlight('fwd')">Highlight forward stream (h_f)</button>
-        <button class="btn btn-g" id="br-bwd-btn" onclick="brHighlight('bwd')">Highlight backward stream (h_b)</button>
-        <button class="btn btn-g" id="br-out-btn" onclick="brHighlight('out')">Highlight output (o)</button>
-      </div>
-      <svg id="br-svg" width="520" height="260" style="background:var(--surf2);border:1px solid var(--border);border-radius:10px;display:block;max-width:100%"></svg>
-      <div id="br-diagram-msg" style="margin-top:10px;font-size:14.5px;color:var(--muted);min-height:18px"></div>
-      <div style="margin-top:12px;text-align:right"><button class="btn btn-p" onclick="brUnlock(2)">I've traced both streams →</button></div>
+      <div class="card-title">Stage 1 — What Can o⁽²⁾ See?</div>
+      <p id="br-task-text" style="font-size:14.5px;color:var(--muted);margin-bottom:10px"></p>
+      <svg id="br-svg" width="540" height="270" style="background:var(--surf2);border:1px solid var(--border);border-radius:10px;display:block;max-width:100%"></svg>
+      <div style="margin-top:10px;display:flex;gap:8px;align-items:center"><button class="btn btn-p" onclick="brCheckDeps()">Check my selection</button><span style="font-size:13.5px;color:var(--muted)">Click input nodes x⁽ᵗ⁾ to select them.</span></div>
+      <div id="br-deps-hint" class="guidance-box cold" style="margin-top:10px"></div>
     </div>
   </div>
 
   <div id="br-s2" class="ba-locked-section" style="margin-top:16px">
     <div class="card">
-      <div class="card-title">Stage 2 — Weight Identification</div>
-      <p style="font-size:14.5px;color:var(--muted);margin-bottom:10px">Before writing equations, identify which weight matrix plays each role.</p>
-      <div style="font-weight:600;font-size:14.5px;margin-bottom:8px">Which weight connects h_f^(t−1) to h_f^(t)?</div>
-      <div id="br-q1-opts" style="display:flex;flex-direction:column;gap:5px;max-width:420px"></div>
-      <div id="br-q1-hint" class="guidance-box cold" style="margin-top:8px;max-width:420px"></div>
+      <div class="card-title">Stage 2 — Compute Both Directions by Hand</div>
+      <p style="font-size:14.5px;color:var(--muted);margin-bottom:12px">A tiny BiRNN with one number per state (activations left out to keep the numbers simple):</p>
+      <div class="algebra" style="font-size:14px;margin-bottom:12px">h⁽ᵗ⁾ = 0.5·h⁽ᵗ⁻¹⁾ + x⁽ᵗ⁾, &nbsp; h⁽⁰⁾ = 0<br>g⁽ᵗ⁾ = 0.5·g⁽ᵗ⁺¹⁾ + x⁽ᵗ⁾, &nbsp; g⁽⁴⁾ = 0<br>o⁽ᵗ⁾ = h⁽ᵗ⁾ + g⁽ᵗ⁾ &nbsp;&nbsp;&nbsp;&nbsp; inputs x = [2, 0, 4]</div>
+      <div style="display:flex;gap:14px;flex-wrap:wrap;align-items:center;font-family:'Courier New',monospace;font-weight:700;font-size:14.5px">
+        <span>h⁽¹⁾ = <input id="br-c-h1" class="rr-inp" style="width:56px" placeholder="?"></span>
+        <span>h⁽²⁾ = <input id="br-c-h2" class="rr-inp" style="width:56px" placeholder="?"></span>
+        <span>g⁽³⁾ = <input id="br-c-g3" class="rr-inp" style="width:56px" placeholder="?"></span>
+        <span>g⁽²⁾ = <input id="br-c-g2" class="rr-inp" style="width:56px" placeholder="?"></span>
+        <span>o⁽²⁾ = <input id="br-c-o2" class="rr-inp" style="width:56px" placeholder="?"></span>
+        <button class="btn btn-g" onclick="brCheckCalc()">Check</button>
+      </div>
+      <div id="br-calc-hint" class="guidance-box cold" style="margin-top:10px">Mind the order: which g can you compute first?</div>
+      <div id="br-s2q" class="ba-locked-section" style="margin-top:16px">
+        <div id="br-q1" style="max-width:560px"></div>
+      </div>
     </div>
   </div>
 
   <div id="br-s3" class="ba-locked-section" style="margin-top:16px">
     <div class="card">
-      <div class="card-title">Stage 3 — The Backward Index</div>
-      <p style="font-size:14.5px;color:var(--muted);margin-bottom:10px">Notice that the backward hidden state connects to a <em>different</em> neighbour than the forward state does.</p>
-      <div style="font-weight:600;font-size:14.5px;margin-bottom:8px">Why does the backward recurrence use h_b^(t+1) rather than h_b^(t−1)?</div>
-      <div id="br-q2-opts" style="display:flex;flex-direction:column;gap:5px;max-width:420px"></div>
-      <div id="br-q2-hint" class="guidance-box cold" style="margin-top:8px;max-width:420px"></div>
-    </div>
-  </div>
-
-  <div id="br-s4" class="ba-locked-section" style="margin-top:16px">
-    <div class="card">
-      <div class="card-title">Stage 4 — Fill in the Equations</div>
-      <p style="font-size:14.5px;color:var(--muted);margin-bottom:12px">Select the correct weight for each slot. Each row unlocks when the previous is correct.</p>
-      <div style="display:flex;flex-direction:column;gap:16px;max-width:540px">
-        <div>
-          <div style="font-size:14.5px;font-weight:600;margin-bottom:6px">h_f^(t) = tanh( <span style="color:var(--blue)">A</span> · h_f^(t−1) + <span style="color:var(--blue)">B</span> · x^(t) )</div>
-          <div style="display:flex;gap:10px;flex-wrap:wrap">
-            <div>
-              <div style="font-size:12.5px;color:var(--muted);margin-bottom:4px">Slot A</div>
-              <div id="br-eq1a-opts" style="display:flex;flex-direction:column;gap:4px"></div>
-            </div>
-            <div>
-              <div style="font-size:12.5px;color:var(--muted);margin-bottom:4px">Slot B</div>
-              <div id="br-eq1b-opts" style="display:flex;flex-direction:column;gap:4px"></div>
-            </div>
-          </div>
-          <div id="br-eq1-hint" class="guidance-box cold" style="margin-top:6px"></div>
-        </div>
-        <div id="br-eq2-block" style="opacity:.35;pointer-events:none;transition:opacity .3s">
-          <div style="font-size:14.5px;font-weight:600;margin-bottom:6px">h_b^(t) = tanh( <span style="color:var(--red)">C</span> · h_b^(t+1) + <span style="color:var(--red)">D</span> · x^(t) )</div>
-          <div style="display:flex;gap:10px;flex-wrap:wrap">
-            <div>
-              <div style="font-size:12.5px;color:var(--muted);margin-bottom:4px">Slot C</div>
-              <div id="br-eq2c-opts" style="display:flex;flex-direction:column;gap:4px"></div>
-            </div>
-            <div>
-              <div style="font-size:12.5px;color:var(--muted);margin-bottom:4px">Slot D</div>
-              <div id="br-eq2d-opts" style="display:flex;flex-direction:column;gap:4px"></div>
-            </div>
-          </div>
-          <div id="br-eq2-hint" class="guidance-box cold" style="margin-top:6px"></div>
-        </div>
-        <div id="br-eq3-block" style="opacity:.35;pointer-events:none;transition:opacity .3s">
-          <div style="font-size:14.5px;font-weight:600;margin-bottom:6px">o^(t) = <span style="color:#15803d">E</span> · h_f^(t) + <span style="color:#15803d">F</span> · h_b^(t)</div>
-          <div style="display:flex;gap:10px;flex-wrap:wrap">
-            <div>
-              <div style="font-size:12.5px;color:var(--muted);margin-bottom:4px">Slot E</div>
-              <div id="br-eq3e-opts" style="display:flex;flex-direction:column;gap:4px"></div>
-            </div>
-            <div>
-              <div style="font-size:12.5px;color:var(--muted);margin-bottom:4px">Slot F</div>
-              <div id="br-eq3f-opts" style="display:flex;flex-direction:column;gap:4px"></div>
-            </div>
-          </div>
-          <div id="br-eq3-hint" class="guidance-box cold" style="margin-top:6px"></div>
+      <div class="card-title">Stage 3 — Write the Equations</div>
+      <p style="font-size:14.5px;color:var(--muted);margin-bottom:10px">The forward RNN is the one from 10.1.2: &nbsp;<span style="font-family:'Courier New',monospace">h⁽ᵗ⁾ = tanh(b<sub>h</sub> + W<sub>h</sub>·h⁽ᵗ⁻¹⁾ + U<sub>h</sub>·x⁽ᵗ⁾)</span>. Complete the backward state and the output.</p>
+      <div style="font-family:'Courier New',monospace;font-size:14.5px;font-weight:700;line-height:2.6">
+        g⁽ᵗ⁾ = tanh( b<sub>g</sub> + <select id="br-sel-C" class="sl-match-sel" style="min-width:80px"></select> · g⁽<select id="br-sel-I" class="sl-match-sel" style="min-width:80px"></select>⁾ + <select id="br-sel-D" class="sl-match-sel" style="min-width:80px"></select> · x⁽ᵗ⁾ )<br>
+        o⁽ᵗ⁾ = c + <select id="br-sel-E" class="sl-match-sel" style="min-width:80px"></select> · h⁽ᵗ⁾ + <select id="br-sel-F" class="sl-match-sel" style="min-width:80px"></select> · g⁽ᵗ⁾
+      </div>
+      <button class="btn btn-p" style="margin-top:8px" onclick="brCheckEq()">Check equations</button>
+      <div id="br-eq-hint" class="guidance-box cold" style="margin-top:10px">Choose from the forward weights (W<sub>h</sub>, U<sub>h</sub>, V<sub>h</sub>) and the backward ones (W<sub>g</sub>, U<sub>g</sub>, V<sub>g</sub>).</div>
+      <div id="br-s3q" class="ba-locked-section" style="margin-top:16px">
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px;align-items:start">
+          <div id="br-q2"></div>
+          <div id="br-q3"></div>
         </div>
       </div>
     </div>
   </div>
 
-  <div id="br-s5" class="ba-locked-section" style="margin-top:16px">
-    <div class="card">
-      <div class="card-title">Stage 5 — When Does Context Matter?</div>
-      <p style="font-size:14.5px;color:var(--muted);margin-bottom:10px">At timestep t, h_f^(t) encodes everything <em>before</em> t; h_b^(t) encodes everything <em>after</em> t. Their combination gives full bidirectional context.</p>
-      <div style="font-weight:600;font-size:14.5px;margin-bottom:8px">For which task does seeing future tokens matter most?</div>
-      <div id="br-q3-opts" style="display:flex;flex-direction:column;gap:5px;max-width:340px"></div>
-      <div id="br-q3-hint" class="guidance-box cold" style="margin-top:8px;max-width:340px"></div>
-      <div id="br-summary" style="font-size:.88em;color:var(--muted);margin-top:12px"></div>
+  <div id="br-s4" class="ba-locked-section" style="margin-top:16px">
+    <div class="card sl-takeaway">
+      <div class="card-title">Takeaway</div>
+      <ul style="padding-left:20px">
+        <li><strong>Two RNNs, opposite directions:</strong> h⁽ᵗ⁾ = tanh(b<sub>h</sub> + W<sub>h</sub>h⁽ᵗ⁻¹⁾ + U<sub>h</sub>x⁽ᵗ⁾) reads left to right; g⁽ᵗ⁾ = tanh(b<sub>g</sub> + W<sub>g</sub>g⁽ᵗ⁺¹⁾ + U<sub>g</sub>x⁽ᵗ⁾) reads right to left, starting from g⁽τ⁺¹⁾ = 0.</li>
+        <li><strong>The output combines both:</strong> o⁽ᵗ⁾ = c + V<sub>h</sub>h⁽ᵗ⁾ + V<sub>g</sub>g⁽ᵗ⁾ (the same as V·[h⁽ᵗ⁾; g⁽ᵗ⁾] with the two states concatenated), so every output depends on the <em>whole</em> input sequence.</li>
+        <li><strong>The two directions never feed each other</strong>; they meet only at the output.</li>
+        <li><strong>Cost:</strong> about twice the recurrent parameters, and no output until the whole sequence has arrived — fine for tagging a finished sentence, not for live, word-by-word output.</li>
+      </ul>
     </div>
   </div>
 </div>

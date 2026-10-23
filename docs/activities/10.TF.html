@@ -23,68 +23,121 @@
 
 <div id="tab-10.TF" class="tab-panel">
   <div class="prob-card">
-    <div style="margin-bottom:10px"><span class="prob-badge">Activity 10.TF</span><span class="prob-title">Transformer Positional Encoding — Beyond Sinusoids</span><span id="trfpos-completed" class="completed-badge">✓ 10.TF Completed</span></div>
-    <p class="prob-desc">The transformer computes attention with no sense of order. Explore why sinusoidal PE works, then evaluate four alternative strategies for making transformers position-aware.</p>
+    <div style="margin-bottom:10px"><span class="prob-badge">Activity 10.TF</span><span class="prob-title">Transformer Positional Encoding — Telling Positions Apart</span><span id="trfpos-completed" class="completed-badge">✓ 10.TF Completed</span></div>
+    <p class="prob-desc"><em>"dog bites man"</em> and <em>"man bites dog"</em> use the same words with opposite meanings. A transformer's self-attention compares every word with every other word through dot products, and nothing in it refers to a word's position. So where does word order come in?</p>
+    <div class="eq-block" style="font-family:inherit;font-size:15px;line-height:2">
+      <span class="eq-line">Q1</span> What does attention do when the words are shuffled?<br>
+      <span class="eq-line">Q2</span> How do sinusoidal encodings mark positions, and what do their dot products show?<br>
+      <span class="eq-line">Q3</span> How do learned, relative, ALiBi and rotary encodings differ?
+    </div>
+    <div id="po-eq" style="margin-bottom:10px"></div>
+    <div style="text-align:right;margin-top:14px"><button class="btn btn-p" onclick="poUnlock(1)">Start →</button></div>
   </div>
-  <div id="tp-s1" class="card" style="margin-top:12px">
-    <div class="card-title">Stage 1 — The Permutation Problem</div>
-    <p style="font-size:14.5px;color:var(--muted);margin-bottom:10px">Click each ordering below to see that the attention heatmap is <strong>identical</strong> — the model has no concept of position.</p>
-    <div style="display:flex;gap:12px;align-items:flex-start;flex-wrap:wrap">
-      <div>
-        <div style="display:flex;gap:6px;margin-bottom:8px">
-          <button id="tp-ord1-btn" class="btn btn-g" onclick="tpShowOrder(0)">Order 1: "the cat sat"</button>
-          <button id="tp-ord2-btn" class="btn btn-g" onclick="tpShowOrder(1)">Order 2: "sat cat the"</button>
-        </div>
-        <svg id="tp-svg" width="220" height="220" style="border:1px solid var(--border);border-radius:8px;background:var(--surface)"></svg>
-        <div id="tp-order-label" style="font-size:12.5px;color:var(--muted);margin-top:4px;text-align:center">Click an ordering to see its attention heatmap</div>
+
+  <div id="po-s1" class="ba-locked-section" style="margin-top:16px">
+    <div class="card">
+      <div class="card-title">Stage 1 — The Shuffle Test</div>
+      <p style="font-size:14.5px;color:var(--muted);margin-bottom:12px">A toy model: word vectors <strong>dog = [1, 0]</strong>, <strong>bites = [0, 1]</strong>, <strong>man = [1.5, 0.5]</strong>, and W<sub>Q</sub> = W<sub>K</sub> = W<sub>V</sub> = I so the numbers stay readable. Each heat-map row shows how much one word attends to each word.</p>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px">
+        <button class="sl-preset-btn po-ord-btn" data-v="0" onclick="poSetOrder(0)">dog bites man</button>
+        <button class="sl-preset-btn po-ord-btn" data-v="1" id="po-ord1" onclick="poSetOrder(1)" disabled style="opacity:.5">man bites dog 🔒</button>
+        <button class="sl-preset-btn" id="po-pe-btn" onclick="poTogglePE()" disabled style="opacity:.5;margin-left:12px">Positions: off</button>
       </div>
-      <div style="flex:1;min-width:180px">
-        <div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:12px">
-          <div style="font-weight:600;font-size:14.5px;margin-bottom:6px">Key observation</div>
-          <p style="font-size:13.5px;color:var(--muted);line-height:1.6">Attention scores depend only on token <strong>content</strong> (Q·K dot products), not on <strong>position</strong>. Rearranging the same tokens produces the same heatmap.</p>
-          <p style="font-size:13.5px;color:var(--muted);line-height:1.6;margin-top:6px">This is <strong>permutation invariance</strong> — a fundamental property we must break to use order-sensitive language.</p>
+      <div style="display:flex;gap:24px;flex-wrap:wrap;align-items:flex-start">
+        <svg id="po-att-svg" width="250" height="222" style="background:var(--surf2);border:1px solid var(--border);border-radius:8px;display:block"></svg>
+        <div style="flex:1;min-width:250px">
+          <div id="po-out" class="algebra" style="font-size:13px"></div>
+          <div class="ba-step-block" style="margin:12px 0 0">
+            <div style="font-size:14.5px;font-weight:600;margin-bottom:8px">Predict before you look: in <em>"man bites dog"</em>, how much does <strong>man</strong> attend to <strong>dog</strong>?</div>
+            <div style="display:flex;gap:8px;align-items:center"><input id="po-f-pred" class="rr-inp" placeholder="?" autocomplete="off" onkeydown="if(event.key==='Enter')poCheckFill('pred')"><button class="btn btn-g" onclick="poCheckFill('pred')">Check</button></div>
+            <div id="po-f-pred-hint" class="guidance-box cold" style="margin-top:8px">The same three vectors, in a different order.</div>
+          </div>
         </div>
-        <div id="tp-same-note" style="display:none;background:#fef9c3;border:1px solid #fde68a;border-radius:8px;padding:10px;margin-top:8px;font-size:13.5px;color:#78350f;font-weight:600">✓ Same heatmap values regardless of ordering!</div>
+      </div>
+      <div id="po-tasks" style="font-size:14px;line-height:1.9;margin-top:12px"></div>
+      <div id="po-s1q" class="ba-locked-section" style="margin-top:16px">
+        <div id="po-q1" style="max-width:560px"></div>
       </div>
     </div>
-    <button class="btn btn-p" style="margin-top:12px" id="tp-s1-btn" onclick="tpDemoSeen()" disabled>See both orderings first →</button>
-    <div id="tp-s1-hint" class="guidance-box cold" style="margin-top:8px"></div>
   </div>
-  <div id="tp-s2" class="ba-locked-section" style="margin-top:16px">
+
+  <div id="po-s2" class="ba-locked-section" style="margin-top:16px">
     <div class="card">
-      <div class="card-title">Stage 2 — Why Sinusoidal PE Works</div>
-      <div style="font-size:13.5px;font-family:monospace;background:var(--surface);border:1px solid var(--border);padding:8px;border-radius:6px;margin-bottom:8px">PE(pos, 2i) = sin(pos / 10000<sup>2i/d</sup>)&nbsp;&nbsp;&nbsp;PE(pos, 2i+1) = cos(pos / 10000<sup>2i/d</sup>)</div>
-      <div style="font-weight:600;font-size:14.5px;margin-bottom:8px">Why does this uniquely identify positions and allow position-aware representations?</div>
-      <div id="tp-q1-opts" style="display:flex;flex-direction:column;gap:5px;max-width:540px"></div>
-      <div id="tp-q1-hint" class="guidance-box cold" style="margin-top:8px;max-width:540px"></div>
+      <div class="card-title">Stage 2 — Sinusoidal Encodings</div>
+      <p style="font-size:14.5px;color:var(--muted);margin-bottom:8px">The original transformer adds a vector PE(p) to the word at position p (p = 0, 1, 2, …). Its entries come in sin/cos pairs, i = 0, 1, …, d/2 − 1:</p>
+      <div id="po-pe-eq" style="margin-bottom:10px"></div>
+      <div class="ba-step-block" style="margin:0 0 14px">
+        <div style="font-size:14.5px;font-weight:600;margin-bottom:10px">Take d = 4, so there are two pairs (i = 0 and i = 1).</div>
+        <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">Divisor 10000<sup>2i/d</sup> for i = 1: <input id="po-f-div" class="rr-inp" placeholder="?" autocomplete="off" onkeydown="if(event.key==='Enter')poCheckFill('div')"><button class="btn btn-g" onclick="poCheckFill('div')">Check</button></div>
+        <div id="po-f-div-hint" class="guidance-box cold" style="margin-top:8px">Plug in i = 1 and d = 4.</div>
+        <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:12px">Second entry of PE(2): <input id="po-f-cos" class="rr-inp" placeholder="?" autocomplete="off" onkeydown="if(event.key==='Enter')poCheckFill('cos')"><button class="btn btn-g" onclick="poCheckFill('cos')">Check</button></div>
+        <div id="po-f-cos-hint" class="guidance-box cold" style="margin-top:8px">Entry 2 is the cos of the first pair. Two decimals are plenty.</div>
+      </div>
+      <p style="font-size:14.5px;color:var(--muted);margin-bottom:10px">The heat map shows PE(p)·PE(q) for positions 0–15 with d = 4. Click cells to read their values.</p>
+      <div style="display:flex;gap:24px;flex-wrap:wrap;align-items:flex-start">
+        <svg id="po-pe-svg" width="290" height="290" style="background:var(--surf2);border:1px solid var(--border);border-radius:8px;display:block"></svg>
+        <div style="flex:1;min-width:240px">
+          <div id="po-pe-info" class="algebra" style="font-size:13.5px">Click a cell.</div>
+          <div class="ba-step-block" style="margin:12px 0 0">
+            <div style="font-size:14.5px;font-weight:600;margin-bottom:8px">Off the map: what is PE(40)·PE(42)?</div>
+            <div style="display:flex;gap:8px;align-items:center"><input id="po-f-dot" class="rr-inp" placeholder="?" autocomplete="off" onkeydown="if(event.key==='Enter')poCheckFill('dot')"><button class="btn btn-g" onclick="poCheckFill('dot')">Check</button></div>
+            <div id="po-f-dot-hint" class="guidance-box cold" style="margin-top:8px">Look for a pattern on the map.</div>
+          </div>
+        </div>
+      </div>
+      <div id="po-s2q" class="ba-locked-section" style="margin-top:16px">
+        <div id="po-q2" style="max-width:560px"></div>
+      </div>
     </div>
   </div>
-  <div id="tp-s3" class="ba-locked-section" style="margin-top:16px">
+
+  <div id="po-s3" class="ba-locked-section" style="margin-top:16px">
     <div class="card">
-      <div class="card-title">Stage 3 — Learned Absolute Embeddings (BERT-style)</div>
-      <p style="font-size:14.5px;color:var(--muted);margin-bottom:8px">BERT replaces the sinusoid formula with a trainable lookup table: E<sub>pos</sub>[i] is learned for each position i = 0, 1, …, max_len−1.</p>
-      <div style="font-weight:600;font-size:14.5px;margin-bottom:8px">What is the key limitation of learned absolute PE vs. sinusoidal PE?</div>
-      <div id="tp-q2-opts" style="display:flex;flex-direction:column;gap:5px;max-width:540px"></div>
-      <div id="tp-q2-hint" class="guidance-box cold" style="margin-top:8px;max-width:540px"></div>
+      <div class="card-title">Stage 3 — ALiBi: A Penalty on Distance</div>
+      <p style="font-size:14.5px;color:var(--muted);margin-bottom:12px">ALiBi adds no position vectors at all. It subtracts <strong>m·|i − j|</strong> from each attention score, where m is a fixed slope that differs between heads. Here a word attends to itself and to the 5 words before it, all with <em>equal</em> content scores, so only the penalty tells them apart.</p>
+      <div style="display:flex;gap:24px;flex-wrap:wrap;align-items:flex-start">
+        <div style="flex:1;min-width:250px;max-width:340px">
+          <div class="slider-row"><span class="slider-label" style="width:90px"><span class="name">m</span><span class="val" id="po-m-val">0.25</span></span><input type="range" id="po-m" min="0" max="2" step="0.05" value="0.25" style="flex:1" oninput="poDrawAlibi()"></div>
+          <div id="po-alibi-calc" class="algebra" style="font-size:13px;margin-top:8px"></div>
+        </div>
+        <svg id="po-alibi-svg" width="360" height="190" style="background:var(--surf2);border:1px solid var(--border);border-radius:8px;display:block;max-width:100%"></svg>
+      </div>
+      <div class="ba-step-block" style="margin:16px 0 0">
+        <div style="font-size:14.5px;font-weight:600;margin-bottom:10px">With m = 0.5 and only <strong>three</strong> keys at distances 0, 1 and 2 (equal content scores), what weight goes to the key 2 back?</div>
+        <div style="display:flex;gap:8px;align-items:center"><input id="po-f-alibi" class="rr-inp" placeholder="?" autocomplete="off" onkeydown="if(event.key==='Enter')poCheckFill('alibi')"><button class="btn btn-g" onclick="poCheckFill('alibi')">Check</button></div>
+        <div id="po-f-alibi-hint" class="guidance-box cold" style="margin-top:8px">Softmax over three scores.</div>
+      </div>
+      <div id="po-s3q" class="ba-locked-section" style="margin-top:16px">
+        <div id="po-q3" style="max-width:560px"></div>
+      </div>
     </div>
   </div>
-  <div id="tp-s4" class="ba-locked-section" style="margin-top:16px">
+
+  <div id="po-s4" class="ba-locked-section" style="margin-top:16px">
     <div class="card">
-      <div class="card-title">Stage 4 — Relative Positional Encoding</div>
-      <p style="font-size:14.5px;color:var(--muted);margin-bottom:8px">Relative PE injects position into attention scores as a function of token distance: score<sub>ij</sub> = q<sub>i</sub>·k<sub>j</sub>/√d + b(i−j).</p>
-      <div style="font-weight:600;font-size:14.5px;margin-bottom:8px">What advantage does relative PE have over absolute PE for long sequences?</div>
-      <div id="tp-q3-opts" style="display:flex;flex-direction:column;gap:5px;max-width:540px"></div>
-      <div id="tp-q3-hint" class="guidance-box cold" style="margin-top:8px;max-width:540px"></div>
+      <div class="card-title">Stage 4 — Five Ways to Add Position</div>
+      <p style="font-size:14.5px;color:var(--muted);margin-bottom:12px">x<sub>p</sub> is the word vector at position p, and q<sub>i</sub>·k<sub>j</sub> is the content score between positions i and j. Match each formula to its method.</p>
+      <div id="po-match" style="display:flex;flex-direction:column;gap:10px"></div>
+      <button class="btn btn-p" style="margin-top:12px" onclick="poCheckMatch()">Check matches</button>
+      <div id="po-match-hint" class="guidance-box cold" style="margin-top:10px">Each method is used once. Ask: does position enter the input, or the score?</div>
+      <div id="po-s4q" class="ba-locked-section" style="margin-top:16px">
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px;align-items:start">
+          <div id="po-q4"></div>
+          <div id="po-q5"></div>
+        </div>
+      </div>
     </div>
   </div>
-  <div id="tp-s5" class="ba-locked-section" style="margin-top:16px">
-    <div class="card">
-      <div class="card-title">Stage 5 — ALiBi: Attention with Linear Biases</div>
-      <p style="font-size:14.5px;color:var(--muted);margin-bottom:8px">ALiBi subtracts m|i−j| from attention logits before softmax (m is a head-specific slope). No position vectors are added to the input.</p>
-      <div style="font-weight:600;font-size:14.5px;margin-bottom:8px">What does the −m|i−j| bias accomplish?</div>
-      <div id="tp-q4-opts" style="display:flex;flex-direction:column;gap:5px;max-width:360px"></div>
-      <div id="tp-q4-hint" class="guidance-box cold" style="margin-top:8px;max-width:360px"></div>
-      <div id="tp-summary" style="font-size:.88em;color:var(--muted);margin-top:12px"></div>
+
+  <div id="po-s5" class="ba-locked-section" style="margin-top:16px">
+    <div class="card sl-takeaway">
+      <div class="card-title">Takeaway</div>
+      <ul style="padding-left:20px">
+        <li><strong>Self-attention ignores order:</strong> shuffling the words shuffles the outputs in the same way (permutation equivariance). Without position information, "dog" gets the same output in "dog bites man" and "man bites dog".</li>
+        <li><strong>Sinusoidal PE</strong> adds sin/cos pairs that turn at different speeds. Every PE(p) has the same length, and PE(p)·PE(p + k) depends only on the offset k, so a pattern like "look 2 back" looks the same at every position.</li>
+        <li><strong>Absolute methods</strong> (sinusoidal, learned) add a vector to the input, and a learned table has no row beyond its training length. <strong>Relative methods</strong> (T5 bias, ALiBi, RoPE) put i − j into the attention score.</li>
+        <li><strong>ALiBi's</strong> fixed penalty m·|i − j| works at any distance, which is why it extrapolates to longer inputs (Press et al., 2022). <strong>RoPE</strong> rotates q and k so that their dot product sees only the offset.</li>
+      </ul>
     </div>
   </div>
 </div>

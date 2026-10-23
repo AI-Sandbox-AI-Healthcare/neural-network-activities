@@ -24,88 +24,80 @@
 <div id="tab-10.2.2" class="tab-panel">
   <div class="prob-card">
     <div style="margin-bottom:10px"><span class="prob-badge">Activity 10.2.2</span><span class="prob-title">Tanh Saturation &amp; Vanishing Gradients</span><span id="rtnh-completed" class="completed-badge">✓ 10.2.2 Completed</span></div>
-    <div id="rn-eq" style="margin-bottom:16px"></div>
-    <p class="prob-desc">Explore how tanh saturation causes gradients to vanish when back-propagated through time (BPTT), identify where the risk is greatest, and evaluate proposed fixes.</p>
-    <div style="text-align:right;margin-top:12px"><button class="btn btn-p" onclick="rnUnlock(1)">Explore tanh →</button></div>
+    <p class="prob-desc">To learn that an early input matters, the gradient of a late loss must travel back through every step in between (back-propagation through time). Each step multiplies it by a factor — and many factors multiplied together quickly vanish or explode. You will measure those factors in a one-unit RNN.</p>
+    <div class="eq-block" style="font-family:inherit;font-size:15px;line-height:2">
+      <span class="eq-line">Q1</span> What factor does each step back multiply the gradient by?<br>
+      <span class="eq-line">Q2</span> Why can't we just tune the weight to keep that factor at 1?<br>
+      <span class="eq-line">Q3</span> Which fixes work for vanishing gradients, and which for exploding ones?
+    </div>
+    <div id="rn-eq" style="margin-bottom:10px"></div>
+    <div style="text-align:right;margin-top:14px"><button class="btn btn-p" onclick="rnUnlock(1)">Start →</button></div>
   </div>
 
   <div id="rn-s1" class="ba-locked-section" style="margin-top:16px">
     <div class="card">
       <div class="card-title">Stage 1 — The tanh Derivative</div>
-      <p style="font-size:14.5px;color:var(--muted);margin-bottom:12px">tanh′(z) = 1 − tanh²(z). Drag z and observe: near z=0 the derivative is close to 1 (healthy gradient); at large |z| it collapses toward 0 (saturated).</p>
+      <p style="font-size:14.5px;color:var(--muted);margin-bottom:12px">tanh′(z) = 1 − tanh²(z) is the fraction of the gradient that passes through tanh at one step. Drag z.</p>
       <div style="display:flex;gap:24px;flex-wrap:wrap;align-items:flex-start">
-        <svg id="rn-svg" width="280" height="170" style="background:var(--surf2);border:1px solid var(--border);border-radius:8px;display:block"></svg>
-        <div style="flex:1;min-width:200px">
-          <div class="slider-row">
-            <span class="slider-label"><span class="name">z</span><span class="val" id="rn-z-val">0.0</span></span>
-            <input type="range" id="rn-z" min="-4" max="4" step="0.1" value="0" oninput="rnSlider()">
+        <svg id="rn-svg" width="300" height="170" style="background:var(--surf2);border:1px solid var(--border);border-radius:8px;display:block"></svg>
+        <div style="flex:1;min-width:240px">
+          <div class="slider-row"><span class="slider-label" style="width:120px"><span class="name">z</span><span class="val" id="rn-z-val">0</span></span><input type="range" id="rn-z" min="-4" max="4" step="0.05" value="0" style="flex:1" oninput="rnSlider()"></div>
+          <div class="algebra" style="font-size:14px">tanh(z) = <strong id="rn-tanh-v" style="color:var(--blue)">0</strong><br>tanh′(z) = <strong id="rn-dt-v" style="color:var(--red)">1</strong></div>
+          <div class="ba-step-block" style="margin:12px 0 0">
+            <div style="font-size:14.5px;font-weight:600;margin-bottom:8px">From what |z| on does tanh′(z) fall below 0.1?</div>
+            <div style="display:flex;gap:8px;align-items:center">|z| ≈ <input id="rn-f-z" class="rr-inp" placeholder="?" autocomplete="off" onkeydown="if(event.key==='Enter')rnCheckZ()"><button class="btn btn-g" onclick="rnCheckZ()">Check</button></div>
+            <div id="rn-f-z-hint" class="guidance-box cold" style="margin-top:8px">Two decimals are plenty.</div>
           </div>
-          <div style="background:var(--surf2);border-radius:7px;padding:10px 14px;font-family:'Courier New',monospace;font-size:14.5px;line-height:2.4;margin-top:8px">
-            tanh(z) = <strong id="rn-tanh-v" style="color:var(--blue)">0.000</strong><br>
-            tanh′(z) = <strong id="rn-dt-v" style="color:var(--red)">1.000</strong>
-          </div>
-          <div id="rn-sat-msg" style="margin-top:10px;font-size:14.5px;font-weight:600;min-height:20px"></div>
         </div>
-      </div>
-      <div style="margin-top:12px;text-align:right">
-        <button class="btn btn-p" id="rn-s1-btn" onclick="rnUnlock(2)" disabled>I see the saturation — continue →</button>
       </div>
     </div>
   </div>
 
   <div id="rn-s2" class="ba-locked-section" style="margin-top:16px">
     <div class="card">
-      <div class="card-title">Stage 2 — Where Does Saturation Hit Hardest in BPTT?</div>
-      <p style="font-size:14.5px;color:var(--muted);margin-bottom:10px">BPTT unrolls the RNN and multiplies Jacobians: <span style="font-family:'Courier New',monospace">∂h⁽ᵛ⁾/∂h⁽ᵛ⁻¹⁾ = diag(1−h²)·W</span>. Going back T steps multiplies T−1 of these together.</p>
-      <div style="font-weight:600;font-size:14.5px;margin-bottom:8px">Where is the greatest risk of saturation during BPTT?</div>
-      <div id="rn-q1-opts" style="display:flex;flex-direction:column;gap:5px;max-width:500px"></div>
-      <div id="rn-q1-hint" class="guidance-box cold" style="margin-top:8px;max-width:500px"></div>
+      <div class="card-title">Stage 2 — Back-Propagating Through Ten Steps</div>
+      <p style="font-size:14.5px;color:var(--muted);margin-bottom:12px">A one-unit RNN reads 10 inputs. w is the recurrent weight; u scales the inputs. The bars show |∂h⁽¹⁰⁾/∂h⁽ᵏ⁾| — how much of the gradient from step 10 reaches step k — on a <strong>log scale</strong>.</p>
+      <div style="display:flex;gap:24px;flex-wrap:wrap;align-items:flex-start">
+        <div style="flex:1;min-width:250px;max-width:360px">
+          <div class="slider-row"><span class="slider-label" style="width:170px"><span class="name">w</span><span class="val" id="rn-w-val">0.6</span></span><input type="range" id="rn-w" min="0" max="2" step="0.05" value="0.6" style="flex:1" oninput="rnSim()"></div>
+          <div class="slider-row"><span class="slider-label" style="width:170px"><span class="name">u (input size)</span><span class="val" id="rn-u-val">1</span></span><input type="range" id="rn-u" min="0" max="3" step="0.1" value="1" style="flex:1" oninput="rnSim()"></div>
+          <div class="section-label" style="margin-top:12px">Try these</div>
+          <div id="rn-checklist" style="font-size:14px;line-height:2"></div>
+        </div>
+        <div style="flex:1;min-width:300px">
+          <svg id="rn-flow-svg" width="340" height="180" style="background:var(--surf2);border:1px solid var(--border);border-radius:8px;display:block;max-width:100%"></svg>
+          <div id="rn-sim-calc" class="algebra" style="font-size:13px;margin-top:8px"></div>
+        </div>
+      </div>
+      <div id="rn-s2q" class="ba-locked-section" style="margin-top:18px">
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px;align-items:start">
+          <div id="rn-q1"></div>
+          <div id="rn-q2"></div>
+        </div>
+      </div>
     </div>
   </div>
 
   <div id="rn-s3" class="ba-locked-section" style="margin-top:16px">
     <div class="card">
-      <div class="card-title">Stage 3 — Gradient Decay Over Timesteps</div>
-      <p style="font-size:14.5px;color:var(--muted);margin-bottom:12px">Each step back multiplies the gradient by <strong>tanh′ · ‖W‖</strong>. Adjust the sliders to see how the magnitude changes at each past timestep.</p>
-      <div style="display:flex;gap:24px;flex-wrap:wrap;align-items:flex-start">
-        <div style="flex:1;min-width:200px">
-          <div class="slider-row">
-            <span class="slider-label"><span class="name">tanh′ / step</span><span class="val" id="rn-tp-val">0.20</span></span>
-            <input type="range" id="rn-tp" min="0.01" max="1.0" step="0.01" value="0.20" oninput="rnDrawFlow()">
-          </div>
-          <div class="slider-row">
-            <span class="slider-label"><span class="name">‖W‖</span><span class="val" id="rn-wr-val">1.00</span></span>
-            <input type="range" id="rn-wr" min="0.5" max="2.0" step="0.05" value="1.0" oninput="rnDrawFlow()">
-          </div>
-          <div id="rn-flow-msg" style="margin-top:8px;font-size:14.5px;font-weight:600;min-height:18px"></div>
-        </div>
-        <div>
-          <svg id="rn-flow-svg" width="260" height="130" style="background:var(--surf2);border:1px solid var(--border);border-radius:8px;display:block"></svg>
-          <div style="font-size:12.5px;color:var(--muted);margin-top:4px">Bars = relative gradient magnitude at each step back (1 = present)</div>
-        </div>
+      <div class="card-title">Stage 3 — Choosing the Right Fix</div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px;align-items:start">
+        <div id="rn-q3"></div>
+        <div id="rn-q4"></div>
+        <div id="rn-q5"></div>
       </div>
-      <div style="font-weight:600;font-size:14.5px;margin:12px 0 8px">With tanh′ = 0.2 and ‖W‖ = 1, what is ∂L/∂h⁽¹⁾ after 10 steps back?</div>
-      <div id="rn-q2-opts" style="display:flex;flex-direction:column;gap:5px;max-width:500px"></div>
-      <div id="rn-q2-hint" class="guidance-box cold" style="margin-top:8px;max-width:500px"></div>
     </div>
   </div>
 
   <div id="rn-s4" class="ba-locked-section" style="margin-top:16px">
-    <div class="card">
-      <div class="card-title">Stage 4 — The Standard Fix</div>
-      <p style="font-size:14.5px;color:var(--muted);margin-bottom:10px">Vanishing gradients prevent the network from learning long-range dependencies. Which architectural fix most directly solves this?</p>
-      <div id="rn-q3-opts" style="display:flex;flex-direction:column;gap:5px;max-width:500px"></div>
-      <div id="rn-q3-hint" class="guidance-box cold" style="margin-top:8px;max-width:500px"></div>
-    </div>
-  </div>
-
-  <div id="rn-s5" class="ba-locked-section" style="margin-top:16px">
-    <div class="card">
-      <div class="card-title">Stage 5 — Replacing tanh with ReLU</div>
-      <p style="font-size:14.5px;color:var(--muted);margin-bottom:10px">Using ReLU in h⁽ᵗ⁾ = ReLU(Wh⁽ᵗ⁻¹⁾ + Ux⁽ᵗ⁾) removes the near-zero derivative problem. What new issue does it introduce?</p>
-      <div id="rn-q4-opts" style="display:flex;flex-direction:column;gap:5px;max-width:360px"></div>
-      <div id="rn-q4-hint" class="guidance-box cold" style="margin-top:8px;max-width:360px"></div>
-      <div id="rn-summary" style="font-size:.88em;color:var(--muted);margin-top:12px"></div>
+    <div class="card sl-takeaway">
+      <div class="card-title">Takeaway</div>
+      <ul style="padding-left:20px">
+        <li><strong>Each step back multiplies the gradient</strong> by w·tanh′ (for vector states, by Wᵀ·diag(1 − h²)). Over many steps the product shrinks (vanishes) or grows (explodes) exponentially.</li>
+        <li><strong>tanh′ collapses</strong> once |pre-activation| ≳ 1.8, so saturated units block the gradient.</li>
+        <li><strong>You cannot simply tune w</strong>: w &lt; 1 vanishes, w &gt; 1 explodes for small inputs and saturates for large ones.</li>
+        <li><strong>Exploding → clip the gradient norm. Vanishing → gated units</strong> (LSTM/GRU) whose self-loop can stay near 1. ReLU does not remove the problem.</li>
+      </ul>
     </div>
   </div>
 </div>

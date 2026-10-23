@@ -23,57 +23,97 @@
 
 <div id="tab-11.LS" class="tab-panel">
   <div class="prob-card">
-    <div style="margin-bottom:10px">
-      <span class="prob-badge">Activity 11.LS</span>
-      <span class="prob-title">LIME for EEG Seizure Detection</span>
-      <span id="limeeeg-completed" class="completed-badge">✓ 11.LS Completed</span>
+    <div style="margin-bottom:10px"><span class="prob-badge">Activity 11.LS</span><span class="prob-title">LIME for EEG Seizure Detection</span><span id="limeeeg-completed" class="completed-badge">✓ 11.LS Completed</span></div>
+    <p class="prob-desc">A neural network reads 10-second EEG windows and outputs the probability of a seizure. A neurologist wants to know <em>why</em> it flagged one window. LIME explains a single prediction: it perturbs the input many times and fits a simple linear model to how the black box responds. For EEG, what is the instance, what are its parts, and what does it mean to remove one?</p>
+    <div class="eq-block" style="font-family:inherit;font-size:15px;line-height:2">
+      <span class="eq-line">Q1</span> What is one instance, and what are its interpretable components?<br>
+      <span class="eq-line">Q2</span> How does LIME turn random perturbations into an explanation?<br>
+      <span class="eq-line">Q3</span> What should a "removed" piece of EEG look like?
     </div>
-    <p class="prob-desc">LIME explains any black-box model by fitting a local linear approximation around an instance. You are applying LIME to a neural network that classifies EEG recordings as seizure or non-seizure. What is an <em>instance</em>, and how do you define its <em>neighborhood</em>?</p>
+    <div id="le-eq" style="margin-bottom:10px"></div>
+    <div style="text-align:right;margin-top:14px"><button class="btn btn-p" onclick="leUnlock(1)">Start →</button></div>
   </div>
-  <div class="card">
-    <div class="card-title">Stage 1 · LIME Across Domains</div>
-    <p style="font-size:14.5px;color:var(--muted);margin-bottom:12px">LIME needs an <em>interpretable representation</em> and a <em>neighborhood sampling strategy</em>. Click each domain to see how LIME is applied there — then apply the same reasoning to EEG.</p>
-    <div style="display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap">
-      <button class="btn btn-g" id="le-d-text-btn" onclick="leShowDomain('text')">Text</button>
-      <button class="btn btn-g" id="le-d-img-btn" onclick="leShowDomain('img')">Image</button>
-      <button class="btn btn-g" id="le-d-tab-btn" onclick="leShowDomain('tab')">Tabular</button>
-    </div>
-    <svg id="le-svg" width="480" height="120" style="display:block;border:1px solid var(--border);border-radius:8px;background:var(--surf2);margin-bottom:10px"></svg>
-    <div id="le-domain-desc" style="font-size:14.5px;color:var(--muted);min-height:44px;margin-bottom:10px"></div>
-    <div id="le-domain-progress" style="font-size:13.5px;color:var(--muted);margin-bottom:10px">Domains explored: 0/3</div>
-    <button class="btn btn-p" id="le-s1-btn" onclick="leAdvanceS1()" disabled>Now apply to EEG →</button>
-  </div>
-  <div id="le-s2" class="ba-locked-section">
+
+  <div id="le-s1" class="ba-locked-section" style="margin-top:16px">
     <div class="card">
-      <div class="card-title">Stage 2 · The EEG Instance</div>
-      <p style="font-size:14.5px;color:var(--muted);margin-bottom:8px">What does a single input <em>instance</em> look like for an EEG seizure detection model?</p>
-      <div id="le-q1-opts" style="display:flex;flex-direction:column;gap:5px;max-width:400px"></div>
-      <div id="le-q1-hint" class="guidance-box cold" style="margin-top:8px;max-width:400px"></div>
+      <div class="card-title">Stage 1 — The Instance and Its Parts</div>
+      <p style="font-size:14.5px;color:var(--muted);margin-bottom:12px">The instance is the window the model classifies: 3 channels × 10 seconds. Split each channel into four 2.5-second segments; each channel × segment is one <strong>interpretable component</strong>. Click a component to remove it (it is replaced by that channel's normal background EEG) and watch the model's output.</p>
+      <svg id="le-eeg-svg" width="560" height="214" style="background:var(--surf2);border:1px solid var(--border);border-radius:10px;display:block;max-width:100%"></svg>
+      <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-top:10px">
+        <div id="le-prob" class="algebra" style="font-size:14px;padding:8px 14px"></div>
+        <button class="btn btn-g" onclick="leResetMask()">Restore all</button>
+      </div>
+      <div id="le-tasks1" style="font-size:14px;line-height:1.9;margin-top:10px"></div>
+      <div class="ba-step-block" style="margin:12px 0 0">
+        <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">Number of interpretable components: <input id="le-f-comp" class="rr-inp" placeholder="?" autocomplete="off" onkeydown="if(event.key==='Enter')leCheckFill('comp')"><button class="btn btn-g" onclick="leCheckFill('comp')">Check</button></div>
+        <div id="le-f-comp-hint" class="guidance-box cold" style="margin-top:8px">Channels × segments.</div>
+      </div>
+      <div id="le-s1q" class="ba-locked-section" style="margin-top:16px">
+        <div id="le-q1" style="max-width:560px"></div>
+      </div>
     </div>
   </div>
-  <div id="le-s3" class="ba-locked-section">
+
+  <div id="le-s2" class="ba-locked-section" style="margin-top:16px">
     <div class="card">
-      <div class="card-title">Stage 3 · Interpretable Components</div>
-      <p style="font-size:14.5px;color:var(--muted);margin-bottom:8px">LIME requires breaking the instance into independently maskable <em>interpretable components</em> (like words in text or superpixels in images). What is the most natural decomposition for a 10-second, 19-channel EEG recording?</p>
-      <div id="le-q2-opts" style="display:flex;flex-direction:column;gap:5px;max-width:400px"></div>
-      <div id="le-q2-hint" class="guidance-box cold" style="margin-top:8px;max-width:400px"></div>
+      <div class="card-title">Stage 2 — Sample, Weigh, Fit</div>
+      <p style="font-size:14.5px;color:var(--muted);margin-bottom:12px">LIME draws random <strong>neighbours</strong>: copies of the window with a random set of components removed. It runs the model on each one and weights it by its closeness, π = exp(−d²/σ²), where d is the share of components removed and σ = 0.25. Then it fits a weighted linear model to the outputs. The coefficients are the explanation.</p>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px">
+        <button class="btn btn-p" onclick="leFit(100,'bg','le-coef-svg')">Fit with 100 neighbours</button>
+        <button class="btn btn-g" onclick="leFit(20,'bg','le-coef-svg')">Fit with 20 neighbours (new draw)</button>
+      </div>
+      <div style="display:flex;gap:20px;flex-wrap:wrap;align-items:flex-start">
+        <div>
+          <div class="section-label">LIME coefficients</div>
+          <svg id="le-coef-svg" width="330" height="150" style="background:var(--surf2);border:1px solid var(--border);border-radius:8px;display:block"></svg>
+        </div>
+        <div style="flex:1;min-width:230px">
+          <div class="section-label">Some of the neighbours</div>
+          <div id="le-nbrs" style="display:flex;flex-wrap:wrap;gap:8px"></div>
+          <div id="le-fit-info" class="algebra" style="font-size:13px;margin-top:10px">No fit yet.</div>
+        </div>
+      </div>
+      <div id="le-tasks2" style="font-size:14px;line-height:1.9;margin-top:12px"></div>
+      <div id="le-s2q" class="ba-locked-section" style="margin-top:16px">
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px;align-items:start">
+          <div id="le-q2"></div>
+          <div id="le-q3"></div>
+        </div>
+      </div>
     </div>
   </div>
-  <div id="le-s4" class="ba-locked-section">
+
+  <div id="le-s3" class="ba-locked-section" style="margin-top:16px">
     <div class="card">
-      <div class="card-title">Stage 4 · Sampling the Neighborhood</div>
-      <p style="font-size:14.5px;color:var(--muted);margin-bottom:8px">To sample the neighborhood, LIME randomly masks components, runs each through the model, and fits a linear model to the results. What should a <em>masked</em> EEG time segment look like?</p>
-      <div id="le-q3-opts" style="display:flex;flex-direction:column;gap:5px;max-width:400px"></div>
-      <div id="le-q3-hint" class="guidance-box cold" style="margin-top:8px;max-width:400px"></div>
+      <div class="card-title">Stage 3 — What Does "Removed" Mean?</div>
+      <p style="font-size:14.5px;color:var(--muted);margin-bottom:12px">So far, a removed segment was replaced by that channel's normal background EEG. Many tutorials simply set removed pieces to zero. Switch to zeros and refit.</p>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px">
+        <button class="sl-preset-btn le-mode-btn" data-v="bg" onclick="leSetMode('bg')">Removed = background EEG</button>
+        <button class="sl-preset-btn le-mode-btn" data-v="zero" onclick="leSetMode('zero')">Removed = flat zeros</button>
+        <button class="btn btn-p" onclick="leFit(100,leMode3,'le-coef3-svg')">Fit with 100 neighbours</button>
+      </div>
+      <svg id="le-coef3-svg" width="330" height="150" style="background:var(--surf2);border:1px solid var(--border);border-radius:8px;display:block"></svg>
+      <div id="le-fit3-info" class="algebra" style="font-size:13px;margin-top:10px;max-width:560px">No fit yet.</div>
+      <div id="le-tasks3" style="font-size:14px;line-height:1.9;margin-top:12px"></div>
+      <div id="le-s3q" class="ba-locked-section" style="margin-top:16px">
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px;align-items:start">
+          <div id="le-q4"></div>
+          <div id="le-q5"></div>
+        </div>
+      </div>
     </div>
   </div>
-  <div id="le-s5" class="ba-locked-section">
-    <div class="card">
-      <div class="card-title">Stage 5 · Medical Interpretation</div>
-      <p style="font-size:14.5px;color:var(--muted);margin-bottom:8px">A LIME explanation highlights "seconds 3–5 on Left-Temporal channels" as most driving the seizure prediction. A neurologist confirms this matches known temporal lobe onset patterns. What does this tell you?</p>
-      <div id="le-q4-opts" style="display:flex;flex-direction:column;gap:5px;max-width:400px"></div>
-      <div id="le-q4-hint" class="guidance-box cold" style="margin-top:8px;max-width:400px"></div>
-      <div id="le-summary" style="font-size:.88em;color:var(--muted);margin-top:12px"></div>
+
+  <div id="le-s4" class="ba-locked-section" style="margin-top:16px">
+    <div class="card sl-takeaway">
+      <div class="card-title">Takeaway</div>
+      <ul style="padding-left:20px">
+        <li><strong>Instance and components:</strong> the instance is the window the model classifies (here 3 channels × 10 s). Components are channel × time segments, units a neurologist can read: "left temporal, 2.5–5 s".</li>
+        <li><strong>LIME</strong> removes random sets of components, runs the model on each neighbour, weights neighbours by their closeness to x, and fits a linear model. Its coefficients explain the prediction locally (Ribeiro et al., 2016).</li>
+        <li><strong>It is an estimate:</strong> with too few neighbours the ranking changes from draw to draw. Check that it is stable before you trust it.</li>
+        <li><strong>Removing must look realistic.</strong> Flat zeros look like electrode faults, are out of distribution, and spread the credit everywhere. Background EEG keeps the neighbours plausible.</li>
+        <li><strong>Agreement with a neurologist supports the model but does not prove it.</strong> Check many windows, including the model's errors.</li>
+      </ul>
     </div>
   </div>
 </div>

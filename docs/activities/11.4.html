@@ -23,62 +23,118 @@
 
 <div id="tab-11.4" class="tab-panel">
   <div class="prob-card">
-    <div style="margin-bottom:10px">
-      <span class="prob-badge">Activity 11.4</span>
-      <span class="prob-title">Hyperband — How Many Configs?</span>
-      <span id="hypband-completed" class="completed-badge">✓ 11.4 Completed</span>
+    <div style="margin-bottom:10px"><span class="prob-badge">Activity 11.4</span><span class="prob-title">Hyperband — Counting the Configurations</span><span id="hypband-completed" class="completed-badge">✓ 11.4 Completed</span></div>
+    <p class="prob-desc">Random search trains every configuration to the end, even hopeless ones. <strong>Successive halving</strong> trains many configurations briefly and keeps only the best. <strong>Hyperband</strong> runs successive halving several times, in <em>brackets</em> that each balance many short runs against a few long ones differently. With <code>max_iter = 1000</code> and <code>eta = 10</code>, how many times does the code below call <code>random_hyperparameters()</code>?</p>
+    <div class="eq-block" style="font-family:inherit;font-size:15px;line-height:2">
+      <span class="eq-line">Q1</span> How does successive halving spend its budget, and what can go wrong?<br>
+      <span class="eq-line">Q2</span> How many configurations does each bracket start, and with how many iterations?<br>
+      <span class="eq-line">Q3</span> How many calls on paper, and how many when the code actually runs?
     </div>
-    <p class="prob-desc">Hyperband adapts successive halving into multiple <em>brackets</em>, each with a different explore/exploit tradeoff. When <code>max_iter=1000</code> and <code>eta=10</code>, trace through the code to count exactly how many times <code>random_hyperparameters()</code> is called.</p>
+    <pre style="background:var(--surf2);border:1px solid var(--border);border-radius:8px;padding:12px 16px;font-size:13px;line-height:1.6;overflow-x:auto;margin:6px 0 0">from math import log, ceil
+max_iter = 1000   # iterations for a fully trained configuration
+eta = 10          # keep the best 1/eta at every rung
+logeta = lambda x: log(x) / log(eta)
+s_max = int(logeta(max_iter))
+B = (s_max + 1) * max_iter
+
+for s in reversed(range(s_max + 1)):                       # one bracket per s
+    n = int(ceil(int(B / max_iter / (s + 1)) * eta ** s))   # configurations to start
+    r = max_iter * eta ** (-s)                              # iterations each, first rung
+    T = [random_hyperparameters() for i in range(n)]
+    for i in range(s + 1):                                  # successive halving
+        n_i = n * eta ** (-i)
+        r_i = r * eta ** i
+        losses = [run_then_return_val_loss(r_i, t) for t in T]
+        T = [T[j] for j in argsort(losses)[:int(n_i / eta)]]</pre>
+    <p style="font-size:13.5px;color:var(--muted);margin-top:8px">The reference implementation of Li et al. (2017), lightly renamed.</p>
+    <div style="text-align:right;margin-top:10px"><button class="btn btn-p" onclick="hbUnlock(1)">Start →</button></div>
   </div>
-  <div class="card">
-    <div class="card-title">Stage 1 · Bracket Structure</div>
-    <p style="font-size:14.5px;color:var(--muted);margin-bottom:12px">Click each bracket to see how many configs it starts with and how many iterations each config gets. The outer loop runs from s=s_max down to s=0.</p>
-    <div style="display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap">
-      <button class="btn btn-g" id="hb-b3-btn" onclick="hbShowBracket(3)">Bracket s=3</button>
-      <button class="btn btn-g" id="hb-b2-btn" onclick="hbShowBracket(2)">Bracket s=2</button>
-      <button class="btn btn-g" id="hb-b1-btn" onclick="hbShowBracket(1)">Bracket s=1</button>
-      <button class="btn btn-g" id="hb-b0-btn" onclick="hbShowBracket(0)">Bracket s=0</button>
-    </div>
-    <svg id="hb-svg" width="540" height="160" style="display:block;border:1px solid var(--border);border-radius:8px;background:var(--surf2);margin-bottom:10px"></svg>
-    <div id="hb-bracket-desc" style="font-size:14.5px;color:var(--muted);min-height:32px;margin-bottom:10px"></div>
-    <div id="hb-bracket-progress" style="font-size:13.5px;color:var(--muted);margin-bottom:10px">Brackets explored: 0/4</div>
-    <button class="btn btn-p" id="hb-s1-btn" onclick="hbAdvanceS1()" disabled>Explore all brackets to continue →</button>
-  </div>
-  <div id="hb-s2" class="ba-locked-section">
+
+  <div id="hb-s1" class="ba-locked-section" style="margin-top:16px">
     <div class="card">
-      <div class="card-title">Stage 2 · Computing s_max</div>
-      <p style="font-size:14.5px;color:var(--muted);margin-bottom:10px">The outer loop runs from <code>s = s_max</code> down to <code>s = 0</code>. What is <code>s_max</code> when <code>max_iter=1000</code> and <code>eta=10</code>?</p>
-      <div class="algebra" style="margin-bottom:12px">s_max = int(log₁₀(1000) / log₁₀(10)) = int(? / ?) = ?</div>
-      <div id="hb-q1-opts" style="display:flex;flex-direction:column;gap:5px;max-width:380px"></div>
-      <div id="hb-q1-hint" class="guidance-box cold" style="margin-top:8px;max-width:380px"></div>
+      <div class="card-title">Stage 1 — Successive Halving by Hand</div>
+      <p style="font-size:14.5px;color:var(--muted);margin-bottom:12px">A small version first: nine configurations A–I, η = 3, so each rung keeps the best third, and a fully trained configuration gets 9 epochs. Each card shows its validation loss (lower is better). Click the configurations to keep, then run the next rung.</p>
+      <div id="hb-race-status" style="font-size:14.5px;font-weight:600;margin-bottom:10px"></div>
+      <div id="hb-race" style="display:flex;flex-wrap:wrap;gap:8px"></div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:12px">
+        <button class="btn btn-p" id="hb-keep-btn" onclick="hbRaceKeep()">Keep selected → run next rung</button>
+        <button class="btn btn-g" id="hb-reveal-btn" onclick="hbRaceReveal()" disabled style="opacity:.5">What if all nine had trained fully?</button>
+      </div>
+      <div id="hb-race-hint" class="guidance-box cold" style="margin-top:10px">Rung 1: every configuration trains for 1 epoch.</div>
+      <div id="hb-s1b" class="ba-locked-section" style="margin-top:14px">
+        <div class="ba-step-block" style="margin:0">
+          <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">Epochs used by the whole bracket: <input id="hb-f-race" class="rr-inp" placeholder="?" autocomplete="off" onkeydown="if(event.key==='Enter')hbCheckFill('race')"><button class="btn btn-g" onclick="hbCheckFill('race')">Check</button></div>
+          <div id="hb-f-race-hint" class="guidance-box cold" style="margin-top:8px">Add up configurations × epochs over the three rungs.</div>
+        </div>
+      </div>
+      <div id="hb-s1q" class="ba-locked-section" style="margin-top:16px">
+        <div id="hb-q1" style="max-width:560px"></div>
+      </div>
     </div>
   </div>
-  <div id="hb-s3" class="ba-locked-section">
+
+  <div id="hb-s2" class="ba-locked-section" style="margin-top:16px">
     <div class="card">
-      <div class="card-title">Stage 3 · Tracing n_configs for s=1</div>
-      <p style="font-size:14.5px;color:var(--muted);margin-bottom:10px">For bracket <strong>s=1</strong>, apply the formula: <code>int(ceil(int((s_max+1)/(s+1)) × eta^s))</code>.</p>
-      <div class="algebra" style="margin-bottom:12px">int(ceil( int((3+1)/(1+1)) × 10¹ ))<br>= int(ceil( int(2.0) × 10 ))<br>= int(ceil( 2 × 10 )) = ?</div>
-      <p style="font-size:14.5px;color:var(--muted);margin-bottom:8px">How many configurations does bracket s=1 start with?</p>
-      <div id="hb-q2-opts" style="display:flex;flex-direction:column;gap:5px;max-width:380px"></div>
-      <div id="hb-q2-hint" class="guidance-box cold" style="margin-top:8px;max-width:380px"></div>
+      <div class="card-title">Stage 2 — The Brackets on Paper</div>
+      <p style="font-size:14.5px;color:var(--muted);margin-bottom:12px">Back to <code>max_iter = 1000</code> and <code>eta = 10</code>, with exact arithmetic for now.</p>
+      <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">s_max = int(log 1000 / log 10) = <input id="hb-f-smax" class="rr-inp" placeholder="?" autocomplete="off" onkeydown="if(event.key==='Enter')hbCheckFill('smax')"><button class="btn btn-g" onclick="hbCheckFill('smax')">Check</button></div>
+      <div id="hb-f-smax-hint" class="guidance-box cold" style="margin-top:8px">How many times can you divide 1000 by 10 before reaching 1?</div>
+      <div id="hb-s2b" class="ba-locked-section" style="margin-top:14px">
+        <div style="font-size:14.5px;font-weight:600;margin-bottom:8px">Configurations each bracket starts, n = int(ceil(int(B / max_iter / (s + 1)) × eta<sup>s</sup>)):</div>
+        <div style="display:flex;gap:14px;flex-wrap:wrap;align-items:center;font-family:'Courier New',monospace;font-weight:700;font-size:14.5px">
+          <span>s = 3: <input id="hb-c-3" class="rr-inp" style="width:64px" placeholder="?"></span>
+          <span>s = 2: <input id="hb-c-2" class="rr-inp" style="width:64px" placeholder="?"></span>
+          <span>s = 1: <input id="hb-c-1" class="rr-inp" style="width:64px" placeholder="?"></span>
+          <span>s = 0: <input id="hb-c-0" class="rr-inp" style="width:64px" placeholder="?"></span>
+          <button class="btn btn-g" onclick="hbCheckN()">Check</button>
+        </div>
+        <div id="hb-n-hint" class="guidance-box cold" style="margin-top:10px">B / max_iter = s_max + 1.</div>
+        <div id="hb-table" style="margin-top:12px;overflow-x:auto"></div>
+      </div>
+      <div id="hb-s2c" class="ba-locked-section" style="margin-top:14px">
+        <div class="ba-step-block" style="margin:0">
+          <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">Total calls to random_hyperparameters(): <input id="hb-f-total" class="rr-inp" style="width:80px" placeholder="?" autocomplete="off" onkeydown="if(event.key==='Enter')hbCheckFill('total')"><button class="btn btn-g" onclick="hbCheckFill('total')">Check</button></div>
+          <div id="hb-f-total-hint" class="guidance-box cold" style="margin-top:8px">Where in the code is it called, and how often?</div>
+          <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:12px">Iterations spent by bracket s = 3 (all rungs): <input id="hb-f-budget" class="rr-inp" style="width:80px" placeholder="?" autocomplete="off" onkeydown="if(event.key==='Enter')hbCheckFill('budget')"><button class="btn btn-g" onclick="hbCheckFill('budget')">Check</button></div>
+          <div id="hb-f-budget-hint" class="guidance-box cold" style="margin-top:8px">Use the rungs in the table.</div>
+        </div>
+      </div>
+      <div id="hb-s2q" class="ba-locked-section" style="margin-top:18px">
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px;align-items:start">
+          <div id="hb-q2"></div>
+          <div id="hb-q3"></div>
+        </div>
+      </div>
     </div>
   </div>
-  <div id="hb-s4" class="ba-locked-section">
+
+  <div id="hb-s3" class="ba-locked-section" style="margin-top:16px">
     <div class="card">
-      <div class="card-title">Stage 4 · Total Calls to random_hyperparameters()</div>
-      <p style="font-size:14.5px;color:var(--muted);margin-bottom:10px"><code>random_hyperparameters()</code> is called once per configuration at the start of each bracket. Sum across all four brackets:</p>
-      <div class="algebra" style="margin-bottom:12px">s=3: n_configs = 1000<br>s=2: n_configs = 100<br>s=1: n_configs = 20<br>s=0: n_configs = 4<br><strong>Total = ?</strong></div>
-      <div id="hb-q3-opts" style="display:flex;flex-direction:column;gap:5px;max-width:380px"></div>
-      <div id="hb-q3-hint" class="guidance-box cold" style="margin-top:8px;max-width:380px"></div>
+      <div class="card-title">Stage 3 — Now Run the Code</div>
+      <p style="font-size:14.5px;color:var(--muted);margin-bottom:10px">Paste the code into Python with a counter in <code>random_hyperparameters()</code>, and it reports fewer calls than your total. The first suspect is the line that computes s_max:</p>
+      <pre style="background:var(--surf2);border:1px solid var(--border);border-radius:8px;padding:10px 16px;font-size:13px;line-height:1.6;margin:0 0 12px">&gt;&gt;&gt; log(1000) / log(10)
+2.9999999999999996</pre>
+      <div class="ba-step-block" style="margin:0">
+        <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">So the code's s_max = <input id="hb-f-pysmax" class="rr-inp" placeholder="?" autocomplete="off" onkeydown="if(event.key==='Enter')hbCheckFill('pysmax')"><button class="btn btn-g" onclick="hbCheckFill('pysmax')">Check</button></div>
+        <div id="hb-f-pysmax-hint" class="guidance-box cold" style="margin-top:8px">What does int() do to 2.9999999999999996?</div>
+        <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:12px">Calls when the code runs: <input id="hb-f-pytotal" class="rr-inp" style="width:80px" placeholder="?" autocomplete="off" onkeydown="if(event.key==='Enter')hbCheckFill('pytotal')"><button class="btn btn-g" onclick="hbCheckFill('pytotal')">Check</button></div>
+        <div id="hb-f-pytotal-hint" class="guidance-box cold" style="margin-top:8px">B changes too.</div>
+      </div>
+      <div id="hb-s3q" class="ba-locked-section" style="margin-top:16px">
+        <div id="hb-q4" style="max-width:560px"></div>
+      </div>
     </div>
   </div>
-  <div id="hb-s5" class="ba-locked-section">
-    <div class="card">
-      <div class="card-title">Stage 5 · Bracket Intuition</div>
-      <p style="font-size:14.5px;color:var(--muted);margin-bottom:8px">Bracket s=3 starts <strong>1000 configurations</strong> but runs each for only <strong>1 iteration</strong>. What is the key assumption that makes this useful?</p>
-      <div id="hb-q4-opts" style="display:flex;flex-direction:column;gap:5px;max-width:380px"></div>
-      <div id="hb-q4-hint" class="guidance-box cold" style="margin-top:8px;max-width:380px"></div>
-      <div id="hb-summary" style="font-size:.88em;color:var(--muted);margin-top:12px"></div>
+
+  <div id="hb-s4" class="ba-locked-section" style="margin-top:16px">
+    <div class="card sl-takeaway">
+      <div class="card-title">Takeaway</div>
+      <ul style="padding-left:20px">
+        <li><strong>Successive halving</strong> trains many configurations briefly and keeps the best 1/η at every rung: 27 epochs instead of 81 in Stage 1. It assumes early losses rank configurations the way final losses would, and slow starters like C are dropped.</li>
+        <li><strong>Hyperband hedges that bet</strong> by running brackets s = s_max, …, 0. Each spends about B iterations, starting n = ⌈⌊(s_max + 1)/(s + 1)⌋·η<sup>s</sup>⌉ configurations at r = max_iter·η<sup>−s</sup> iterations. Bracket s = 0 is plain random search.</li>
+        <li><strong>On paper,</strong> max_iter = 1000 and η = 10 give 1000 + 100 + 20 + 4 = <strong>1124</strong> calls.</li>
+        <li><strong>As written, the code makes 113 calls,</strong> because int(2.9999999999999996) = 2. When you trace code, trace what the machine computes, and use integer arithmetic for counts like s_max.</li>
+      </ul>
     </div>
   </div>
 </div>

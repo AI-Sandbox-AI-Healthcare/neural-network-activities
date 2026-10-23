@@ -23,90 +23,119 @@
 
 <div id="tab-10.7" class="tab-panel">
   <div class="prob-card">
-    <div style="margin-bottom:10px"><span class="prob-badge">Activity 10.7</span><span class="prob-title">Linear RNN Stability — Unrolling &amp; Memory Decay</span><span id="linrnn-completed" class="completed-badge">✓ 10.7 Completed</span></div>
-    <div id="lr7-eq" style="margin-bottom:16px"></div>
-    <p class="prob-desc">Consider a 1-unit linear RNN: <strong>h⁽ᵗ⁾ = wh⁽ᵗ⁻¹⁾ + ux⁽ᵗ⁾</strong> with h⁽⁰⁾ = 0. Unroll the recurrence into closed form, then explore how the weight <em>w</em> (not <em>u</em>) determines whether past inputs are remembered or forgotten.</p>
-    <div style="text-align:right;margin-top:12px"><button class="btn btn-p" onclick="lrUnlock(1)">Start unrolling →</button></div>
+    <div style="margin-bottom:10px"><span class="prob-badge">Activity 10.7</span><span class="prob-title">Linear RNN — Which Weight Controls Memory?</span><span id="linrnn-completed" class="completed-badge">✓ 10.7 Completed</span></div>
+    <p class="prob-desc">Strip an RNN down to a single number. The state h is updated from the previous state and the new input, with no activation function. Two weights are involved: <strong>w</strong> carries the old state forward and <strong>u</strong> brings in the new input. Which one decides how long the past is remembered?</p>
+    <div class="eq-block" style="font-family:inherit;font-size:15px;line-height:2">
+      <span class="eq-line">Q1</span> How much does each past input count in the current state h⁽ᵀ⁾?<br>
+      <span class="eq-line">Q2</span> Which weight controls memory, and which only scales?<br>
+      <span class="eq-line">Q3</span> What changes when h is a vector and w is a matrix W?
+    </div>
+    <div id="lm-eq" style="margin-bottom:10px"></div>
+    <div style="text-align:right;margin-top:14px"><button class="btn btn-p" onclick="lmUnlock(1)">Start →</button></div>
   </div>
 
-  <div id="lr-s1" class="ba-locked-section" style="margin-top:16px">
+  <div id="lm-s1" class="ba-locked-section" style="margin-top:16px">
     <div class="card">
-      <div class="card-title">Stage 1 — Unroll the Recurrence (h⁽⁰⁾ = 0)</div>
-      <p style="font-size:14.5px;color:var(--muted);margin-bottom:12px">Substitute h⁽ᵗ⁻¹⁾ repeatedly to eliminate all h terms except h⁽⁰⁾ = 0. Pick the correct unrolled form for each step.</p>
-      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px;align-items:start">
-        <div class="ba-step-block">
-          <div class="ba-step-label">h⁽¹⁾ = wh⁽⁰⁾ + ux⁽¹⁾ = ?</div>
-          <div id="lr-q1-opts" style="display:flex;flex-direction:column;gap:4px"></div>
-          <div id="lr-q1-hint" class="guidance-box cold" style="margin-top:6px"></div>
-        </div>
-        <div id="lr-step2" style="opacity:.35;pointer-events:none;transition:opacity .3s">
-          <div class="ba-step-block">
-            <div class="ba-step-label">h⁽²⁾ = wh⁽¹⁾ + ux⁽²⁾ = ?</div>
-            <div id="lr-q2-opts" style="display:flex;flex-direction:column;gap:4px"></div>
-            <div id="lr-q2-hint" class="guidance-box cold" style="margin-top:6px"></div>
-          </div>
-        </div>
-        <div id="lr-step3" style="opacity:.35;pointer-events:none;transition:opacity .3s">
-          <div class="ba-step-block">
-            <div class="ba-step-label">h⁽³⁾ = wh⁽²⁾ + ux⁽³⁾ = ?</div>
-            <div id="lr-q3-opts" style="display:flex;flex-direction:column;gap:4px"></div>
-            <div id="lr-q3-hint" class="guidance-box cold" style="margin-top:6px"></div>
-          </div>
-        </div>
+      <div class="card-title">Stage 1 — Unroll Three Steps</div>
+      <p style="font-size:14.5px;color:var(--muted);margin-bottom:12px">Take <strong>w = 0.5</strong> and <strong>u = 2</strong>. Substitute each step into the next, and write h⁽³⁾ as a weighted sum of the three inputs.</p>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;font-family:'Courier New',monospace;font-weight:700;font-size:14.5px">
+        <span>h⁽³⁾ =</span>
+        <input id="lm-c-a" class="rr-inp" style="width:56px" placeholder="?"><span>· x⁽¹⁾ +</span>
+        <input id="lm-c-b" class="rr-inp" style="width:56px" placeholder="?"><span>· x⁽²⁾ +</span>
+        <input id="lm-c-c" class="rr-inp" style="width:56px" placeholder="?"><span>· x⁽³⁾</span>
+        <button class="btn btn-g" onclick="lmCheckUnroll()">Check</button>
+      </div>
+      <div id="lm-unroll-hint" class="guidance-box cold" style="margin-top:10px">Start with h⁽¹⁾ = w·h⁽⁰⁾ + u·x⁽¹⁾, where h⁽⁰⁾ = 0.</div>
+      <div id="lm-s1q" class="ba-locked-section" style="margin-top:16px">
+        <div id="lm-q1" style="max-width:560px"></div>
       </div>
     </div>
   </div>
 
-  <div id="lr-s2" class="ba-locked-section" style="margin-top:16px">
+  <div id="lm-s2" class="ba-locked-section" style="margin-top:16px">
     <div class="card">
-      <div class="card-title">Stage 2 — Memory Decay Visualiser</div>
-      <p style="font-size:14.5px;color:var(--muted);margin-bottom:12px">After unrolling: h⁽ᵀ⁾ = u · (w^(T−1)x⁽¹⁾ + w^(T−2)x⁽²⁾ + ··· + x⁽ᵀ⁾). Each bar shows the weight that past input x⁽ᵏ⁾ receives in the current hidden state. Drag w and observe.</p>
+      <div class="card-title">Stage 2 — The Memory Profile</div>
+      <p style="font-size:14.5px;color:var(--muted);margin-bottom:12px">Bar ℓ is the weight u·w<sup>ℓ</sup> on the input from ℓ steps ago, on a <strong>log scale</strong> (blue = positive, red = negative). In a linear RNN this weight is also the gradient ∂h⁽ᵀ⁾/∂x⁽ᵀ⁻ℓ⁾: how much that input can still move the state.</p>
       <div style="display:flex;gap:24px;flex-wrap:wrap;align-items:flex-start">
-        <div style="flex:1;min-width:200px">
-          <div class="slider-row">
-            <span class="slider-label"><span class="name">w (recurrent weight)</span><span class="val" id="lr-w-val">0.80</span></span>
-            <input type="range" id="lr-w" min="-1.5" max="1.5" step="0.05" value="0.8" oninput="lrDrawMemory()">
-          </div>
-          <div class="slider-row">
-            <span class="slider-label"><span class="name">u (input weight)</span><span class="val" id="lr-u-val">1.00</span></span>
-            <input type="range" id="lr-u" min="0.1" max="3.0" step="0.1" value="1.0" oninput="lrDrawMemory()">
-          </div>
-          <div id="lr-mem-msg" style="margin-top:10px;font-size:14.5px;font-weight:600;min-height:36px"></div>
+        <div style="flex:1;min-width:250px;max-width:340px">
+          <div class="slider-row"><span class="slider-label" style="width:120px"><span class="name">w</span><span class="val" id="lm-w-val">0.5</span></span><input type="range" id="lm-w" min="-1.2" max="1.2" step="0.01" value="0.5" style="flex:1" oninput="lmDrawProfile()"></div>
+          <div class="slider-row"><span class="slider-label" style="width:120px"><span class="name">u</span><span class="val" id="lm-u-val">1</span></span><input type="range" id="lm-u" min="0.1" max="3" step="0.1" value="1" style="flex:1" oninput="lmDrawProfile()"></div>
+          <div id="lm-prof-calc" class="algebra" style="font-size:13px;margin-top:8px"></div>
         </div>
-        <div>
-          <svg id="lr-svg" width="280" height="150" style="background:var(--surf2);border:1px solid var(--border);border-radius:8px;display:block"></svg>
-          <div style="font-size:12.5px;color:var(--muted);margin-top:4px;max-width:280px">Bar k = weight on x⁽ᵀ⁻ᵏ⁺¹⁾ (k=1 is most recent input)</div>
+        <svg id="lm-prof-svg" width="380" height="200" style="background:var(--surf2);border:1px solid var(--border);border-radius:8px;display:block;max-width:100%"></svg>
+      </div>
+      <div class="ba-step-block" style="margin:16px 0 0">
+        <div style="font-size:14.5px;font-weight:600;margin-bottom:10px">With w = 0.9 and u = 1, what is the smallest lag ℓ whose weight is below 0.1?</div>
+        <div style="display:flex;gap:8px;align-items:center">ℓ = <input id="lm-f-lag" class="rr-inp" placeholder="?" autocomplete="off" onkeydown="if(event.key==='Enter')lmCheckFill('lag')"><button class="btn btn-g" onclick="lmCheckFill('lag')">Check</button></div>
+        <div id="lm-f-lag-hint" class="guidance-box cold" style="margin-top:8px">The dashed line marks 0.1.</div>
+        <div style="font-size:14.5px;font-weight:600;margin:14px 0 10px">Design: an input 9 steps back must keep at least <strong>half</strong> the weight of the newest input. What is the smallest w (two decimals) that does it?</div>
+        <div style="display:flex;gap:8px;align-items:center">w = <input id="lm-f-design" class="rr-inp" placeholder="?" autocomplete="off" onkeydown="if(event.key==='Enter')lmCheckFill('design')"><button class="btn btn-g" onclick="lmCheckFill('design')">Check</button></div>
+        <div id="lm-f-design-hint" class="guidance-box cold" style="margin-top:8px">Does the answer depend on u?</div>
+      </div>
+      <div id="lm-s2q" class="ba-locked-section" style="margin-top:18px">
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px;align-items:start">
+          <div id="lm-q2"></div>
+          <div id="lm-q3"></div>
         </div>
       </div>
-      <div style="margin-top:12px;text-align:right"><button class="btn btn-p" id="lr-s2-btn" onclick="lrUnlock(3)" disabled>I've explored w and u →</button></div>
     </div>
   </div>
 
-  <div id="lr-s3" class="ba-locked-section" style="margin-top:16px">
+  <div id="lm-s3" class="ba-locked-section" style="margin-top:16px">
     <div class="card">
-      <div class="card-title">Stage 3 — What Controls Memory?</div>
-      <div style="font-weight:600;font-size:14.5px;margin-bottom:8px">In the unrolled form, what determines whether old inputs are remembered or forgotten?</div>
-      <div id="lr-q4-opts" style="display:flex;flex-direction:column;gap:5px;max-width:460px"></div>
-      <div id="lr-q4-hint" class="guidance-box cold" style="margin-top:8px;max-width:460px"></div>
+      <div class="card-title">Stage 3 — A Constant Input</div>
+      <p style="font-size:14.5px;color:var(--muted);margin-bottom:12px">Now feed the same input x⁽ᵗ⁾ = 1 at every step and follow the state h⁽ᵗ⁾ for 40 steps.</p>
+      <div style="display:flex;gap:24px;flex-wrap:wrap;align-items:flex-start">
+        <div style="flex:1;min-width:250px;max-width:340px">
+          <div class="slider-row"><span class="slider-label" style="width:120px"><span class="name">w</span><span class="val" id="lm-w2-val">0.5</span></span><input type="range" id="lm-w2" min="-1.2" max="1.2" step="0.01" value="0.5" style="flex:1" oninput="lmDrawTraj()"></div>
+          <div class="slider-row"><span class="slider-label" style="width:120px"><span class="name">u</span><span class="val" id="lm-u2-val">1</span></span><input type="range" id="lm-u2" min="0.01" max="3" step="0.01" value="1" style="flex:1" oninput="lmDrawTraj()"></div>
+          <div id="lm-traj-calc" class="algebra" style="font-size:13px;margin-top:8px"></div>
+        </div>
+        <svg id="lm-traj-svg" width="380" height="200" style="background:var(--surf2);border:1px solid var(--border);border-radius:8px;display:block;max-width:100%"></svg>
+      </div>
+      <div class="ba-step-block" style="margin:16px 0 0">
+        <div style="font-size:14.5px;font-weight:600;margin-bottom:10px">With w = 0.8 and u = 1, what value does h⁽ᵗ⁾ settle at?</div>
+        <div style="display:flex;gap:8px;align-items:center">h → <input id="lm-f-fixed" class="rr-inp" placeholder="?" autocomplete="off" onkeydown="if(event.key==='Enter')lmCheckFill('fixed')"><button class="btn btn-g" onclick="lmCheckFill('fixed')">Check</button></div>
+        <div id="lm-f-fixed-hint" class="guidance-box cold" style="margin-top:8px">Watch the plot, then explain the number using the weights from Stage 1.</div>
+      </div>
+      <div id="lm-s3q" class="ba-locked-section" style="margin-top:16px">
+        <div id="lm-q4" style="max-width:560px"></div>
+      </div>
     </div>
   </div>
 
-  <div id="lr-s4" class="ba-locked-section" style="margin-top:16px">
+  <div id="lm-s4" class="ba-locked-section" style="margin-top:16px">
     <div class="card">
-      <div class="card-title">Stage 4 — |u| &lt; 1 vs |w| &lt; 1</div>
-      <div style="font-weight:600;font-size:14.5px;margin-bottom:8px">If |u| = 0.1 but |w| = 1.4, what happens to h⁽ᵀ⁾ as T grows?</div>
-      <div id="lr-q5-opts" style="display:flex;flex-direction:column;gap:5px;max-width:460px"></div>
-      <div id="lr-q5-hint" class="guidance-box cold" style="margin-top:8px;max-width:460px"></div>
+      <div class="card-title">Stage 4 — Many Units: Eigenvalues Decide</div>
+      <p style="font-size:14.5px;color:var(--muted);margin-bottom:12px">With a state vector, the recurrence becomes h⁽ᵗ⁾ = W h⁽ᵗ⁻¹⁾ (inputs switched off). Take <strong>W = [[0.8, 0.3], [0.3, 0.8]]</strong> and h⁽⁰⁾ = [1, 0]. W stretches the direction [1, 1] by <strong>1.1</strong> and the direction [1, −1] by <strong>0.5</strong>: these are its eigenvectors and eigenvalues.</p>
+      <div style="display:flex;gap:24px;flex-wrap:wrap;align-items:flex-start">
+        <svg id="lm-eig-svg" width="280" height="280" style="background:var(--surf2);border:1px solid var(--border);border-radius:8px;display:block"></svg>
+        <div style="flex:1;min-width:250px">
+          <div class="slider-row"><span class="slider-label" style="width:90px"><span class="name">t</span><span class="val" id="lm-t-val">0</span></span><input type="range" id="lm-t" min="0" max="12" step="1" value="0" style="flex:1" oninput="lmDrawEig()"></div>
+          <div id="lm-eig-calc" class="algebra" style="font-size:13px;margin-top:8px"></div>
+        </div>
+      </div>
+      <div class="ba-step-block" style="margin:16px 0 0">
+        <div style="font-size:14.5px;font-weight:600;margin-bottom:10px">The slider stops at t = 12. What is the first entry of h⁽²⁰⁾ (two decimals)?</div>
+        <div style="display:flex;gap:8px;align-items:center">h⁽²⁰⁾₁ = <input id="lm-f-eig" class="rr-inp" placeholder="?" autocomplete="off" onkeydown="if(event.key==='Enter')lmCheckFill('eig')"><button class="btn btn-g" onclick="lmCheckFill('eig')">Check</button></div>
+        <div id="lm-f-eig-hint" class="guidance-box cold" style="margin-top:8px">Follow the two eigen-directions separately.</div>
+      </div>
+      <div id="lm-s4q" class="ba-locked-section" style="margin-top:16px">
+        <div id="lm-q5" style="max-width:560px"></div>
+      </div>
     </div>
   </div>
 
-  <div id="lr-s5" class="ba-locked-section" style="margin-top:16px">
-    <div class="card">
-      <div class="card-title">Stage 5 — Roles of w and u</div>
-      <div style="font-weight:600;font-size:14.5px;margin-bottom:8px">What is the key difference between what w and u control?</div>
-      <div id="lr-q6-opts" style="display:flex;flex-direction:column;gap:5px;max-width:340px"></div>
-      <div id="lr-q6-hint" class="guidance-box cold" style="margin-top:8px;max-width:340px"></div>
-      <div id="lr-summary" style="font-size:.88em;color:var(--muted);margin-top:12px"></div>
+  <div id="lm-s5" class="ba-locked-section" style="margin-top:16px">
+    <div class="card sl-takeaway">
+      <div class="card-title">Takeaway</div>
+      <ul style="padding-left:20px">
+        <li><strong>Unrolled:</strong> h⁽ᵀ⁾ = Σ<sub>k</sub> u·w<sup>T−k</sup>·x⁽ᵏ⁾. An input ℓ steps old carries the weight u·w<sup>ℓ</sup>, which is also the gradient ∂h⁽ᵀ⁾/∂x⁽ᵀ⁻ℓ⁾.</li>
+        <li><strong>w controls memory; u only scales.</strong> With |w| &lt; 1 the past fades (at w = 0.9, below a tenth after 22 steps), with |w| = 1 it is kept, and with |w| &gt; 1 it explodes. A negative w only alternates the sign. u cancels in every ratio.</li>
+        <li><strong>Constant input:</strong> h settles at u / (1 − w) only when |w| &lt; 1. Otherwise it grows without bound, however small u is.</li>
+        <li><strong>Many units:</strong> the eigenvalues of W play the role of w (Goodfellow §10.7). Each eigen-direction is scaled by λ<sup>t</sup>; entries below 1 do not guarantee stability.</li>
+        <li><strong>Next (10.10):</strong> an LSTM's forget gate is a w that the network sets at every step, close to 1 while something must be remembered.</li>
+      </ul>
     </div>
   </div>
 </div>

@@ -53,7 +53,7 @@ ACTIVITIES = [
     ("8.4",    "Transfer Learn",             "Reuse pre-trained features",          "Chapter 8",     ["initTransferLearn"], ["8.4"]),
     ("8.5",    "Optimizer Race",             "SGD vs AdaGrad vs Adam",              "Chapter 8",     ["initOptRace"],       ["8.5"]),
     ("8.7.1",  "Batch Norm",                 "Control column means",                "Chapter 8",     ["initBatchNorm"],     ["8.7.1"]),
-    ("9.1",    "Cross-Correlation",          "Slide kernel, fill output",           "Chapter 9",     ["initConv91"],        ["9.1"]),
+    ("9.1",    "Convolution",                "Sliding a pattern detector",          "Chapter 9",     ["initConv91"],        ["9.1"]),
     ("9.3",    "Adaptive Pooling",           "Fix output size for any input",       "Chapter 9",     ["initPool93"],        ["9.3"]),
     ("9.GC.1", "GCN Mechanics",              "Graph, A*, message passing",          "Chapter 9",     ["initGCMech"],        ["9.GC.1"]),
     ("9.GC.2", "Conv vs GCN",                "Can graph conv replace CNN?",         "Chapter 9",     ["initGCEq"],          ["9.GC.2"]),
@@ -65,13 +65,13 @@ ACTIVITIES = [
     ("10.4",   "NER as Seq2Seq",             "Token class vs. generation",          "Chapter 10",    ["initNERSeq"],        ["10.4"]),
     ("10.6",   "Recursive NNs",              "Beyond language trees",               "Chapter 10",    ["initRecNets"],       ["10.6"]),
     ("10.7",   "Linear RNN Stability",       "Unroll & w vs u",                     "Chapter 10",    ["initLinRNN"],        ["10.7"]),
-    ("10.10",  "GRU vs LSTM",                "Architecture search space",           "Chapter 10",    ["initGRUComp"],       ["10.10"]),
+    ("10.10",  "GRU vs LSTM",                "Gates as learned memory",             "Chapter 10",    ["initGRUComp"],       ["10.10"]),
     ("10.TF",  "Transformer PE",             "Beyond sinusoids",                    "Chapter 10",    ["initTrfPos"],        ["10.TF"]),
     ("11.1",   "Cancer NLP",                 "Metrics for high-stakes tasks",       "Chapter 11",    ["initCancerNLP"],     ["11.1"]),
     ("11.3",   "Learning Curves",            "Bias vs. variance diagnosis",         "Chapter 11",    ["initLearnCurve"],    ["11.3"]),
     ("11.4",   "Hyperband",                  "Bracket search budget",               "Chapter 11",    ["initHyperband"],     ["11.4"]),
     ("11.LS",  "LIME for EEG",               "Neighborhood in time-series",         "Chapter 11",    ["initLIMEEEG"],       ["11.LS"]),
-    ("11.GA",  "Gradient Attribution",       "Saliency vs LIME vs SHAP",            "Chapter 11",    ["initGradAttr"],      ["11.GA"]),
+    ("11.GA",  "Gradient Attribution",       "Saliency, occlusion & Shapley",            "Chapter 11",    ["initGradAttr"],      ["11.GA"]),
 ]
 
 assert len(ACTIVITIES) == 38, len(ACTIVITIES)

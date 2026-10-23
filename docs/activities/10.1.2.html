@@ -24,87 +24,87 @@
 <div id="tab-10.1.2" class="tab-panel">
   <div class="prob-card">
     <div style="margin-bottom:10px"><span class="prob-badge">Activity 10.1.2</span><span class="prob-title">RNN Forward Pass — Step by Step</span><span id="rfwd-completed" class="completed-badge">✓ 10.1.2 Completed</span></div>
-    <div id="rf-eq" style="margin-bottom:16px"></div>
-    <p class="prob-desc">Trace two timesteps of <strong>h⁽ᵗ⁾ = ReLU(W₁h⁽ᵗ⁻¹⁾ + W₂x⁽ᵗ⁾)</strong> with given matrices. Fill in each intermediate value — earlier results unlock later boxes.</p>
-    <div style="text-align:right;margin-top:12px"><button class="btn btn-p" onclick="rfUnlock(1)">Start computing →</button></div>
+    <p class="prob-desc">A recurrent network keeps a hidden state h⁽ᵗ⁾ and updates it at every step from the previous state and the new input, using the <strong>same weights</strong> each time. You will trace two steps by hand, then test what the state remembers.</p>
+    <div class="eq-block" style="font-family:inherit;font-size:15px;line-height:2">
+      <span class="eq-line">Q1</span> How does h⁽ᵗ⁾ combine memory and new input?<br>
+      <span class="eq-line">Q2</span> Does the order of the inputs matter?<br>
+      <span class="eq-line">Q3</span> What does the network reuse at every step?
+    </div>
+    <div id="rf-eq" style="margin-bottom:10px"></div>
+    <div style="text-align:right;margin-top:14px"><button class="btn btn-p" onclick="rfUnlock(1)">Start →</button></div>
   </div>
 
-  <!-- Setup shown always in prob-card; stage 1 is fill-in t=1 -->
   <div id="rf-s1" class="ba-locked-section" style="margin-top:16px">
     <div class="card">
-      <div class="card-title">Stage 1 — Timestep 1: h⁽¹⁾ = ReLU(W₁·h⁽⁰⁾ + W₂·x⁽¹⁾)</div>
-      <p style="font-size:14.5px;color:var(--muted);margin-bottom:12px">h⁽⁰⁾ = [0,0], so <strong>W₁·h⁽⁰⁾ = [0,0]</strong>. You only need to compute W₂·x⁽¹⁾, then apply ReLU.</p>
+      <div class="card-title">Stage 1 — Timestep 1</div>
+      <div class="given-row" style="margin-bottom:16px">
+        <div class="given-box"><div class="given-lbl">W (state → state)</div><div class="given-val">[[1, 2], [0, −1]]</div></div>
+        <div class="given-box"><div class="given-lbl">U (input → state)</div><div class="given-val">[[0, 1], [2, −5]]</div></div>
+        <div class="given-box"><div class="given-lbl">Start</div><div class="given-val">h⁽⁰⁾ = [0, 0]</div></div>
+        <div class="given-box"><div class="given-lbl">Inputs</div><div class="given-val">x⁽¹⁾ = [1, 0], x⁽²⁾ = [0, 1]</div></div>
+        <div class="given-box"><div class="given-lbl">🎯 Find</div><div class="given-val">h⁽¹⁾, then h⁽²⁾</div></div>
+      </div>
       <div class="ba-step-block">
-        <div class="ba-step-label">Step A — Compute W₂ · x⁽¹⁾ &nbsp;<span style="font-weight:400;color:var(--muted)">(x⁽¹⁾ = [1, 0])</span></div>
-        <div style="font-family:'Courier New',monospace;font-size:14.5px;color:var(--muted);margin-bottom:8px;line-height:2.4">
-          Row 0: 0·1 + 1·0 = ?<br>Row 1: 2·1 + (−5)·0 = ?
-        </div>
-        <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-family:'Courier New',monospace;font-weight:700">
-          W₂x⁽¹⁾ = [<input id="rf-a0" class="rr-inp" style="width:52px" type="text" placeholder="?" oninput="rfCheck()">, <input id="rf-a1" class="rr-inp" style="width:52px" type="text" placeholder="?" oninput="rfCheck()">]
-        </div>
-        <div id="rf-a-hint" class="guidance-box cold" style="margin-top:8px;max-width:360px"></div>
-      </div>
-      <div id="rf-h1-block" style="opacity:.35;pointer-events:none;margin-top:10px;transition:opacity .3s">
-        <div class="ba-step-block">
-          <div class="ba-step-label">Step B — h⁽¹⁾ = ReLU([0,0] + W₂x⁽¹⁾) &nbsp;<span style="font-weight:400;color:var(--muted)">ReLU clips negatives to 0</span></div>
-          <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-family:'Courier New',monospace;font-weight:700">
-            h⁽¹⁾ = [<input id="rf-b0" class="rr-inp" style="width:52px" type="text" placeholder="?" oninput="rfCheck()">, <input id="rf-b1" class="rr-inp" style="width:52px" type="text" placeholder="?" oninput="rfCheck()">]
-          </div>
-          <div id="rf-b-hint" class="guidance-box cold" style="margin-top:8px;max-width:360px"></div>
-        </div>
-      </div>
-      <div id="rf-s1-btn-wrap" style="margin-top:10px;opacity:.35;pointer-events:none;transition:opacity .3s">
-        <button class="btn btn-p" onclick="rfUnlock(2)">h⁽¹⁾ confirmed — compute h⁽²⁾ →</button>
+        <div class="ba-step-label">Pre-activation a⁽¹⁾ = W·h⁽⁰⁾ + U·x⁽¹⁾</div>
+        <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-family:'Courier New',monospace;font-weight:700">a⁽¹⁾ = [<input id="rf-a1-0" class="rr-inp" style="width:56px" placeholder="?">, <input id="rf-a1-1" class="rr-inp" style="width:56px" placeholder="?">] &nbsp; h⁽¹⁾ = ReLU(a⁽¹⁾) = [<input id="rf-h1-0" class="rr-inp" style="width:56px" placeholder="?">, <input id="rf-h1-1" class="rr-inp" style="width:56px" placeholder="?">]<button class="btn btn-g" onclick="rfCheck(1)">Check</button></div>
+        <div id="rf-s1-hint" class="guidance-box cold" style="margin-top:8px">Matrix times vector: row i of the matrix times the vector gives entry i.</div>
       </div>
     </div>
   </div>
 
   <div id="rf-s2" class="ba-locked-section" style="margin-top:16px">
     <div class="card">
-      <div class="card-title">Stage 2 — Timestep 2: h⁽²⁾ = ReLU(W₁·h⁽¹⁾ + W₂·x⁽²⁾)</div>
-      <p style="font-size:14.5px;color:var(--muted);margin-bottom:12px">h⁽¹⁾ = [0, 2] now carries information from step 1. Both W₁h⁽¹⁾ and W₂x⁽²⁾ are nonzero.</p>
-      <div class="two-col" style="gap:14px;margin-bottom:10px">
-        <div class="ba-step-block">
-          <div class="ba-step-label">Step C — W₁ · h⁽¹⁾ &nbsp;<span style="font-weight:400;color:var(--muted)">(h⁽¹⁾=[0,2])</span></div>
-          <div style="font-family:'Courier New',monospace;font-size:14.5px;color:var(--muted);margin-bottom:8px;line-height:2.4">Row 0: 1·0 + 2·2 = ?<br>Row 1: 0·0 + (−1)·2 = ?</div>
-          <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-family:'Courier New',monospace;font-weight:700">
-            W₁h⁽¹⁾ = [<input id="rf-c0" class="rr-inp" style="width:52px" type="text" placeholder="?" oninput="rfCheck()">, <input id="rf-c1" class="rr-inp" style="width:52px" type="text" placeholder="?" oninput="rfCheck()">]
-          </div>
-          <div id="rf-c-hint" class="guidance-box cold" style="margin-top:8px"></div>
-        </div>
-        <div class="ba-step-block">
-          <div class="ba-step-label">Step D — W₂ · x⁽²⁾ &nbsp;<span style="font-weight:400;color:var(--muted)">(x⁽²⁾=[0,1])</span></div>
-          <div style="font-family:'Courier New',monospace;font-size:14.5px;color:var(--muted);margin-bottom:8px;line-height:2.4">Row 0: 0·0 + 1·1 = ?<br>Row 1: 2·0 + (−5)·1 = ?</div>
-          <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-family:'Courier New',monospace;font-weight:700">
-            W₂x⁽²⁾ = [<input id="rf-d0" class="rr-inp" style="width:52px" type="text" placeholder="?" oninput="rfCheck()">, <input id="rf-d1" class="rr-inp" style="width:52px" type="text" placeholder="?" oninput="rfCheck()">]
-          </div>
-          <div id="rf-d-hint" class="guidance-box cold" style="margin-top:8px"></div>
-        </div>
-      </div>
-      <div id="rf-h2-block" style="opacity:.35;pointer-events:none;transition:opacity .3s">
-        <div class="ba-step-block">
-          <div class="ba-step-label">Step E — h⁽²⁾ = ReLU(W₁h⁽¹⁾ + W₂x⁽²⁾)</div>
-          <div id="rf-h2-eq" style="font-family:'Courier New',monospace;font-size:14.5px;color:var(--muted);margin-bottom:8px"></div>
-          <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-family:'Courier New',monospace;font-weight:700">
-            h⁽²⁾ = [<input id="rf-e0" class="rr-inp" style="width:52px" type="text" placeholder="?" oninput="rfCheck()">, <input id="rf-e1" class="rr-inp" style="width:52px" type="text" placeholder="?" oninput="rfCheck()">]
-          </div>
-          <div id="rf-e-hint" class="guidance-box cold" style="margin-top:8px;max-width:400px"></div>
-        </div>
-      </div>
-      <div id="rf-s2-btn-wrap" style="margin-top:10px;opacity:.35;pointer-events:none;transition:opacity .3s">
-        <button class="btn btn-p" onclick="rfUnlock(3)">h⁽²⁾ confirmed — final question →</button>
+      <div class="card-title">Stage 2 — Timestep 2: Memory Meets New Input</div>
+      <div class="ba-step-block">
+        <div class="ba-step-label">a⁽²⁾ = W·h⁽¹⁾ + U·x⁽²⁾</div>
+        <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-family:'Courier New',monospace;font-weight:700">a⁽²⁾ = [<input id="rf-a2-0" class="rr-inp" style="width:56px" placeholder="?">, <input id="rf-a2-1" class="rr-inp" style="width:56px" placeholder="?">] &nbsp; h⁽²⁾ = ReLU(a⁽²⁾) = [<input id="rf-h2-0" class="rr-inp" style="width:56px" placeholder="?">, <input id="rf-h2-1" class="rr-inp" style="width:56px" placeholder="?">]<button class="btn btn-g" onclick="rfCheck(2)">Check</button></div>
+        <div id="rf-s2-hint" class="guidance-box cold" style="margin-top:8px">Now both parts are non-zero: the memory term W·h⁽¹⁾ and the input term U·x⁽²⁾.</div>
       </div>
     </div>
   </div>
 
   <div id="rf-s3" class="ba-locked-section" style="margin-top:16px">
     <div class="card">
-      <div class="card-title">Stage 3 — Key Insight</div>
-      <p style="font-size:14.5px;color:var(--muted);margin-bottom:10px">You found h⁽²⁾ = [5, 0]. Before ReLU the sum was [5, −7]; component 1 was clipped to 0. h⁽²⁾ depends on <em>both</em> x⁽¹⁾ (via h⁽¹⁾) and x⁽²⁾.</p>
-      <div style="font-weight:600;font-size:14.5px;margin-bottom:8px">What does it mean when ReLU zeros a hidden-state component?</div>
-      <div id="rf-q1-opts" style="display:flex;flex-direction:column;gap:5px;max-width:360px"></div>
-      <div id="rf-q1-hint" class="guidance-box cold" style="margin-top:8px;max-width:360px"></div>
-      <div id="rf-summary" style="font-size:.88em;color:var(--muted);margin-top:12px"></div>
+      <div class="card-title">Stage 3 — What Does the State Remember?</div>
+      <p style="font-size:14.5px;color:var(--muted);margin-bottom:12px">Same W and U. Predict h⁽²⁾ for two other runs.</p>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px;align-items:start">
+        <div class="ba-step-block" style="margin:0">
+          <div class="ba-step-label">Run 2 — inputs swapped: x⁽¹⁾ = [0, 1], x⁽²⁾ = [1, 0]</div>
+          <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-family:'Courier New',monospace;font-weight:700">h⁽²⁾ = [<input id="rf-r2-0" class="rr-inp" style="width:56px" placeholder="?">, <input id="rf-r2-1" class="rr-inp" style="width:56px" placeholder="?">]<button class="btn btn-g" onclick="rfCheckRun(2)">Check</button></div>
+          <div id="rf-r2-hint" class="guidance-box cold" style="margin-top:8px">Start again from h⁽⁰⁾ = [0, 0].</div>
+        </div>
+        <div class="ba-step-block" style="margin:0">
+          <div class="ba-step-label">Run 3 — nothing at step 1: x⁽¹⁾ = [0, 0], x⁽²⁾ = [0, 1]</div>
+          <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-family:'Courier New',monospace;font-weight:700">h⁽²⁾ = [<input id="rf-r3-0" class="rr-inp" style="width:56px" placeholder="?">, <input id="rf-r3-1" class="rr-inp" style="width:56px" placeholder="?">]<button class="btn btn-g" onclick="rfCheckRun(3)">Check</button></div>
+          <div id="rf-r3-hint" class="guidance-box cold" style="margin-top:8px">What is h⁽¹⁾ when x⁽¹⁾ = [0, 0]?</div>
+        </div>
+      </div>
+      <div id="rf-runs" style="margin-top:14px"></div>
+      <div id="rf-s3q" class="ba-locked-section" style="margin-top:16px">
+        <div id="rf-q1" style="max-width:560px"></div>
+      </div>
+    </div>
+  </div>
+
+  <div id="rf-s4" class="ba-locked-section" style="margin-top:16px">
+    <div class="card">
+      <div class="card-title">Stage 4 — What Is Shared, What Is Switched Off</div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px;align-items:start">
+        <div id="rf-q2"></div>
+        <div id="rf-q3"></div>
+      </div>
+    </div>
+  </div>
+
+  <div id="rf-s5" class="ba-locked-section" style="margin-top:16px">
+    <div class="card sl-takeaway">
+      <div class="card-title">Takeaway</div>
+      <ul style="padding-left:20px">
+        <li><strong>h⁽ᵗ⁾ = f(W·h⁽ᵗ⁻¹⁾ + U·x⁽ᵗ⁾)</strong>: the memory term W·h⁽ᵗ⁻¹⁾ and the input term U·x⁽ᵗ⁾ are added, then passed through the activation (Goodfellow uses tanh and a bias b).</li>
+        <li><strong>Order matters</strong>: the same inputs in a different order give a different state ([5, 0] vs [1, 2]), and the same x⁽²⁾ gives different states depending on what came before.</li>
+        <li><strong>Parameter sharing across time</strong>: W and U are reused at every step, so the model has the same 8 numbers for 2 steps or 100.</li>
+        <li><strong>A ReLU zero</strong> silences a component for one step; the next pre-activation can turn it back on.</li>
+      </ul>
     </div>
   </div>
 </div>

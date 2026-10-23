@@ -24,70 +24,129 @@
 <div id="tab-9.GC.1" class="tab-panel">
   <div class="prob-card">
     <div style="margin-bottom:10px"><span class="prob-badge">Activity 9.GC.1</span><span class="prob-title">Graph Convolution Mechanics</span><span id="gm-completed" class="completed-badge">✓ 9.GC.1 Completed</span></div>
-    <div id="gm-prob-eq" style="margin-bottom:16px"></div>
-    <p class="prob-desc">In a Graph Convolutional Network each node aggregates features from its neighbours and transforms them with a shared weight matrix W. Understanding A, h, and one message-passing step is the foundation for 9.GC.2.</p>
-    <div style="text-align:right;margin-top:12px"><button class="btn btn-p" onclick="gmUnlock(1)">I understand the setup →</button></div>
+    <p class="prob-desc">Graphs are everywhere: friends in a social network, atoms in a molecule, papers that cite each other. A <strong>Graph Convolutional Network (GCN)</strong> updates every node using its neighbours: it averages each node's neighbourhood, then applies a learned weight, a bias and an activation. This lesson builds that up on a five-node graph where each node holds one number h.</p>
+    <div class="eq-block" style="font-family:inherit;font-size:15px;line-height:2">
+      <span class="eq-line">Q1</span> How do we store "who is connected to whom"?<br>
+      <span class="eq-line">Q2</span> What does one GCN layer compute for a node, and which part is learned?<br>
+      <span class="eq-line">Q3</span> What changes when we stack layers?
+    </div>
+    <div id="gm-prob-eq" style="margin-bottom:10px"></div>
+    <div style="text-align:right;margin-top:14px"><button class="btn btn-p" onclick="gmUnlock(1)">Start →</button></div>
   </div>
 
   <div id="gm-s1" class="ba-locked-section" style="margin-top:16px">
     <div class="card">
-      <div class="card-title">Stage 1 — Read the Graph and Adjacency Matrix</div>
+      <div class="card-title">Stage 1 — The Graph as a Matrix</div>
+      <p style="font-size:14.5px;color:var(--muted);margin-bottom:14px">Five nodes with values h = [4, 1, 3, 0, 2]. Click a node in the graph (or a row number in the matrix): its row in A* lights up. Each 1 in that row marks a node whose value it will average.</p>
       <div style="display:flex;gap:24px;flex-wrap:wrap;align-items:flex-start">
         <div>
-          <div class="section-label">Fixed 5-node graph</div>
+          <div class="section-label">Graph</div>
           <svg id="gm-svg" width="240" height="240" style="background:var(--surf2);border:1px solid var(--border);border-radius:8px;display:block"></svg>
-          <div style="margin-top:6px;font-size:13.5px;color:var(--muted)">Node features h = [4, 1, 3, 0, 2]</div>
         </div>
-        <div style="flex:1;min-width:220px">
-          <div class="section-label">Adjacency matrix A (including self-loops)</div>
-          <div id="gm-adj-grid" style="display:grid;grid-template-columns:repeat(5,36px);gap:2px;margin-bottom:14px"></div>
-          <div id="gm-degree-disp" style="font-size:14.5px;background:var(--surf2);border-radius:6px;padding:10px;font-family:monospace;line-height:2;margin-bottom:10px"></div>
-          <div style="font-weight:600;font-size:14.5px;margin-bottom:6px">Q — The centre node (node 2) connects to how many other nodes (excluding itself)?</div>
-          <div id="gm-q1-opts" style="display:flex;flex-direction:column;gap:5px;max-width:260px"></div>
-          <div id="gm-q1-hint" class="guidance-box cold" style="margin-top:6px;max-width:260px"></div>
+        <div style="flex:1;min-width:240px">
+          <div class="section-label">Adjacency matrix A* (with self-loops)</div>
+          <div id="gm-adj-grid" style="display:grid;grid-template-columns:repeat(6,36px);gap:2px;margin-bottom:12px"></div>
+          <div id="gm-row-disp" class="guidance-box cold"></div>
         </div>
+      </div>
+      <div id="gm-s1q" class="ba-locked-section" style="margin-top:18px">
+        <div id="gm-q1" style="max-width:560px"></div>
       </div>
     </div>
   </div>
 
   <div id="gm-s2" class="ba-locked-section" style="margin-top:16px">
     <div class="card">
-      <div class="card-title">Stage 2 — One Message-Passing Step (W = 1)</div>
-      <p style="font-size:14.5px;color:var(--muted);margin-bottom:14px">With W=1 and mean-aggregation: <strong>h_new[i] = mean of h[j] for all j connected to i (including i itself)</strong>.</p>
+      <div class="card-title">Stage 2 — One Layer: Average the Neighbourhood</div>
+      <p style="font-size:14.5px;color:var(--muted);margin-bottom:14px">Each node's new value is the <strong>average over its row of A*</strong>: its own value plus its neighbours' values, divided by how many there are. Press "Run" to watch three nodes, then do the other two yourself — pick the right values from A*.</p>
       <div style="display:flex;gap:24px;flex-wrap:wrap;align-items:flex-start">
         <div>
           <svg id="gm-svg2" width="240" height="240" style="background:var(--surf2);border:1px solid var(--border);border-radius:8px;display:block"></svg>
-          <div style="margin-top:8px;text-align:center"><button class="btn btn-p" onclick="gmAnimate()">▶ Run one step</button></div>
+          <div style="margin-top:8px;text-align:center"><button class="btn btn-p" onclick="gmAnimate()">▶ Run for nodes 1, 3, 4</button></div>
         </div>
-        <div style="flex:1;min-width:220px">
-          <div id="gm-step-disp" style="font-family:monospace;font-size:14.5px;background:var(--surf2);border-radius:6px;padding:12px;line-height:2.2;margin-bottom:14px">Press "Run one step" to see the computation.</div>
-          <div style="font-weight:600;font-size:14.5px;margin-bottom:6px">Fill in h_new for two nodes:</div>
+        <div style="flex:1;min-width:240px">
+          <div id="gm-step-disp" style="font-family:monospace;font-size:14.5px;background:var(--surf2);border-radius:6px;padding:12px;line-height:2.2;margin-bottom:14px">Press "Run" to see the computation.</div>
+          <div style="font-weight:600;font-size:14.5px;margin-bottom:6px">Your turn (h = [4, 1, 3, 0, 2]):</div>
           <div style="font-size:14.5px;line-height:2.4;margin-bottom:8px">
-            h_new[0] = (h[0]+h[1]+h[2]+h[4]) / 4 = <input id="gm-f0" class="rr-inp" style="width:60px;text-align:center" placeholder="?" oninput="gmCheckFill()">
-            <br>h_new[2] = (h[0]+h[1]+h[2]+h[3]) / 4 = <input id="gm-f2" class="rr-inp" style="width:60px;text-align:center" placeholder="?" oninput="gmCheckFill()">
+            average for node 0 = <input id="gm-f0" class="rr-inp" style="width:64px;text-align:center" placeholder="?" autocomplete="off" onkeydown="if(event.key==='Enter')gmCheckFill()">
+            <br>average for node 2 = <input id="gm-f2" class="rr-inp" style="width:64px;text-align:center" placeholder="?" autocomplete="off" onkeydown="if(event.key==='Enter')gmCheckFill()">
+            <button class="btn btn-g" style="margin-left:8px" onclick="gmCheckFill()">Check</button>
           </div>
-          <div id="gm-fill-hint" class="guidance-box cold" style="margin-bottom:12px"></div>
-          <button class="btn btn-p" id="gm-s2-btn" onclick="gmUnlock(3)" disabled>Continue →</button>
+          <div id="gm-fill-hint" class="guidance-box cold">Fractions like 5/2 are fine.</div>
         </div>
+      </div>
+      <div id="gm-s2q" class="ba-locked-section" style="margin-top:18px">
+        <div id="gm-q2" style="max-width:560px"></div>
       </div>
     </div>
   </div>
 
   <div id="gm-s3" class="ba-locked-section" style="margin-top:16px">
     <div class="card">
-      <div class="card-title">Stage 3 — Key Properties of GCN</div>
-      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px;align-items:start">
-        <div>
-          <div style="font-weight:600;font-size:14.5px;margin-bottom:6px">Q1 — Does GCN know which direction a message came from?</div>
-          <div id="gm-q2-opts" style="display:flex;flex-direction:column;gap:5px"></div>
-          <div id="gm-q2-hint" class="guidance-box cold" style="margin-top:5px"></div>
+      <div class="card-title">Stage 3 — The Learned Part: W, b and ReLU</div>
+      <p style="font-size:14.5px;color:var(--muted);margin-bottom:14px">Averaging alone learns nothing. The layer's output is <strong>h′ = ReLU(W · average + b)</strong>, and training tunes W and b. Together they decide which neighbourhoods make a node "fire" (output above 0). <strong>Challenge:</strong> find W and b so that <strong>only node 3</strong> fires.</p>
+      <div style="display:flex;gap:24px;flex-wrap:wrap;align-items:flex-start">
+        <div style="flex:1;min-width:250px;max-width:360px">
+          <div class="slider-row"><span class="slider-label" style="width:120px"><span class="name">W</span><span class="val" id="gm-W-val">1</span></span><input type="range" id="gm-W" min="-2" max="2" step="0.5" value="1" style="flex:1" oninput="gmLearnUpdate()"></div>
+          <div class="slider-row"><span class="slider-label" style="width:120px"><span class="name">b</span><span class="val" id="gm-b-val">0</span></span><input type="range" id="gm-b" min="-4" max="4" step="0.25" value="0" style="flex:1" oninput="gmLearnUpdate()"></div>
+          <div id="gm-learn-hint" class="guidance-box cold" style="margin-top:10px"></div>
         </div>
-        <div>
-          <div style="font-weight:600;font-size:14.5px;margin-bottom:6px">Q2 — Node 1 (h=1) and node 3 (h=0) sit in different parts of the graph. Does GCN use a different W for each of them?</div>
-          <div id="gm-q3-opts" style="display:flex;flex-direction:column;gap:5px"></div>
-          <div id="gm-q3-hint" class="guidance-box cold" style="margin-top:5px"></div>
+        <div style="flex:1;min-width:300px">
+          <div id="gm-learn-table"></div>
         </div>
       </div>
+    </div>
+  </div>
+
+  <div id="gm-s4" class="ba-locked-section" style="margin-top:16px">
+    <div class="card">
+      <div class="card-title">Stage 4 — Stacking Layers</div>
+      <p style="font-size:14.5px;color:var(--muted);margin-bottom:14px">A second layer averages the layer-1 values in exactly the same way (W = 1, b = 0 here, so you can follow the numbers). Pick a layer and watch two things: <strong>which nodes have reached node 3</strong> (orange), and how far apart the values are.</p>
+      <div class="sl-preset-row">
+        <button class="sl-preset-btn gm-layer-btn" data-v="0" onclick="gmShowLayer(0)">Layer 0 (input)</button>
+        <button class="sl-preset-btn gm-layer-btn" data-v="1" onclick="gmShowLayer(1)">After layer 1</button>
+        <button class="sl-preset-btn gm-layer-btn" data-v="2" onclick="gmShowLayer(2)">After layer 2</button>
+        <button class="sl-preset-btn gm-layer-btn" data-v="3" onclick="gmShowLayer(3)">After layer 3</button>
+      </div>
+      <div style="display:flex;gap:24px;flex-wrap:wrap;align-items:flex-start">
+        <div>
+          <svg id="gm-svg3" width="240" height="240" style="background:var(--surf2);border:1px solid var(--border);border-radius:8px;display:block"></svg>
+        </div>
+        <div style="flex:1;min-width:260px">
+          <div id="gm-layer-info" class="guidance-box cold" style="margin-bottom:12px"></div>
+          <div class="section-label">The five values on a number line</div>
+          <svg id="gm-line-svg" width="360" height="104" style="display:block;max-width:100%"></svg>
+          <div id="gm-layer-table" style="margin-top:8px"></div>
+        </div>
+      </div>
+      <div id="gm-s4q" class="ba-locked-section" style="margin-top:18px">
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px;align-items:start">
+          <div id="gm-q3"></div>
+          <div id="gm-q4"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="gm-s5" class="ba-locked-section" style="margin-top:16px">
+    <div class="card">
+      <div class="card-title">Stage 5 — Key Properties of GCN</div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px;align-items:start">
+        <div id="gm-q5"></div>
+        <div id="gm-q6"></div>
+      </div>
+    </div>
+  </div>
+
+  <div id="gm-s6" class="ba-locked-section" style="margin-top:16px">
+    <div class="card sl-takeaway">
+      <div class="card-title">Takeaway</div>
+      <ul style="padding-left:20px">
+        <li><strong>A* = A + I</strong> stores the graph: row i has a 1 for every neighbour of node i and for node i itself. Edges go both ways, so A* is symmetric.</li>
+        <li><strong>One GCN layer</strong>: average each node's row of A*, then h′ = ReLU(W · average + b). W and b are learned and shared by every node.</li>
+        <li><strong>The average ignores order</strong>: shuffling which neighbour holds which value changes nothing.</li>
+        <li><strong>Stacking k layers</strong> lets information travel k hops — but every layer also smooths, and with many layers all nodes end up alike (over-smoothing).</li>
+      </ul>
     </div>
   </div>
 </div>

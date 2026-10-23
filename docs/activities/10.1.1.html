@@ -23,65 +23,100 @@
 
 <div id="tab-10.1.1" class="tab-panel">
   <div class="prob-card">
-    <div style="margin-bottom:10px"><span class="prob-badge">Activity 10.1.1</span><span class="prob-title">Conv Window for Sentiment</span><span id="tcnn-completed" class="completed-badge">✓ 10.1.1 Completed</span></div>
-    <div id="tc-eq" style="margin-bottom:16px"></div>
-    <p class="prob-desc">A 1-D text CNN slides a window of <strong>k</strong> consecutive words over a sentence, extracts every n-gram, scores each with a learned filter, then max-pools. Explore what k is needed to capture short-range context — and what breaks for long-range negation.</p>
-    <div style="text-align:right;margin-top:12px"><button class="btn btn-p" onclick="tcUnlock(1)">Explore the window →</button></div>
+    <div style="margin-bottom:10px"><span class="prob-badge">Activity 10.1.1</span><span class="prob-title">Conv Windows for Sentiment — How Far Can a Filter See?</span><span id="tcnn-completed" class="completed-badge">✓ 10.1.1 Completed</span></div>
+    <p class="prob-desc">A sentiment classifier reads a review as a sequence of words. A 1-D convolutional layer slides each filter over every window of <strong>k</strong> consecutive words, scores the window, and max-pools to keep the filter's best score in the whole review. Here two already-trained filters — one collecting positive evidence, one negative — decide the label.</p>
+    <div class="eq-block" style="font-family:inherit;font-size:15px;line-height:2">
+      <span class="eq-line">Q1</span> How large must a window be to see the words that matter together?<br>
+      <span class="eq-line">Q2</span> What does it cost to see further?<br>
+      <span class="eq-line">Q3</span> How does a recurrent network handle long-range context instead?
+    </div>
+    <div id="tc-eq" style="margin-bottom:10px"></div>
+    <div style="text-align:right;margin-top:14px"><button class="btn btn-p" onclick="tcUnlock(1)">Start →</button></div>
   </div>
 
   <div id="tc-s1" class="ba-locked-section" style="margin-top:16px">
     <div class="card">
       <div class="card-title">Stage 1 — Slide the Window</div>
-      <p style="font-size:14.5px;color:var(--muted);margin-bottom:12px">Choose a sentence and drag k. Each blue chip is one n-gram the filter scores; max-pooling keeps the top scorer.</p>
-      <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px">
-        <button class="btn btn-g" id="tc-btn0" onclick="tcSentence(0)">A: negative</button>
-        <button class="btn btn-g" id="tc-btn1" onclick="tcSentence(1)">B: positive</button>
-        <button class="btn btn-g" id="tc-btn2" onclick="tcSentence(2)">C: positive (negation)</button>
+      <p style="font-size:14.5px;color:var(--muted);margin-bottom:12px">Pick a sentence and drag k. Each chip is one window with its two filter scores. A pattern counts only if all its words fall inside the same window.</p>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px;margin-bottom:14px">
+        <div class="ba-step-block" style="margin:0"><div class="ba-step-label" style="color:#1d4ed8">Positive filter P — patterns</div><div style="font-family:monospace;font-size:13.5px;line-height:1.9">good +1 · happy +2 · <em>being good</em> +3<br><em>wasn't … unhappy</em> +5 (both words in one window)</div></div>
+        <div class="ba-step-block" style="margin:0"><div class="ba-step-label" style="color:#b91c1c">Negative filter N — patterns</div><div style="font-family:monospace;font-size:13.5px;line-height:1.9">bad +1 · unhappy +2 · <em>being bad</em> +3</div></div>
       </div>
-      <div class="slider-row">
-        <span class="slider-label"><span class="name">k (window)</span><span class="val" id="tc-k-val">2</span></span>
-        <input type="range" id="tc-k" min="1" max="8" value="2" oninput="tcUpdate()">
+      <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px">
+        <button class="sl-preset-btn tc-sent-btn" data-v="0" onclick="tcSentence(0)">A</button>
+        <button class="sl-preset-btn tc-sent-btn" data-v="1" onclick="tcSentence(1)">B</button>
+        <button class="sl-preset-btn tc-sent-btn" data-v="2" onclick="tcSentence(2)">C</button>
       </div>
-      <div id="tc-words" style="display:flex;flex-wrap:wrap;gap:5px;margin:10px 0;min-height:32px"></div>
-      <div style="background:var(--surf2);border-radius:7px;padding:10px 14px;margin-bottom:12px">
-        <div class="section-label" style="margin-bottom:6px">All n-grams (k = <span id="tc-k-echo">2</span>)</div>
-        <div id="tc-ngrams" style="display:flex;flex-wrap:wrap;gap:5px;min-height:22px"></div>
+      <div class="slider-row"><span class="slider-label" style="width:150px"><span class="name">k window</span><span class="val" id="tc-k-val">1</span></span><input type="range" id="tc-k" min="1" max="7" value="1" style="flex:1;max-width:320px" oninput="tcUpdate()"></div>
+      <div id="tc-sentence" style="font-family:'Courier New',monospace;font-size:15px;font-weight:700;margin:10px 0"></div>
+      <div id="tc-windows" style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px"></div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px;align-items:start">
+        <div id="tc-pool" class="algebra"></div>
+        <div id="tc-preds"></div>
       </div>
-      <button class="btn btn-p" onclick="tcUnlock(2)">I've explored — continue →</button>
+      <div class="section-label" style="margin-top:18px">Your findings</div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px;align-items:start">
+        <div class="ba-step-block" style="margin:0">
+          <div style="font-size:14.5px;font-weight:600;margin-bottom:8px">Smallest k that gets <strong>both A and B</strong> right:</div>
+          <div style="display:flex;gap:8px;align-items:center"><input id="tc-f-ab" class="rr-inp" placeholder="k" autocomplete="off" onkeydown="if(event.key==='Enter')tcCheckFill('ab')"><button class="btn btn-g" onclick="tcCheckFill('ab')">Check</button></div>
+          <div id="tc-f-ab-hint" class="guidance-box cold" style="margin-top:8px">Try the slider on A and B.</div>
+        </div>
+        <div class="ba-step-block" style="margin:0">
+          <div style="font-size:14.5px;font-weight:600;margin-bottom:8px">Smallest k that gets <strong>C</strong> right:</div>
+          <div style="display:flex;gap:8px;align-items:center"><input id="tc-f-c" class="rr-inp" placeholder="k" autocomplete="off" onkeydown="if(event.key==='Enter')tcCheckFill('c')"><button class="btn btn-g" onclick="tcCheckFill('c')">Check</button></div>
+          <div id="tc-f-c-hint" class="guidance-box cold" style="margin-top:8px">C is positive — the speaker was <em>not</em> unhappy.</div>
+        </div>
+      </div>
     </div>
   </div>
 
   <div id="tc-s2" class="ba-locked-section" style="margin-top:16px">
     <div class="card">
-      <div class="card-title">Stage 2 — The Bigram Insight</div>
-      <p style="font-size:14.5px;color:var(--muted);margin-bottom:10px">Sentence A contains "good" yet is <em>negative</em>; Sentence B contains "bad" yet is <em>positive</em>. A k=1 filter can't separate them. Both end with either "<strong>being bad</strong>" or "<strong>being good</strong>" — context is the critical bigram.</p>
-      <div style="font-weight:600;font-size:14.5px;margin-bottom:8px">What is the minimum k that captures "being bad" / "being good" inside one n-gram?</div>
-      <div id="tc-q1-opts" style="display:flex;flex-direction:column;gap:5px;max-width:380px"></div>
-      <div id="tc-q1-hint" class="guidance-box cold" style="margin-top:8px;max-width:380px"></div>
+      <div class="card-title">Stage 2 — A Longer Gap</div>
+      <p style="font-size:14.5px;color:var(--muted);margin-bottom:10px">A new review (not in the explorer):</p>
+      <div style="font-family:'Courier New',monospace;font-size:15px;font-weight:700;background:var(--surf2);border-radius:7px;padding:10px 14px;margin-bottom:14px">It wasn't the case that after all of these years he was unhappy</div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px;align-items:start">
+        <div class="ba-step-block" style="margin:0">
+          <div style="font-size:14.5px;font-weight:600;margin-bottom:8px">Smallest k that puts "wasn't" and "unhappy" in one window:</div>
+          <div style="display:flex;gap:8px;align-items:center"><input id="tc-f-d" class="rr-inp" placeholder="k" autocomplete="off" onkeydown="if(event.key==='Enter')tcCheckFill('d')"><button class="btn btn-g" onclick="tcCheckFill('d')">Check</button></div>
+          <div id="tc-f-d-hint" class="guidance-box cold" style="margin-top:8px">The slider stops at 7, so count.</div>
+        </div>
+        <div id="tc-q1"></div>
+      </div>
     </div>
   </div>
 
   <div id="tc-s3" class="ba-locked-section" style="margin-top:16px">
     <div class="card">
-      <div class="card-title">Stage 3 — The Negation Gap</div>
-      <div style="font-family:'Courier New',monospace;font-size:14.5px;background:var(--surf2);border-radius:7px;padding:10px 14px;margin-bottom:10px;line-height:2.4">
-        It[1] &nbsp; <strong>wasn't</strong>[2] &nbsp; the[3] &nbsp; case[4] &nbsp; that[5] &nbsp; he[6] &nbsp; was[7] &nbsp; <strong>unhappy</strong>[8]
+      <div class="card-title">Stage 3 — A Recurrent Reader</div>
+      <p style="font-size:14.5px;color:var(--muted);margin-bottom:12px">A recurrent network reads one word at a time and carries a <strong>state</strong> forward. Below is a hand-set recurrent rule whose state is two numbers — a negation flag n and a running score s. The <strong>same rule</strong> is applied at every word; a trained RNN learns something similar inside its hidden state.</p>
+      <div class="algebra" style="font-size:14px;margin-bottom:12px">n(t) = 1 if word t is "wasn't", otherwise n(t−1)<br>s(t) = s(t−1) + (1 − 2·n(t)) · polarity(word t) &nbsp;&nbsp;<span style="color:var(--muted)">polarity: good +1, happy +2, bad −1, unhappy −2, others 0</span><br>label = positive if the final s &gt; 0</div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px">
+        <button class="sl-preset-btn tc-rnn-btn" data-v="C" onclick="tcRnnSentence('C')">Sentence C</button>
+        <button class="sl-preset-btn tc-rnn-btn" data-v="D" onclick="tcRnnSentence('D')">The longer review</button>
+        <button class="btn btn-p" onclick="tcRnnStep()">Next word ▶</button>
+        <button class="btn btn-g" onclick="tcRnnReset()">Reset</button>
       </div>
-      <p style="font-size:14.5px;color:var(--muted);margin-bottom:10px">"wasn't" is at position 2, "unhappy" is at position 8. Both must appear inside the <em>same</em> n-gram for the filter to see their relationship.</p>
-      <div style="font-weight:600;font-size:14.5px;margin-bottom:8px">What is the minimum k so that both words sit inside one window?</div>
-      <div id="tc-q2-opts" style="display:flex;flex-direction:column;gap:5px;max-width:380px"></div>
-      <div id="tc-q2-hint" class="guidance-box cold" style="margin-top:8px;max-width:380px"></div>
+      <div id="tc-rnn-trace"></div>
+      <div id="tc-rnn-msg" class="guidance-box cold" style="margin-top:10px">Read the longer review to the end.</div>
+      <div id="tc-s3q" class="ba-locked-section" style="margin-top:18px">
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px;align-items:start">
+          <div id="tc-q2"></div>
+          <div id="tc-q3"></div>
+        </div>
+      </div>
     </div>
   </div>
 
   <div id="tc-s4" class="ba-locked-section" style="margin-top:16px">
-    <div class="card">
-      <div class="card-title">Stage 4 — CNN Limitation</div>
-      <p style="font-size:14.5px;color:var(--muted);margin-bottom:10px">A k=2 filter trained on A &amp; B learns "being bad"→negative and "being good"→positive. Applied to Sentence C, the highest-scoring bigram is "was unhappy" — strongly negative. The negation "wasn't" seven words earlier is invisible.</p>
-      <div style="font-weight:600;font-size:14.5px;margin-bottom:8px">What does the k=2 model incorrectly predict for Sentence C?</div>
-      <div id="tc-q3-opts" style="display:flex;flex-direction:column;gap:5px;max-width:340px"></div>
-      <div id="tc-q3-hint" class="guidance-box cold" style="margin-top:8px;max-width:340px"></div>
-      <div id="tc-summary" style="font-size:.88em;color:var(--muted);margin-top:12px"></div>
+    <div class="card sl-takeaway">
+      <div class="card-title">Takeaway</div>
+      <ul style="padding-left:20px">
+        <li><strong>A conv filter only relates words inside one window.</strong> A and B need k ≥ 2 ("being bad" vs "being good"); C's negation needs k ≥ 7, and the longer review k ≥ 12: k = last − first + 1.</li>
+        <li><strong>Seeing further costs</strong> k × d weights per filter in one layer, or more layers: stacked k = 2 layers see L + 1 words, dilated ones about 2<sup>L</sup>.</li>
+        <li><strong>A recurrent network applies one rule at every step</strong> and carries a state forward, so the same few parameters cover a gap of any length — sharing parameters across time instead of across a window.</li>
+        <li><strong>The catch:</strong> learning to carry information over long gaps is hard — gradients must flow back through every step (10.2.2, 10.7, 10.10).</li>
+      </ul>
     </div>
   </div>
 </div>

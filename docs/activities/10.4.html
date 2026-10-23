@@ -23,65 +23,91 @@
 
 <div id="tab-10.4" class="tab-panel">
   <div class="prob-card">
-    <div style="margin-bottom:10px"><span class="prob-badge">Activity 10.4</span><span class="prob-title">Named Entity Recognition — Token Class vs. Seq2Seq</span><span id="nerseq-completed" class="completed-badge">✓ 10.4 Completed</span></div>
-    <div id="ns-eq" style="margin-bottom:16px"></div>
-    <p class="prob-desc">NER is traditionally a <em>token classification</em> task: each input token gets one label. Explore how the same problem can be re-framed as a <em>sequence-to-sequence</em> task — and what that framing gains.</p>
-    <div style="text-align:right;margin-top:12px"><button class="btn btn-p" onclick="nsUnlock(1)">Explore token classification →</button></div>
+    <div style="margin-bottom:10px"><span class="prob-badge">Activity 10.4</span><span class="prob-title">Named Entity Recognition — Tagging vs. Sequence-to-Sequence</span><span id="nerseq-completed" class="completed-badge">✓ 10.4 Completed</span></div>
+    <p class="prob-desc">Named entity recognition (NER) finds the people, places and organisations in a sentence. The classic model is a <strong>tagger</strong>: it reads the sentence and gives every word one label. A <strong>sequence-to-sequence</strong> (encoder–decoder) model instead reads the sentence and <em>writes</em> its answer one token at a time, at whatever length the answer needs.</p>
+    <div class="eq-block" style="font-family:inherit;font-size:15px;line-height:2">
+      <span class="eq-line">Q1</span> What does each model output, and how long is the output?<br>
+      <span class="eq-line">Q2</span> What can a written answer express that one label per word cannot?<br>
+      <span class="eq-line">Q3</span> What does writing the answer cost?
+    </div>
+    <div id="ns-eq" style="margin-bottom:10px"></div>
+    <div style="text-align:right;margin-top:14px"><button class="btn btn-p" onclick="nsUnlock(1)">Start →</button></div>
   </div>
 
   <div id="ns-s1" class="ba-locked-section" style="margin-top:16px">
     <div class="card">
-      <div class="card-title">Stage 1 — Token Classification (the classic approach)</div>
-      <p style="font-size:14.5px;color:var(--muted);margin-bottom:12px">Click any word to see its BIO label. <strong>B</strong> = beginning of entity, <strong>I</strong> = inside entity, <strong>O</strong> = outside. Every input token produces exactly one output label.</p>
-      <div id="ns-tokens" style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px"></div>
-      <div id="ns-label-msg" style="background:var(--surf2);border-radius:7px;padding:10px 14px;font-size:14.5px;min-height:36px;color:var(--muted)">Click a word above to see its label.</div>
-      <div style="margin-top:12px;font-size:14.5px;color:var(--muted)">Output length: <strong id="ns-len">7</strong> labels — always equal to input length.</div>
-      <div style="margin-top:12px;text-align:right"><button class="btn btn-p" onclick="nsUnlock(2)">I see the pattern →</button></div>
+      <div class="card-title">Stage 1 — Be the Tagger</div>
+      <p style="font-size:14.5px;color:var(--muted);margin-bottom:12px">Taggers use <strong>BIO</strong> labels: <strong>B-</strong>TYPE marks the first word of an entity, <strong>I-</strong>TYPE each following word of the same entity, and <strong>O</strong> a word outside every entity. Label each word.</p>
+      <div id="ns-tag1" style="display:flex;flex-wrap:wrap;gap:8px"></div>
+      <div style="margin-top:12px"><button class="btn btn-p" onclick="nsCheckTag1()">Check labels</button></div>
+      <div id="ns-tag1-hint" class="guidance-box cold" style="margin-top:10px">Types: PER (person), ORG (organisation), LOC (location).</div>
+      <div id="ns-s1q" class="ba-locked-section" style="margin-top:16px">
+        <div id="ns-q1" style="max-width:560px"></div>
+      </div>
     </div>
   </div>
 
   <div id="ns-s2" class="ba-locked-section" style="margin-top:16px">
     <div class="card">
-      <div class="card-title">Stage 2 — What Does Each Token Produce?</div>
-      <div style="font-weight:600;font-size:14.5px;margin-bottom:8px">In token classification NER, what is the output for each input token?</div>
-      <div id="ns-q1-opts" style="display:flex;flex-direction:column;gap:5px;max-width:420px"></div>
-      <div id="ns-q1-hint" class="guidance-box cold" style="margin-top:8px;max-width:420px"></div>
+      <div class="card-title">Stage 2 — Three Ways to Write the Answer</div>
+      <p style="font-size:14.5px;color:var(--muted);margin-bottom:12px">A seq2seq model can be trained to write its answer in any format. Here is the tagger's output next to two common seq2seq formats for the same sentence. Each box is one output token.</p>
+      <div id="ns-formats" style="display:flex;flex-direction:column;gap:12px"></div>
+      <div class="ba-step-block" style="margin:16px 0 0">
+        <div style="font-size:14.5px;font-weight:600;margin-bottom:10px">A 30-word sentence contains 3 entities that together cover 5 words. How many tokens does each seq2seq format write (not counting &lt;END&gt;)?</div>
+        <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">Inline markup: <input id="ns-f-inl" class="rr-inp" placeholder="?" autocomplete="off" onkeydown="if(event.key==='Enter')nsCheckFill('inl')"><button class="btn btn-g" onclick="nsCheckFill('inl')">Check</button></div>
+        <div id="ns-f-inl-hint" class="guidance-box cold" style="margin-top:8px">Look at how the inline answer above is built from the sentence.</div>
+        <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:12px">Entity list: <input id="ns-f-lst" class="rr-inp" placeholder="?" autocomplete="off" onkeydown="if(event.key==='Enter')nsCheckFill('lst')"><button class="btn btn-g" onclick="nsCheckFill('lst')">Check</button></div>
+        <div id="ns-f-lst-hint" class="guidance-box cold" style="margin-top:8px">Which words of the sentence does the list keep?</div>
+      </div>
+      <div id="ns-s2q" class="ba-locked-section" style="margin-top:16px">
+        <div id="ns-q2" style="max-width:560px"></div>
+      </div>
     </div>
   </div>
 
   <div id="ns-s3" class="ba-locked-section" style="margin-top:16px">
     <div class="card">
-      <div class="card-title">Stage 3 — A Seq2Seq Reformulation</div>
-      <p style="font-size:14.5px;color:var(--muted);margin-bottom:12px">In seq2seq NER the model generates a <em>structured markup</em> sequence. The output is typically shorter than the input — only entities are emitted, with type tags.</p>
-      <div style="background:var(--surf2);border-radius:8px;padding:12px 16px;font-family:'Courier New',monospace;font-size:14.5px;line-height:2.2;margin-bottom:12px">
-        <div style="color:var(--muted);font-size:12.5px;margin-bottom:4px">Input:</div>
-        <div>Óscar &nbsp; Romero &nbsp; was &nbsp; born &nbsp; in &nbsp; El &nbsp; Salvador</div>
-        <div style="color:var(--muted);font-size:12.5px;margin:8px 0 4px">Seq2Seq output:</div>
-        <div><span style="color:#b45309">&lt;PER&gt;</span> Óscar Romero <span style="color:#b45309">&lt;/PER&gt;</span> was born in <span style="color:#1d4ed8">&lt;LOC&gt;</span> El Salvador <span style="color:#1d4ed8">&lt;/LOC&gt;</span></div>
+      <div class="card-title">Stage 3 — An Entity Inside an Entity</div>
+      <p style="font-size:14.5px;color:var(--muted);margin-bottom:12px"><em>"She studied at the University of Arizona"</em> has two entities: the organisation <strong>University of Arizona</strong> and, inside it, the location <strong>Arizona</strong>. Try to tag <strong>both</strong> with one BIO label per word. The box below reads back the entities your labels encode.</p>
+      <div id="ns-tag2" style="display:flex;flex-wrap:wrap;gap:8px"></div>
+      <div id="ns-decoded" class="algebra" style="font-size:14px;margin-top:12px;line-height:1.9"></div>
+      <div style="margin-top:12px"><button class="btn btn-p" onclick="nsCheckNest()">Check labels</button></div>
+      <div id="ns-nest-hint" class="guidance-box cold" style="margin-top:10px">Get at least one of the two entities right, then try to add the other.</div>
+      <div id="ns-s3r" class="ba-locked-section" style="margin-top:16px">
+        <div class="section-label">Two seq2seq answers that hold both entities</div>
+        <div class="algebra" style="font-size:14px;line-height:2">Inline: She studied at the <span style="color:#b45309">&lt;ORG&gt;</span> University of <span style="color:#1d4ed8">&lt;LOC&gt;</span> Arizona <span style="color:#1d4ed8">&lt;/LOC&gt;</span> <span style="color:#b45309">&lt;/ORG&gt;</span><br>List: <span style="color:#b45309">[ORG]</span> University of Arizona <span style="color:#1d4ed8">[LOC]</span> Arizona</div>
+        <div id="ns-q3" style="max-width:560px;margin-top:16px"></div>
       </div>
-      <div style="font-weight:600;font-size:14.5px;margin-bottom:8px">What is the key structural difference between this output and the BIO output?</div>
-      <div id="ns-q2-opts" style="display:flex;flex-direction:column;gap:5px;max-width:460px"></div>
-      <div id="ns-q2-hint" class="guidance-box cold" style="margin-top:8px;max-width:460px"></div>
     </div>
   </div>
 
   <div id="ns-s4" class="ba-locked-section" style="margin-top:16px">
     <div class="card">
-      <div class="card-title">Stage 4 — Advantages of Seq2Seq</div>
-      <div style="font-weight:600;font-size:14.5px;margin-bottom:8px">What concrete advantage does the seq2seq framing offer over per-token classification?</div>
-      <div id="ns-q3-opts" style="display:flex;flex-direction:column;gap:5px;max-width:460px"></div>
-      <div id="ns-q3-hint" class="guidance-box cold" style="margin-top:8px;max-width:460px"></div>
+      <div class="card-title">Stage 4 — The Price of Writing</div>
+      <p style="font-size:14.5px;color:var(--muted);margin-bottom:12px">Once the sentence is read, a tagger labels all its words in one parallel pass. A decoder writes one token per step, and each step needs the token written before it.</p>
+      <div class="ba-step-block" style="margin:0">
+        <div style="font-size:14.5px;font-weight:600;margin-bottom:10px">How many decoder steps does the inline answer for <em>"Óscar Romero was born in El Salvador"</em> take, counting the final &lt;END&gt;?</div>
+        <div style="display:flex;gap:8px;align-items:center">steps = <input id="ns-f-steps" class="rr-inp" placeholder="?" autocomplete="off" onkeydown="if(event.key==='Enter')nsCheckFill('steps')"><button class="btn btn-g" onclick="nsCheckFill('steps')">Check</button></div>
+        <div id="ns-f-steps-hint" class="guidance-box cold" style="margin-top:8px">The inline answer is shown in Stage 2.</div>
+      </div>
+      <div id="ns-s4q" class="ba-locked-section" style="margin-top:18px">
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px;align-items:start">
+          <div id="ns-q4"></div>
+          <div id="ns-q5"></div>
+        </div>
+      </div>
     </div>
   </div>
 
   <div id="ns-s5" class="ba-locked-section" style="margin-top:16px">
-    <div class="card">
-      <div class="card-title">Stage 5 — Design a Format</div>
-      <p style="font-size:14.5px;color:var(--muted);margin-bottom:10px">Consider: <em>"Google was founded by Larry Page in California."</em></p>
-      <div style="font-weight:600;font-size:14.5px;margin-bottom:8px">Which output format is a valid seq2seq NER output for this sentence?</div>
-      <div id="ns-q4-opts" style="display:flex;flex-direction:column;gap:5px;max-width:360px"></div>
-      <div id="ns-q4-hint" class="guidance-box cold" style="margin-top:8px;max-width:360px"></div>
-      <div id="ns-summary" style="font-size:.88em;color:var(--muted);margin-top:12px"></div>
+    <div class="card sl-takeaway">
+      <div class="card-title">Takeaway</div>
+      <ul style="padding-left:20px">
+        <li><strong>A tagger outputs one label per word</strong>, so the output length always equals the input length. It labels every word in one parallel pass, but each label is chosen separately, so invalid sequences (I- after O) need a CRF layer or constrained decoding.</li>
+        <li><strong>A seq2seq model writes its answer</strong> (Goodfellow §10.4): the encoder reads the sentence into a context C, and the decoder writes token after token until &lt;END&gt;. The length is free: inline markup writes n + 2e tokens, an entity list e + m.</li>
+        <li><strong>What writing gains:</strong> nested entities (University of <em>Arizona</em>) and any output format you can train on. One label per word cannot hold two entities.</li>
+        <li><strong>What it costs:</strong> one sequential step per output token, possible hallucinated or malformed output, and (for lists) lost positions when a word repeats.</li>
+      </ul>
     </div>
   </div>
 </div>
