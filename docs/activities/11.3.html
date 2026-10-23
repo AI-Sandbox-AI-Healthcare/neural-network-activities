@@ -30,6 +30,14 @@
       <span class="eq-line">Q2</span> Would more data help, and how much would you need?<br>
       <span class="eq-line">Q3</span> What should you try first for each task?
     </div>
+    <div class="q-roadmap">
+      <p><strong>Why these questions:</strong> they follow Goodfellow §11.3 on whether to gather more data: diagnose first, then choose a fix.</p>
+      <ul>
+        <li><span class="eq-line">Q1</span> → Stage 1: compute both gaps for each task and diagnose it.</li>
+        <li><span class="eq-line">Q2</span> → Stage 2: extend each task's learning curve and estimate the data needed.</li>
+        <li><span class="eq-line">Q3</span> → Stage 3: assign each fix to the task it would help.</li>
+      </ul>
+    </div>
     <div id="lc-eq" style="margin-bottom:10px"></div>
     <div style="text-align:right;margin-top:14px"><button class="btn btn-p" onclick="lcUnlock(1)">Start →</button></div>
   </div>
@@ -37,7 +45,7 @@
   <div id="lc-s1" class="ba-locked-section" style="margin-top:16px">
     <div class="card">
       <div class="card-title">Stage 1 — Measure the Two Gaps</div>
-      <p style="font-size:14.5px;color:var(--muted);margin-bottom:12px">Gaps are in percentage points. Human level stands in for the best accuracy you could hope for.</p>
+      <p style="font-size:14.5px;color:var(--muted);margin-bottom:12px">Gaps are in percentage points.</p>
       <div style="display:flex;gap:14px;flex-wrap:wrap;align-items:center;font-family:'Courier New',monospace;font-weight:700;font-size:14.5px">
         <span>A bias gap = <input id="lc-c-ab" class="rr-inp" style="width:56px" placeholder="?"></span>
         <span>A variance gap = <input id="lc-c-av" class="rr-inp" style="width:56px" placeholder="?"></span>
@@ -102,9 +110,9 @@
       <div class="card-title">Takeaway</div>
       <ul style="padding-left:20px">
         <li><strong>Two gaps, two problems.</strong> Human − train is the bias you could still remove (Task A: 35 points). Train − dev is variance (Task B: 40 points).</li>
-        <li><strong>Learning curves are plotted against training-set size.</strong> Training accuracy falls and dev accuracy rises until they meet. If they meet far below the target, as Task A's do at about 54%, more data cannot help.</li>
+        <li><strong>Learning curves are plotted against training-set size.</strong> Training accuracy falls and dev accuracy rises until they meet. If they converge far below the target, as Task A's do (toward about 54%), more data cannot help.</li>
         <li><strong>Goodfellow §11.3:</strong> first make the model fit its training set (a bigger model, tuned optimization). Gather more data only when it does and dev lags behind (Task B); regularization and augmentation are cheaper alternatives.</li>
-        <li><strong>Data needs grow on a log scale:</strong> Task B needs 16× the data for +16 points. If large, well-tuned models still cannot fit the training set, suspect the data itself (noisy labels or missing information).</li>
+        <li><strong>Each doubling of data buys a fixed gain:</strong> Task B needs 16× the data for +16 points, so the cost grows exponentially with the target. If large, well-tuned models still cannot fit the training set, suspect the data itself (noisy labels or missing information).</li>
       </ul>
     </div>
   </div>

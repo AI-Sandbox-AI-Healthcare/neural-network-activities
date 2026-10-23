@@ -31,6 +31,15 @@
       <span class="eq-line">Q3</span> How big is the output?<br>
       <span class="eq-line">Q4</span> How many weights does a real conv layer have, and how much of the image does each output see?
     </div>
+    <div class="q-roadmap">
+      <p><strong>Why these questions:</strong> they follow a convolution from a single number to a full layer, the order you need to read any CNN.</p>
+      <ul>
+        <li><span class="eq-line">Q1</span> → Stage 1: compute every output cell of I ★ K by hand.</li>
+        <li><span class="eq-line">Q2</span> → Stage 2: apply edge and box kernels to simple images, shift them, then design your own kernel.</li>
+        <li><span class="eq-line">Q3</span> → Stage 3: change input size, kernel, stride and padding, and count the outputs.</li>
+        <li><span class="eq-line">Q4</span> → Stage 4: count a layer's weights and trace how far stacked 3×3 layers see.</li>
+      </ul>
+    </div>
     <div id="cv-prob-eq" style="margin-bottom:10px"></div>
     <div style="text-align:right;margin-top:14px"><button class="btn btn-p" onclick="cvUnlock(1)">Start →</button></div>
   </div>
@@ -192,7 +201,7 @@
       <div class="card-title">Takeaway</div>
       <ul style="padding-left:20px">
         <li><strong>One output number</strong> is the kernel multiplied element-by-element with one patch and summed. It is large when the patch is bright under the positive weights and dark under the negative ones.</li>
-        <li><strong>Kernels respond to patterns</strong>: an edge kernel fires where brightness changes in its direction and gives 0 on flat regions. In a CNN, training learns the kernel weights.</li>
+        <li><strong>Kernels respond to patterns</strong>: the vertical-edge kernel fires where brightness changes from left to right, the horizontal-edge kernel where it changes from top to bottom, and both give 0 on flat regions. In a CNN, training learns the kernel weights.</li>
         <li><strong>The same kernel slides everywhere</strong>: few weights (parameter sharing), and shifting the input shifts the output the same way (translation equivariance), except near the borders.</li>
         <li><strong>Output size</strong> per dimension = ⌊(n + 2p − k) / s⌋ + 1, the number of places the kernel fits.</li>
         <li><strong>A real layer</strong> has (k·k·C<sub>in</sub> + 1)·C<sub>out</sub> parameters, whatever the image size. Each 3×3 layer you stack widens the receptive field by 2: 3 → 5 → 7…</li>

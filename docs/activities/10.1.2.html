@@ -26,9 +26,17 @@
     <div style="margin-bottom:10px"><span class="prob-badge">Activity 10.1.2</span><span class="prob-title">RNN Forward Pass — Step by Step</span><span id="rfwd-completed" class="completed-badge">✓ 10.1.2 Completed</span></div>
     <p class="prob-desc">A recurrent network keeps a hidden state h⁽ᵗ⁾ and updates it at every step from the previous state and the new input, using the <strong>same weights</strong> each time. You will trace two steps by hand, then test what the state remembers.</p>
     <div class="eq-block" style="font-family:inherit;font-size:15px;line-height:2">
-      <span class="eq-line">Q1</span> How does h⁽ᵗ⁾ combine memory and new input?<br>
+      <span class="eq-line">Q1</span> How does h⁽ᵗ⁾ combine memory and new input, and what does ReLU do to it?<br>
       <span class="eq-line">Q2</span> Does the order of the inputs matter?<br>
       <span class="eq-line">Q3</span> What does the network reuse at every step?
+    </div>
+    <div class="q-roadmap">
+      <p><strong>Why these questions:</strong> they are the three facts about an RNN forward pass that the rest of Chapter 10 builds on.</p>
+      <ul>
+        <li><span class="eq-line">Q1</span> → Stages 1–2 and the last question of Stage 4: compute h⁽¹⁾ and h⁽²⁾ by hand, then see what a component that ReLU set to 0 carries forward.</li>
+        <li><span class="eq-line">Q2</span> → Stage 3: rerun with the inputs swapped or missing and compare.</li>
+        <li><span class="eq-line">Q3</span> → Stage 4: count the numbers an unrolled RNN learns.</li>
+      </ul>
     </div>
     <div id="rf-eq" style="margin-bottom:10px"></div>
     <div style="text-align:right;margin-top:14px"><button class="btn btn-p" onclick="rfUnlock(1)">Start →</button></div>

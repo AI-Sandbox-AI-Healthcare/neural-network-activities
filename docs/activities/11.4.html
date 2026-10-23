@@ -30,6 +30,14 @@
       <span class="eq-line">Q2</span> How many configurations does each bracket start, and with how many iterations?<br>
       <span class="eq-line">Q3</span> How many calls on paper, and how many when the code actually runs?
     </div>
+    <div class="q-roadmap">
+      <p><strong>Why these questions:</strong> they are the three steps of tracing the code, from the idea to the final count.</p>
+      <ul>
+        <li><span class="eq-line">Q1</span> → Stage 1: run successive halving by hand on nine configurations.</li>
+        <li><span class="eq-line">Q2</span> → Stage 2: fill in every bracket for max_iter = 1000, eta = 10.</li>
+        <li><span class="eq-line">Q3</span> → Stages 2–3: add up the calls on paper, then see why the real code makes fewer.</li>
+      </ul>
+    </div>
     <pre style="background:var(--surf2);border:1px solid var(--border);border-radius:8px;padding:12px 16px;font-size:13px;line-height:1.6;overflow-x:auto;margin:6px 0 0">from math import log, ceil
 max_iter = 1000   # iterations for a fully trained configuration
 eta = 10          # keep the best 1/eta at every rung
@@ -53,7 +61,7 @@ for s in reversed(range(s_max + 1)):                       # one bracket per s
   <div id="hb-s1" class="ba-locked-section" style="margin-top:16px">
     <div class="card">
       <div class="card-title">Stage 1 — Successive Halving by Hand</div>
-      <p style="font-size:14.5px;color:var(--muted);margin-bottom:12px">A small version first: nine configurations A–I, η = 3, so each rung keeps the best third, and a fully trained configuration gets 9 epochs. Each card shows its validation loss (lower is better). Click the configurations to keep, then run the next rung.</p>
+      <p style="font-size:14.5px;color:var(--muted);margin-bottom:12px">A small version first: nine configurations A–I, η = 3, so each rung keeps the best third, and a fully trained configuration gets 9 epochs. As in the code, each rung trains its configurations from scratch for that many epochs. Each card shows its validation loss (lower is better). Click the configurations to keep, then run the next rung.</p>
       <div id="hb-race-status" style="font-size:14.5px;font-weight:600;margin-bottom:10px"></div>
       <div id="hb-race" style="display:flex;flex-wrap:wrap;gap:8px"></div>
       <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:12px">

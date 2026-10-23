@@ -4422,10 +4422,11 @@ function cvCheckDesign(){
   // The square fills rows 2–5, so output rows 0–1 straddle its top edge and rows 4–5 its bottom edge.
   const h=$('cv-design-hint'); if(!h) return
   if(!pos.length){h.className='guidance-box warm';h.innerHTML='<strong>Nothing fires yet.</strong> No output is positive. Above the top edge the patch is dark, below it is bright: which rows of the kernel should be positive?'}
-  else if(pos.every(r=>r<=1)){
+  else if(pos.every(r=>r<=1)&&[cvOff.square,cvOff.square+1].every(c=>O[0][c]>0||O[1][c]>0)){
     cvDesignOk=true
     h.className='guidance-box done';h.innerHTML=`<strong>✓ It fires only on the top edge.</strong> Your kernel ${JSON.stringify(cvCustom).replace(/-/g,'−').replace(/,/g,', ')} rewards bright pixels below and dark pixels above. A trained CNN learns kernels like this on its own, because they help with its task.`
   }
+  else if(pos.every(r=>r<=1)){h.className='guidance-box warm';h.innerHTML='<strong>Only part of the top edge fires.</strong> Your kernel responds near a corner but not along the middle of the edge. Give the three weights in each kernel row the same value, so the response does not depend on left or right.'}
   else if(pos.some(r=>r>=4)&&!pos.some(r=>r<=3)){h.className='guidance-box warm';h.innerHTML='<strong>Close — it fires on the bottom edge.</strong> At the top edge, dark is above and bright is below. Flip your signs.'}
   else {
     const rows=[...new Set(pos.filter(r=>r>1))].sort().join(', ')
@@ -4445,9 +4446,11 @@ function cvSizeUpdate(){
   const wins=Array.from({length:cnt},(_,t)=>[t*s,t*s+k])
   c9DrawWindows('cv-row-svg',cells,wins,{C:40,markUncovered:true})
   const el=$('cv-size-calc'); if(!el) return
+  const cov=new Set(); wins.forEach(([a,b])=>{for(let i=a;i<b;i++)cov.add(i)})
+  const unc=[]; for(let i=p;i<p+n;i++) if(!cov.has(i)) unc.push(i)
   el.innerHTML=`<div class="alg-step">padded length = n + 2p = ${n} + 2·${p} = ${L}</div>`+(cnt
     ? `<div class="alg-step">kernel starts at ${wins.map(w=>w[0]).join(', ')} &nbsp;(a start must be ≤ ${L} − ${k} = ${L-k})</div><div class="alg-res">output size = ⌊(n + 2p − k) / s⌋ + 1 = ⌊(${L} − ${k}) / ${s}⌋ + 1 = ${cnt}</div>`
-    : `<div class="alg-res" style="color:var(--red)">The kernel (k = ${k}) is wider than the padded input (${L}), so it fits nowhere.</div>`)
+    : `<div class="alg-res" style="color:var(--red)">The kernel (k = ${k}) is wider than the padded input (${L}), so it fits nowhere.</div>`)+(cnt&&unc.length?`<div class="alg-step" style="color:var(--red)">position${unc.length>1?'s':''} ${unc.join(', ')} ${unc.length>1?'are':'is'} never covered by a window (shaded red)</div>`:'')
 }
 function cvCheckSize(key){
   const inp=$(`cv-sz-${key}`), h=$(`cv-sz-${key}-hint`), v=c9Num(inp.value)
@@ -4680,7 +4683,7 @@ function plCheckAdapt(){
   if(!plAdapt) plAdaptTries++
   $('pl-adapt-a').className='rr-inp '+(a===6?'ok':'bad'); $('pl-adapt-b').className='rr-inp '+(b===13?'ok':'bad')
   const h=$('pl-adapt-hint'); h.className='guidance-box '+(plAdapt?'done':'warm')
-  h.innerHTML=plAdapt?'<strong>✓ Correct!</strong> Region 1 starts at ⌊20/3⌋ = 6 and stops before ⌈40/3⌉ = 14, so it pools x6 … x13. Regions 0 and 2 are x0–x6 and x13–x19, so x6 and x13 are shared.'
+  h.innerHTML=plAdapt?'<strong>✓ Correct!</strong> Region 1 starts at ⌊20/3⌋ = 6 and stops before ⌈40/3⌉ = 14, so it pools x6 … x13. Regions 0 and 2 are x0–x6 and x13–x19.'
     :a===6&&b===14?'<strong>Almost.</strong> The region stops <em>before</em> position 14, so its last input is one earlier.'
     :plAdaptTries===1?'<strong>Not quite.</strong> Region t starts at ⌊t·n / T⌋ and stops just before ⌈(t+1)·n / T⌉. Here t = 1, n = 20, T = 3.'
     :'<strong>Not quite.</strong> Start: ⌊1·20 / 3⌋ = ⌊6.67⌋. Stop just before ⌈2·20 / 3⌉ = ⌈13.33⌉.'
@@ -4771,7 +4774,7 @@ const GM_QS={
        {t:'Drive all of them to 0',h:'An average of positive numbers stays positive; the values converge to a common positive value.'}
      ]},
   5:{q:'Swap the values of nodes 1 and 4, so h[1] = 2 and h[4] = 1. What is node 0\'s average now?',
-     ok:'Node 0 still averages the same four numbers (4, 2, 3, 1), so swapping which neighbour holds which value changes nothing. The aggregation ignores order — a GCN has no notion of which neighbour is where, which is the heart of 9.GC.2.',
+     ok:'Node 0 still averages the same four numbers (4, 2, 3, 1), so swapping which neighbour holds which value changes nothing for node 0, which has both as neighbours. The aggregation ignores order — a GCN has no notion of which neighbour is where, which is the heart of 9.GC.2.',
      opts:[
        {t:'2.25 — lower',h:'Node 0 averages h[0], h[1], h[2], h[4]: still 4, 2, 3 and 1.'},
        {t:'2.75 — higher',h:'Add again: 4 + 2 + 3 + 1 = 10, divided by 4.'},
@@ -5025,7 +5028,7 @@ const GE_QS={
      ok:'h′[o] = W[o]·(h·A): every output channel gets the same spatial pattern A, only scaled. A real conv layer has a different 3×3 pattern for every (output, input) channel pair, which one A cannot provide.',
      opts:[
        {t:'Yes — W gives each output its own row',h:'Each row of W only rescales: both outputs get W[o]·(h·A), the same pattern A times a number.'},
-       {t:'Yes — if A is made symmetric',h:'A symmetric A cannot even make one edge detector, let alone two different patterns.'},
+       {t:'Yes — if A is made symmetric',h:'A symmetric A gives the left and right neighbours the same weight, so it cannot even make the vertical-edge kernel, and both outputs would still share its pattern.'},
        {t:'No — both outputs share A\'s pattern',c:true},
        {t:'Only with zero padding added',h:'Padding only affects the border, not the pattern each output uses.'}
      ]},
@@ -5049,9 +5052,9 @@ const GE_QS={
      ok:'The same W then sees inputs of wildly different scale, so high-degree nodes dominate. Dividing by the degree (averaging, as in 9.GC.1) or using D<sup>−½</sup>A*D<sup>−½</sup> keeps them comparable — and either way one W serves nodes of any degree.',
      opts:[
        {t:'W needs a separate entry per friend',h:'W multiplies the aggregate, whatever the number of friends.'},
-       {t:'The 300-friend sum is ~100× larger',c:true},
+       {t:'The 300-friend sum is ~75× larger',c:true},
        {t:'The layer refuses nodes of high degree',h:'A sum works for any number of terms — it just grows with them.'},
-       {t:'Nothing — sums are independent of degree',h:'A sum of 300 terms is roughly 100× a sum of 3.'}
+       {t:'Nothing — sums are independent of degree',h:'With self-loops, a sum of 301 terms is roughly 75× a sum of 4.'}
      ]}
 }
 
@@ -5163,7 +5166,7 @@ function initGCEq(){
       </div>
       <div style="padding:14px 20px;border-bottom:1px solid var(--border);text-align:center">
         <div style="color:#6d28d9">$$h_i'=f\\Big(W\\sum_{j} A^*_{ji}\\,h_j\\;+\\;b\\Big)$$</div>
-        <div style="font-size:14.5px;color:var(--muted);margin-top:6px;line-height:1.8;font-weight:500"><strong style="color:var(--text)">The problem's GCN, h = f(W·h·A* + b), for one node i.</strong> h has one column per node, so h·A* <em>sums</em> node i's neighbourhood (j ∈ neighbours(i) ∪ {i}); 9.GC.1 averaged instead and wrote nodes as rows (A*HW) — the same computation, transposed.</div>
+        <div style="font-size:14.5px;color:var(--muted);margin-top:6px;line-height:1.8;font-weight:500"><strong style="color:var(--text)">The problem's GCN, h = f(W·h·A* + b), for one node i.</strong> h has one column per node, so h·A* <em>sums</em> node i's neighbourhood (j ∈ neighbours(i) ∪ {i}); 9.GC.1 averaged instead and wrote the rule for one node at a time — the same computation.</div>
       </div>
       <div style="padding:14px 20px;text-align:center">
         <div style="color:#15803d;font-size:14.5px;font-weight:500">Can some choice of A* and W make the second line equal the first?</div>
@@ -5209,7 +5212,7 @@ const TC_QS={
        {t:'Each filter needs 6× the weights it had at k = 2',c:true},
        {t:'The filter can no longer tell which word came first',h:'A conv filter has a separate weight for each position in its window, so it still sees order inside the window.'}
      ]},
-  2:{q:'Now put 50 words between "wasn\'t" and "unhappy". What must change in the recurrent rule?',
+  2:{q:'Now put 49 words between "wasn\'t" and "unhappy". What must change in the recurrent rule?',
      ok:'The same rule is applied at every step and the flag simply rides along in the state, so the length of the gap does not matter. This is parameter sharing across time: one small rule for sequences of any length.',
      opts:[
        {t:'The window must grow to 51 words',h:'That is the CNN. The recurrent rule has no window — it reads one word at a time.'},
@@ -5329,7 +5332,7 @@ function rfRun2(x1,x2){ const s1=rfStep([0,0],x1), s2=rfStep(s1.h,x2); return {a
 const RF_MAIN=rfRun2([1,0],[0,1]), RF_SWAP=rfRun2([0,1],[1,0]), RF_EMPTY=rfRun2([0,0],[0,1])
 const RF_QS={
   1:{q:'Runs 1 and 3 have the same x⁽²⁾ = [0, 1], yet h⁽²⁾ is [5, 0] in one and [1, 0] in the other. Why?',
-     ok:'The only way x⁽¹⁾ reaches step 2 is through h⁽¹⁾ and W — that is the memory. Run 2 shows the same from another angle: the same two inputs in the other order give [1, 2]. Unlike the bag of words in 10.1.1, an RNN sees order.',
+     ok:'The only way x⁽¹⁾ reaches step 2 is through h⁽¹⁾ and W — that is the memory. Run 2 shows the same from another angle: the same two inputs in the other order give [1, 2]. Unlike the k = 1 bag of words in 10.1.1, an RNN sees order across the whole sequence.',
      opts:[
        {t:'Their h⁽¹⁾ differs, and W carries it into step 2',c:true},
        {t:'U changes between runs to fit the new input',h:'W and U are fixed numbers; they are the same in every run and at every step.'},
@@ -5410,7 +5413,7 @@ function initRNNFwd(){
   if(eq){
     eq.innerHTML=`<div style="background:var(--surf2);border:1px solid var(--border);border-radius:10px;padding:14px 20px;text-align:center">
       <div style="color:#b45309">$$h^{(t)}=\\mathrm{ReLU}\\big(W\\,h^{(t-1)}+U\\,x^{(t)}\\big)$$</div>
-      <div style="font-size:14.5px;color:var(--muted);margin-top:6px;line-height:1.8;font-weight:500"><strong style="color:var(--text)">W carries the previous state forward and U brings in the new input; the two are added and passed through ReLU.</strong> Goodfellow's RNN (eq. 10.8) uses tanh and adds a bias b; ReLU and b = 0 keep the arithmetic simple. (The original problem calls W and U W₁ and W₂.)</div>
+      <div style="font-size:14.5px;color:var(--muted);margin-top:6px;line-height:1.8;font-weight:500"><strong style="color:var(--text)">W carries the previous state forward and U brings in the new input; the two are added and passed through ReLU.</strong> Goodfellow's RNN (eqs. 10.8–10.9) uses tanh and adds a bias b; ReLU and b = 0 keep the arithmetic simple. (The original problem calls W and U W₁ and W₂.)</div>
     </div>`
     typeset(eq)
   }
@@ -5441,7 +5444,7 @@ const RD_BY_STEP=[RD_TABLE['<START>'],{falling:.55,drops:.2,from:.15,'<END>':.1}
 const RD_GREEDY=['water','falling','from','clouds','<END>']
 const RD_QS={
   1:{q:'The vocabulary has 50,000 words. How should the input word "rain" enter the network?',
-     ok:'R·x with a one-hot x just picks one column of R — that column is "rain"\'s learned embedding. (Writing e = E·x and then multiplying by another matrix adds nothing: two linear maps in a row are one linear map.)',
+     ok:'R·x (R is a learned matrix) with a one-hot x just picks one column of R — that column is "rain"\'s learned embedding. (Writing e = E·x and then multiplying by another matrix adds nothing: two linear maps in a row are one linear map.)',
      opts:[
        {t:'As its ASCII character codes, one per letter',h:'Character codes say nothing about meaning: "rain" and "ruin" look almost the same.'},
        {t:'As a one-hot vector, times a learned matrix',c:true},
@@ -5504,13 +5507,13 @@ function rdPick(w){
     if(rdFeedback&&rdSeq.join(' ')===RD_GREEDY.join(' ')){
       rdTasks.greedy=true; m.className='guidance-box done'
       m.innerHTML='<strong>✓ Greedy decoding:</strong> "water falling from clouds". At each step you took the most probable word, and each choice changed the next distribution.'
-    } else if(!rdFeedback&&rdSeq[0]==='weather'){
+    } else if(!rdFeedback&&rdSeq.join(' ')===['weather',...RD_GREEDY.slice(1)].join(' ')){
       rdTasks.nofb=true; m.className='guidance-box done'
       m.innerHTML=`<strong>See the problem?</strong> Without feedback the decoder continued "${rdSeq.slice(1).map(rdEsc).join(' ')}" as if it had said "water". With feedback on, after "weather" its top choice is &lt;END&gt; (0.5) — it adapts to what it actually wrote.`
     } else {
       const k=rdSeq.findIndex((x,j)=>x!==RD_GREEDY[j])
       m.className='guidance-box warm'
-      m.innerHTML=rdFeedback&&k>=0?`A valid sample, but not the greedy one: at step ${k+1} you chose "${rdEsc(rdSeq[k])}" over a more probable word. Restart to follow the top word each time.`:'Finished. Check the tasks below.'
+      m.innerHTML=rdFeedback&&k>=0?`A valid sample, but not the greedy one: at step ${k+1} you chose "${rdEsc(rdSeq[k])}" over a more probable word. Restart to follow the top word each time.`:!rdFeedback?'With feedback off, start with "weather", then click the most probable word at each step and watch what the decoder writes next.':'Finished. Check the tasks below.'
     }
   }
   rdRender()
@@ -5554,8 +5557,8 @@ const RN_QS={
        {t:'about 7.6',h:'That is 1.5⁵ — it forgets the tanh′ factor 1 − 0.95² = 0.0975.'},
        {t:'about 0.77',h:'That is 0.95⁵. The factor per step is w·(1 − h²) = 1.5 × 0.0975 ≈ 0.146.'}
      ]},
-  2:{q:'With tiny inputs the gradient over 9 steps is about w⁹, so w = 1 keeps it steady. Why not just pick w = 1.5 to make sure it never vanishes?',
-     ok:'With tiny inputs, w = 1.5 gives 1.5⁹ ≈ 38 — an exploding gradient. With real inputs, a large w pushes h toward ±1, where tanh′ ≈ 0 drags the factor back down. The factor is rarely exactly 1 for long, which is why gated units (10.10) add a path whose factor can stay near 1.',
+  2:{q:'With the inputs off, the gradient over 9 steps is exactly w⁹, so w = 1 keeps it steady. Why not just pick w = 1.5 to make sure it never vanishes?',
+     ok:'With no input, w = 1.5 gives 1.5⁹ ≈ 38: an exploding gradient. With real inputs, a large w pushes h toward ±1, where tanh′ ≈ 0 drags the factor back down (u = 0.1 with w = 1.5 gives about 0.3). No single weight keeps the factor at 1 for every input, which is why gated units (10.10) add a path whose factor can stay near 1.',
      opts:[
        {t:'w &gt; 1 makes every hidden state exactly zero',h:'Larger w makes h larger, not zero. Try u = 0.1 with w = 1.5.'},
        {t:'Nothing — a large w removes vanishing for good',h:'Try u = 2 with w = 1.5: h saturates and the bars collapse anyway.'},
@@ -5624,7 +5627,7 @@ function rnSim(){
   const {H,F}=rnRun(w,u), T=RN_X.length
   // g[k-1] = ∂h⁽¹⁰⁾/∂h⁽ᵏ⁾ = product of the factors of steps k+1 … 10
   const g=Array.from({length:T},(_,k)=>F.slice(k+1).reduce((p,f)=>p*f,1))
-  if(u<=0.1&&g[0]>=0.5&&g[0]<=2) rnSeen.tuned=true
+  if(u===0&&g[0]>=0.5&&g[0]<=2) rnSeen.tuned=true
   if(u>=2&&w>=1.5) rnSeen.big=true
   const svg=$('rn-flow-svg')
   if(svg){
@@ -5636,7 +5639,7 @@ function rnSim(){
   }
   const c=$('rn-sim-calc')
   if(c) c.innerHTML=`<div class="alg-step">h⁽ᵗ⁾: ${H.map(v=>v.toFixed(2)).join(', ')}</div><div class="alg-step">factor w·(1 − h²) per step: ${F.slice(1).map(v=>v.toFixed(2)).join(', ')}</div><div class="alg-res">∂h⁽¹⁰⁾/∂h⁽¹⁾ = ${g[0].toExponential(1).replace('e','×10^').replace('+','')}</div>`
-  const items=[[rnSeen.tuned,'Make the inputs tiny (u ≤ 0.1) and find a w that keeps ∂h⁽¹⁰⁾/∂h⁽¹⁾ between 0.5 and 2'],[rnSeen.big,'Make the inputs big (u ≥ 2) with a large w (≥ 1.5) and watch what saturation does']]
+  const items=[[rnSeen.tuned,'Switch the inputs off (u = 0) and find a w that keeps ∂h⁽¹⁰⁾/∂h⁽¹⁾ between 0.5 and 2'],[rnSeen.big,'Make the inputs big (u ≥ 2) with a large w (≥ 1.5) and watch what saturation does']]
   const cl=$('rn-checklist'); if(cl) cl.innerHTML=items.map(([ok,t])=>`<div><span style="color:${ok?'var(--green)':'var(--muted)'};font-weight:800">${ok?'✓':'○'}</span> ${t}</div>`).join('')
   if(rnSeen.tuned&&rnSeen.big){const q=$('rn-s2q');if(q)q.classList.add('unlocked')}
 }
@@ -5697,12 +5700,12 @@ const BR_QS={
        {t:'Twice the weights, but it still streams word by word',h:'Stage 2 showed it cannot: every output waits for the last input.'}
      ]},
   3:{q:'For which task is a BiRNN a poor choice?',
-     ok:'Live captioning must output each word before the rest of the speech exists, so the backward RNN has nothing to read yet. For tagging finished text — like "Teddy" — reading both ways is exactly what you want.',
+     ok:'To predict the next word, a model may use only the words before it. A BiRNN\'s backward state has already read the word it should predict, so in training it would just copy the answer, and when predicting there is nothing to its right to read. Tagging, typo-spotting and sentiment work on text that is already complete, where reading both ways helps.',
      opts:[
-       {t:'Tagging names in an archived news article',h:'The whole article is available, so both directions can run — a BiRNN is ideal.'},
-       {t:'Spotting typos in a finished, saved essay',h:'The full text is available, so the backward pass can run.'},
-       {t:'Classifying the sentiment of a full review',h:'A finished review is available in full; a BiRNN works.'},
-       {t:'Live captions that show each word as spoken',c:true}
+       {t:'Tagging the names in a news article',h:'The whole article is available, so both directions can run: a BiRNN is ideal.'},
+       {t:'Spotting typos in an essay',h:'The essay is complete, so the backward pass can run.'},
+       {t:'Classifying the sentiment of a review',h:'The review is available in full, so a BiRNN works.'},
+       {t:'Predicting the next word of a sentence',c:true}
      ]}
 }
 
@@ -5867,14 +5870,14 @@ const NS_QS={
        {t:'The decoder keeps writing until it emits &lt;END&gt;',c:true},
        {t:'The encoder outputs one vector per output token',h:'The encoder reads the input, so its length follows the input. The decoder decides how long the output is.'},
        {t:'The input is padded to the output length first',h:'No padding is needed: the decoder writes step by step and stops when it chooses to.'},
-       {t:'A separate network predicts the length first',h:'That is not needed: the decoder simply stops by writing &lt;END&gt;.'}
+       {t:'The decoder writes one token per input word',h:'Then it would always write 7 tokens for 7 words, like the tagger. The decoder is not tied to the input length.'}
      ]},
-  3:{q:'Sentence: <em>"The University of Arizona is in Arizona."</em> The list answer is <em>[ORG] University of Arizona [LOC] Arizona</em>. What does it fail to say?',
-     ok:'A list names the entities but not where they are, so matching "Arizona" back to the text is ambiguous when the word appears twice. Inline markup avoids this because its tags sit right beside the words, at the price of copying the whole sentence (n + 2e tokens).',
+  3:{q:'Sentence: <em>"Jordan flew home to Jordan."</em> The list answer is <em>[PER] Jordan [LOC] Jordan</em>. What does it fail to say?',
+     ok:'A list names the entities but not where they are, so matching them back to the text is ambiguous when the same word appears twice. Inline markup avoids this because its tags sit right beside the words, at the price of copying the whole sentence (n + 2e tokens).',
      opts:[
-       {t:'Whether "University of Arizona" is one entity',h:'The [ORG] marker groups those three words into one entity.'},
-       {t:'Which of the two "Arizona"s is the location',c:true},
-       {t:'What type each of the two entities has',h:'[ORG] and [LOC] give the types.'},
+       {t:'Whether each entity is one word or several',h:'Each marker is followed by exactly its words: one word each here.'},
+       {t:'Which "Jordan" is the person and which the place',c:true},
+       {t:'What type each of the two entities has',h:'[PER] and [LOC] give the types.'},
        {t:'How many entities the sentence contains',h:'There are two markers, so there are two entities.'}
      ]},
   4:{q:'Input: <em>"Óscar Romero was born in El Salvador"</em>. The seq2seq model writes <em>[PER] Oscar Romero [LOC] San Salvador</em>. What went wrong?',
@@ -5949,14 +5952,18 @@ function nsCheckNest(){
   const sp=nsDecode(nsTags[2]), W=NS_S2.words, h=$('ns-nest-hint')
   const same=(s,t)=>s.type===t.type&&s.a===t.a&&s.b===t.b
   const good=sp.filter(s=>NS_S2.want.some(t=>same(s,t))), wrong=sp.filter(s=>!NS_S2.want.some(t=>same(s,t)))
+  // "University of" as ORG plus "Arizona" as LOC: the student has hit the conflict head-on.
+  const orgCut=wrong.length===1&&wrong[0].type==='ORG'&&wrong[0].a===4&&wrong[0].b===5&&good.length===1
   if(!sp.length){ h.className='guidance-box warm'; h.innerHTML='<strong>Not quite.</strong> Your labels encode no entity yet. Tag at least one of the two.' }
-  else if(wrong.length){
+  else if(wrong.length&&!orgCut){
     const s=wrong[0]
     h.className='guidance-box warm'
-    h.innerHTML=`<strong>Not quite.</strong> Your labels encode ${nsSpanText(s,W)}, which is not one of the two entities. `+(s.type==='ORG'?'The organisation is exactly "University of Arizona": "the" is not part of the name.':s.type==='LOC'?'The location is the single word "Arizona".':'There is no person in this sentence.')
+    h.innerHTML=`<strong>Not quite.</strong> Your labels encode ${nsSpanText(s,W)}, which is not one of the two entities. `+(s.type==='ORG'?(s.a<4?'The organisation is exactly "University of Arizona": "the" is not part of the name.':'The organisation is exactly "University of Arizona".'):s.type==='LOC'?'The location is the single word "Arizona".':'There is no person in this sentence.')
   } else {
     nsNestOk=true; h.className='guidance-box done'
-    h.innerHTML=`<strong>✓ That one is right:</strong> ${good.map(s=>nsSpanText(s,W)).join(' and ')}. Now try to add the other. "Arizona" would need <strong>I-ORG</strong> (inside the university's name) and <strong>B-LOC</strong> (the start of the place) at the same time, but one label per word can hold only one. A tagger cannot represent nested entities.`
+    h.innerHTML=orgCut
+      ?'<strong>✓ You have found the conflict.</strong> To make "Arizona" a location (B-LOC), the university\'s name had to stop at "of". Keeping "Arizona" inside the name needs I-ORG, but then it cannot also be B-LOC: one label per word can hold only one. A tagger cannot represent nested entities.'
+      :`<strong>✓ That one is right:</strong> ${good.map(s=>nsSpanText(s,W)).join(' and ')}. Now try to add the other. "Arizona" would need <strong>I-ORG</strong> (inside the university's name) and <strong>B-LOC</strong> (the start of the place) at the same time, but one label per word can hold only one. A tagger cannot represent nested entities.`
     const r=$('ns-s3r'); if(r) r.classList.add('unlocked')
   }
   nsCheckDone()
@@ -6029,10 +6036,10 @@ const RC_QS={
        {t:'Each word now gets its own matrix W',h:'W is still shared by every node.'}
      ]},
   3:{q:'So, could a recursive network predict a stock from its daily prices?',
-     ok:'A days → weeks → months tree gives every day a short path to the root, about 9 merges for 365 days instead of 364. But unlike a parse tree it says nothing about the data, so to be worth it the network has to beat ordinary RNNs, CNNs or transformers on results.',
+     ok:'A fixed tree over the days, such as a balanced binary tree or a days → weeks → months calendar, gives every day a short path to the root: about 9 merges for 365 days in a balanced tree, instead of 364 in a chain. But unlike a parse tree it says nothing about the data, so to be worth it the network has to beat ordinary RNNs, CNNs or transformers on results.',
      opts:[
        {t:'No: only language comes with parse trees',h:'Goodfellow notes that the tree can be fixed and independent of the data, such as a balanced binary tree.'},
-       {t:'Yes: it discovers the market\'s own tree',h:'A standard recursive network is given its tree. Learning the tree itself is still an open research question.'},
+       {t:'Yes: it discovers the market\'s own tree',h:'Prices have no parts whose merges could be scored, the way neighbouring image segments or words can be, so the tree has to be imposed.'},
        {t:'No: prices are numbers, not word vectors',h:'A leaf can be any vector. A day\'s price features work just like a word embedding.'},
        {t:'Yes, on a fixed tree, which shortens paths',c:true}
      ]},
@@ -6165,7 +6172,7 @@ let lmQ={1:null,2:null,3:null,4:null,5:null}
 const LM_UNROLL={a:0.5,b:1,c:2}
 const LM_FILL={
   lag:{ans:22,hints:['Set w = 0.9 and u = 1, and find the first bar below the dashed 0.1 line.','Solve 0.9<sup>ℓ</sup> &lt; 0.1: ℓ &gt; log 0.1 / log 0.9 ≈ 21.9.'],ok:'0.9²¹ ≈ 0.109 and 0.9²² ≈ 0.098, so ℓ = 22. Even with a weight as large as 0.9, an input fades below a tenth after about 20 steps.'},
-  design:{ans:0.926,tol:0.0055,hints:['The weight 9 steps back divided by the newest one is u·w⁹ / u. What happens to u?','u cancels, so you need w⁹ ≥ 0.5, which means w ≥ 0.5<sup>1/9</sup>.'],ok:'w ≥ 0.5<sup>1/9</sup> ≈ 0.926, so 0.93 on the slider. u plays no part because it cancels in the ratio: memory span is set by w alone.'},
+  design:{ans:0.926,tol:0.0055,hints:['The weight 9 steps back divided by the newest one is u·w⁹ / u. What happens to u?','u cancels, so you need w⁹ ≥ 0.5, which means w ≥ 0.5<sup>1/9</sup>.'],ok:'w⁹ ≥ 0.5 gives w ≥ 0.5<sup>1/9</sup> ≈ 0.926, so 0.93 on the slider.'},
   fixed:{ans:5,tol:0.01,hints:['Set w = 0.8 and u = 1 and watch where h⁽ᵗ⁾ levels off. Then explain the number: every input is 1, so h⁽ᵀ⁾ is the sum of the weights.','h settles at u·(1 + w + w² + …) = u / (1 − w), which holds when |w| &lt; 1.'],ok:'1 / (1 − 0.8) = 5. For |w| &lt; 1 the state settles at u / (1 − w) and stays bounded. u sets how high it settles; w decides whether it settles at all.'},
   eig:{ans:3.364,tol:0.0055,hints:['Split h⁽⁰⁾ = ½·[1, 1] + ½·[1, −1]. Every step, W multiplies the first part by 1.1 and the second by 0.5.','h⁽²⁰⁾ = ½·1.1²⁰·[1, 1] + ½·0.5²⁰·[1, −1], and 1.1²⁰ ≈ 6.727.'],ok:'½·1.1²⁰ ≈ 3.36, while ½·0.5²⁰ ≈ 5×10⁻⁷ has vanished. With W = QΛQᵀ, h⁽ᵗ⁾ = QΛᵗQᵀh⁽⁰⁾: each eigen-direction is scaled by λᵗ, so the 1.1 part explodes, the 0.5 part vanishes, and the state lines up with [1, 1].'}
 }
@@ -6176,7 +6183,7 @@ const LM_QS={
        {t:'w · u<sup>T−k</sup>',h:'Check it against your numbers: x⁽¹⁾ in h⁽³⁾ got 0.5 = 2·0.5². Which weight is squared?'},
        {t:'(u · w)<sup>T−k</sup>',h:'u is applied only once, when the input enters. Test it: (2·0.5)² = 1, not 0.5.'},
        {t:'u · w<sup>T−k</sup>',c:true},
-       {t:'u<sup>T−k</sup> · w',h:'With your numbers that gives 2²·0.5 = 2 for x⁽¹⁾, not 0.5.'}
+       {t:'w<sup>T−k</sup>, with no u at all',h:'Check x⁽³⁾: it got weight 2, which is u, not w⁰ = 1.'}
      ]},
   2:{q:'You triple u from 1 to 3. What happens to the memory span, meaning an old input\'s weight relative to the newest one?',
      ok:'The weight ℓ steps back divided by the newest is u·w<sup>ℓ</sup> / u = w<sup>ℓ</sup>, so u cancels. u sets the scale of what comes in; w alone sets how fast it fades. On the log plot, u moves the whole profile up or down and w sets its slope.',
@@ -6483,7 +6490,7 @@ function poAttend(words,pe){
 const PO_FILL={
   pred:{ans:poAttend(PO_ORDERS[0],false).A[2][0],tol:0.006,hints:['Attention only compares the word vectors with each other, so their order plays no part in the numbers. Which cell of the map you can see compares man with dog?','In "dog bites man", read the row "man" at the column "dog".'],ok:'0.28, the same number as in "dog bites man". Reordering the words only moves rows and columns around. Now look at the other order.'},
   div:{ans:100,hints:['The divisor is 10000<sup>2i/d</sup>. Put in i = 1 and d = 4.','10000<sup>2/4</sup> = 10000<sup>0.5</sup> = √10000.'],ok:'10000<sup>1/2</sup> = 100, so the second pair is [sin(p/100), cos(p/100)]. It turns 100 times more slowly than the first pair, [sin p, cos p]. Fast pairs tell neighbours apart and slow pairs tell distant positions apart, like the hands of a clock.'},
-  cos:{ans:Math.cos(2),tol:0.006,hints:['Entry 2 is the cos of the first pair (i = 0, divisor 1), so it is cos(2/1). Use radians, not degrees.','cos(2) in radians ≈ −0.42.'],ok:'PE(2) = [sin 2, cos 2, sin 0.02, cos 0.02] ≈ [0.909, −0.416, 0.020, 1.000]. Each pair is a point on a circle, so every PE(p) has the same length: √2 for d = 4.'},
+  cos:{ans:Math.cos(2),tol:0.006,hints:['PE(2, 1) is the cos of the first pair (i = 0, divisor 1), so it is cos(2/1). Use radians, not degrees.','cos(2) in radians ≈ −0.42.'],ok:'PE(2) = [sin 2, cos 2, sin 0.02, cos 0.02] ≈ [0.909, −0.416, 0.020, 1.000]. Each pair is a point on a circle, so every PE(p) has the same length: √2 for d = 4.'},
   dot:{ans:Math.cos(2)+Math.cos(0.02),tol:0.006,hints:['Click cells two steps off the diagonal, such as PE(3)·PE(5) and PE(7)·PE(9). What do you notice?','PE(p)·PE(q) = cos(p − q) + cos((p − q)/100). Only the offset matters, and here it is 2.'],ok:'cos 2 + cos 0.02 ≈ −0.416 + 1.000 = 0.584, the same for <em>every</em> pair two apart, because sin a·sin b + cos a·cos b = cos(a − b) in each pair. Put another way, PE(p + k) is PE(p) rotated pair by pair by angles that depend only on k.'},
   alibi:{ans:Math.exp(-1)/(1+Math.exp(-0.5)+Math.exp(-1)),tol:0.006,hints:['With equal content scores, the score at distance d is just −0.5·d. Softmax makes the weight proportional to e<sup>−0.5·d</sup>.','e⁰ = 1, e<sup>−0.5</sup> ≈ 0.607 and e<sup>−1</sup> ≈ 0.368. Divide the last one by the sum.'],ok:'0.368 / (1 + 0.607 + 0.368) ≈ 0.19, with 0.51 and 0.31 for distances 0 and 1. Every extra step of distance multiplies the weight by e<sup>−m</sup>: a fixed, smooth preference for nearby words.'}
 }
@@ -6520,20 +6527,20 @@ const PO_QS={
        {t:'It stores a vector for each position up to 4,000',h:'ALiBi stores no position vectors at all.'},
        {t:'The penalty m·|i − j| is defined for any distance',c:true}
      ]},
-  4:{q:'A model trained on 512-token inputs must read 2,000 tokens. Which method simply has no encoding for position 1,500?',
-     ok:'A learned table has exactly one trained row per position seen in training, so position 1,500 does not exist. The formula-based methods (sinusoids, ALiBi, RoPE) can compute a value for any position, although sinusoids and RoPE may still degrade beyond the training length.',
+  4:{q:'T5 adds a trained bias b[bucket(i − j)] to each score. Its buckets get wider with distance, and the last one covers every distance from 128 tokens on. What does this design give up?',
+     ok:'Grouping distances keeps the table small and lets T5 run on inputs of any length, but every distance beyond the cutoff shares one bias. So its position signal cannot tell a word 200 tokens away from one 2,000 tokens away; only the content can.',
      opts:[
-       {t:'Sinusoidal: sin and cos are only defined up to 512',h:'sin and cos are defined for every p. The issue there is quality, not existence.'},
-       {t:'ALiBi: its distance penalty is capped at 512',h:'m·|i − j| is defined for any distance.'},
-       {t:'Learned absolute: its table stops at row 512',c:true},
-       {t:'RoPE: rotation angles only go up to 512',h:'A rotation by an angle proportional to p exists for every p.'}
+       {t:'Reading inputs longer than 128 tokens at all',h:'Every distance maps to some bucket, so inputs of any length work.'},
+       {t:'Any sense of word order between nearby words',h:'Short distances get their own narrow buckets, so nearby order is captured precisely.'},
+       {t:'Telling apart distances like 200 and 2,000 tokens',c:true},
+       {t:'Learning the position biases from data',h:'The biases b are trained.'}
      ]},
   5:{q:'In which methods does the position part of the score depend only on the offset i − j?',
      ok:'Relative methods put position into the score as a function of i − j: T5 with a trained bias for each distance bucket, ALiBi with a fixed linear penalty, and RoPE by rotating q and k so their dot product sees only j − i. Absolute methods add a vector for each position to the input.',
      opts:[
        {t:'Only ALiBi, through its linear penalty',h:'T5\'s bias b[bucket(i − j)] and RoPE\'s q<sub>i</sub>ᵀR<sub>j−i</sub>k<sub>j</sub> also use only the offset.'},
        {t:'Sinusoidal and learned absolute',h:'These add a vector for the absolute position p to the input, so the scores mix content with absolute positions.'},
-       {t:'All five, since all encode positions',h:'Learned absolute vectors are arbitrary trained rows, and nothing ties E[p]·E[p + k] to k.'},
+       {t:'All five, since all encode positions',h:'Learned absolute vectors are arbitrary trained rows, and nothing ties E[p]·E[p + k] to k. Sinusoids come closer, since PE(i)·PE(j) depends only on i − j, but W<sub>Q</sub>, W<sub>K</sub> and the cross terms between word and position vectors bring absolute positions back into the score.'},
        {t:'Relative bias, ALiBi and RoPE',c:true}
      ]}
 }
@@ -6607,7 +6614,7 @@ function poCheckMatch(){
   PO_MATCH.forEach((m,i)=>{const e=$(`po-m-${i}`), ok=e.value===PO_METHODS[m.ans]; e.className='sl-match-sel '+(ok?'ok':'bad'); if(!ok&&first<0) first=i})
   if(first<0){
     poMatchOk=true; h.className='guidance-box done'
-    h.innerHTML='<strong>✓ Correct!</strong> Two methods add a vector to the input (absolute: sinusoidal, learned). Three change the score using i − j (relative: T5, ALiBi, RoPE).'
+    h.innerHTML='<strong>✓ Correct!</strong> Every formula is matched to its method. Notice where position enters in each one: the input, or the score.'
     const q=$('po-s4q'); if(q) q.classList.add('unlocked')
   } else { h.className='guidance-box warm'; h.innerHTML=`<strong>Not quite (row ${first+1}).</strong> ${PO_MATCH[first].hint}` }
   poCheckDone()
@@ -6690,7 +6697,7 @@ const CN_QS={
        {t:'After training, at whatever the first model reaches',h:'Then the target tells you nothing about whether the model is good enough to use.'},
        {t:'Aim for 100% recall and 100% precision',h:'The scores overlap, so no threshold gets both. An impossible target gives no guidance.'},
        {t:'Before training, from the registry\'s needs',c:true},
-       {t:'Match a published F1 score on another dataset',h:'Another task\'s F1 says nothing about this registry\'s costs.'}
+       {t:'Before training, at the best published F1',h:'A published F1, measured on other data, says nothing about this registry\'s costs.'}
      ]},
   5:{q:'What should the model hand the registrars?',
      ok:'A score lets you choose the threshold that meets the recall target, and sorting the queue by score puts the likely cases first. The model speeds the registrars up without deciding for them.',
@@ -6772,10 +6779,10 @@ const LC_DIAG={A:LC_DIAG_OPTS[0],B:LC_DIAG_OPTS[1]}
 // Accuracy (%) against x = log₂(training examples / 1k). You have 16k examples, so x = 4.
 const LC_TASK={
   A:{name:'Task A',tr:x=>54+22*Math.pow(2,-0.45*x),dv:x=>54-30*Math.pow(2,-0.45*x)},
-  B:{name:'Task B',tr:x=>100-0.25*x,dv:x=>44+4*x}
+  B:{name:'Task B',tr:x=>100-0.25*Math.max(0,x-4),dv:x=>44+4*x}
 }
 const LC_FILL={
-  dbl:{ans:4,hints:['From 60% to 76% is 16 points. How many 4-point steps is that?','16 / 4 = 4: 16k → 32k → 64k → 128k → 256k.'],ok:'4 doublings, which is 16× the data (256k examples) for +16 points. Goodfellow §11.3: data needs grow on a logarithmic scale, so estimate what the next doubling costs before you collect it.'}
+  dbl:{ans:4,hints:['From 60% to 76% is 16 points. How many 4-point steps is that?','16 / 4 = 4: 16k → 32k → 64k → 128k → 256k.'],ok:'4 doublings, which is 16× the data (256k examples) for +16 points. Each further 4 points costs another doubling, so the data needed grows exponentially with the target. That is why Goodfellow §11.3 suggests trying training-set sizes on a logarithmic scale.'}
 }
 const LC_ACTIONS=[
   {a:'Train a bigger network (more layers or units)',ans:'Task A',hint:'More capacity helps a model that cannot fit its training set.'},
@@ -6795,7 +6802,7 @@ const LC_QS={
        {t:'It makes the variance gap look smaller',h:'The variance gap is train − dev; the target does not enter it.'}
      ]},
   2:{q:'In Task A, training accuracy falls from 60% to about 56% as the data grows. Why?',
-     ok:'A small training set is easy to fit and a large one is not, so training accuracy falls and dev accuracy rises until they meet. Task A\'s curves meet near 54%, far below the 95% target, so more data cannot fix Task A: the model is too weak.',
+     ok:'A small training set is easy to fit and a large one is not, so training accuracy falls and dev accuracy rises until they meet. Task A\'s curves converge toward about 54%, far below the 95% target, so more data cannot fix Task A: the model is too weak.',
      opts:[
        {t:'More data is harder to fit, so train meets dev',c:true},
        {t:'The model is forgetting what it learned earlier',h:'It is retrained on the larger set, and that set is simply harder to fit.'},
@@ -6810,7 +6817,7 @@ const LC_QS={
        {t:'When train and dev accuracy are already equal',h:'Then there is no variance gap for more data to close.'},
        {t:'When train accuracy is good but dev lags',c:true}
      ]},
-  4:{q:'A much bigger, well-tuned Task A model still reaches only 62% on its training set. What should you suspect?',
+  4:{q:'A much bigger, well-tuned Task A model still reaches only 62% on its training set. (The annotators read each whole document; the model sees only its first 128 words.) What should you suspect?',
      ok:'Goodfellow §11.3: if large, carefully tuned models still cannot fit the training set, the problem may be the data itself. The labels may be too noisy, or the inputs may lack the information needed. The fix is cleaner data or richer inputs, not more of the same.',
      opts:[
        {t:'The dev set is too small to measure progress',h:'The problem shows on the training set itself.'},
@@ -6945,7 +6952,7 @@ const HB_QS={
        {t:'Nobody knows in advance how much early losses predict',c:true},
        {t:'The smaller brackets train their winner for longer',h:'In every bracket the final survivor gets max_iter = 1,000 iterations.'}
      ]},
-  3:{q:'Bracket s = 0 starts 4 configurations and trains each for 1,000 iterations. What is it?',
+  3:{q:'Look at bracket s = 0 in the table. What is it?',
      ok:'With s = 0 there is one rung: 4 random configurations, all trained to max_iter. So Hyperband contains random search as its safest bracket. Goodfellow §11.4.4 explains why random search usually beats grid search (Bergstra and Bengio, 2012).',
      opts:[
        {t:'Successive halving with the most halvings',h:'s = 0 has a single rung, so there is no halving at all.'},
@@ -6953,13 +6960,13 @@ const HB_QS={
        {t:'A warm start from the previous bracket\'s winner',h:'It samples 4 new random configurations.'},
        {t:'Plain random search, with full training',c:true}
      ]},
-  4:{q:'Which change makes s_max reliably equal 3 for max_iter = 1000 and eta = 10?',
+  4:{q:'Which change computes s_max correctly for every max_iter and eta?',
      ok:'Counting with integers (or rounding the log to a few decimals before int()) gives exactly 3. The lesson: when you trace code by hand, trace what the machine computes. int() truncates, and 3 − 4×10⁻¹⁶ truncates to 2.',
      opts:[
        {t:'Use integers: largest s with eta**s ≤ max_iter',c:true},
        {t:'Use math.log(max_iter, eta) instead of the ratio',h:'math.log(1000, 10) also returns 2.9999999999999996.'},
        {t:'Replace int() with ceil(), which rounds up instead',h:'That fixes this case but breaks others: for max_iter = 2000, ceil(3.30) = 4, one rung too many.'},
-       {t:'Compute the logarithms in 32-bit floats instead',h:'Less precision makes rounding errors like this more likely, not less.'}
+       {t:'Compute the logarithms in 32-bit floats instead',h:'Here it happens to give exactly 3.0, but lower precision makes near-integer errors like this more likely in general.'}
      ]}
 }
 
@@ -7084,11 +7091,11 @@ const LE_QS={
        {t:'To make the fitted linear model sparse and short',h:'Sparsity comes from Ω(g), or from keeping only the top K components.'},
        {t:'Because heavily masked windows crash the model',h:'The model runs fine on them. They are just far from x, where the model may behave differently.'}
      ]},
-  3:{q:'With only 20 neighbours, the top components change from draw to draw. What should you conclude?',
+  3:{q:'With only 20 neighbours, the coefficients change noticeably from draw to draw. What should you conclude?',
      ok:'A LIME explanation is estimated from random samples, so it carries sampling noise. Twelve coefficients plus an intercept need many more than 20 weighted neighbours. Check stability across draws before you trust a ranking.',
      opts:[
        {t:'Keep the draw that best matches the neurologist',h:'That is cherry-picking: it shows what you expected, not what the model does.'},
-       {t:'LIME is simply unable to explain EEG models',h:'With 100 neighbours the explanation is stable and points at the left temporal channel, 2.5–7.5 s.'},
+       {t:'LIME is simply unable to explain EEG models',h:'With 100 neighbours the two left-temporal components lead in every draw.'},
        {t:'The neural network itself is random',h:'The model is deterministic. The randomness is in which neighbours LIME draws.'},
        {t:'Draw more neighbours and check stability',c:true}
      ]},
@@ -7197,9 +7204,9 @@ function leFit(N,mode,target){
   leDraws++
   const {beta,nbrs}=leLime(N,mode,leDraws*7919+N)
   leDrawCoef(target,beta)
-  const top=beta.map((v,i)=>[v,i]).sort((a,b)=>b[0]-a[0]).slice(0,3)
+  const top=beta.map((v,i)=>[v,i]).sort((a,b)=>b[0]-a[0]).slice(0,2)
   const info=$(target==='le-coef-svg'?'le-fit-info':'le-fit3-info')
-  if(info) info.innerHTML=`<div class="alg-step">${N} neighbours (draw #${leDraws}); removed = ${mode==='bg'?'background EEG':'flat zeros'}</div><div class="alg-res">top 3: ${top.map(([v,i])=>`${leName(i)} (${v>=0?'+':'−'}${Math.abs(v).toFixed(2)})`).join(', ')}</div>`
+  if(info) info.innerHTML=`<div class="alg-step">${N} neighbours (draw #${leDraws}); removed = ${mode==='bg'?'background EEG':'flat zeros'}</div><div class="alg-res">largest two: ${top.map(([v,i])=>`${leName(i)} (${v>=0?'+':'−'}${Math.abs(v).toFixed(2)})`).join(', ')}</div>`
   if(target==='le-coef-svg'){ leShowNbrs(nbrs); if(N===100) leFits.n100=true; else leFits.n20++ }
   else if(mode==='zero') leFits.zero=true
   leTasks(); leCheckDone()
@@ -7208,7 +7215,7 @@ function leSetMode(m){ leMode3=m; document.querySelectorAll('.le-mode-btn').forE
 function leTasks(){
   const row=(ok,t)=>`<div><span style="color:${ok?'var(--green)':'var(--muted)'};font-weight:800">${ok?'✓':'○'}</span> ${t}</div>`
   const t1=$('le-tasks1'); if(t1) t1.innerHTML=row(leOneDrop,'Remove a <strong>single</strong> component so that the seizure probability falls below 0.90')
-  const t2=$('le-tasks2'); if(t2) t2.innerHTML=row(leFits.n100,'Fit with 100 neighbours')+row(leFits.n20>=2,`Fit with 20 neighbours at least twice and compare the top 3 (${Math.min(2,leFits.n20)}/2)`)
+  const t2=$('le-tasks2'); if(t2) t2.innerHTML=row(leFits.n100,'Fit with 100 neighbours')+row(leFits.n20>=2,`Fit with 20 neighbours at least twice and compare the coefficients (${Math.min(2,leFits.n20)}/2)`)
   const t3=$('le-tasks3'); if(t3) t3.innerHTML=row(leFits.zero,'Fit with flat zeros and compare with the background-EEG fit from Stage 2')
 }
 function leCheckFill(key){ const r=c10Fill('le',key,LE_FILL[key],leFillTries); if(r===null) return; leFill[key]=leFill[key]||r; leCheckDone() }
@@ -7246,7 +7253,7 @@ const GA_FILL={
   occ:{ans:0.2,tol:0.001,hints:['Delete "great": f = min(1, 0.8·0 + 0.8·1).','1 − 0.8.'],ok:'Deleting "great" leaves "wonderful", which alone gives 0.8: a drop of only 0.2. Each word looks unimportant on its own, because the other one covers for it.'},
   ig:{ans:0.5,tol:0.001,hints:['Drag α to 1. The slope is 0.8 until 1.6α reaches 1, and 0 after that. The area is width × height.','The slope is 0.8 for α from 0 to 0.625: 0.8 × 0.625.'],ok:'0.8 × 0.625 = 0.5, and "wonderful" also gets 0.5. Together that is exactly f(sentence) − f(blank) = 1 − 0, a property called completeness. Integrated gradients collect the slope before the function saturates (Sundararajan et al., 2017).'},
   phinot:{ans:0.3,tol:0.001,hints:['First order ("not" first): it adds f(not) − f(neither). Second order ("bad" first): it adds f(not bad) − f(bad). Average the two.','½·[(0.4 − 0.5) + (0.8 − 0.1)] = ½·(−0.1 + 0.7).'],ok:'½·(−0.1 + 0.7) = 0.3.'},
-  phibad:{ans:0,tol:0.001,hints:['First order: "bad" comes second and adds f(not bad) − f(not). Second order: it comes first and adds f(bad) − f(neither).','½·[(0.8 − 0.4) + (0.1 − 0.5)].'],ok:'½·(0.4 − 0.4) = 0. "Bad" adds +0.4 after "not" and −0.4 on its own. And φ<sub>not</sub> + φ<sub>bad</sub> = 0.3 = f(not bad) − f(neither): Shapley values always add up to the total change (efficiency).'}
+  phibad:{ans:0,tol:0.001,hints:['First order: "bad" comes second and adds f(not bad) − f(not). Second order: it comes first and adds f(bad) − f(neither).','½·[(0.8 − 0.4) + (0.1 − 0.5)].'],ok:'½·(0.4 − 0.4) = 0. And φ<sub>not</sub> + φ<sub>bad</sub> = 0.3 = f(not bad) − f(neither): Shapley values always add up to the total change (efficiency).'}
 }
 const GA_METHODS=['Saliency (gradient)','Occlusion','LIME','Shapley value (SHAP)','Integrated gradients']
 const GA_MATCH=[
@@ -7273,7 +7280,7 @@ const GA_QS={
        {t:'Neither: two-word inputs cannot be explained',h:'They can: the table gives f for every set of words.'},
        {t:'Both: "bad" hurts alone but helps after "not"',c:true}
      ]},
-  3:{q:'Exact Shapley values for a 20-word review need f on every subset of the words. How many model evaluations is that?',
+  3:{q:'How many model evaluations does it take to compute exact Shapley values for a 20-word review?',
      ok:'Every subset: 2²⁰ = 1,048,576 evaluations. KernelSHAP (Lundberg and Lee, 2017) estimates Shapley values from a sample of subsets by fitting a weighted linear model, much like LIME but with weights chosen so that the answer approximates Shapley values.',
      opts:[
        {t:'20, one per word',h:'That is occlusion: one deletion per word.'},

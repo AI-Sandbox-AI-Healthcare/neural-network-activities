@@ -30,6 +30,14 @@
       <span class="eq-line">Q2</span> What can the LSTM do that the GRU's single update gate cannot?<br>
       <span class="eq-line">Q3</span> Which parts of these designs matter in practice?
     </div>
+    <div class="q-roadmap">
+      <p><strong>Why these questions:</strong> they explain gated RNNs: what the gates do, how the two designs differ, and what matters in practice.</p>
+      <ul>
+        <li><span class="eq-line">Q1</span> → Stage 1: set an LSTM's gates yourself to hold, overwrite and add up values.</li>
+        <li><span class="eq-line">Q2</span> → Stages 2–3: try the same tasks with a GRU and map its parts to the LSTM's.</li>
+        <li><span class="eq-line">Q3</span> → Stages 4–5: what the extra gate costs in parameters, and what two large studies of LSTM variants found.</li>
+      </ul>
+    </div>
     <div style="display:flex;gap:16px;flex-wrap:wrap;margin-top:6px">
       <div style="flex:1;min-width:260px;background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:12px">
         <div style="font-weight:700;font-size:14.5px;margin-bottom:6px;color:#15803d">LSTM (Goodfellow §10.10.1)</div>
@@ -52,7 +60,7 @@
         </div>
       </div>
     </div>
-    <p style="font-size:13.5px;color:var(--muted);margin-top:10px">U multiplies the input and W the previous state, as in Goodfellow. Many papers write i, o, c for the input gate g, the output gate q and the cell s. Libraries differ on whether u or 1 − u multiplies the old state.</p>
+    <p style="font-size:13.5px;color:var(--muted);margin-top:10px">U multiplies the input and W the previous state, as in Goodfellow. Many papers write i, o, c for the input gate g, the output gate q and the cell s. Libraries differ on whether u or 1 − u multiplies the old state. Goodfellow writes σ for the candidate; most implementations, and this page, use tanh.</p>
     <div style="text-align:right;margin-top:10px"><button class="btn btn-p" onclick="ggUnlock(1)">Start →</button></div>
   </div>
 
@@ -129,7 +137,7 @@
         <li><strong>Gates are per-step weights between 0 and 1.</strong> The LSTM keeps (f) and writes (g) separately: s⁽ᵗ⁾ = f⊙s⁽ᵗ⁻¹⁾ + g⊙s̃⁽ᵗ⁾, so its cell can hold, overwrite or even add up its inputs. The output gate q decides how much of tanh(s) to show as h.</li>
         <li><strong>Along the cell, ∂s⁽ᵗ⁾/∂s⁽ᵗ⁻¹⁾ = f⁽ᵗ⁾:</strong> the w from 10.7, now set by the network at every step. Near 1 it remembers and the gradient survives; near 0 it forgets.</li>
         <li><strong>The GRU ties keep and write together</strong> (u and 1 − u), has no separate cell or output gate, and uses a reset gate r to shape the candidate. That is 3 blocks instead of 4: 45,300 vs 60,400 parameters for n = 100, m = 50.</li>
-        <li><strong>In practice</strong> (Goodfellow §10.10.2), the forget gate and the output activation are critical, coupling the gates costs little, and a forget-gate bias of 1 helps a lot. Neither design wins on every task.</li>
+        <li><strong>In practice</strong> (Greff et al., 2015; Jozefowicz et al., 2015; both discussed in Goodfellow §10.10.2), the forget gate and the output activation are critical, coupling the gates costs little, and a forget-gate bias of 1 helps a lot. Neither design wins on every task.</li>
       </ul>
     </div>
   </div>

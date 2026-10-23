@@ -30,6 +30,14 @@
       <span class="eq-line">Q2</span> How do sinusoidal encodings mark positions, and what do their dot products show?<br>
       <span class="eq-line">Q3</span> How do learned, relative, ALiBi and rotary encodings differ?
     </div>
+    <div class="q-roadmap">
+      <p><strong>Why these questions:</strong> they explain why transformers need positional information and how the main methods differ.</p>
+      <ul>
+        <li><span class="eq-line">Q1</span> → Stage 1: shuffle a sentence and compare the attention outputs, with and without positions.</li>
+        <li><span class="eq-line">Q2</span> → Stage 2: compute sinusoidal encodings and explore their dot products.</li>
+        <li><span class="eq-line">Q3</span> → Stages 3–4: try ALiBi's distance penalty, then match five methods to their formulas.</li>
+      </ul>
+    </div>
     <div id="po-eq" style="margin-bottom:10px"></div>
     <div style="text-align:right;margin-top:14px"><button class="btn btn-p" onclick="poUnlock(1)">Start →</button></div>
   </div>
@@ -37,7 +45,7 @@
   <div id="po-s1" class="ba-locked-section" style="margin-top:16px">
     <div class="card">
       <div class="card-title">Stage 1 — The Shuffle Test</div>
-      <p style="font-size:14.5px;color:var(--muted);margin-bottom:12px">A toy model: word vectors <strong>dog = [1, 0]</strong>, <strong>bites = [0, 1]</strong>, <strong>man = [1.5, 0.5]</strong>, and W<sub>Q</sub> = W<sub>K</sub> = W<sub>V</sub> = I so the numbers stay readable. Each heat-map row shows how much one word attends to each word.</p>
+      <p style="font-size:14.5px;color:var(--muted);margin-bottom:12px">A toy model: word vectors <strong>dog = [1, 0]</strong>, <strong>bites = [0, 1]</strong>, <strong>man = [1.5, 0.5]</strong>, and W<sub>Q</sub> = W<sub>K</sub> = W<sub>V</sub> = I so the numbers stay readable. Each heat-map row shows how much one word attends to each word. Turning positions on adds [sin p, cos p] to the word at position p = 0, 1, 2 (Stage 2 explains this choice); here the vectors have d = 2 entries.</p>
       <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px">
         <button class="sl-preset-btn po-ord-btn" data-v="0" onclick="poSetOrder(0)">dog bites man</button>
         <button class="sl-preset-btn po-ord-btn" data-v="1" id="po-ord1" onclick="poSetOrder(1)" disabled style="opacity:.5">man bites dog 🔒</button>
@@ -70,8 +78,8 @@
         <div style="font-size:14.5px;font-weight:600;margin-bottom:10px">Take d = 4, so there are two pairs (i = 0 and i = 1).</div>
         <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">Divisor 10000<sup>2i/d</sup> for i = 1: <input id="po-f-div" class="rr-inp" placeholder="?" autocomplete="off" onkeydown="if(event.key==='Enter')poCheckFill('div')"><button class="btn btn-g" onclick="poCheckFill('div')">Check</button></div>
         <div id="po-f-div-hint" class="guidance-box cold" style="margin-top:8px">Plug in i = 1 and d = 4.</div>
-        <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:12px">Second entry of PE(2): <input id="po-f-cos" class="rr-inp" placeholder="?" autocomplete="off" onkeydown="if(event.key==='Enter')poCheckFill('cos')"><button class="btn btn-g" onclick="poCheckFill('cos')">Check</button></div>
-        <div id="po-f-cos-hint" class="guidance-box cold" style="margin-top:8px">Entry 2 is the cos of the first pair. Two decimals are plenty.</div>
+        <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:12px">Second entry of PE(2), i.e. PE(2, 1): <input id="po-f-cos" class="rr-inp" placeholder="?" autocomplete="off" onkeydown="if(event.key==='Enter')poCheckFill('cos')"><button class="btn btn-g" onclick="poCheckFill('cos')">Check</button></div>
+        <div id="po-f-cos-hint" class="guidance-box cold" style="margin-top:8px">PE(2, 1) is the cos of the first pair. Two decimals are plenty.</div>
       </div>
       <p style="font-size:14.5px;color:var(--muted);margin-bottom:10px">The heat map shows PE(p)·PE(q) for positions 0–15 with d = 4. Click cells to read their values.</p>
       <div style="display:flex;gap:24px;flex-wrap:wrap;align-items:flex-start">

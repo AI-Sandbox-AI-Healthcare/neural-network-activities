@@ -30,6 +30,14 @@
       <span class="eq-line">Q2</span> What can a written answer express that one label per word cannot?<br>
       <span class="eq-line">Q3</span> What does writing the answer cost?
     </div>
+    <div class="q-roadmap">
+      <p><strong>Why these questions:</strong> they compare the two ways to frame NER: labelling every word, or writing the answer out.</p>
+      <ul>
+        <li><span class="eq-line">Q1</span> → Stages 1–2: tag a sentence yourself, then count the tokens of three answer formats.</li>
+        <li><span class="eq-line">Q2</span> → Stage 3: try to tag an entity that sits inside another.</li>
+        <li><span class="eq-line">Q3</span> → Stage 4: count decoder steps and see what a decoder can get wrong.</li>
+      </ul>
+    </div>
     <div id="ns-eq" style="margin-bottom:10px"></div>
     <div style="text-align:right;margin-top:14px"><button class="btn btn-p" onclick="nsUnlock(1)">Start →</button></div>
   </div>
@@ -104,7 +112,7 @@
       <div class="card-title">Takeaway</div>
       <ul style="padding-left:20px">
         <li><strong>A tagger outputs one label per word</strong>, so the output length always equals the input length. It labels every word in one parallel pass, but each label is chosen separately, so invalid sequences (I- after O) need a CRF layer or constrained decoding.</li>
-        <li><strong>A seq2seq model writes its answer</strong> (Goodfellow §10.4): the encoder reads the sentence into a context C, and the decoder writes token after token until &lt;END&gt;. The length is free: inline markup writes n + 2e tokens, an entity list e + m.</li>
+        <li><strong>A seq2seq model writes its answer</strong> (Goodfellow §10.4): the encoder reads the sentence into a context C, and the decoder writes token after token until &lt;END&gt;. The length is free: for n words with e entities covering m words, inline markup writes n + 2e tokens and an entity list e + m.</li>
         <li><strong>What writing gains:</strong> nested entities (University of <em>Arizona</em>) and any output format you can train on. One label per word cannot hold two entities.</li>
         <li><strong>What it costs:</strong> one sequential step per output token, possible hallucinated or malformed output, and (for lists) lost positions when a word repeats.</li>
       </ul>

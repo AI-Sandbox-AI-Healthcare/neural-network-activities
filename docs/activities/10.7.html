@@ -30,6 +30,14 @@
       <span class="eq-line">Q2</span> Which weight controls memory, and which only scales?<br>
       <span class="eq-line">Q3</span> What changes when h is a vector and w is a matrix W?
     </div>
+    <div class="q-roadmap">
+      <p><strong>Why these questions:</strong> they strip an RNN down to one number, to see exactly where long-term memory comes from (Goodfellow §10.7).</p>
+      <ul>
+        <li><span class="eq-line">Q1</span> → Stage 1: unroll three steps by hand.</li>
+        <li><span class="eq-line">Q2</span> → Stages 2–3: vary w and u on the memory profile and with a constant input.</li>
+        <li><span class="eq-line">Q3</span> → Stage 4: follow a two-unit state step by step.</li>
+      </ul>
+    </div>
     <div id="lm-eq" style="margin-bottom:10px"></div>
     <div style="text-align:right;margin-top:14px"><button class="btn btn-p" onclick="lmUnlock(1)">Start →</button></div>
   </div>

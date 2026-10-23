@@ -30,6 +30,14 @@
       <span class="eq-line">Q2</span> What does it cost to see further?<br>
       <span class="eq-line">Q3</span> How does a recurrent network handle long-range context instead?
     </div>
+    <div class="q-roadmap">
+      <p><strong>Why these questions:</strong> they compare how far a convolution and a recurrent network can "see" in a sentence, the problem that motivates RNNs.</p>
+      <ul>
+        <li><span class="eq-line">Q1</span> → Stage 1: slide windows over short reviews and find the smallest k that reads them correctly.</li>
+        <li><span class="eq-line">Q2</span> → Stage 2 and the last question of Stage 3: widen the gap between the key words, weigh what a wide window costs, then compare stacking conv layers.</li>
+        <li><span class="eq-line">Q3</span> → Stage 3: step a hand-set recurrent reader through review C and the longer review.</li>
+      </ul>
+    </div>
     <div id="tc-eq" style="margin-bottom:10px"></div>
     <div style="text-align:right;margin-top:14px"><button class="btn btn-p" onclick="tcUnlock(1)">Start →</button></div>
   </div>
@@ -37,7 +45,7 @@
   <div id="tc-s1" class="ba-locked-section" style="margin-top:16px">
     <div class="card">
       <div class="card-title">Stage 1 — Slide the Window</div>
-      <p style="font-size:14.5px;color:var(--muted);margin-bottom:12px">Pick a sentence and drag k. Each chip is one window with its two filter scores. A pattern counts only if all its words fall inside the same window.</p>
+      <p style="font-size:14.5px;color:var(--muted);margin-bottom:12px">Pick a sentence and drag k. Each chip is one window with its two filter scores. A pattern counts only if all its words fall inside the same window, and a window's score adds up every pattern it contains (e.g. "being good" scores 1 + 3 = 4).</p>
       <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px;margin-bottom:14px">
         <div class="ba-step-block" style="margin:0"><div class="ba-step-label" style="color:#1d4ed8">Positive filter P — patterns</div><div style="font-family:monospace;font-size:13.5px;line-height:1.9">good +1 · happy +2 · <em>being good</em> +3<br><em>wasn't … unhappy</em> +5 (both words in one window)</div></div>
         <div class="ba-step-block" style="margin:0"><div class="ba-step-label" style="color:#b91c1c">Negative filter N — patterns</div><div style="font-family:monospace;font-size:13.5px;line-height:1.9">bad +1 · unhappy +2 · <em>being bad</em> +3</div></div>
@@ -75,11 +83,12 @@
       <div class="card-title">Stage 2 — A Longer Gap</div>
       <p style="font-size:14.5px;color:var(--muted);margin-bottom:10px">A new review (not in the explorer):</p>
       <div style="font-family:'Courier New',monospace;font-size:15px;font-weight:700;background:var(--surf2);border-radius:7px;padding:10px 14px;margin-bottom:14px">It wasn't the case that after all of these years he was unhappy</div>
+      <p style="font-size:14px;color:var(--muted);margin-bottom:14px">In a real text CNN each word is a vector of d numbers, and a filter of width k keeps one d-number weight vector per window position: k × d weights in all.</p>
       <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px;align-items:start">
         <div class="ba-step-block" style="margin:0">
           <div style="font-size:14.5px;font-weight:600;margin-bottom:8px">Smallest k that puts "wasn't" and "unhappy" in one window:</div>
           <div style="display:flex;gap:8px;align-items:center"><input id="tc-f-d" class="rr-inp" placeholder="k" autocomplete="off" onkeydown="if(event.key==='Enter')tcCheckFill('d')"><button class="btn btn-g" onclick="tcCheckFill('d')">Check</button></div>
-          <div id="tc-f-d-hint" class="guidance-box cold" style="margin-top:8px">The slider stops at 7, so count.</div>
+          <div id="tc-f-d-hint" class="guidance-box cold" style="margin-top:8px">This review is not in the explorer, so count the words.</div>
         </div>
         <div id="tc-q1"></div>
       </div>

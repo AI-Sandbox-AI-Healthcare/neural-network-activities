@@ -30,6 +30,14 @@
       <span class="eq-line">Q2</span> Why can't we just tune the weight to keep that factor at 1?<br>
       <span class="eq-line">Q3</span> Which fixes work for vanishing gradients, and which for exploding ones?
     </div>
+    <div class="q-roadmap">
+      <p><strong>Why these questions:</strong> they explain why RNNs struggle with long dependencies, and what is done about it.</p>
+      <ul>
+        <li><span class="eq-line">Q1</span> → Stage 1 and the first question of Stage 2: measure how much of the gradient tanh lets through, then combine it with w.</li>
+        <li><span class="eq-line">Q2</span> → Stage 2: back-propagate through ten steps and try to tune w and u.</li>
+        <li><span class="eq-line">Q3</span> → Stage 3: match each fix to the problem it solves.</li>
+      </ul>
+    </div>
     <div id="rn-eq" style="margin-bottom:10px"></div>
     <div style="text-align:right;margin-top:14px"><button class="btn btn-p" onclick="rnUnlock(1)">Start →</button></div>
   </div>
@@ -95,7 +103,7 @@
       <ul style="padding-left:20px">
         <li><strong>Each step back multiplies the gradient</strong> by w·tanh′ (for vector states, by Wᵀ·diag(1 − h²)). Over many steps the product shrinks (vanishes) or grows (explodes) exponentially.</li>
         <li><strong>tanh′ collapses</strong> once |pre-activation| ≳ 1.8, so saturated units block the gradient.</li>
-        <li><strong>You cannot simply tune w</strong>: w &lt; 1 vanishes, w &gt; 1 explodes for small inputs and saturates for large ones.</li>
+        <li><strong>You cannot simply tune w</strong>: with no input the factor is w per step, so w &lt; 1 vanishes, w &gt; 1 explodes, and only w ≈ 1 holds steady. With real inputs a large w saturates h and the factor collapses.</li>
         <li><strong>Exploding → clip the gradient norm. Vanishing → gated units</strong> (LSTM/GRU) whose self-loop can stay near 1. ReLU does not remove the problem.</li>
       </ul>
     </div>

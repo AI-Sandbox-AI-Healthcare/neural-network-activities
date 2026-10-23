@@ -24,11 +24,19 @@
 <div id="tab-11.1" class="tab-panel">
   <div class="prob-card">
     <div style="margin-bottom:10px"><span class="prob-badge">Activity 11.1</span><span class="prob-title">Cancer Registrar NLP — Choosing the Right Metric</span><span id="cancernlp-completed" class="completed-badge">✓ 11.1 Completed</span></div>
-    <p class="prob-desc">A hospital's cancer registrars read every clinical note to find the ones that describe a cancer case, which must then be added to the registry. About <strong>5%</strong> of notes do. You are building a model that flags notes for them to read. It should save them reading, but every missed case leaves the registry incomplete.</p>
+    <p class="prob-desc">A hospital's cancer registrars read every clinical note to find the ones that describe a cancer case, which must then be added to the registry. About <strong>5%</strong> of notes do. You are building a model that flags notes for them to read. It should save them reading, but every missed case leaves the registry incomplete, so the registry requires that at least <strong>98%</strong> of cancer cases be found.</p>
     <div class="eq-block" style="font-family:inherit;font-size:15px;line-height:2">
       <span class="eq-line">Q1</span> Why can a model be 95% accurate and still useless here?<br>
       <span class="eq-line">Q2</span> Which metric, at which threshold, matches the registrars' goal?<br>
       <span class="eq-line">Q3</span> What do the registrars actually gain, and what target should you set before training?
+    </div>
+    <div class="q-roadmap">
+      <p><strong>Why these questions:</strong> they follow Goodfellow §11.1: choose a metric, set a target, and see what it buys.</p>
+      <ul>
+        <li><span class="eq-line">Q1</span> → Stage 1: work out the accuracy of a model that never flags anything.</li>
+        <li><span class="eq-line">Q2</span> → Stage 2: move a threshold over real scores and compute recall and precision.</li>
+        <li><span class="eq-line">Q3</span> → Stage 3: count the notes registrars read and the model's coverage, then decide how to set a target.</li>
+      </ul>
     </div>
     <div id="cn-eq" style="margin-bottom:10px"></div>
     <div style="text-align:right;margin-top:14px"><button class="btn btn-p" onclick="cnUnlock(1)">Start →</button></div>

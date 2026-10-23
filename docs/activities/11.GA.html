@@ -30,6 +30,14 @@
       <span class="eq-line">Q2</span> When does a word that matters get zero credit?<br>
       <span class="eq-line">Q3</span> How can you tell whether an explanation reflects the model at all?
     </div>
+    <div class="q-roadmap">
+      <p><strong>Why these questions:</strong> they explain why attribution methods disagree on the same prediction, and how to check them.</p>
+      <ul>
+        <li><span class="eq-line">Q1</span> → Stages 1–3: compute saliency, occlusion, integrated gradients and Shapley values by hand, then match each method to its question.</li>
+        <li><span class="eq-line">Q2</span> → Stages 1–2: a saturated model, and a model in which one word flips another.</li>
+        <li><span class="eq-line">Q3</span> → Stage 4: a sanity check on explanations (Adebayo et al., 2018), and a case where an explanation exposed a flawed model (Ribeiro et al., 2016).</li>
+      </ul>
+    </div>
     <div id="ga-eq" style="margin-bottom:10px"></div>
     <div style="text-align:right;margin-top:14px"><button class="btn btn-p" onclick="gaUnlock(1)">Start →</button></div>
   </div>
@@ -48,7 +56,7 @@
       </div>
       <div id="ga-f-occ-hint" class="guidance-box cold" style="margin-top:8px">Use the table.</div>
       <div class="ba-step-block" style="margin:14px 0 0">
-        <div style="font-size:14.5px;font-weight:600;margin-bottom:8px">Integrated gradients walk from a blank input (all x = 0) to the sentence, x(α) = α·(1, 1) for α from 0 to 1, collecting the slope ∂f/∂x<sub>great</sub> along the way. Drag α.</div>
+        <div style="font-size:14.5px;font-weight:600;margin-bottom:8px">Integrated gradients walk from a blank input (all x = 0) to the sentence, x(α) = α·(1, 1) for α from 0 to 1, collecting the slope ∂f/∂x<sub>great</sub> along the way. A word's integrated gradient is (x − x′) times its average slope on that path, where x′ = 0 is the blank input; here x − x′ = 1, so it is the shaded area. Drag α.</div>
         <div style="display:flex;gap:20px;flex-wrap:wrap;align-items:flex-start">
           <svg id="ga-path-svg" width="360" height="190" style="background:var(--surf2);border:1px solid var(--border);border-radius:8px;display:block;max-width:100%"></svg>
           <div style="flex:1;min-width:220px">
@@ -101,6 +109,7 @@
   <div id="ga-s4" class="ba-locked-section" style="margin-top:16px">
     <div class="card">
       <div class="card-title">Stage 4 — Can You Trust an Explanation?</div>
+      <p style="font-size:14.5px;color:var(--muted);margin-bottom:12px">Two published results: a sanity check that tests whether an explanation depends on the model at all, and a case where an explanation exposed a model that was right for the wrong reason.</p>
       <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px;align-items:start">
         <div id="ga-q4"></div>
         <div id="ga-q5"></div>

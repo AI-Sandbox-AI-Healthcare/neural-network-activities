@@ -30,6 +30,14 @@
       <span class="eq-line">Q2</span> What does one GCN layer compute for a node, and which part is learned?<br>
       <span class="eq-line">Q3</span> What changes when we stack layers?
     </div>
+    <div class="q-roadmap">
+      <p><strong>Why these questions:</strong> they build one GCN layer piece by piece: how the graph is stored, one update, then several layers.</p>
+      <ul>
+        <li><span class="eq-line">Q1</span> → Stage 1: read the adjacency matrix A* row by row.</li>
+        <li><span class="eq-line">Q2</span> → Stages 2–3 and 5: compute neighbourhood averages by hand, tune the learned W and b, then check that the rule ignores neighbour order and shares one W.</li>
+        <li><span class="eq-line">Q3</span> → Stage 4: stack layers and watch the values spread and converge.</li>
+      </ul>
+    </div>
     <div id="gm-prob-eq" style="margin-bottom:10px"></div>
     <div style="text-align:right;margin-top:14px"><button class="btn btn-p" onclick="gmUnlock(1)">Start →</button></div>
   </div>

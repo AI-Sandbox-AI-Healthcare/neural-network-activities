@@ -30,6 +30,14 @@
       <span class="eq-line">Q2</span> How does each step know what has been written so far?<br>
       <span class="eq-line">Q3</span> How does the network produce words — and stop?
     </div>
+    <div class="q-roadmap">
+      <p><strong>Why these questions:</strong> they are the design decisions behind any RNN that turns one input into a sequence.</p>
+      <ul>
+        <li><span class="eq-line">Q1</span> → Decisions 1–2: how the input word is represented and where it enters.</li>
+        <li><span class="eq-line">Q2</span> → Decision 3 and Stage 6: what each step feeds back in, and what goes wrong without it.</li>
+        <li><span class="eq-line">Q3</span> → Decisions 4–5 and Stage 6: choose the output and stopping rule, then decode word by word until &lt;END&gt;.</li>
+      </ul>
+    </div>
     <div style="text-align:right;margin-top:14px"><button class="btn btn-p" onclick="rdUnlock(1)">Start designing →</button></div>
   </div>
 

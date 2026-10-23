@@ -28,7 +28,17 @@
     <div class="eq-block" style="font-family:inherit;font-size:15px;line-height:2">
       <span class="eq-line">Q1</span> How do we write an image as a graph, i.e. what is A*?<br>
       <span class="eq-line">Q2</span> Can the usual 0/1 adjacency with one weight W reproduce a 3×3 kernel?<br>
-      <span class="eq-line">Q3</span> What if A may hold any numbers — and what breaks with several channels?
+      <span class="eq-line">Q3</span> What if A may hold any numbers — and what breaks with several channels?<br>
+      <span class="eq-line">Q4</span> Where is the GCN's shared, order-free rule exactly right, and what must it watch out for?
+    </div>
+    <div class="q-roadmap">
+      <p><strong>Why these questions:</strong> the problem asks whether a GCN can do what an image convolution does. Q1–Q3 test that step by step, and Q4 turns to where a GCN is the better tool.</p>
+      <ul>
+        <li><span class="eq-line">Q1</span> → Stage 1: write row 0 of A* for a 3×3 image.</li>
+        <li><span class="eq-line">Q2</span> → Stage 2: try several W values with the usual 0/1 adjacency.</li>
+        <li><span class="eq-line">Q3</span> → Stages 3–4: put kernel weights into A, then see what fails with several channels.</li>
+        <li><span class="eq-line">Q4</span> → Stage 5: shuffle a molecule's atoms, and compare a node with 3 neighbours to one with 300.</li>
+      </ul>
     </div>
     <div id="ge-prob-eq" style="margin-bottom:10px"></div>
     <div style="text-align:right;margin-top:14px"><button class="btn btn-p" onclick="geUnlock(1)">Start →</button></div>

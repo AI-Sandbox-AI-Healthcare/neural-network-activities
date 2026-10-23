@@ -30,6 +30,14 @@
       <span class="eq-line">Q2</span> Why does ordinary pooling's output size depend on the input?<br>
       <span class="eq-line">Q3</span> How does adaptive pooling always produce the same size — and what does it cost?
     </div>
+    <div class="q-roadmap">
+      <p><strong>Why these questions:</strong> a CNN's dense layer needs a fixed number of inputs; these questions lead from plain pooling to the adaptive pooling that guarantees it.</p>
+      <ul>
+        <li><span class="eq-line">Q1</span> → Stage 1: max-pool a short row by hand and move one value within and across windows.</li>
+        <li><span class="eq-line">Q2</span> → Stage 2: change the input length under a fixed window and count the outputs.</li>
+        <li><span class="eq-line">Q3</span> → Stages 3–4: choose the output size, work out one region by hand, then see adaptive pooling in real CNNs.</li>
+      </ul>
+    </div>
     <div id="pl-prob-eq" style="margin-bottom:14px"></div>
     <div class="given-row">
       <div class="given-box"><div class="given-lbl">Input length n</div><div class="given-val">varies — any size</div></div>
@@ -131,7 +139,7 @@
       <ul style="padding-left:20px">
         <li><strong>Pooling</strong> summarizes each window by its maximum (or mean). It ignores small shifts that stay inside a window — but a shift across a window boundary still changes the output.</li>
         <li><strong>With a fixed window</strong> k and stride s, the number of outputs ⌊(n − k) / s⌋ + 1 grows in steps with n, so a fixed-size dense layer cannot follow it.</li>
-        <li><strong>Adaptive pooling</strong> fixes the output length T and splits the input into T regions of about n / T values each (neighbours share a value when n / T isn't whole).</li>
+        <li><strong>Adaptive pooling</strong> fixes the output length T and splits the input into T regions of about n / T values each (two neighbouring regions share an input wherever a boundary t·n / T falls between two positions). The price: each output summarises a region whose size grows with n, so detail inside a region is lost.</li>
         <li><strong>Global average pooling</strong> (T = 1) makes the dense layer's size independent of the image size — at the price of throwing away <em>where</em> each feature was.</li>
       </ul>
     </div>

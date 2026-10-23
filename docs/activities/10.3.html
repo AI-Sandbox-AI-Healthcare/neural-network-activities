@@ -30,6 +30,14 @@
       <span class="eq-line">Q2</span> How is the backward state computed, and in which order?<br>
       <span class="eq-line">Q3</span> What does reading both ways cost?
     </div>
+    <div class="q-roadmap">
+      <p><strong>Why these questions:</strong> they compare a one-direction RNN with a bidirectional one: what it sees, how it computes, what it costs.</p>
+      <ul>
+        <li><span class="eq-line">Q1</span> → Stage 1: click the inputs an output depends on, first with one direction, then two.</li>
+        <li><span class="eq-line">Q2</span> → Stages 2–3: compute both directions by hand, then complete the equations.</li>
+        <li><span class="eq-line">Q3</span> → the questions in Stages 2–3: streaming, parameters, and tasks where a BiRNN is a poor fit.</li>
+      </ul>
+    </div>
     <p style="font-size:14px;color:var(--muted)">Notation (Goodfellow §10.3): h⁽ᵗ⁾ is the forward state, g⁽ᵗ⁾ the backward state, o⁽ᵗ⁾ the output.</p>
     <div style="text-align:right;margin-top:10px"><button class="btn btn-p" onclick="brUnlock(1)">Start →</button></div>
   </div>

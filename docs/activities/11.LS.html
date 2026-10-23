@@ -28,7 +28,15 @@
     <div class="eq-block" style="font-family:inherit;font-size:15px;line-height:2">
       <span class="eq-line">Q1</span> What is one instance, and what are its interpretable components?<br>
       <span class="eq-line">Q2</span> How does LIME turn random perturbations into an explanation?<br>
-      <span class="eq-line">Q3</span> What should a "removed" piece of EEG look like?
+      <span class="eq-line">Q3</span> What should a "removed" piece of EEG look like, and what can the explanation tell a neurologist?
+    </div>
+    <div class="q-roadmap">
+      <p><strong>Why these questions:</strong> they are the three choices you must make before LIME can explain an EEG model.</p>
+      <ul>
+        <li><span class="eq-line">Q1</span> → Stage 1: remove pieces of an EEG window and watch the prediction.</li>
+        <li><span class="eq-line">Q2</span> → Stage 2: draw neighbours, weight them and fit LIME's linear model.</li>
+        <li><span class="eq-line">Q3</span> → Stage 3: change what "removed" means and refit, then judge what the explanation shows.</li>
+      </ul>
     </div>
     <div id="le-eq" style="margin-bottom:10px"></div>
     <div style="text-align:right;margin-top:14px"><button class="btn btn-p" onclick="leUnlock(1)">Start →</button></div>
@@ -110,7 +118,7 @@
       <ul style="padding-left:20px">
         <li><strong>Instance and components:</strong> the instance is the window the model classifies (here 3 channels × 10 s). Components are channel × time segments, units a neurologist can read: "left temporal, 2.5–5 s".</li>
         <li><strong>LIME</strong> removes random sets of components, runs the model on each neighbour, weights neighbours by their closeness to x, and fits a linear model. Its coefficients explain the prediction locally (Ribeiro et al., 2016).</li>
-        <li><strong>It is an estimate:</strong> with too few neighbours the ranking changes from draw to draw. Check that it is stable before you trust it.</li>
+        <li><strong>It is an estimate:</strong> with too few neighbours the coefficients change from draw to draw. Check that it is stable before you trust it.</li>
         <li><strong>Removing must look realistic.</strong> Flat zeros look like electrode faults, are out of distribution, and spread the credit everywhere. Background EEG keeps the neighbours plausible.</li>
         <li><strong>Agreement with a neurologist supports the model but does not prove it.</strong> Check many windows, including the model's errors.</li>
       </ul>
