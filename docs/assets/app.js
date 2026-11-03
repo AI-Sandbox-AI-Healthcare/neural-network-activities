@@ -15,6 +15,7 @@ function showTab(id) {
   panel.classList.add('active')
   const btn = document.querySelector(`.tab-btn[data-tab="${id}"]`)
   if (btn) btn.classList.add('active')
+  typeset(panel)
   if (window.location.hash.slice(1) !== id) window.location.hash = id
 }
 
@@ -821,23 +822,23 @@ function updateBadge(id, done) {
 function isComplete(module) {
   try {
     if (module === 'neuron') { const a = nX.reduce((s,x,i)=>s+x*nW[i],0); return Math.abs(a - TARGET_A) < 0.001 }
-    if (module === 'bias') { const XnWn=baXnewWnew(),Y=baY(); const Yn=XnWn?XnWn.map(r=>r.map(v=>Math.max(0,v))):null; return Yn?Y.every((row,ri)=>row.every((v,ci)=>Math.abs(v-Yn[ri][ci])<1e-9)):false }
-    if (module === 'ce') return ceJWOk
+    if (module === 'bias') { if (!baXshapeOk || !baWshapeOk || !baXcol.every(v=>v===1) || !baWrow.every((v,i)=>v===BA_C[i])) return false; const XnWn=baXnewWnew(),Y=baY(); const Yn=XnWn?XnWn.map(r=>r.map(v=>Math.max(0,v))):null; return Yn?Y.every((row,ri)=>row.every((v,ci)=>Math.abs(v-Yn[ri][ci])<1e-9)):false }
+    if (module === 'ce') return ceLogPOk && ceYlogPOk && ceJWOk
     if (module === 'a422') return a4ScDone.every(Boolean)
-    if (module === 'a423') return a4QuizDone
+    if (module === 'a423') return a4Explored && a4QuizDone
     if (module === 'maxout') return mxVerifyCount() === MX_TEST_X.length
     if (module === 'regions') return lrCountCorrectSteps() === 5
     if (module === 'compgraph') return cgCountClassifyCorrect() === 8 && Object.values(cgWired).filter(Boolean).length === 4
     if (module === 'backprop') return bpCountCorrect() === 6 && !!bpMcqCorrect
     if (module === 'regrace') return rrCountOk() === 16 && rrNoreg === true && rrL1mcq === true && rrL2mcq === true
-    if (module === 'earlystop') return esStopMcq === true && esEpochOk === true
+    if (module === 'earlystop') return esVal >= 5 && esStopMcq === true && esEpochOk === true && esWhyMcq === true
     if (module === 'dropout') return Object.values(dpMcq).filter(v=>v===true).length === 3 && dpBestMcq === true
     if (module === 'taxonomy') return kdAllDistsOk() && Object.values(kdMcq).filter(v=>v===true).length === 4
     if (module === 'surrogate') return SL.warmupCorrect && SL.flashSeen.size===SL_FLASH.length && SL.matchAllOk && Object.values(SL.mcq).filter(v=>v===true).length === 11
     if (module === 'gradnorm') return Object.values(gnMcq).filter(v=>v===true).length === 4 && gnMcqClip === true
     if (module === 'momentum') return mmCountNoMomOk() === 3 && mmCountMomOk() === 3 && mmMcq.accum === true && mmMcq.carry === true
     if (module === 'transferlearn') return Object.values(tlMcq).filter(v=>v===true).length === 4 && tlPxOk
-    if (module === 'optrace') return Object.values(orMcq).filter(v=>v===true).length === 4 && orFinal === true
+    if (module === 'optrace') return orRan && Object.values(orMcq).filter(v=>v===true).length === 4 && orFinal === true
     if (module === 'batchnorm') return bnMeansOk && bnWpOk && bnBetaOk && bnWhyOk
     if (module === 'conv91') return cvSolved.every(Boolean) && cvDesignOk && Object.values(cvQ).every(v=>v===true) && Object.values(cvSize).every(v=>v===true)
     if (module === 'pool93') return plMaxOk && plFix===true && plAdapt===true && Object.values(plQ).every(v=>v===true)
@@ -1183,7 +1184,7 @@ function a4RenderQuiz() {
 }
 
 function a4Answer(i,choice) {
-  if(a4QuizAnswers[i]!==undefined)return
+  if(a4QuizAnswers[i]===a4QuizData[i].answer)return
   a4QuizAnswers[i]=choice
   const item=a4QuizData[i], ok=choice===item.answer
   const box=$(`a4-qi-${i}`), res=$(`a4-qr-${i}`)
@@ -1191,15 +1192,15 @@ function a4Answer(i,choice) {
   box.style.background=ok?'#f0fdf4':'#fff5f5'
   res.innerHTML=ok
     ?`<span style="color:#15803d;font-weight:700">✓ Correct!</span> ${item.reason}`
-    :`<span style="color:#b91c1c;font-weight:700">✗ Not quite.</span> The answer is <strong>${item.answer}</strong>. ${item.reason}`
-  ;['sigmoid','softmax'].forEach(o=>{ const b=$(`a4-qb-${i}-${o}`); if(b)b.disabled=true })
+    :`<span style="color:#b91c1c;font-weight:700">✗ Not quite.</span> ${item.reason} Try again.`
+  ;['sigmoid','softmax'].forEach(o=>{ const b=$(`a4-qb-${i}-${o}`); if(b)b.disabled=ok })
   if(Object.keys(a4QuizAnswers).length===a4QuizData.length) {
     const nOk=a4QuizData.filter((_,j)=>a4QuizAnswers[j]===a4QuizData[j].answer).length
-    $('a4-quiz-guidance').className='guidance-box done'
-    $('a4-quiz-guidance').innerHTML=`<strong>Quiz complete — ${nOk}/${a4QuizData.length} correct.</strong> ${nOk===4?'Perfect understanding!':'Review the explanations above.'}`
+    $('a4-quiz-guidance').className='guidance-box '+(nOk===4?'done':'warm')
+    $('a4-quiz-guidance').innerHTML=`<strong>Quiz complete — ${nOk}/${a4QuizData.length} correct.</strong> ${nOk===4?'Perfect understanding!':'Review the explanations above and retry the incorrect answers.'}`
     $('a4-quiz-badge').textContent=`${nOk}/4 correct`
     $('a4-quiz-badge').className=`badge ${nOk===4?'gg':'og'}`
-    a4QuizDone=true
+    a4QuizDone=nOk===a4QuizData.length
     a4UpdateSubmit()
   }
 }
@@ -1458,11 +1459,11 @@ let lrHistory=[]
 let lrReflect={q1:'',q2:''}
 let lrSteps={A:null,B:null,C:null,D:null,E:null}
 
-function lrTargetA(){ return lrN }
+function lrTargetA(){ return lrN+1 }
 function lrTargetB(){ return lrL-1 }
-function lrTargetC(){ return Math.pow(lrN, lrL-1) }
-function lrTargetD(){ return lrN }
-function lrTargetE(){ return Math.pow(lrN, lrL) }
+function lrTargetC(){ return Math.pow(lrN+1, lrL-1) }
+function lrTargetD(){ return lrN+1 }
+function lrTargetE(){ return Math.pow(lrN+1, lrL) }
 const LR_TARGETS = { A: lrTargetA, B: lrTargetB, C: lrTargetC, D: lrTargetD, E: lrTargetE }
 
 function lrElapsed(){
@@ -1583,7 +1584,7 @@ function lrDrawPlot(){
   const {xs,ys}=lrSampleCurve()
   const kinksRaw=lrDetectKinks(xs,ys)
   const bound=lrTargetE()
-  const kinks=kinksRaw.slice(0, Math.max(0,bound-1))
+  const kinks=kinksRaw
   const W=420,H=280,ml=44,mr=14,mt=14,mb=34
   const pw=W-ml-mr, ph=H-mt-mb
   const yMin0=Math.min(...ys), yMax0=Math.max(...ys)
@@ -1617,22 +1618,20 @@ function lrDrawPlot(){
     <polyline points="${curvePts}" fill="none" stroke="#1d4ed8" stroke-width="2.4" stroke-linejoin="round"/>
     <text x="${ml+pw/2}" y="${H-4}" text-anchor="middle" font-size="12" fill="var(--muted)" font-weight="600">x</text>`
 
-  const actualRaw=kinksRaw.length+1
-  const actual=Math.min(actualRaw,bound)
+  const estimate=kinksRaw.length+1
   const readout=$('lr-region-readout')
-  readout.innerHTML = `<strong>Actual regions found:</strong> ${actual} &nbsp;·&nbsp; <strong>Bound O(n,l):</strong> ${bound}
-    ${actual<bound ? `<br><span style="color:var(--muted);font-weight:500">Fewer than the bound — typical for random weights; the bound is the maximum achievable.</span>` : `<br><span style="color:#15803d;font-weight:500">At the bound — this random network achieves the maximum!</span>`}
-    ${actualRaw>bound ? `<br><span style="color:var(--muted);font-weight:500;font-size:13.5px">(capped at the theoretical bound — dense sampling can slightly overcount near-flat kinks)</span>` : ''}`
+  readout.innerHTML = `<strong>Estimated output regions on [−3, 3]:</strong> ${estimate} &nbsp;·&nbsp; <strong>Upper bound U(n,l):</strong> ${bound}
+    <br><span style="color:var(--muted);font-weight:500">The estimate uses 601 samples and slope-change tolerances. It can miss small regions or merge nearby breakpoints; it is not an exact count. The bound applies to the whole input line.</span>`
 }
 
 function lrRenderSteps(){
   const c=$('lr-steps')
   const rows=[
-    {id:'A', label:`Step A: C(n,d) = C(${lrN}, 1) =`},
-    {id:'B', label:`Step B: d(l−1) = 1×(${lrL}−1) =`},
-    {id:'C', label:`Step C: C(n,d)^(d(l−1)) = ${lrN}^${lrL-1} =`},
-    {id:'D', label:`Step D: n^d = ${lrN}^1 =`},
-    {id:'E', label:`Step E: O = Step C × Step D =`}
+    {id:'A', label:`Step A: pieces per interval ≤ n + 1 = ${lrN} + 1 =`},
+    {id:'B', label:`Step B: first l − 1 layers = ${lrL} − 1 =`},
+    {id:'C', label:`Step C: (n + 1)^(l−1) = ${lrN+1}^${lrL-1} =`},
+    {id:'D', label:`Step D: last-layer factor = n + 1 = ${lrN} + 1 =`},
+    {id:'E', label:`Step E: U = Step C × Step D =`}
   ]
   c.innerHTML = rows.map(r=>`
     <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:8px">
@@ -1668,11 +1667,11 @@ function lrUpdateStepsBadge(){
   const g=$('lr-steps-guidance')
   if(n===5){
     g.className='guidance-box done'
-    g.innerHTML=`<strong>✓ O(${lrN}, ${lrL}) = ${lrTargetE()}.</strong> Notice Step A and Step D both equal n — that's because with d=1, C(n,1)=n and n¹=n are the same number. The whole formula collapses to <strong>O = n^l</strong> whenever d=1.`
+    g.innerHTML=`<strong>✓ U(${lrN}, ${lrL}) = ${lrTargetE()}.</strong> Each layer contributes a factor of at most n + 1, so <strong>U = (n + 1)^l</strong>. This upper bound need not be attained by a random network.`
     lrRecordHistory()
   } else {
     g.className='guidance-box warm'
-    g.innerHTML=`<strong>Hint:</strong> with d=1 locked, C(n,d)=C(${lrN},1)=${lrN} and n^d=${lrN}^1=${lrN} — both just equal n. Work through each step in order.`
+    g.innerHTML=`<strong>Hint:</strong> with d=1 locked, each layer can split an existing interval into at most n + 1 = ${lrN+1} pieces. Work through each step in order.`
   }
   lrUpdateOverallGuidance()
   lrRenderSubmitSummary()
@@ -1702,7 +1701,7 @@ function lrRenderHistory(){
   if(lrHistory.length>=2){
     const prev=lrHistory[lrHistory.length-2], cur=lrHistory[lrHistory.length-1]
     const factor=cur.O/prev.O
-    compare=`<p style="font-size:14.5px;margin-top:10px;color:var(--text);font-weight:500">O went from <strong>${prev.O}</strong> (l=${prev.l}) to <strong>${cur.O}</strong> (l=${cur.l}) — a <strong>${factor.toFixed(1)}×</strong> increase${cur.l===prev.l*2?' from only doubling the depth':''}.</p>`
+    compare=`<p style="font-size:14.5px;margin-top:10px;color:var(--text);font-weight:500">U went from <strong>${prev.O}</strong> (l=${prev.l}) to <strong>${cur.O}</strong> (l=${cur.l}) — a <strong>${factor.toFixed(1)}×</strong> increase${cur.l===prev.l*2?' from only doubling the depth':''}.</p>`
   }
   el.innerHTML = rows + compare
 }
@@ -1721,7 +1720,7 @@ function lrUpdateOverallGuidance(){
   if(stepsOk && reflectOk){ cls='done'; msg='<strong>✓ Complete!</strong> Computation correct and both reflections answered.' }
   else if(stepsOk){ cls='hot'; msg='Computation correct. Now answer both reflection questions below.' }
   else if(lrLog.length){ cls='warm'; msg='Keep working through the guided computation steps.' }
-  else { cls='cold'; msg='Adjust l/n and work through the guided computation to find O(n,l).' }
+  else { cls='cold'; msg='Adjust l/n and work through the guided computation to find U(n,l).' }
   el.innerHTML=`<div class="guidance-box ${cls}">${msg}</div>`
 }
 
@@ -1771,12 +1770,12 @@ function lrRenderLog(){
 
 function lrRenderSubmitSummary(){
   const {xs,ys}=lrSampleCurve(), kinks=lrDetectKinks(xs,ys)
-  const bound=lrTargetE(), actual=Math.min(kinks.length+1,bound)
+  const bound=lrTargetE(), actual=kinks.length+1
   const stepsOk=lrCountCorrectSteps()
   const el=$('lr-submit-summary'); if(el){
   const elapsed = lrStartTime ? lrElapsed() : '—'
   el.innerHTML = `
-    <p><strong>l</strong> = ${lrL} &nbsp;·&nbsp; <strong>n</strong> = ${lrN} &nbsp;·&nbsp; <strong>O(n,l)</strong> = ${bound} &nbsp;·&nbsp; actual regions found: ${actual}</p>
+    <p><strong>l</strong> = ${lrL} &nbsp;·&nbsp; <strong>n</strong> = ${lrN} &nbsp;·&nbsp; <strong>U(n,l)</strong> = ${bound} &nbsp;·&nbsp; estimated output regions on [−3, 3]: ${actual}</p>
     <p style="margin-top:4px">Guided steps: ${stepsOk}/5 correct &nbsp;·&nbsp; Completed runs logged: ${lrHistory.length}</p>
     ${stepsOk===5 ? '<p style="color:var(--green);margin-top:4px">✓ Guided computation complete</p>' : ''}`
   }
@@ -2652,7 +2651,7 @@ function esCheckEpochAnswer(){
 function esDrawCurves(){
   const svg=$('es-curve-svg'); if(!svg) return
   const W=460,H=200,pL=44,pR=12,pT=14,pB=32
-  const E=100,maxY=3.2
+  const E=100,maxY=5
   const xs=t=>pL+(t/E)*(W-pL-pR)
   const ys=v=>H-pB-(v/maxY)*(H-pT-pB)
   let pathT='',pathV=''
@@ -2664,7 +2663,7 @@ function esDrawCurves(){
   const sx=xs(esEpoch)
   const zone=esEpoch<minT-8?'Too Early':esEpoch>minT+8?'Overfitting!':'Optimal Zone!'
   const zc=esEpoch<minT-8?'#fef08a':esEpoch>minT+8?'#fca5a5':'#86efac'
-  const grid=[0,1,2,3].map(v=>`<line x1="${pL}" y1="${ys(v).toFixed(1)}" x2="${W-pR}" y2="${ys(v).toFixed(1)}" stroke="#e2e8f0" stroke-width="1"/><text x="${pL-3}" y="${ys(v)+4}" text-anchor="end" font-size="10" font-family="Courier New" fill="var(--muted)">${v}</text>`).join('')
+  const grid=[0,1,2,3,4,5].map(v=>`<line x1="${pL}" y1="${ys(v).toFixed(1)}" x2="${W-pR}" y2="${ys(v).toFixed(1)}" stroke="#e2e8f0" stroke-width="1"/><text x="${pL-3}" y="${ys(v)+4}" text-anchor="end" font-size="10" font-family="Courier New" fill="var(--muted)">${v}</text>`).join('')
   const ticks=[0,20,40,60,80,100].map(t=>`<text x="${xs(t).toFixed(1)}" y="${H-pB+13}" text-anchor="middle" font-size="10" font-family="Courier New" fill="var(--muted)">${t}</text>`).join('')
   svg.innerHTML=`
     <rect x="${pL}" y="${pT}" width="${W-pL-pR}" height="${H-pT-pB}" fill="var(--surf2)" rx="3"/>
@@ -2705,7 +2704,7 @@ function esAnswer(sec,i){
     if(hint){hint.className='guidance-box done';hint.innerHTML=msgs[sec].replace('<strong>✓ Correct!</strong>','<strong>'+String.fromCharCode(65+i)+'. ✓ Correct!</strong>')}
     if(sec==='stop'){$('es-s4').classList.add('unlocked');esRenderWhyMCQ()}
   } else {
-    const fails={stop:'Training loss always decreases — it can\'t tell you when to stop. You need validation loss, which dips then rises.',why:'No penalty term is added. Instead, training is simply stopped early — before the model has time to memorize the training set.'}
+    const fails={stop:'Training loss alone cannot tell you when to stop. You need validation loss, which dips then rises.',why:'No penalty term is added. Instead, training is simply stopped early — before the model has time to memorize the training set.'}
     if(hint){hint.className='guidance-box warm';hint.innerHTML='<strong>Not quite.</strong> '+fails[sec]}
     document.querySelectorAll(`.cg-mcq-opt[id^="es-${sec}-"]`).forEach((e,j)=>{if(j!==i)e.onclick=()=>esAnswer(sec,j)})
   }
@@ -2744,9 +2743,9 @@ const DP_MCQ={
   chars:[{t:'Permanently removing that character from the character set',c:false},{t:'Forcing the model to recognize text despite missing characters',c:true},{t:'Converting that character to lowercase',c:false},{t:'Slowing down training convergence',c:false}]
 }
 const DP_BEST=[
-  {t:'Image classification — partial occlusion is a realistic real-world condition (objects behind other objects)',c:true},
-  {t:'Word-bag text — important words are rarely entirely absent from a document',c:false},
-  {t:'Character-level text — characters are almost never missing in clean text data',c:false}
+  {t:'Image classification — masking pixels removes some visual information',c:true},
+  {t:'Word-bag text — mask the count for a word type',c:false},
+  {t:'Character-level text — mask occurrences of a character type',c:false}
 ]
 
 function dpUnlock(){
@@ -2848,7 +2847,7 @@ function dpBestAnswer(i){
   if(opt.c){
     if(hint){hint.className='guidance-box done';hint.innerHTML='<strong>'+String.fromCharCode(65+i)+'. ✓ Correct!</strong> In real images, objects are frequently partially occluded. Input dropout directly simulates this condition, making the model more robust to real-world visual noise.'}
   } else {
-    if(hint){hint.className='guidance-box warm';hint.innerHTML='<strong>Not quite.</strong> Think about which domain most commonly sees "missing" inputs in actual deployment — where would a randomly absent input unit be realistic?'}
+    if(hint){hint.className='guidance-box warm';hint.innerHTML='<strong>Not quite.</strong> This question concerns missing visual information from a camera, so choose the corruption applied to image pixels. Text masking can also be useful in its own setting.'}
     document.querySelectorAll(`.cg-mcq-opt[id^="dp-best-"]`).forEach((e,j)=>{if(j!==i)e.onclick=()=>dpBestAnswer(j)})
   }
   dpUpdateSubmitSummary()
@@ -2857,7 +2856,7 @@ function dpUpdateSubmitSummary(){
   const el=$('dp-submit-summary')
   const n=Object.values(dpMcq).filter(v=>v===true).length
   if(el) el.innerHTML=`<p><strong>Domain MCQs:</strong> ${n}/3 ${n===3?'<span style="color:var(--green)">✓</span>':''}</p>
-    <p><strong>Best domain MCQ:</strong> ${dpBestMcq===true?'<span style="color:var(--green)">✓</span>':'not yet'}</p>
+    <p><strong>Corruption MCQ:</strong> ${dpBestMcq===true?'<span style="color:var(--green)">✓</span>':'not yet'}</p>
     <p><strong>Stage reached:</strong> ${dpStage}/2</p>`
   updateBadge('dp-completed', isComplete('dropout'))
 }
@@ -3264,9 +3263,22 @@ function slSimulate(){
   const meanIoU=tpIoUs.length ? tpIoUs.reduce((a,b)=>a+b,0)/tpIoUs.length : 0
   const qscore=(precision+recall+meanIoU)/3
   const qualityLabel = qscore<0.4?'Poor':qscore<0.7?'Medium':'Good'
-  const clsLoss=Math.max(0.05,Math.min(1.3, 1.15-0.7*precision-0.15*recall))
-  const boxLoss= tpIoUs.length ? Math.max(0.05,Math.min(1.3, 1.05*(1-meanIoU))) : 1.10
-  const objLoss=Math.max(0.05,Math.min(1.4, 1.1-0.55*recall+0.04*FP))
+  // Toy training losses: assignments are fixed before evaluation thresholds.
+  const raw=SL_CANDS.slice(0,n), assigned=new Set()
+  const bce=(target,p)=>-(target*Math.log(p)+(1-target)*Math.log1p(-p))
+  const clsLoss=raw.reduce((sum,c)=>sum+bce(c.t===null?0:1,c.conf),0)/raw.length
+  let boxTotal=0, boxCount=0, objTotal=0
+  raw.forEach(c=>{
+    const positive=c.t!==null&&!assigned.has(c.t)
+    objTotal+=bce(positive?1:0,c.conf)
+    if(positive){
+      assigned.add(c.t)
+      boxTotal+=1-Math.max(0.03,Math.min(0.98,base+c.dIoU))
+      boxCount++
+    }
+  })
+  const boxLoss=boxCount?boxTotal/boxCount:0
+  const objLoss=objTotal/raw.length
   const total=clsLoss*0.4+boxLoss*0.35+objLoss*0.25
   return {TP,FP,FN,precision,recall,meanIoU,qualityLabel,clsLoss,boxLoss,objLoss,total,objStatus,objIoU}
 }
@@ -3485,10 +3497,10 @@ function gnScenarioAnswer(qIdx,optIdx){
   if(correct){
     gnMcq[sc.key]=true
     const msgs={
-      illcond:'<strong>✓ Correct!</strong> Oscillation without convergence is the signature of ill-conditioning — bouncing between steep walls.',
-      localmin:'<strong>✓ Correct!</strong> Smooth monotone decay to ~0 means the bowl is closing in. You\'re genuinely converging.',
-      saddle:'<strong>✓ Correct!</strong> The plateau near 0 is the telltale sign — nearly flat but not at a minimum. SGD noise eventually pushes you off.',
-      cliff:'<strong>✓ Correct!</strong> Sudden explosion in a single step is a cliff — gradient clipping is the standard fix.'
+      illcond:'<strong>✓ Correct!</strong> In this illustrated ill-conditioned valley, an overly large learning rate causes repeated bouncing between steep walls. Oscillation can have other causes too.',
+      localmin:'<strong>✓ Correct!</strong> In this illustrated bowl, the norm decays toward zero as the optimizer approaches the minimum. A small norm alone does not establish a minimum.',
+      saddle:'<strong>✓ Correct!</strong> In this illustrated saddle, gradients become small on a flat patch before growing again. A small norm alone cannot distinguish a saddle from a minimum.',
+      cliff:'<strong>✓ Correct!</strong> This illustrated cliff creates a sudden gradient spike; clipping limits the resulting update. A spike alone does not prove the landscape contains a cliff.'
     }
     if(hint){hint.className='guidance-box done';hint.innerHTML=msgs[sc.key].replace('<strong>✓ Correct!</strong>','<strong>'+String.fromCharCode(65+optIdx)+'. ✓ Correct!</strong>')}
     gnMcqIdx++
@@ -3496,9 +3508,9 @@ function gnScenarioAnswer(qIdx,optIdx){
   } else {
     const fails={
       illcond:'Think about the shape: oscillation — not smooth decay, not plateau near 0, not a spike.',
-      localmin:'Smooth monotone decay all the way to ~0. Which scenario guarantees all curvature is positive?',
+      localmin:'Smooth monotone decay all the way to ~0. Which illustrated scenario shows approach to the bottom of a bowl?',
       saddle:'The plateau near 0 is the key — the gradient nearly vanishes for a long stretch, then may rise as SGD escapes.',
-      cliff:'A sudden 10-100× spike in a single step — no other scenario does this.'
+      cliff:'A sudden 10-100× spike in a single step — this illustrated cliff produces such a spike.'
     }
     if(hint){hint.className='guidance-box warm';hint.innerHTML='<strong>Not quite.</strong> '+fails[sc.key]}
     document.querySelectorAll(`.cg-mcq-opt[id^="gn-qopt-${qIdx}-"]`).forEach((e,j)=>{if(j!==optIdx)e.onclick=()=>gnScenarioAnswer(qIdx,j)})
@@ -3847,13 +3859,13 @@ const OR_F=(x,y)=>(x-3)**2+8*(y-2)**2
 const OR_GX=(x,_)=>2*(x-3)
 const OR_GY=(_,y)=>16*(y-2)
 const OR_MATCH=[
-  {key:'sgd',q:'Zigzags wildly in steep y-direction, barely moves in flat x',
+  {key:'sgd',q:'Uses the same learning rate in each dimension, with no gradient history',
    opts:['AdaGrad — accumulated denom','SGD — uniform lr overshoots steep dim','RMSProp — EMA damps zigzag','Adam — momentum counteracts'],c:1},
-  {key:'ada',q:'Adapts well early, then stalls as denominator grows without bound',
-   opts:['RMSProp — EMA prevents indefinite growth','SGD — no state, cannot stall','Adam — bias correction prevents blowup','AdaGrad — ∑g² grows forever → lr→0'],c:3},
-  {key:'rms',q:'Smooth path without stalling — exponential moving average of g²',
+  {key:'ada',q:'Accumulates all past squared gradients in its denominator',
+   opts:['RMSProp — EMA prevents indefinite growth','SGD — no state, cannot stall','Adam — bias correction prevents blowup','AdaGrad — accumulates ∑g², which can reduce step sizes'],c:3},
+  {key:'rms',q:'Uses an exponential moving average of g², without first-moment momentum',
    opts:['Adam — also uses EMA but adds momentum','AdaGrad — stalls too early','RMSProp — EMA keeps denom bounded','SGD — no state at all'],c:2},
-  {key:'adam',q:'Most direct path — first moment (momentum) + second moment (adaptive rate)',
+  {key:'adam',q:'Combines bias-corrected first and second moments',
    opts:['Adam — bias-corrected m̂ and v̂','RMSProp — 2nd moment only','SGD+momentum — 1st moment only','AdaGrad — cumulative, no momentum'],c:0},
 ]
 const OR_FMCQ=[
@@ -3915,7 +3927,7 @@ function orMatchAns(qi,i){
   document.querySelectorAll(`.cg-mcq-opt[id^="or-m${qi}-"]`).forEach(e=>e.onclick=null)
   $(`or-m${qi}-${i}`).classList.add(i===sc.c?'sel-ok':'sel-bad')
   const hint=$(`or-mh${qi}`)
-  const msgs=['<strong>✓</strong> SGD\'s uniform lr causes large oscillations in steep dimensions.','<strong>✓</strong> AdaGrad\'s ∑g² denominator grows without bound — the effective lr decays to zero.','<strong>✓</strong> RMSProp\'s exponential decay prevents the denominator from blowing up.','<strong>✓</strong> Adam\'s bias-corrected first and second moments navigate ill-conditioned surfaces most efficiently.']
+  const msgs=['<strong>✓</strong> SGD\'s uniform lr causes large oscillations in steep dimensions.','<strong>✓</strong> AdaGrad accumulates past g² without forgetting it; this can make later steps very small. The sum need not diverge if gradients decay fast enough.','<strong>✓</strong> RMSProp\'s exponential decay prevents the denominator from blowing up.','<strong>✓</strong> Adam combines a bias-corrected first moment (momentum) with a second moment (adaptive scaling). Which optimizer performs best depends on the task and settings.']
   if(i===sc.c){
     orMcq[sc.key]=true
     if(hint){hint.className='guidance-box done';hint.innerHTML=msgs[qi].replace('<strong>✓</strong>','<strong>'+String.fromCharCode(65+i)+'. ✓</strong>')}
@@ -3968,6 +3980,13 @@ function orRunSim(){
   const btn4=$('or-btn4'); if(btn4) btn4.disabled=false
   orUpdateSummary()
 }
+function orReferenceRun(){
+  $('or-lr').value=0.3; $('or-lr-v').textContent='0.30'
+  $('or-st').value=30; $('or-st-v').textContent='30'
+  ;['sgd','ada','rms','adam'].forEach(k=>$(`or-c-${k}`).checked=true)
+  orRunSim()
+  $('or-svg').scrollIntoView({behavior:'smooth',block:'center'})
+}
 function orRenderFinalMCQ(){
   const c=$('or-fmcq'); if(!c||c.children.length) return
   c.innerHTML=OR_FMCQ.map((o,i)=>`<div class="cg-mcq-opt" id="or-f${i}" onclick="orFinalAns(${i})"><span style="font-weight:700;color:var(--muted);flex-shrink:0">${String.fromCharCode(65+i)}.</span><span>${o.t}</span></div>`).join('')
@@ -4000,7 +4019,7 @@ function initOptRace(){orUpdateSummary()}
 let bnStage=0, bnMeansOk=false, bnWpOk=false, bnBetaOk=false, bnWhyOk=false
 const BN_X=[[1,0],[3,1],[2,1]]
 const BN_WHY=[
-  {t:'β directly equals μ(H′) always (since μ(H̃)=0 by construction), so no linear system to solve',c:true},
+  {t:'During training, β equals this batch’s μ(H′) (since μ(H̃)=0), so no linear system to solve',c:true},
   {t:'BN uses a larger learning rate so it converges faster',c:false},
   {t:'BN can change W automatically without user input',c:false},
   {t:'The constraint equations for W have no solutions at all',c:false},
@@ -4022,6 +4041,7 @@ function bnCheckMeans(){
   if(i2) i2.className='rr-inp'+(isNaN(v2)?'':ok2?' ok':' bad')
   const hint=$('bn-mhint')
   bnMeansOk=ok1&&ok2
+  const next=$('bn-btn2'); if(next) next.disabled=!bnMeansOk
   if(bnMeansOk){
     if(hint){hint.className='guidance-box done';hint.innerHTML='<strong>✓</strong> col 1 mean = 6/3 = 2, col 2 mean = 12/3 = 4. Target is [3,5] — need to shift these.'}
     const btn=$('bn-btn2'); if(btn) btn.disabled=false
@@ -4047,12 +4067,13 @@ function bnLiveH(){
     μ(col 1) = <strong style="${gc(ok1)}">${f(mu1)}</strong> (target 3)<br>
     μ(col 2) = <strong style="${gc(ok2)}">${f(mu2)}</strong> (target 5)`
   bnWpOk=ok1&&ok2
+  const next=$('bn-btn3'); if(next) next.disabled=!bnWpOk
   const hint=$('bn-whint')
   if(bnWpOk){
     if(hint){hint.className='guidance-box done';hint.innerHTML='<strong>✓ Both column means correct!</strong> Note: you had to solve 6w+2w=9 and 6w+2w=15 — that is the hard way.'}
     const btn=$('bn-btn3'); if(btn) btn.disabled=false
   } else {
-    if(hint&&!hint.className.includes('done')){hint.className='guidance-box cold';hint.innerHTML='Adjust W′ until both column means turn green.'}
+    if(hint){hint.className='guidance-box cold';hint.innerHTML='Adjust W′ until both column means turn green.'}
   }
   bnUpdateSummary()
 }
@@ -4087,7 +4108,7 @@ function bnWhyAns(i){
   const hint=$('bn-whyhint')
   if(opt.c){
     bnWhyOk=true
-    if(hint){hint.className='guidance-box done';hint.innerHTML='<strong>'+String.fromCharCode(65+i)+'. ✓ Correct!</strong> γ scales H̃ but cannot shift its mean (it is always 0). β directly sets it — μ(H′) = β is exact and requires no algebra.'}
+    if(hint){hint.className='guidance-box done';hint.innerHTML='<strong>'+String.fromCharCode(65+i)+'. ✓ Correct!</strong> γ scales H̃ but cannot shift its mean (it is always 0). β directly sets this training batch’s mean: μ(H′) = β. With stored running statistics at evaluation, that equality need not hold for a new batch.'}
   } else {
     const fails={1:'Learning rate is a separate concern from BN.',2:'BN learns γ and β; W is still updated by the optimizer.',3:'The constraint equations do have solutions — just non-integer ones like W′ = [[1.5,2.5],[0,0]].'}
     if(hint){hint.className='guidance-box warm';hint.innerHTML='<strong>Not quite.</strong> '+(fails[i]||'Think about what β controls in H′=γH̃+β.')}
@@ -6961,7 +6982,7 @@ const HB_QS={
        {t:'Plain random search, with full training',c:true}
      ]},
   4:{q:'Which change computes s_max correctly for every max_iter and eta?',
-     ok:'Counting with integers (or rounding the log to a few decimals before int()) gives exactly 3. The lesson: when you trace code by hand, trace what the machine computes. int() truncates, and 3 − 4×10⁻¹⁶ truncates to 2.',
+     ok:'Counting with integers gives exactly 3 here and avoids the logarithm rounding problem. The lesson: when you trace code by hand, trace what the machine computes. int() truncates, and 3 − 4×10⁻¹⁶ truncates to 2.',
      opts:[
        {t:'Use integers: largest s with eta**s ≤ max_iter',c:true},
        {t:'Use math.log(max_iter, eta) instead of the ratio',h:'math.log(1000, 10) also returns 2.9999999999999996.'},
@@ -7273,7 +7294,7 @@ const GA_QS={
        {t:'Saliency only works for image models, not text',h:'Gradients work for any differentiable model. The problem is the flat region.'}
      ]},
   2:{q:'Deleting "bad" lowers the positive score by 0.4, yet its Shapley value is 0. Which is right?',
-     ok:'Occlusion asks one question: delete "bad" from the full sentence. Since "not bad" is positive, that costs 0.4. Shapley averages this with the order in which "bad" comes first, where it costs the score 0.4 instead. With interactions, one number of credit per word is ambiguous, and each method resolves it differently.',
+     ok:'Occlusion asks one question: delete "bad" from the full sentence. Since "not bad" is positive, that costs 0.4. Shapley averages this with the order in which "bad" comes first, where adding it lowers the score by 0.4 instead. With interactions, one number of credit per word is ambiguous, and each method resolves it differently.',
      opts:[
        {t:'Occlusion: Shapley values ignore interactions',h:'Shapley values average over every order, so they include interactions, and split them.'},
        {t:'Shapley: "bad" has no effect on this model',h:'It clearly has effects (−0.4 or +0.4). They cancel on average.'},

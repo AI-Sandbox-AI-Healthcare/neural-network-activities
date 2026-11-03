@@ -27,24 +27,25 @@
     <p class="prob-desc">What would the plot of gradient norm ‖∇J‖ vs. training steps look like for each scenario: (1) ill-conditioned Hessian, (2) local minimum, (3) saddle point, (4) cliff?</p>
     <div class="eq-block">
       <span class="eq-line">Gradient norm:</span> ‖∇J‖ = √(Σ (∂J/∂w<sub>i</sub>)²) — your "speedometer" in loss space<br>
-      Converging → ‖∇J‖ → 0 &nbsp;·&nbsp; But the curve <em>shape</em> reveals what landscape you're navigating.
+      Converging → ‖∇J‖ → 0 &nbsp;·&nbsp; The curve <em>shape</em> can suggest what to investigate next.
     </div>
   </div>
+  <p style="font-size:14.5px;color:var(--muted);margin:12px 0">These curves illustrate possible training behaviour. A gradient norm alone cannot distinguish a saddle point, a minimum, or poor conditioning; inspect the loss and curvature as well.</p>
   <!-- Stage 1 -->
   <div class="card">
     <div class="card-title">Stage 1 — Why track gradient norm?</div>
     <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:14px">
       <div style="background:var(--surf2);border:1px solid var(--border);border-radius:9px;padding:14px 16px">
         <div style="font-size:12.5px;text-transform:uppercase;font-weight:700;color:var(--muted);margin-bottom:6px">It's your speedometer</div>
-        <p style="font-size:14.5px;color:var(--text)">‖∇J‖ = 0 means completely flat — no information. ‖∇J‖ large means very steep terrain. It's the only scalar that tells you how hard the optimizer is working per step.</p>
+        <p style="font-size:14.5px;color:var(--text)">‖∇J‖ = 0 means zero first derivative at this point; curvature can still be positive, negative, or mixed. A large norm means strong local sensitivity. The actual update also depends on the optimizer and learning rate.</p>
       </div>
       <div style="background:var(--surf2);border:1px solid var(--border);border-radius:9px;padding:14px 16px">
         <div style="font-size:12.5px;text-transform:uppercase;font-weight:700;color:var(--muted);margin-bottom:6px">Different landscapes, different curves</div>
-        <p style="font-size:14.5px;color:var(--text)">Each loss landscape feature — bowl, elongated valley, plateau, cliff edge — leaves a characteristic fingerprint on the gradient norm over time.</p>
+        <p style="font-size:14.5px;color:var(--text)">Bowls, elongated valleys, plateaus and cliffs can produce different norm curves. These are illustrative patterns, not unique signatures.</p>
       </div>
       <div style="background:var(--surf2);border:1px solid var(--border);border-radius:9px;padding:14px 16px">
         <div style="font-size:12.5px;text-transform:uppercase;font-weight:700;color:var(--muted);margin-bottom:6px">Core debugging skill</div>
-        <p style="font-size:14.5px;color:var(--text)">Logging ‖∇J‖ during training lets you distinguish healthy convergence from saddle-stalling, ill-conditioning oscillation, or cliff-induced explosion.</p>
+        <p style="font-size:14.5px;color:var(--text)">Log gradient norms together with losses and update sizes to investigate stalling, oscillation or sudden spikes. Norms alone cannot establish the cause.</p>
       </div>
     </div>
     <button class="btn btn-p" onclick="gnUnlock()">Show me the landscape fingerprints ↓</button>
