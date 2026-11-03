@@ -31,7 +31,7 @@
     <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:14px">
       <div class="card" style="padding:14px"><div style="font-size:1.4em;margin-bottom:6px">🏔️</div><strong>Ill-conditioned surfaces</strong><p style="color:var(--muted);font-size:0.85em;margin:6px 0 0">When one direction is much steeper, a uniform step size overshoots the steep dim while crawling in the flat one — causing zigzags.</p></div>
       <div class="card" style="padding:14px"><div style="font-size:1.4em;margin-bottom:6px">📐</div><strong>Adaptive lr fixes this</strong><p style="color:var(--muted);font-size:0.85em;margin:6px 0 0">AdaGrad, RMSProp, and Adam maintain per-parameter running statistics to scale each coordinate's step independently.</p></div>
-      <div class="card" style="padding:14px"><div style="font-size:1.4em;margin-bottom:6px">⚠️</div><strong>Each has failure modes</strong><p style="color:var(--muted);font-size:0.85em;margin:6px 0 0">AdaGrad's denominator grows forever and stalls. Momentum can overshoot. Adam needs more hyperparameter tuning.</p></div>
+      <div class="card" style="padding:14px"><div style="font-size:1.4em;margin-bottom:6px">⚠️</div><strong>Each has failure modes</strong><p style="color:var(--muted);font-size:0.85em;margin:6px 0 0">AdaGrad can take very small steps after accumulating large gradients. Momentum can overshoot. No method wins for every objective and setting.</p></div>
     </div>
     <button class="btn" onclick="orUnlock(2)">Show me the optimizers →</button>
   </div>
@@ -39,9 +39,9 @@
     <h3 style="margin:0 0 10px">The four optimizers</h3>
     <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:14px">
       <div class="card" style="padding:12px"><div style="font-weight:700;color:var(--blue);margin-bottom:4px">SGD</div><code style="font-size:0.78em;background:var(--surf2);padding:2px 5px;border-radius:3px">W←W−η·g</code><p style="color:var(--muted);font-size:0.8em;margin:6px 0 6px">One lr for all. Zigzags on elongated surfaces.</p><svg id="or-m-sgd" width="120" height="60"></svg></div>
-      <div class="card" style="padding:12px"><div style="font-weight:700;color:var(--orange);margin-bottom:4px">AdaGrad</div><code style="font-size:0.78em;background:var(--surf2);padding:2px 5px;border-radius:3px">s←s+g²; W←W−ηg/√s</code><p style="color:var(--muted);font-size:0.8em;margin:6px 0 6px">Adapts then stalls — denom grows forever.</p><svg id="or-m-ada" width="120" height="60"></svg></div>
-      <div class="card" style="padding:12px"><div style="font-weight:700;color:var(--green);margin-bottom:4px">RMSProp</div><code style="font-size:0.78em;background:var(--surf2);padding:2px 5px;border-radius:3px">s←ρs+(1−ρ)g²; W←W−ηg/√s</code><p style="color:var(--muted);font-size:0.8em;margin:6px 0 6px">EMA keeps denom bounded. Smooth path.</p><svg id="or-m-rms" width="120" height="60"></svg></div>
-      <div class="card" style="padding:12px"><div style="font-weight:700;color:var(--purple);margin-bottom:4px">Adam</div><code style="font-size:0.78em;background:var(--surf2);padding:2px 5px;border-radius:3px">m̂/v̂ bias-corrected EMA</code><p style="color:var(--muted);font-size:0.8em;margin:6px 0 6px">Momentum + adaptive rate. Most direct path.</p><svg id="or-m-adam" width="120" height="60"></svg></div>
+      <div class="card" style="padding:12px"><div style="font-weight:700;color:var(--orange);margin-bottom:4px">AdaGrad</div><code style="font-size:0.78em;background:var(--surf2);padding:2px 5px;border-radius:3px">s←s+g²; W←W−ηg/√s</code><p style="color:var(--muted);font-size:0.8em;margin:6px 0 6px">Accumulated g² can make later steps small.</p><svg id="or-m-ada" width="120" height="60"></svg></div>
+      <div class="card" style="padding:12px"><div style="font-weight:700;color:var(--green);margin-bottom:4px">RMSProp</div><code style="font-size:0.78em;background:var(--surf2);padding:2px 5px;border-radius:3px">s←ρs+(1−ρ)g²; W←W−ηg/√s</code><p style="color:var(--muted);font-size:0.8em;margin:6px 0 6px">An EMA forgets older squared gradients; it can still oscillate.</p><svg id="or-m-rms" width="120" height="60"></svg></div>
+      <div class="card" style="padding:12px"><div style="font-weight:700;color:var(--purple);margin-bottom:4px">Adam</div><code style="font-size:0.78em;background:var(--surf2);padding:2px 5px;border-radius:3px">m̂/v̂ bias-corrected EMA</code><p style="color:var(--muted);font-size:0.8em;margin:6px 0 6px">Momentum + adaptive scaling with bias correction.</p><svg id="or-m-adam" width="120" height="60"></svg></div>
     </div>
     <button class="btn" onclick="orUnlock(3)">Match optimizers to paths →</button>
   </div>
@@ -70,6 +70,7 @@
   </div>
   <div id="or-s5" class="ba-locked-section">
     <p style="font-weight:600;margin:0 0 8px">On this surface, which optimizer reaches closest to (3,2) in 30 steps at η=0.30?</p>
+    <button class="btn btn-g" style="margin-bottom:12px" onclick="orReferenceRun()">Run all four at η = 0.30 for 30 steps ↑</button>
     <div id="or-fmcq" style="display:flex;flex-direction:column;gap:6px;max-width:500px;margin-bottom:10px"></div>
     <div id="or-fhint" class="guidance-box cold" style="max-width:500px;margin-bottom:14px"></div>
     <div id="or-summary" style="margin:10px 0;font-size:0.88em;color:var(--muted)"></div>

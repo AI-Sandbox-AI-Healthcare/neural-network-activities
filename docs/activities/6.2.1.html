@@ -100,7 +100,7 @@
       <div style="background:var(--surf2);border:1px solid var(--border);border-radius:8px;padding:14px">
         <div style="font-size:13.5px;font-weight:800;color:#6d28d9;margin-bottom:8px">∂ Easy to Learn From</div>
         <div style="font-size:14.5px;color:var(--muted);line-height:1.8">
-          Paired with softmax, the update rule is simple: <code style="color:#6d28d9">prediction − truth</code>.
+          With natural-log cross-entropy, the gradient with respect to the softmax logits is <code style="color:#6d28d9">prediction − truth</code>. Using log₂ scales it by 1/ln(2); averaging scales it by 1/m.
           The model just compares its guess to the right answer and nudges itself in that direction.
         </div>
       </div>
@@ -229,7 +229,8 @@
       <ul style="font-size:14.5px;color:var(--text);font-weight:500;line-height:2.4;padding-left:18px;margin:0">
         <li><strong style="color:#7c3aed">log₂(p)</strong> measures bits of surprise — perfect predictions cost 0 bits.</li>
         <li>The <strong style="color:#0d9488">Y ⊙ log₂(P)</strong> mask zeroes out all wrong-class contributions.</li>
-        <li>Summing and averaging gives <strong style="color:#b45309">J(W)</strong> — the per-class average cost.</li>
+        <li>Summing and averaging gives <strong style="color:#b45309">J(W)</strong> — the per-class contributions averaged over all three examples.</li>
+        <li>The usual <strong>scalar cross-entropy</strong> sums those contributions: 0.0507 + 1.4406 ≈ <strong>1.4913 bits per example</strong>.</li>
         <li>Class 1 cost (1.44) &gt;&gt; class 0 cost (0.05): the model was confidently wrong for class 1.</li>
       </ul>
     </div>

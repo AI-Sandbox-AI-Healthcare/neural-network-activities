@@ -1,0 +1,11 @@
+# Local environments, build products and browser-check output
+__pycache__/
+*.pyc
+myenv/
+.venv/
+node_modules/
+frontend/dist/
+output/
+.playwright-cli/
+# Local student submissions must not be committed
+backend/submissions/

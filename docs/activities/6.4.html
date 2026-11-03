@@ -30,26 +30,16 @@
       <span class="prob-title">Counting Linear Regions of a Deep ReLU Network</span>
       <span id="lr-completed" class="completed-badge">✓ 6.4 Completed</span>
     </div>
-    <p class="prob-desc">A deep rectifier network with <code style="color:#b45309">d</code> inputs, depth
-      <code style="color:#b45309">l</code>, and <code style="color:#b45309">n</code> units per layer carves the input
-      space into at most the number of linear regions shown below, where <strong>C(n,d)</strong> — the
-      <strong>Combination</strong> "n choose d" — counts the ways to choose d of n units. Explore how depth and
-      width drive this bound, and compare it to the regions an actual random network produces.</p>
+    <p class="prob-desc">For one input (d = 1), each of n ReLU units can add at most one
+      breakpoint inside an existing linear interval. A layer therefore splits each interval into at most
+      n + 1 pieces. With l hidden layers, a simple upper bound is <strong>U(n,l) = (n + 1)<sup>l</sup></strong>.
+      This is a conservative bound, not a claim that every width and depth can attain it.
+      Explore the bound, then compare it with a sampled estimate for a random network on [−3, 3].</p>
     <div class="eq-block">
-      <div class="eq-line" style="font-family:Georgia,'Times New Roman',serif;font-style:italic;font-size:21.5px;display:flex;align-items:center;gap:1px">
-        <span style="font-style:normal">O</span><span style="font-style:normal;font-size:29px;font-weight:300">(</span>
-        <span style="display:inline-flex;align-items:center">
-          <span style="font-style:normal;font-size:24.5px;font-weight:300">(</span>
-          <span style="display:inline-flex;flex-direction:column;align-items:center;line-height:1.05;font-size:15.5px;margin:0 2px"><span>n</span><span>d</span></span>
-          <span style="font-style:normal;font-size:24.5px;font-weight:300">)</span>
-        </span><sup style="font-size:13.5px;position:relative;top:-8px">d(l−1)</sup>
-        <span style="font-style:normal">&nbsp;·&nbsp;</span>n<sup style="font-size:13.5px">d</sup>
-        <span style="font-style:normal;font-size:29px;font-weight:300">)</span>
-      </div>
-      <div style="font-family:system-ui,-apple-system,sans-serif;font-style:normal;font-size:13.5px;color:var(--muted);font-weight:500;margin-top:6px">
-        <span style="display:inline-flex;flex-direction:column;align-items:center;line-height:1;font-size:12.5px;vertical-align:middle;margin:0 1px"><span>n</span><span>d</span></span>
-        &nbsp;= C(n,d) = <strong>Combination</strong> — the number of ways to choose d units out of n, order doesn't matter
-      </div>
+      <div class="eq-line">regions ≤ U(n,l) = (n + 1)<sup>l</sup> &nbsp; (d = 1)</div>
+      <p style="font-size:13.5px;color:var(--muted);margin-top:8px">One layer: at most n breakpoints and n + 1 intervals.
+        Apply that factor at most l times. See <a href="https://proceedings.mlr.press/v80/serra18b.html" target="_blank" rel="noopener">Serra et al. (2018)</a>
+        for tighter bounds and attainability conditions.</p>
     </div>
     <div class="given-row">
       <div class="given-box"><div class="given-lbl">d (locked)</div><div class="given-val">d = 1 🔒</div></div>
@@ -79,6 +69,12 @@
           <span style="font-family:'Courier New',monospace;font-size:13.5px;color:var(--muted)">4</span>
         </div>
         <svg id="lr-net" viewBox="0 0 580 220" style="width:100%;min-height:180px"></svg>
+        <button class="btn btn-g" onclick="lrRandomize()">Randomize weights</button>
+      </div>
+      <div class="card">
+        <div class="card-title">Random network output on [−3, 3]</div>
+        <svg id="lr-plot" viewBox="0 0 420 280" style="width:100%"></svg>
+        <div id="lr-region-readout" style="font-size:14.5px;margin-top:10px"></div>
       </div>
     </div>
 
@@ -94,7 +90,7 @@
       </div>
       <div class="card">
         <div class="card-title">Depth-Doubling Comparison</div>
-        <p style="font-size:14.5px;color:var(--muted);margin-bottom:10px">Completed runs (l, n → O) appear here as you finish the guided computation above. To see the comparison, complete the computation for <strong>l = 3</strong>, then set <strong>l = 6</strong> (or use the <strong>Action → Double Depth</strong> button at the top) and complete it again.</p>
+        <p style="font-size:14.5px;color:var(--muted);margin-bottom:10px">Completed runs (l, n → U) appear here as you finish the guided computation above. To see the comparison, complete the computation for <strong>l = 3</strong>, then set <strong>l = 6</strong> (or use the <strong>Action → Double Depth</strong> button at the top) and complete it again.</p>
         <div id="lr-history"></div>
       </div>
     </div>

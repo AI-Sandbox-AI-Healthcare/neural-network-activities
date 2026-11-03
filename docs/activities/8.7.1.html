@@ -30,7 +30,7 @@
   <div id="bn-s1" class="ba-locked-section unlocked">
     <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:14px">
       <div class="card" style="padding:14px"><div style="font-size:1.4em;margin-bottom:6px">📉</div><strong>Covariate shift</strong><p style="color:var(--muted);font-size:0.85em;margin:6px 0 0">Each layer's input distribution shifts as weights update, forcing downstream layers to constantly adapt to a moving target.</p></div>
-      <div class="card" style="padding:14px"><div style="font-size:1.4em;margin-bottom:6px">⚖️</div><strong>Normalize within batch</strong><p style="color:var(--muted);font-size:0.85em;margin:6px 0 0">BN standardizes each feature column to zero mean, unit variance — then γ and β restore the desired scale.</p></div>
+      <div class="card" style="padding:14px"><div style="font-size:1.4em;margin-bottom:6px">⚖️</div><strong>Normalize within batch</strong><p style="color:var(--muted);font-size:0.85em;margin:6px 0 0">During training, BN centers each feature using the current batch and divides by √(variance + ε), then applies γ and β. At evaluation it usually uses stored running statistics, so a new batch need not have mean β.</p></div>
       <div class="card" style="padding:14px"><div style="font-size:1.4em;margin-bottom:6px">🎯</div><strong>Mean control made easy</strong><p style="color:var(--muted);font-size:0.85em;margin:6px 0 0">Setting column means by adjusting W requires solving a linear system. BN's β does it trivially — just set β to the target.</p></div>
     </div>
     <button class="btn" onclick="bnUnlock(2)">Start the math →</button>
@@ -71,13 +71,13 @@
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:14px">
       <div>
         <p style="margin:0 0 6px;font-weight:600">The BN formula:</p>
-        <div style="font-family:monospace;font-size:0.9em;background:var(--surf2);padding:10px;border-radius:6px;line-height:2">H̃ = (H − μ) / σ<br>H′ = γ ⊙ H̃ + β</div>
-        <p style="color:var(--muted);font-size:0.85em;margin:8px 0 0">μ, σ are per-column batch statistics. γ, β are learnable parameters.</p>
+        <div style="font-family:monospace;font-size:0.9em;background:var(--surf2);padding:10px;border-radius:6px;line-height:2">H̃ = (H − μ) / √(σ² + ε)<br>H′ = γ ⊙ H̃ + β</div>
+        <p style="color:var(--muted);font-size:0.85em;margin:8px 0 0">μ, σ² are per-column training-batch statistics; ε prevents division by zero. γ, β are learnable parameters.</p>
       </div>
       <div>
         <p style="margin:0 0 6px;font-weight:600">Fill in:</p>
         <div style="line-height:2.4;font-size:0.92em">
-          μ(H̃ col j) = <input id="bn-hnm" class="rr-inp" style="width:52px" placeholder="?" oninput="bnCheckBN()"> &nbsp;(always — by construction)<br>
+          μ(H̃ col j) = <input id="bn-hnm" class="rr-inp" style="width:52px" placeholder="?" oninput="bnCheckBN()"> &nbsp;(for the normalized training batch)<br>
           So μ(H′ col j) = γⱼ × 0 + βⱼ = βⱼ<br>
           To hit [3,5], set β = <input id="bn-bv" class="rr-inp" style="width:80px" placeholder="[?,?]" oninput="bnCheckBN()">
         </div>

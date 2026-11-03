@@ -107,3 +107,46 @@ cd backend && python -m uvicorn main:app --reload --host 0.0.0.0 --port 8000
 ```
 
 Open **http://localhost:8000** in a browser — this shows the activity list. Click a card, or go directly to `http://localhost:8000/app#<activity-number>` (e.g. `#7.1`).
+
+## Editing and checking activities
+
+The maintained student app is `backend/static/index.html`. GitHub Pages files in
+`docs/` are generated from it; edit the shared source, then rebuild:
+
+```sh
+python3 scripts/build_pages.py
+python3 scripts/check_pages.py
+node --test tests/activities.test.cjs
+```
+
+The calculation and regression checks require Node.js 18 or newer and no npm
+packages. `check_pages.py` checks generated files in a temporary directory and
+reports any difference from the committed site.
+
+For the browser checks, serve the generated site:
+
+```sh
+python3 -m http.server 8001 --bind 127.0.0.1 --directory docs
+```
+
+In another terminal, with Playwright CLI installed:
+
+```sh
+python3 scripts/check_browser.py --url http://127.0.0.1:8001/
+```
+
+Use `--cli PATH` for a CLI wrapper, and `--session NAME --reuse` to reuse an
+already open browser session. Results are saved under `output/playwright/`.
+The browser checks use the activity handlers and answer keys to exercise a
+successful path through all 38 activities; the separate calculation checks
+provide independent numerical checks for selected examples. These checks do
+not replace instructor review of instructional goals or student usability.
+
+The `frontend/` directory is an earlier three-module React prototype. It is not
+served by the documented Python app or used to build the 38 GitHub Pages activities.
+
+## Publishing to GitHub Pages
+
+Run the build and checks above, and commit both the shared source and regenerated
+`docs/` files. Configure GitHub Pages to publish the `docs/` folder on `main`.
+An individual activity is then available at `activities/<id>.html` below the site URL.

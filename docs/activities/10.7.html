@@ -140,7 +140,7 @@
       <ul style="padding-left:20px">
         <li><strong>Unrolled:</strong> h⁽ᵀ⁾ = Σ<sub>k</sub> u·w<sup>T−k</sup>·x⁽ᵏ⁾. An input ℓ steps old carries the weight u·w<sup>ℓ</sup>, which is also the gradient ∂h⁽ᵀ⁾/∂x⁽ᵀ⁻ℓ⁾.</li>
         <li><strong>w controls memory; u only scales.</strong> With |w| &lt; 1 the past fades (at w = 0.9, below a tenth after 22 steps), with |w| = 1 it is kept, and with |w| &gt; 1 it explodes. A negative w only alternates the sign. u cancels in every ratio.</li>
-        <li><strong>Constant input:</strong> h settles at u / (1 − w) only when |w| &lt; 1. Otherwise it grows without bound, however small u is.</li>
+        <li><strong>Constant input:</strong> h settles at u / (1 − w) only when |w| &lt; 1. At w = −1 it oscillates between 0 and u; w = 1 accumulates u each step, and |w| &gt; 1 can cause growth. A zero input with h⁽⁰⁾ = 0 stays zero.</li>
         <li><strong>Many units:</strong> the eigenvalues of W play the role of w (Goodfellow §10.7). Each eigen-direction is scaled by λ<sup>t</sup>; entries below 1 do not guarantee stability.</li>
         <li><strong>Next (10.10):</strong> an LSTM's forget gate is a w that the network sets at every step, close to 1 while something must be remembered.</li>
       </ul>
